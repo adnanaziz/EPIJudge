@@ -1,2 +1,4 @@
 # EPIJudge
-EPI Judge - Preview Release. Please add test data here.
+EPI Judge - Preview Release.
+
+See videos for detailed instructions: https://youtu.be/ImD_iI-uGYo, https://youtu.be/aHPDApyyYEg, https://youtu.be/1BzHUpluQHM

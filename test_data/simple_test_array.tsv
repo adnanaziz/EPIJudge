@@ -1,0 +1,4 @@
+int	array(int)	array(array(int))	array(array(string))	array(bool)
+0	[]	[]	[]	[true, true, true]	TODO
+2	[1, 3]	[[2]]	[["ab", ""], [""], []]	[true, false, false]	TODO
+2	[2]	[[2, 5, 7], []]	[["xy"], ["xy"]]	[false, true, true]	TODO

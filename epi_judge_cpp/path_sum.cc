@@ -1,0 +1,18 @@
+#include <memory>
+
+#include "binary_tree_node.h"
+
+using std::unique_ptr;
+
+bool HasPathSum(const unique_ptr<BinaryTreeNode<int>>& tree,
+                int remaining_weight) {
+  // Implement this placeholder.
+  return true;
+}
+
+#include "test_framework/test_utils_generic_main.h"
+
+int main(int argc, char* argv[]) {
+  generic_test_main(argc, argv, "path_sum.tsv", &HasPathSum);
+  return 0;
+}

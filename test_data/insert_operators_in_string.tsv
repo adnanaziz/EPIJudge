@@ -1,0 +1,106 @@
+array(int)	int	bool
+[2, 3, 4]	4	false	TODO
+[1, 2, 3, 4]	11	true	TODO
+[1, 2, 3, 2, 5, 3, 7, 8, 5, 9]	995	true	TODO
+[5, 2, 3, 4, 1]	20	true	TODO
+[1, 1, 2, 3]	124	true	TODO
+[7, 7, 8, 2, 4, 7, 8]	4	false	TODO
+[6, 5, 4, 9, 5, 5]	22	false	TODO
+[5, 7, 9]	28	false	TODO
+[9, 2]	16	false	TODO
+[6, 1, 4, 7]	27	true	TODO
+[6, 1, 1, 9, 5, 3]	30	true	TODO
+[8, 9]	4	false	TODO
+[7, 7, 6, 7, 7]	13	false	TODO
+[6, 7, 0, 6]	7	false	TODO
+[1]	25	false	TODO
+[9, 5, 0, 8]	5	false	TODO
+[4, 1, 4, 8, 3, 9]	17	false	TODO
+[8, 9, 1, 5, 3, 5, 2]	9	false	TODO
+[5, 5, 2, 2, 5, 7]	12	false	TODO
+[1, 4, 1, 3, 9, 8, 1]	0	false	TODO
+[4, 1, 1, 3, 1, 0, 8]	12	true	TODO
+[9, 2, 9]	5	false	TODO
+[5, 9, 6, 9]	15	false	TODO
+[3, 2, 2, 7, 4]	3	false	TODO
+[1, 7, 2]	26	false	TODO
+[6]	16	false	TODO
+[9, 2, 6, 0]	10	false	TODO
+[9, 2, 8, 5, 5, 2]	28	false	TODO
+[9, 5, 5, 6, 2]	30	false	TODO
+[6, 3, 8]	6	false	TODO
+[2, 4, 8, 7]	11	false	TODO
+[2, 6]	28	false	TODO
+[7, 6]	24	false	TODO
+[1, 7, 8]	4	false	TODO
+[0, 2, 0, 7, 3]	20	false	TODO
+[0, 5, 3]	24	false	TODO
+[5, 5, 6, 0, 0, 2, 1]	29	false	TODO
+[4, 0, 2, 5, 2, 6]	6	true	TODO
+[6, 3, 5, 7]	29	false	TODO
+[3, 5, 5]	18	false	TODO
+[3, 6, 3, 8]	7	false	TODO
+[6, 1, 1, 5]	30	true	TODO
+[2, 8, 0, 8, 4, 0]	16	true	TODO
+[4, 6, 4, 9, 4, 2, 6]	18	false	TODO
+[8, 6]	18	false	TODO
+[7, 7, 0, 6, 6]	25	false	TODO
+[3, 1, 4, 6, 5, 4, 0]	27	true	TODO
+[2, 5, 9, 7, 7, 3, 0]	25	true	TODO
+[7, 3, 0, 5, 1]	24	false	TODO
+[3]	9	false	TODO
+[9, 8, 8, 2, 8, 0, 3]	16	false	TODO
+[3, 1, 5]	9	true	TODO
+[1, 6, 2, 1, 1, 2]	4	false	TODO
+[7, 7, 9, 6, 1, 0, 6]	4	false	TODO
+[9, 2, 0, 6, 0, 0, 4]	14	false	TODO
+[1, 3, 1, 7, 9, 7, 6]	18	false	TODO
+[7, 1, 1, 2]	11	true	TODO
+[4, 2]	18	false	TODO
+[6, 0, 4, 5, 4, 0]	13	true	TODO
+[4, 7, 3, 0, 9]	25	true	TODO
+[6, 5]	12	false	TODO
+[1, 9]	13	false	TODO
+[0, 6, 7]	16	false	TODO
+[6, 0, 8, 0]	22	false	TODO
+[9, 5, 7, 0, 5, 8]	13	true	TODO
+[1, 7]	0	false	TODO
+[0, 3]	29	false	TODO
+[0]	9	false	TODO
+[9]	3	false	TODO
+[6, 8, 2, 5]	26	false	TODO
+[3, 4, 8]	8	false	TODO
+[4, 8]	22	false	TODO
+[7, 1, 4, 1, 8, 6, 6]	24	false	TODO
+[0, 6, 9, 4, 0, 4]	8	true	TODO
+[5, 8, 6, 3]	8	false	TODO
+[6, 1, 1, 8, 5, 9]	6	false	TODO
+[3, 6, 0, 5, 7, 9]	25	true	TODO
+[4, 5, 2, 0, 9, 0]	26	false	TODO
+[4, 5, 5, 0, 5, 4, 3]	15	false	TODO
+[0, 6, 8, 4, 9]	18	false	TODO
+[9, 3]	27	true	TODO
+[7, 1, 6, 3, 7, 1, 6]	5	false	TODO
+[0, 2, 9, 7, 4]	30	false	TODO
+[4, 1, 7, 0]	18	false	TODO
+[8, 2, 7, 8]	27	false	TODO
+[0, 7, 4, 5]	3	false	TODO
+[9, 4, 9, 5]	25	false	TODO
+[8, 2, 0, 8, 0]	27	false	TODO
+[1, 4, 0]	1	true	TODO
+[7, 8, 5, 8, 4]	20	false	TODO
+[7, 9, 4, 3, 9, 4, 6]	2	false	TODO
+[2, 7, 4, 8]	13	false	TODO
+[6, 5, 9, 1, 8, 8, 9]	13	false	TODO
+[4]	17	false	TODO
+[4, 3, 9, 5, 3]	28	false	TODO
+[9, 8, 1, 9, 9, 5]	8	false	TODO
+[6, 8, 4, 3, 0, 1, 3]	24	true	TODO
+[4, 4, 1, 9, 1]	10	false	TODO
+[8, 9, 6, 8, 7, 6]	20	false	TODO
+[1, 9, 4, 6]	26	false	TODO
+[1, 2, 5, 0]	16	false	TODO
+[3, 7, 1, 9, 3, 0]	8	false	TODO
+[2, 5, 5]	5	false	TODO
+[6, 9, 8, 5, 4, 1]	13	false	TODO
+[4, 5, 5, 7, 8]	30	false	TODO
