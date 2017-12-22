@@ -1,8 +1,8 @@
 The EPI Judge is ready! This screenshot should give you a good idea of what it's about. 
 
-<img src="http://elementsofprogramminginterviews.com/img/judge-ide-example.png" width="650px"></img>
+<img src="http://elementsofprogramminginterviews.com/img/judge-ide-example.png" width="600px"></img>
 
-You can also view these one minute screencapture videos on YouTube to see how easy it is to get started with the judge:  <a href="https://youtu.be/ImD_iI-uGYo">PyCharm</a>, <a href="https://youtu.be/1BzHUpluQHM">IntelliJ</a>, <a href="https://youtu.be/aHPDApyyYEg">CLion</a>
+Check out one minute screencapture videos on YouTube to see how easy it is to get started with the judge:  <a href="https://youtu.be/ImD_iI-uGYo">PyCharm</a>, <a href="https://youtu.be/1BzHUpluQHM">IntelliJ</a>, <a href="https://youtu.be/aHPDApyyYEg">CLion</a>
 
 EPI Judge consists of the following:
 
@@ -10,19 +10,15 @@ EPI Judge consists of the following:
   - **Test-cases** that cover common corner-case and performance bugs 
   - A **framework** for running these tests on your implementation on your machine
 
-The installation is super-simple - there's no install! You just **download the project, point your IDE/editor to it**, and start the code-debug cycle, with instant feedback!
+The installation is super-simple - there's no install! You just **download the project, point your IDE/editor to it**, and start the code-debug cycle, with instant feedback! (You can download via as a git project via git clone, or just get the source as a [zip](https://github.com/adnanaziz/EPIJudge/archive/master.zip).)
 
-The best interview preparation is a combination of hands-on practice over a representative set of problems with quality explanations. 
-
-The best way to get this hands-on practice is by developing, running, and debugging programs in the **environment you're most comfortable with**, i.e., your own computer and IDE/editor:
-  1. It's a very fast compile-debug cycle, 
-  2. you have complete control and visibility, both into the internal state and the test data, 
-  3. you can use the features such as autocomplete, autoformat, linting, definiton lookups, etc., and
-  4. you can choose to use version control, to track your own progress, as well as to pull updates.
+Please send us questions and feedback by email; we're adnan.aziz@gmail.com and tsung.hsien.lee@gmail.com
 
 A big shout-out to <a href="https://github.com/metopa">Viacheslav Kroilov</a>, for applying his exceptional software engineering skills to make EPI Judge a reality.
 
 # Problem to Program Mapping
+
+(You may have to scroll to the right to view the Python column.)
 
 | Problem | C++ | Java | Python  |
 | ------ | ------ | ------ | ------ |
