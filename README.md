@@ -1,11 +1,6 @@
-# EPIJudge
-title: EPI Judge
-date: 2017-12-21
----
-
 The EPI Judge is ready! This screenshot should give you a good idea of what it's about. 
 
-<img src="{{ site.url }}/img/judge-ide-example.png" width="650px"></img>
+<img src="http://elementsofprogramminginterviews.com/img/judge-ide-example.png" width="650px"></img>
 
 You can also view these one minute screencapture videos on YouTube to see how easy it is to get started with the judge:  <a href="https://youtu.be/ImD_iI-uGYo">PyCharm</a>, <a href="https://youtu.be/1BzHUpluQHM">IntelliJ</a>, <a href="https://youtu.be/aHPDApyyYEg">CLion</a>
 
