@@ -1,4 +1,4 @@
-package epi;
+ackage epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTestHandler;
@@ -26,9 +26,9 @@ public class GrayCode {
     List<Integer> result = grayCode(numBits);
     timer.stop();
 
-    int expected_size = (1 << numBits);
-    if (result.size() != expected_size) {
-      throw new TestFailureException("Length mismatch: expected " + String.valueOf(expected_size)
+    int expectedSize = (1 << numBits);
+    if (result.size() != expectedSize) {
+      throw new TestFailureException("Length mismatch: expected " + String.valueOf(expectedSize)
           + ", got " + String.valueOf(result.size()));
     }
     for (int i = 1; i < result.size(); i++)

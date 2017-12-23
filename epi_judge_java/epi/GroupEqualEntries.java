@@ -71,20 +71,20 @@ public class GroupEqualEntries {
     groupByAge(data);
     timer.stop();
 
-    Map<Person, Integer> new_values = buildMultiset(data);
-    if (!values.equals(new_values)) {
+    Map<Person, Integer> newValues = buildMultiset(data);
+    if (!values.equals(newValues)) {
       throw new TestFailureException("Entry set changed");
     }
-    int last_age = data.get(0).age;
+    int lastAge = data.get(0).age;
     Set<Integer> ages = new HashSet<>();
 
     for (Person p : data) {
       if (ages.contains(p.age)) {
         throw new TestFailureException("Entries are not grouped by age");
       }
-      if (p.age != last_age) {
-        ages.add(last_age);
-        last_age = p.age;
+      if (p.age != lastAge) {
+        ages.add(lastAge);
+        lastAge = p.age;
       }
     }
   }

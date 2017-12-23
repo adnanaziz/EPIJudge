@@ -28,8 +28,8 @@ public class TestUtils {
       e.printStackTrace();
       System.exit(-1);
     }
-    List<String> asList
-        = inputData.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    List<String> asList =
+        inputData.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     final String FIELD_DELIM = "\t";
     for (String line : asList) {
       result.add(Arrays.asList(line.split(FIELD_DELIM)));
@@ -63,11 +63,11 @@ public class TestUtils {
         final List<String> finalTestCase = testCase;
         if (timeout != 0) {
           final ExecutorService executor = Executors.newSingleThreadExecutor();
-          final Future<TestOutput> future
-              = executor.submit(() -> handler.runTest(finalTestCase));
+          final Future<TestOutput> future =
+              executor.submit(() -> handler.runTest(finalTestCase));
 
           executor
-              .shutdown(); // This does not cancel the already-scheduled task.
+              .shutdown();  // This does not cancel the already-scheduled task.
           testOutput = future.get(timeout, TimeUnit.MILLISECONDS);
           if (testOutput.comparisonResult) {
             result = TestResult.PASSED;
@@ -141,24 +141,24 @@ public class TestUtils {
       if (!durations.isEmpty()) {
         final int durationsSize = durations.size();
         System.out.println(
-            "Average running time: "
-            + TestTimer.durationToString(
-                  durations.stream().mapToLong(Long::longValue).sum()
-                  / durationsSize));
+            "Average running time: " +
+            TestTimer.durationToString(
+                durations.stream().mapToLong(Long::longValue).sum() /
+                durationsSize));
 
         Collections.sort(durations);
-        System.out.println("Median running time: "
-                           + TestTimer.durationToString(
-                                 (durationsSize % 2 == 1)
-                                     ? durations.get(durationsSize / 2)
-                                     : (durations.get(durationsSize / 2 - 1)
-                                        + durations.get(durationsSize / 2))
-                                           / 2));
+        System.out.println("Median running time: " +
+                           TestTimer.durationToString(
+                               (durationsSize % 2 == 1)
+                                   ? durations.get(durationsSize / 2)
+                                   : (durations.get(durationsSize / 2 - 1) +
+                                      durations.get(durationsSize / 2)) /
+                                         2));
       }
 
       if (testsPassed < totalTests) {
-        System.out.println("*** You've passed " + String.valueOf(testsPassed)
-                           + "/" + String.valueOf(totalTests) + " tests. ***");
+        System.out.println("*** You've passed " + String.valueOf(testsPassed) +
+                           "/" + String.valueOf(totalTests) + " tests. ***");
       } else {
         System.out.println("*** You've passed ALL tests. Congratulations! ***");
       }

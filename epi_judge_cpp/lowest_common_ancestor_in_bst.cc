@@ -7,15 +7,14 @@
 
 using std::unique_ptr;
 
-// clang-format off
-
-// Input nodes are nonempty and the key at s is less than or equal to that at b.
+// Input nodes are nonempty and the key at s is less than or equal to that at
+// b.
 BSTNode<int>* FindLCA(const unique_ptr<BSTNode<int>>& tree,
                       const unique_ptr<BSTNode<int>>& s,
                       const unique_ptr<BSTNode<int>>& b) {
-// Implement this placeholder.
+  // Implement this placeholder.
   return nullptr;
-}  
+}
 
 int LcaWrapper(TestTimer& timer, const std::unique_ptr<BSTNode<int>>& root,
                int key1, int key2) {
@@ -30,10 +29,10 @@ int LcaWrapper(TestTimer& timer, const std::unique_ptr<BSTNode<int>>& root,
   return result->data;
 }
 
-
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "lowest_common_ancestor_in_bst.tsv", &LcaWrapper);
+  generic_test_main(argc, argv, "lowest_common_ancestor_in_bst.tsv",
+                    &LcaWrapper);
   return 0;
 }

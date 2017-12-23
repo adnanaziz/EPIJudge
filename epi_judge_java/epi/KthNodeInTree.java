@@ -29,9 +29,9 @@ public class KthNodeInTree {
       return null;
     BinaryTreeNode<Integer> left = convertToTreeWithSize(original.left);
     BinaryTreeNode<Integer> right = convertToTreeWithSize(original.right);
-    int l_size = left == null ? 0 : left.size;
-    int r_size = right == null ? 0 : right.size;
-    return new BinaryTreeNode<>(original.data, left, right, 1 + l_size + r_size);
+    int lSize = left == null ? 0 : left.size;
+    int rSize = right == null ? 0 : right.size;
+    return new BinaryTreeNode<>(original.data, left, right, 1 + lSize + rSize);
   }
 
   @EpiTest(testfile = "kth_node_in_tree.tsv")

@@ -19,11 +19,11 @@ public class CopyPostingList {
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class SerializedNode {
     public int order;
-    public int jump_index;
+    public int jumpIndex;
 
-    public SerializedNode(int order, int jump_index) {
+    public SerializedNode(int order, int jumpIndex) {
       this.order = order;
-      this.jump_index = jump_index;
+      this.jumpIndex = jumpIndex;
     }
   }
 
@@ -34,11 +34,11 @@ public class CopyPostingList {
       head = new PostingListNode(serialized.get(i).order, head, null);
       keyMapping.put(head.order, head);
     }
-    PostingListNode list_it = head;
+    PostingListNode listIt = head;
     for (SerializedNode x : serialized) {
-      if (x.jump_index != -1) {
-        list_it.jump = keyMapping.get(x.jump_index);
-        if (list_it.jump == null) {
+      if (x.jumpIndex != -1) {
+        listIt.jump = keyMapping.get(x.jumpIndex);
+        if (listIt.jump == null) {
           throw new RuntimeException("Jump index out of range");
         }
       }

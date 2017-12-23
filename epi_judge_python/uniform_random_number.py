@@ -24,8 +24,8 @@ def uniform_random_wrapper(timer, lower_bound, upper_bound):
         timer.stop()
 
         return check_sequence_is_uniformly_random(
-            [a - lower_bound
-             for a in result], upper_bound - lower_bound + 1, 0.01)
+            [a - lower_bound for a in result], upper_bound - lower_bound + 1,
+            0.01)
 
     run_func_with_retries(
         functools.partial(uniform_random_runner, timer, lower_bound,

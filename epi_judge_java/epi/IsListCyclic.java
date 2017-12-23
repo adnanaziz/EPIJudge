@@ -12,37 +12,38 @@ public class IsListCyclic {
   }
 
   @EpiTest(testfile = "is_list_cyclic.tsv")
-  public static void HasCycleWrapper(TestTimer timer, ListNode<Integer> head, int cycle_idx)
+  public static void HasCycleWrapper(TestTimer timer, ListNode<Integer> head, int cycleIdx)
       throws TestFailureException {
-    int cycle_length = 0;
-    if (cycle_idx != -1) {
+    int cycleLength = 0;
+    if (cycleIdx != -1) {
       if (head == null) {
         throw new RuntimeException("Can't cycle empty list");
       }
-      ListNode<Integer> cycle_start = null, cursor = head;
+      ListNode<Integer> cycleStart = null, cursor = head;
       while (cursor.next != null) {
-        if (cursor.data == cycle_idx) {
-          cycle_start = cursor;
+        if (cursor.data == cycleIdx) {
+          cycleStart = cursor;
         }
         cursor = cursor.next;
-        if (cycle_start != null) {
-          cycle_length++;
+        if (cycleStart != null) {
+          cycleLength++;
         }
       }
-      if (cursor.data == cycle_idx)
-        cycle_start = cursor;
-      if (cycle_start == null) {
+      if (cursor.data == cycleIdx) {
+        cycleStart = cursor;
+      }
+      if (cycleStart == null) {
         throw new RuntimeException("Can't find a cycle start");
       }
-      cursor.next = cycle_start;
-      cycle_length++;
+      cursor.next = cycleStart;
+      cycleLength++;
     }
 
     timer.start();
     ListNode<Integer> result = hasCycle(head);
     timer.stop();
 
-    if (cycle_idx == -1) {
+    if (cycleIdx == -1) {
       if (result != null) {
         throw new TestFailureException("Found a non-existing cycle");
       }
@@ -54,14 +55,14 @@ public class IsListCyclic {
       ListNode<Integer> cursor = result;
       do {
         cursor = cursor.next;
-        cycle_length--;
-        if (cursor == null || cycle_length < 0) {
+        cycleLength--;
+        if (cursor == null || cycleLength < 0) {
           throw new TestFailureException(
               "Returned node does not belong to the cycle or is not the closest node to the head");
         }
       } while (cursor != result);
 
-      if (cycle_length != 0) {
+      if (cycleLength != 0) {
         throw new TestFailureException(
             "Returned node does not belong to the cycle or is not the closest node to the head");
       }

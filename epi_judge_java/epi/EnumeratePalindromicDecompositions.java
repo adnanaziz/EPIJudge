@@ -17,13 +17,15 @@ public class EnumeratePalindromicDecompositions {
   }
 
   @EpiTestComparator
-  @SuppressWarnings("unchecked")
-  public static BiPredicate<Object, Object> comp = (Object expected, Object result) -> {
-    List<List<String>> a = (List<List<String>>) expected;
-    List<List<String>> b = (List<List<String>>) result;
-    a.sort(new LexicographicalListComparator());
-    b.sort(new LexicographicalListComparator());
-    return a.equals(b);
+      @SuppressWarnings("unchecked")
+      public static BiPredicate < List<List<String>>,
+      List < List<String>>> comp = (expected, result) -> {
+    if (result == null) {
+      return false;
+    }
+    expected.sort(new LexicographicalListComparator());
+    result.sort(new LexicographicalListComparator());
+    return expected.equals(result);
   };
 
   public static void main(String[] args) {

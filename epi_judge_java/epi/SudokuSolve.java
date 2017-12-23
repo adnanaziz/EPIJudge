@@ -80,10 +80,10 @@ public class SudokuSolve {
 
   private static List<Integer> gatherSquareBlock(List<List<Integer>> data, int blockSize, int n) {
     List<Integer> result = new ArrayList<>();
-    int block_x = n % blockSize;
-    int block_y = n / blockSize;
-    for (int i = block_x * blockSize; i < (block_x + 1) * blockSize; i++) {
-      for (int j = block_y * blockSize; j < (block_y + 1) * blockSize; j++) {
+    int blockX = n % blockSize;
+    int blockY = n / blockSize;
+    for (int i = blockX * blockSize; i < (blockX + 1) * blockSize; i++) {
+      for (int j = blockY * blockSize; j < (blockY + 1) * blockSize; j++) {
         result.add(data.get(i).get(j));
       }
     }

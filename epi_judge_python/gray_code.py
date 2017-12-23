@@ -35,9 +35,9 @@ def gray_code_wrapper(timer, num_bits):
 
     uniq = set(result)
     if len(uniq) != len(result):
-        raise TestFailureException("Not all entries are distinct: found " +
-                                   str(len(result) - len(uniq)) +
-                                   " duplicates")
+        raise TestFailureException(
+            "Not all entries are distinct: found " +
+            str(len(result) - len(uniq)) + " duplicates")
 
 
 from test_framework import test_utils_generic_main, test_utils

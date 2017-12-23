@@ -21,10 +21,13 @@ public class SearchFrequentItems {
   }
 
   @EpiTestComparator
-  public static BiPredicate<List<String>, List<String>> comp = (a, b) -> {
-    Collections.sort(a);
-    Collections.sort(b);
-    return a.equals(b);
+  public static BiPredicate<List<String>, List<String>> comp = (expected, result) -> {
+    if (result == null) {
+      return false;
+    }
+    Collections.sort(expected);
+    Collections.sort(result);
+    return expected.equals(result);
   };
 
   public static void main(String[] args) {

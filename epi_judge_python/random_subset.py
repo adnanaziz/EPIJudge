@@ -24,8 +24,8 @@ def random_subset_wrapper(timer, n, k):
             for i in range(binomial_coefficient(n, k))
         }
         return check_sequence_is_uniformly_random(
-            [comb_to_idx[tuple(sorted(a))]
-             for a in result], total_possible_outcomes, 0.01)
+            [comb_to_idx[tuple(sorted(a))] for a in result],
+            total_possible_outcomes, 0.01)
 
     run_func_with_retries(functools.partial(random_subset_runner, timer, n, k))
 

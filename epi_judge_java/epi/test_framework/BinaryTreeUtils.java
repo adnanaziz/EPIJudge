@@ -69,8 +69,8 @@ public class BinaryTreeUtils {
   public static <T> T mustFindNode(T node, Object val) {
     @SuppressWarnings("unchecked") T result = (T)findNode(node, val);
     if (result == null) {
-      throw new RuntimeException(String.valueOf(val)
-                                 + " was not found in the tree");
+      throw new RuntimeException(String.valueOf(val) +
+                                 " was not found in the tree");
     }
     return result;
   }
@@ -131,8 +131,8 @@ public class BinaryTreeUtils {
     if (node instanceof BstNode) {
       return ((BstNode<?>)node).data;
     }
-    throw new RuntimeException("Unsupported binary tree type "
-                               + node.getClass().toString());
+    throw new RuntimeException("Unsupported binary tree type " +
+                               node.getClass().toString());
   }
 
   private static Object getLeft(Object node) {
@@ -148,8 +148,8 @@ public class BinaryTreeUtils {
     if (node instanceof BstNode) {
       return ((BstNode<?>)node).left;
     }
-    throw new RuntimeException("Unsupported binary tree type "
-                               + node.getClass().toString());
+    throw new RuntimeException("Unsupported binary tree type " +
+                               node.getClass().toString());
   }
 
   private static Object getRight(Object node) {
@@ -165,7 +165,7 @@ public class BinaryTreeUtils {
     if (node instanceof BstNode) {
       return ((BstNode<?>)node).right;
     }
-    throw new RuntimeException("Unsupported binary tree type "
-                               + node.getClass().toString());
+    throw new RuntimeException("Unsupported binary tree type " +
+                               node.getClass().toString());
   }
 }

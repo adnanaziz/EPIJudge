@@ -14,7 +14,8 @@ def bst_to_doubly_linked_list_wrapper(timer, tree):
     timer.stop()
     if l and l.left is not None:
         raise TestFailureException(
-            'Function must return the head of the list. Left link must be None')
+            'Function must return the head of the list. Left link must be None'
+        )
 
     v = []
     while l:

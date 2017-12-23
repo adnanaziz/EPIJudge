@@ -17,13 +17,13 @@ public class ValidIpAddresses {
   }
 
   @EpiTestComparator
-  @SuppressWarnings("unchecked")
-  public static BiPredicate<Object, Object> comp = (Object expected, Object result) -> {
-    List<String> a = (List<String>) expected;
-    List<String> b = (List<String>) result;
-    Collections.sort(a);
-    Collections.sort(b);
-    return a.equals(b);
+  public static BiPredicate<List<String>, List<String>> comp = (expected, result) -> {
+    if (result == null) {
+      return false;
+    }
+    Collections.sort(expected);
+    Collections.sort(result);
+    return expected.equals(result);
   };
 
   public static void main(String[] args) {

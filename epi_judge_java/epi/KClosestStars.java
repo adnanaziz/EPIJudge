@@ -54,9 +54,7 @@ public class KClosestStars {
 
   @EpiTestComparator
   @SuppressWarnings("unchecked")
-  public static BiPredicate<Object, Object> comp = (Object a, Object b) -> {
-    List<Double> expected = (List<Double>) a;
-    List<Star> result = (List<Star>) b;
+  public static BiPredicate<List<Double>, List<Star>> comp = (expected, result) -> {
     if (expected.size() != result.size()) {
       return false;
     }

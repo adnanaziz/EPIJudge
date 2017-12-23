@@ -17,13 +17,13 @@ public class PhoneNumberMnemonic {
   }
 
   @EpiTestComparator
-  @SuppressWarnings("unchecked")
-  public static BiPredicate<Object, Object> comp = (Object a, Object b) -> {
-    List<String> la = (List<String>) a;
-    List<String> lb = (List<String>) b;
-    Collections.sort(la);
-    Collections.sort(lb);
-    return la.equals(lb);
+  public static BiPredicate<List<String>, List<String>> comp = (expected, result) -> {
+    if (result == null) {
+      return false;
+    }
+    Collections.sort(expected);
+    Collections.sort(result);
+    return expected.equals(result);
   };
 
   public static void main(String[] args) {

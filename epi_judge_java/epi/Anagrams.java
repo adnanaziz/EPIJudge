@@ -18,19 +18,21 @@ public class Anagrams {
   }
 
   @EpiTestComparator
-  @SuppressWarnings("unchecked")
-  public static BiPredicate<Object, Object> comp = (Object a, Object b) -> {
-    List<List<String>> la = (List<List<String>>) a;
-    List<List<String>> lb = (List<List<String>>) b;
-    for (List<String> l : la) {
+      @SuppressWarnings("unchecked")
+      public static BiPredicate < List<List<String>>,
+      List < List<String>>> comp = (expected, result) -> {
+    if (result == null) {
+      return false;
+    }
+    for (List<String> l : expected) {
       Collections.sort(l);
     }
-    la.sort(new LexicographicalListComparator());
-    for (List<String> l : lb) {
+    expected.sort(new LexicographicalListComparator());
+    for (List<String> l : result) {
       Collections.sort(l);
     }
-    lb.sort(new LexicographicalListComparator());
-    return la.equals(lb);
+    result.sort(new LexicographicalListComparator());
+    return expected.equals(result);
   };
 
   public static void main(String[] args) {

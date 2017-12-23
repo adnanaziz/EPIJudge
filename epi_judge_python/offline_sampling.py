@@ -29,8 +29,8 @@ def random_sampling_wrapper(timer, k, A):
         }
 
         return check_sequence_is_uniformly_random(
-            [comb_to_idx[tuple(sorted(a))]
-             for a in result], total_possible_outcomes, 0.01)
+            [comb_to_idx[tuple(sorted(a))] for a in result],
+            total_possible_outcomes, 0.01)
 
     run_func_with_retries(
         functools.partial(random_sampling_runner, timer, k, A))

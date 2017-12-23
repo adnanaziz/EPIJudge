@@ -55,48 +55,48 @@ public class TestUtilsDeserialization {
     };
     TYPE_NAME_MAPPING = tn;
 
-    Map<Type, Function<String, Object>> tp
-        = new HashMap<Type, Function<String, Object>>() {
-            {
-              put(String.class, (String s) -> s);
-              put(Integer.class, Integer::parseInt);
-              put(int.class, Integer::parseInt);
-              put(Short.class, Short::parseShort);
-              put(short.class, Short::parseShort);
-              put(Long.class, Long::parseLong);
-              put(long.class, Long::parseLong);
-              put(Character.class, TestUtilsDeserialization::stringToChar);
-              put(char.class, TestUtilsDeserialization::stringToChar);
-              put(Boolean.class, Boolean::parseBoolean);
-              put(boolean.class, Boolean::parseBoolean);
-              put(Float.class, Float::parseFloat);
-              put(float.class, Float::parseFloat);
-              put(Double.class, Double::parseDouble);
-              put(double.class, Double::parseDouble);
-            }
-          };
+    Map<Type, Function<String, Object>> tp =
+        new HashMap<Type, Function<String, Object>>() {
+          {
+            put(String.class, (String s) -> s);
+            put(Integer.class, Integer::parseInt);
+            put(int.class, Integer::parseInt);
+            put(Short.class, Short::parseShort);
+            put(short.class, Short::parseShort);
+            put(Long.class, Long::parseLong);
+            put(long.class, Long::parseLong);
+            put(Character.class, TestUtilsDeserialization::stringToChar);
+            put(char.class, TestUtilsDeserialization::stringToChar);
+            put(Boolean.class, Boolean::parseBoolean);
+            put(boolean.class, Boolean::parseBoolean);
+            put(Float.class, Float::parseFloat);
+            put(float.class, Float::parseFloat);
+            put(Double.class, Double::parseDouble);
+            put(double.class, Double::parseDouble);
+          }
+        };
     TYPE_PARSER_MAPPING = tp;
 
-    Map<Type, Function<JsonValue, Object>> tj
-        = new HashMap<Type, Function<JsonValue, Object>>() {
-            {
-              put(String.class, JsonValue::asString);
-              put(Integer.class, JsonValue::asInt);
-              put(int.class, JsonValue::asInt);
-              put(Short.class, (JsonValue o) -> (short)o.asInt());
-              put(short.class, (JsonValue o) -> (short)o.asInt());
-              put(Long.class, JsonValue::asLong);
-              put(long.class, JsonValue::asLong);
-              put(Character.class, (JsonValue o) -> stringToChar(o.asString()));
-              put(char.class, (JsonValue o) -> stringToChar(o.asString()));
-              put(Boolean.class, JsonValue::asBoolean);
-              put(boolean.class, JsonValue::asBoolean);
-              put(Float.class, JsonValue::asFloat);
-              put(float.class, JsonValue::asFloat);
-              put(Double.class, JsonValue::asDouble);
-              put(double.class, JsonValue::asDouble);
-            }
-          };
+    Map<Type, Function<JsonValue, Object>> tj =
+        new HashMap<Type, Function<JsonValue, Object>>() {
+          {
+            put(String.class, JsonValue::asString);
+            put(Integer.class, JsonValue::asInt);
+            put(int.class, JsonValue::asInt);
+            put(Short.class, (JsonValue o) -> (short)o.asInt());
+            put(short.class, (JsonValue o) -> (short)o.asInt());
+            put(Long.class, JsonValue::asLong);
+            put(long.class, JsonValue::asLong);
+            put(Character.class, (JsonValue o) -> stringToChar(o.asString()));
+            put(char.class, (JsonValue o) -> stringToChar(o.asString()));
+            put(Boolean.class, JsonValue::asBoolean);
+            put(boolean.class, JsonValue::asBoolean);
+            put(Float.class, JsonValue::asFloat);
+            put(float.class, JsonValue::asFloat);
+            put(Double.class, JsonValue::asDouble);
+            put(double.class, JsonValue::asDouble);
+          }
+        };
     TYPE_JSON_PARSER_MAPPING = tj;
   }
 
@@ -124,31 +124,31 @@ public class TestUtilsDeserialization {
     if (declaredType instanceof ParameterizedType) {
       ParameterizedType pt = (ParameterizedType)declaredType;
       if (pt.getRawType().equals(List.class)) {
-        return "array(" + getSerializedTypeName(getInnerGenericType(pt, 0))
-            + ")";
+        return "array(" + getSerializedTypeName(getInnerGenericType(pt, 0)) +
+            ")";
       }
       if (pt.getRawType().equals(Iterable.class)) {
-        return "array(" + getSerializedTypeName(getInnerGenericType(pt, 0))
-            + ")";
+        return "array(" + getSerializedTypeName(getInnerGenericType(pt, 0)) +
+            ")";
       }
       if (pt.getRawType().equals(Set.class)) {
         return "set(" + getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
       }
       if (pt.getRawType().equals(BinaryTreeNode.class)) {
-        return "binary_tree("
-            + getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
+        return "binary_tree(" +
+            getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
       }
       if (pt.getRawType().equals(BinaryTree.class)) {
-        return "binary_tree("
-            + getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
+        return "binary_tree(" +
+            getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
       }
       if (pt.getRawType().equals(BstNode.class)) {
-        return "binary_tree("
-            + getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
+        return "binary_tree(" +
+            getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
       }
       if (pt.getRawType().equals(ListNode.class)) {
-        return "linked_list("
-            + getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
+        return "linked_list(" +
+            getSerializedTypeName(getInnerGenericType(pt, 0)) + ")";
       }
     }
 
@@ -158,8 +158,8 @@ public class TestUtilsDeserialization {
     }
 
     if (declaredType instanceof Class) {
-      EpiUserType ann
-          = (EpiUserType)((Class)declaredType).getAnnotation(EpiUserType.class);
+      EpiUserType ann =
+          (EpiUserType)((Class)declaredType).getAnnotation(EpiUserType.class);
       if (ann != null) {
         StringBuilder sb = new StringBuilder();
         sb.append("tuple(");
@@ -177,8 +177,8 @@ public class TestUtilsDeserialization {
       }
     }
 
-    throw new RuntimeException("Unsupported argument type: "
-                               + declaredType.getTypeName());
+    throw new RuntimeException("Unsupported argument type: " +
+                               declaredType.getTypeName());
   }
 
   /**
@@ -196,8 +196,8 @@ public class TestUtilsDeserialization {
     if (type instanceof ParameterizedType) {
       return ((ParameterizedType)type).getActualTypeArguments()[idx];
     } else {
-      throw new RuntimeException(type.getTypeName()
-                                 + " has no generic type arguments");
+      throw new RuntimeException(type.getTypeName() +
+                                 " has no generic type arguments");
     }
   }
 
@@ -237,7 +237,7 @@ public class TestUtilsDeserialization {
           continue;
         } else if (pt.getRawType().equals(BinaryTreeNode.class)) {
           result.add(
-              BinaryTreeNode.class); // Code repetition due to complications
+              BinaryTreeNode.class);  // Code repetition due to complications
           // in casting ParametrizedType to Class
           type = getInnerGenericType(pt, 0);
           continue;
@@ -254,8 +254,8 @@ public class TestUtilsDeserialization {
           type = getInnerGenericType(pt, 0);
           continue;
         } else {
-          throw new RuntimeException("Unsupported generic type "
-                                     + type.getTypeName());
+          throw new RuntimeException("Unsupported generic type " +
+                                     type.getTypeName());
         }
       } else if (type instanceof Class) {
         result.add((Class<?>)type);
@@ -275,7 +275,7 @@ public class TestUtilsDeserialization {
   @SuppressWarnings("unchecked")
   static Function<String, Object> getTypeParser(List<Class<?>> types) {
     if (types.isEmpty()) {
-      return null; // Void parser
+      return null;  // Void parser
     }
 
     Function<String, Object> parser = TYPE_PARSER_MAPPING.get(types.get(0));
@@ -312,8 +312,8 @@ public class TestUtilsDeserialization {
       return getTupleParser(types.get(0), ann.ctorParams());
     }
 
-    throw new RuntimeException("Unsupported parameter type: "
-                               + types.get(0).getTypeName());
+    throw new RuntimeException("Unsupported parameter type: " +
+                               types.get(0).getTypeName());
   }
 
   /**
@@ -328,8 +328,8 @@ public class TestUtilsDeserialization {
       throw new RuntimeException("Incomplete type list");
     }
 
-    Function<JsonValue, Object> parser
-        = TYPE_JSON_PARSER_MAPPING.get(types.get(0));
+    Function<JsonValue, Object> parser =
+        TYPE_JSON_PARSER_MAPPING.get(types.get(0));
     if (parser != null) {
       return parser;
     }
@@ -363,8 +363,8 @@ public class TestUtilsDeserialization {
       return getTupleJsonParser(types.get(0), ann.ctorParams());
     }
 
-    throw new RuntimeException("Unsupported argument type: "
-                               + types.get(0).getTypeName());
+    throw new RuntimeException("Unsupported argument type: " +
+                               types.get(0).getTypeName());
   }
 
   /**
@@ -378,8 +378,8 @@ public class TestUtilsDeserialization {
    */
   private static Function<String, Object> getTupleParser(
       Class<?> userType, Class<?>[] ctorParams) {
-    Function<JsonValue, Object> jsonParser
-        = getTupleJsonParser(userType, ctorParams);
+    Function<JsonValue, Object> jsonParser =
+        getTupleJsonParser(userType, ctorParams);
     return (String s) -> jsonParser.apply(Json.parse(s));
   }
 
@@ -393,11 +393,11 @@ public class TestUtilsDeserialization {
   private static Function<JsonValue, Object> getTupleJsonParser(
       Class<?> userType, Class<?>[] ctorParams) {
     try {
-      Function<JsonValue, Object>[] paramParsers
-          = new Function[ctorParams.length];
+      Function<JsonValue, Object>[] paramParsers =
+          new Function[ctorParams.length];
       for (int i = 0; i < ctorParams.length; i++) {
-        paramParsers[i]
-            = getArgumentJsonParser(Collections.singletonList(ctorParams[i]));
+        paramParsers[i] =
+            getArgumentJsonParser(Collections.singletonList(ctorParams[i]));
       }
 
       Constructor<?> ctor = userType.getDeclaredConstructor(ctorParams);
@@ -406,8 +406,8 @@ public class TestUtilsDeserialization {
         JsonArray a = jsonValue.asArray();
         if (a.size() != ctorParams.length) {
           throw new RuntimeException(
-              "Tuple parser: expected " + String.valueOf(ctorParams.length)
-              + " values, provided " + String.valueOf(a.size()));
+              "Tuple parser: expected " + String.valueOf(ctorParams.length) +
+              " values, provided " + String.valueOf(a.size()));
         }
         Object[] params = new Object[ctorParams.length];
         for (int i = 0; i < ctorParams.length; i++) {
@@ -415,15 +415,15 @@ public class TestUtilsDeserialization {
         }
         try {
           return ctor.newInstance(params);
-        } catch (InstantiationException | IllegalAccessException
-                 | InvocationTargetException e) {
+        } catch (InstantiationException | IllegalAccessException |
+                 InvocationTargetException e) {
           throw new RuntimeException("Tuple parser: " + e.getMessage());
         }
       };
     } catch (NoSuchMethodException e) {
-      throw new RuntimeException(userType.getTypeName()
-                                 + " does not have a ctor from "
-                                 + ctorParams.toString());
+      throw new RuntimeException(userType.getTypeName() +
+                                 " does not have a ctor from " +
+                                 ctorParams.toString());
     }
   }
 

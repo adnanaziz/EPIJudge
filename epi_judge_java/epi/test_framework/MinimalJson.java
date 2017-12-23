@@ -469,7 +469,7 @@ final class Json {
  * This class is <strong>not supposed to be extended</strong> by clients.
  * </p>
  */
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 class JsonArray extends JsonValue implements Iterable<JsonValue> {
   private final List<JsonValue> values;
 
@@ -1242,7 +1242,7 @@ abstract class JsonHandler<A, O> {
  * SOFTWARE.
  ******************************************************************************/
 
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 class JsonLiteral extends JsonValue {
   private final String value;
   private final boolean isNull;
@@ -1334,7 +1334,7 @@ class JsonLiteral extends JsonValue {
  * SOFTWARE.
  ******************************************************************************/
 
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 class JsonNumber extends JsonValue {
   private final String string;
 
@@ -1473,7 +1473,7 @@ class JsonNumber extends JsonValue {
  * This class is <strong>not supposed to be extended</strong> by clients.
  * </p>
  */
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 class JsonObject extends JsonValue implements Iterable<Member> {
   private final List<String> names;
   private final List<JsonValue> values;
@@ -2321,7 +2321,7 @@ class JsonObject extends JsonValue implements Iterable<Member> {
   }
 
   static class HashIndexTable {
-    private final byte[] hashTable = new byte[32]; // must be a power of two
+    private final byte[] hashTable = new byte[32];  // must be a power of two
 
     public HashIndexTable() {}
 
@@ -2857,15 +2857,15 @@ class JsonParser {
   }
 
   private boolean isWhiteSpace() {
-    return current == ' ' || current == '\t' || current == '\n'
-        || current == '\r';
+    return current == ' ' || current == '\t' || current == '\n' ||
+        current == '\r';
   }
 
   private boolean isDigit() { return current >= '0' && current <= '9'; }
 
   private boolean isHexDigit() {
-    return current >= '0' && current <= '9' || current >= 'a' && current <= 'f'
-        || current >= 'A' && current <= 'F';
+    return current >= '0' && current <= '9' ||
+        current >= 'a' && current <= 'f' || current >= 'A' && current <= 'F';
   }
 
   private boolean isEndOfText() { return current == -1; }
@@ -2893,7 +2893,7 @@ class JsonParser {
  * SOFTWARE.
  ******************************************************************************/
 
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 class JsonString extends JsonValue {
   private final String string;
 
@@ -3006,7 +3006,7 @@ class JsonString extends JsonValue {
  * This class is <strong>not supposed to be extended</strong> by clients.
  * </p>
  */
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 abstract class JsonValue implements Serializable {
   /**
    * Represents the JSON literal <code>true</code>.
@@ -3494,13 +3494,13 @@ class JsonWriter {
   // In JavaScript, U+2028 and U+2029 characters count as line endings and must
   // be encoded.
   // http://stackoverflow.com/questions/2965293/javascript-parse-error-on-u2028-unicode-character
-  private static final char[] UNICODE_2028_CHARS
-      = {'\\', 'u', '2', '0', '2', '8'};
-  private static final char[] UNICODE_2029_CHARS
-      = {'\\', 'u', '2', '0', '2', '9'};
-  private static final char[] HEX_DIGITS
-      = {'0', '1', '2', '3', '4', '5', '6', '7',
-         '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+  private static final char[] UNICODE_2028_CHARS = {'\\', 'u', '2',
+                                                    '0',  '2', '8'};
+  private static final char[] UNICODE_2029_CHARS = {'\\', 'u', '2',
+                                                    '0',  '2', '9'};
+  private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5',
+                                            '6', '7', '8', '9', 'a', 'b',
+                                            'c', 'd', 'e', 'f'};
 
   protected final Writer writer;
 
@@ -3667,8 +3667,8 @@ class Location {
       return false;
     }
     Location other = (Location)obj;
-    return offset == other.offset && column == other.column
-        && line == other.line;
+    return offset == other.offset && column == other.column &&
+        line == other.line;
   }
 
 } /*******************************************************************************
@@ -3700,7 +3700,7 @@ class Location {
  * An unchecked exception to indicate that an input does not qualify as valid
  * JSON.
  */
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 class ParseException extends RuntimeException {
   private final Location location;
 

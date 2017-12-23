@@ -18,19 +18,21 @@ public class PowerSet {
   }
 
   @EpiTestComparator
-  @SuppressWarnings("unchecked")
-  public static BiPredicate<Object, Object> comp = (Object a, Object b) -> {
-    List<List<Integer>> la = (List<List<Integer>>) a;
-    List<List<Integer>> lb = (List<List<Integer>>) b;
-    for (List<Integer> l : la) {
+      @SuppressWarnings("unchecked")
+      public static BiPredicate < List<List<Integer>>,
+      List < List<Integer>>> comp = (expected, result) -> {
+    if (result == null) {
+      return false;
+    }
+    for (List<Integer> l : expected) {
       Collections.sort(l);
     }
-    la.sort(new LexicographicalListComparator());
-    for (List<Integer> l : lb) {
+    expected.sort(new LexicographicalListComparator());
+    for (List<Integer> l : result) {
       Collections.sort(l);
     }
-    lb.sort(new LexicographicalListComparator());
-    return la.equals(lb);
+    result.sort(new LexicographicalListComparator());
+    return expected.equals(result);
   };
 
   public static void main(String[] args) {

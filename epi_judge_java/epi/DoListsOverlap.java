@@ -70,10 +70,10 @@ public class DoListsOverlap {
       last.next = it;
     }
 
-    Set<Integer> common_nodes = new HashSet<>();
+    Set<Integer> commonNodes = new HashSet<>();
     ListNode<Integer> it = common;
-    while (it != null && !common_nodes.contains(it.data)) {
-      common_nodes.add(it.data);
+    while (it != null && !commonNodes.contains(it.data)) {
+      commonNodes.add(it.data);
       it = it.next;
     }
 
@@ -81,8 +81,8 @@ public class DoListsOverlap {
     ListNode<Integer> result = overlappingLists(l1, l2);
     timer.stop();
 
-    if (!((common_nodes.isEmpty() && result == null)
-            || (result != null && common_nodes.contains(result.data)))) {
+    if (!((commonNodes.isEmpty() && result == null)
+            || (result != null && commonNodes.contains(result.data)))) {
       throw new TestFailureException("Invalid result");
     }
   }

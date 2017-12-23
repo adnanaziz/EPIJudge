@@ -26,8 +26,8 @@ def online_random_sample_wrapper(timer, A, k):
             for i in range(binomial_coefficient(len(A), k))
         }
         return check_sequence_is_uniformly_random(
-            [comb_to_idx[tuple(sorted(a))]
-             for a in result], total_possible_outcomes, 0.01)
+            [comb_to_idx[tuple(sorted(a))] for a in result],
+            total_possible_outcomes, 0.01)
 
     run_func_with_retries(
         functools.partial(online_random_sample_runner, timer, A, k))

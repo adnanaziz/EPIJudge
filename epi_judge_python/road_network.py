@@ -2,8 +2,8 @@ import collections
 
 from test_framework.test_utils import enable_timer_hook
 
-HighwaySection = collections.namedtuple('HighwaySection', ('x', 'y',
-                                                           'distance'))
+HighwaySection = collections.namedtuple('HighwaySection',
+                                        ('x', 'y', 'distance'))
 
 
 def find_best_proposals(H, P, n):

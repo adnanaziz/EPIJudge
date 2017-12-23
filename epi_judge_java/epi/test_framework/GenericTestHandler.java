@@ -64,8 +64,8 @@ public class GenericTestHandler implements TestHandler {
     hasTimerHook = false;
 
     methodParameters = Arrays.asList(m.getGenericParameterTypes());
-    if (methodParameters.size() >= 1
-        && methodParameters.get(0).equals(TestTimer.class)) {
+    if (methodParameters.size() >= 1 &&
+        methodParameters.get(0).equals(TestTimer.class)) {
       hasTimerHook = true;
       methodParameters = methodParameters.subList(1, methodParameters.size());
     }
@@ -104,8 +104,8 @@ public class GenericTestHandler implements TestHandler {
       if (!TestUtilsDeserialization.matchArgumentType(
               methodParameters.get(i),
               TestUtils.filterBracketComments(signature.get(i)))) {
-        throw new RuntimeException(Integer.toString(i)
-                                   + "th argument type mismatch");
+        throw new RuntimeException(Integer.toString(i) +
+                                   "th argument type mismatch");
       }
     }
 
@@ -181,11 +181,11 @@ public class GenericTestHandler implements TestHandler {
     } else if (expected == null) {
       comparisonResult = result == null;
     } else if (expected instanceof Float && result instanceof Float) {
-      comparisonResult
-          = TestUtils.floatComparison((Float)expected, (Float)result);
+      comparisonResult =
+          TestUtils.floatComparison((Float)expected, (Float)result);
     } else if (expected instanceof Double && result instanceof Double) {
-      comparisonResult
-          = TestUtils.doubleComparison((Double)expected, (Double)result);
+      comparisonResult =
+          TestUtils.doubleComparison((Double)expected, (Double)result);
     } else {
       comparisonResult = expected.equals(result);
     }
@@ -205,9 +205,8 @@ public class GenericTestHandler implements TestHandler {
       if (annotation != null) {
         if (!f.getType().equals(BiPredicate.class)) {
           throw new RuntimeException(
-              "EpiTestComparator type mismatch. Expected "
-              + BiPredicate.class.getName()
-              + ", got: " + f.getType().getName());
+              "EpiTestComparator type mismatch. Expected " +
+              BiPredicate.class.getName() + ", got: " + f.getType().getName());
         }
         try {
           return (BiPredicate<Object, Object>)f.get(null);
@@ -228,8 +227,8 @@ public class GenericTestHandler implements TestHandler {
       if (annotation != null) {
         if (!f.getType().equals(List.class)) {
           throw new RuntimeException(
-              "EpiTestExpectedType type mismatch. Expected "
-              + List.class.getName() + ", got: " + f.getType().getName());
+              "EpiTestExpectedType type mismatch. Expected " +
+              List.class.getName() + ", got: " + f.getType().getName());
         }
         try {
           return (List<Class<?>>)f.get(null);
@@ -253,8 +252,8 @@ public class GenericTestHandler implements TestHandler {
   @SuppressWarnings("unchecked")
   public static void executeTestsByAnnotation(Class testClass,
                                               String[] commandlineArgs) {
-    BiPredicate<Object, Object> comparator
-        = findCustomComparatorByAnnotation(testClass);
+    BiPredicate<Object, Object> comparator =
+        findCustomComparatorByAnnotation(testClass);
 
     List<Class<?>> expectedType = findCustomExpectedTypeByAnnotation(testClass);
 
@@ -295,8 +294,8 @@ public class GenericTestHandler implements TestHandler {
       } else if (Objects.equals(commandlineArgs[i], "--run_all_tests")) {
         stopOnAError = false;
       } else {
-        throw new RuntimeException("Unrecognized argument: "
-                                   + commandlineArgs[i]);
+        throw new RuntimeException("Unrecognized argument: " +
+                                   commandlineArgs[i]);
       }
     }
 

@@ -32,8 +32,8 @@ def compute_random_permutation_wrapper(timer, n):
         timer.stop()
 
         return check_sequence_is_uniformly_random(
-            [permutation_index(perm) for perm in result],
-            math.factorial(n), 0.01)
+            [permutation_index(perm) for perm in result], math.factorial(n),
+            0.01)
 
     run_func_with_retries(
         functools.partial(compute_random_permutation_runner, timer, n))

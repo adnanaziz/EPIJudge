@@ -63,9 +63,10 @@ public class RemoveDuplicates {
 
   @EpiTestComparator
   @SuppressWarnings("unchecked")
-  public static BiPredicate<Object, Object> comp = (Object a, Object b) -> {
-    List<String> expected = (List<String>) a;
-    List<Name> result = (List<Name>) b;
+  public static BiPredicate<List<String>, List<Name>> comp = (expected, result) -> {
+    if (result == null) {
+      return false;
+    }
     Collections.sort(expected);
     Collections.sort(result);
     if (expected.size() != result.size()) {
