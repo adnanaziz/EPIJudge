@@ -7,13 +7,16 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SortAlmostSortedArray {
-  public static List<Integer> sortApproximatelySortedData(Iterator<Integer> sequence, int k) {
+
+  public static List<Integer>
+  sortApproximatelySortedData(Iterator<Integer> sequence, int k) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "sort_almost_sorted_array.tsv")
-  public static List<Integer> sortApproximatelySortedDataWrapper(List<Integer> sequence, int k) {
+  public static List<Integer>
+  sortApproximatelySortedDataWrapper(List<Integer> sequence, int k) {
     return sortApproximatelySortedData(sequence.iterator(), k);
   }
 

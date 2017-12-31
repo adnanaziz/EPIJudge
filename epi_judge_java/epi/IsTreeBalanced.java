@@ -4,6 +4,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTestHandler;
 
 public class IsTreeBalanced {
+
   @EpiTest(testfile = "is_tree_balanced.tsv")
 
   public static boolean isBalanced(BinaryTreeNode<Integer> tree) {

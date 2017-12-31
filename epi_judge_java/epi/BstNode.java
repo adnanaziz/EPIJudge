@@ -11,9 +11,7 @@ public class BstNode<T> {
 
   public BstNode() {}
 
-  public BstNode(T data) {
-    this.data = data;
-  }
+  public BstNode(T data) { this.data = data; }
 
   public BstNode(T data, BstNode<T> left, BstNode<T> right) {
     this.data = data;
@@ -30,7 +28,7 @@ public class BstNode<T> {
       return false;
     }
 
-    BstNode that = (BstNode) o;
+    BstNode that = (BstNode)o;
 
     if (data != null ? !data.equals(that.data) : that.data != null) {
       return false;

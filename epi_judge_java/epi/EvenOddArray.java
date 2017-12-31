@@ -10,13 +10,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class EvenOddArray {
+
   public static void evenOdd(List<Integer> A) {
     // Implement this placeholder.
     return;
   }
 
   @EpiTest(testfile = "even_odd_array.tsv")
-  public static void evenOddWrapper(TestTimer timer, List<Integer> A) throws TestFailureException {
+  public static void evenOddWrapper(TestTimer timer, List<Integer> A)
+      throws TestFailureException {
     List<Integer> before = new ArrayList<>(A);
 
     timer.start();

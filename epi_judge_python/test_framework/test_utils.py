@@ -7,13 +7,13 @@ import statistics
 import sys
 import traceback
 
+import os
+
 from test_framework.test_failure_exception import TestFailureException
 from test_framework.test_output import TestOutput
 from test_framework.test_result import TestResult
 from test_framework.test_timer import TestTimer, duration_to_string
 from test_framework.test_utils_console import print_test_result, print_failed_test
-
-DEFAULT_TEST_DATA_PATH_DIR = '../test_data/'
 
 
 def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
@@ -104,6 +104,27 @@ def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
                 tests_passed, total_tests))
         else:
             print("*** You've passed ALL tests. Congratulations! ***")
+
+
+def get_default_test_data_dir_path():
+    MAX_SEARCH_DEPTH = 4
+    ENV_KEY = 'EPI_TEST_DATA_DIR'
+    DIR_NAME = 'test_data'
+
+    env_result = os.getenv(ENV_KEY, '')
+    if env_result:
+        if not os.path.isdir(env_result):
+            raise RuntimeError('{} environment variable is set to "{}", but it\'s not a directory'
+                               .format(ENV_KEY, env_result))
+        return env_result
+
+    path = DIR_NAME
+    for _ in range(MAX_SEARCH_DEPTH):
+        if os.path.isdir(path):
+            return path
+        path = os.path.join(os.path.pardir, path)
+
+    raise RuntimeError('Can\'t find test data directory. Specify it with {} environment variable (you may need to restart PC) or start the program with "--test_data_dir <path>" command-line option'.format(ENV_KEY))
 
 
 def completely_sorted(x):

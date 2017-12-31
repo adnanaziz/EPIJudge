@@ -8,7 +8,9 @@ import epi.test_framework.TestFailureException;
 import java.util.List;
 
 public class AddingCredits {
+
   public static class ClientsCreditsInfo {
+
     public void insert(String clientID, int c) {
       // Implement this placeholder.
       return;
@@ -56,7 +58,7 @@ public class AddingCredits {
         return false;
       }
 
-      Operation operation = (Operation) o;
+      Operation operation = (Operation)o;
 
       if (iArg != operation.iArg) {
         return false;
@@ -77,32 +79,33 @@ public class AddingCredits {
   }
 
   @EpiTest(testfile = "adding_credits.tsv")
-  public static void ClientsCreditsInfoTester(List<Operation> ops) throws TestFailureException {
+  public static void ClientsCreditsInfoTester(List<Operation> ops)
+      throws TestFailureException {
     ClientsCreditsInfo cr = new ClientsCreditsInfo();
     for (Operation x : ops) {
       String sArg = x.sArg;
       int iArg = x.iArg;
       int result;
       switch (x.op) {
-        case "ClientsCreditsInfo":
-          break;
-        case "remove":
-          result = cr.remove(sArg) ? 1 : 0;
-          if (result != iArg) {
-            throw new TestFailureException("Remove: return value mismatch");
-          }
-          break;
-        case "insert":
-          cr.insert(sArg, iArg);
-          break;
-        case "add_all":
-          cr.addAll(iArg);
-          break;
-        case "lookup":
-          result = cr.lookup(sArg);
-          if (result != iArg) {
-            throw new TestFailureException("Lookup: return value mismatch");
-          }
+      case "ClientsCreditsInfo":
+        break;
+      case "remove":
+        result = cr.remove(sArg) ? 1 : 0;
+        if (result != iArg) {
+          throw new TestFailureException("Remove: return value mismatch");
+        }
+        break;
+      case "insert":
+        cr.insert(sArg, iArg);
+        break;
+      case "add_all":
+        cr.addAll(iArg);
+        break;
+      case "lookup":
+        result = cr.lookup(sArg);
+        if (result != iArg) {
+          throw new TestFailureException("Lookup: return value mismatch");
+        }
       }
     }
   }

@@ -18,7 +18,6 @@ public class Anagrams {
   }
 
   @EpiTestComparator
-      @SuppressWarnings("unchecked")
       public static BiPredicate < List<List<String>>,
       List < List<String>>> comp = (expected, result) -> {
     if (result == null) {
@@ -27,11 +26,11 @@ public class Anagrams {
     for (List<String> l : expected) {
       Collections.sort(l);
     }
-    expected.sort(new LexicographicalListComparator());
+    expected.sort(new LexicographicalListComparator<>());
     for (List<String> l : result) {
       Collections.sort(l);
     }
-    result.sort(new LexicographicalListComparator());
+    result.sort(new LexicographicalListComparator<>());
     return expected.equals(result);
   };
 

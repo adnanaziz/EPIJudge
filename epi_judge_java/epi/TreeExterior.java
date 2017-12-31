@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeExterior {
-  public static List<BinaryTreeNode<Integer>> exteriorBinaryTree(BinaryTreeNode<Integer> tree) {
+
+  public static List<BinaryTreeNode<Integer>>
+  exteriorBinaryTree(BinaryTreeNode<Integer> tree) {
     // Implement this placeholder.
     return null;
   }
@@ -27,8 +29,9 @@ public class TreeExterior {
   }
 
   @EpiTest(testfile = "tree_exterior.tsv")
-  public static List<Integer> exteriorBinaryTreeWrapper(
-      TestTimer timer, BinaryTreeNode<Integer> tree) throws TestFailureException {
+  public static List<Integer>
+  exteriorBinaryTreeWrapper(TestTimer timer, BinaryTreeNode<Integer> tree)
+      throws TestFailureException {
     timer.start();
     List<BinaryTreeNode<Integer>> l = exteriorBinaryTree(tree);
     timer.stop();

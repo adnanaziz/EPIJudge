@@ -8,7 +8,8 @@ import java.util.List;
 public class BstFromPreorder {
   @EpiTest(testfile = "bst_from_preorder.tsv")
 
-  public static BstNode<Integer> rebuildBSTFromPreorder(List<Integer> preorderSequence) {
+  public static BstNode<Integer>
+  rebuildBSTFromPreorder(List<Integer> preorderSequence) {
     // Implement this placeholder.
     return null;
   }

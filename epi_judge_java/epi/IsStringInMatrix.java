@@ -6,8 +6,10 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class IsStringInMatrix {
+
   @EpiTest(testfile = "is_string_in_matrix.tsv")
-  public static boolean isPatternContainedInGrid(List<List<Integer>> grid, List<Integer> pattern) {
+  public static boolean isPatternContainedInGrid(List<List<Integer>> grid,
+                                                 List<Integer> pattern) {
     // Implement this placeholder.
     return true;
   }

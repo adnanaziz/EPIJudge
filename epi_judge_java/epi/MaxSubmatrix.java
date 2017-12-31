@@ -6,6 +6,7 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class MaxSubmatrix {
+
   @EpiTest(testfile = "max_submatrix.tsv")
 
   public static int maxRectangleSubmatrix(List<List<Boolean>> A) {

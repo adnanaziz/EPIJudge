@@ -2,6 +2,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <future>
 #include <iostream>
@@ -15,12 +16,11 @@
 #include <vector>
 
 #include "json_parser.h"
+#include "platform.h"
 #include "test_failure_exception.h"
 #include "test_utils_console.h"
 #include "test_utils_meta.h"
 #include "test_utils_serialization_traits.h"
-
-const std::string kDefaultTestDataDir = "../test_data/";
 
 namespace {
 
@@ -104,6 +104,37 @@ decltype(auto) ParseSerializedArgsImpl(
           *(begin + I))...);
 };
 
+std::string GetDefaultTestDataDirPath() {
+  constexpr int MAX_SEARCH_DEPTH = 4;
+  const std::string ENV_KEY = "EPI_TEST_DATA_DIR";
+  const std::string DIR_NAME = "test_data";
+  char pardir[]{'.', '.', os::PathSep(), '\0'};
+  std::string path;
+
+  const char* env_result = std::getenv(ENV_KEY.c_str());
+  if (env_result && env_result[0] != '\0') {
+    if (!os::IsDir(env_result)) {
+      throw std::runtime_error(ENV_KEY +
+                               " environment variable is set to \"" +
+                               env_result + "\", but it's not a directory");
+    }
+    path = env_result;  // Enable RVO optimization
+    return path;
+  }
+
+  path = DIR_NAME;
+  for (int i = 0; i < MAX_SEARCH_DEPTH; i++) {
+    if (os::IsDir(path.c_str())) {
+      return path;
+    }
+    path.insert(0, pardir);
+  }
+
+  throw std::runtime_error(
+      "Can't find test data directory. Specify it with " + ENV_KEY +
+      " environment variable (you may need to restart PC) or start the "
+      "program with \"--test_data_dir <path>\" command-line option");
+}
 }  // namespace
 
 template <typename TestHandlerT>
@@ -152,7 +183,7 @@ void RunTests(const std::string& test_data_path, TestHandlerT& handler,
     } catch (TestFailureException& e) {
       result = FAILED;
       diagnostic = e.what();
-    } catch (std::runtime_error& e) {
+    } catch (std::runtime_error&) {
       throw;
     } catch (std::exception& e) {
       result = UNKNOWN_EXCEPTION;

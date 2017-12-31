@@ -4,6 +4,7 @@ package epi.test_framework;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,8 +18,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
 public class TestUtils {
-  public static String DEFAULT_TEST_DATA_DIR = "../test_data/";
-
   private static List<List<String>> splitTsvFile(Path dataFile) {
     List<List<String>> result = new ArrayList<>();
     Stream<String> inputData = null;
@@ -163,6 +162,37 @@ public class TestUtils {
         System.out.println("*** You've passed ALL tests. Congratulations! ***");
       }
     }
+  }
+
+  public static String getDefaultTestDataDirPath() {
+    final int MAX_SEARCH_DEPTH = 4;
+    final String ENV_KEY = "EPI_TEST_DATA_DIR";
+    final String DIR_NAME = "test_data";
+
+    String env_result = System.getenv(ENV_KEY);
+    if (env_result != null && !env_result.isEmpty()) {
+      if (!Files.isDirectory(Paths.get(env_result))) {
+        throw new RuntimeException(ENV_KEY +
+                                   " environment variable is set to \"" +
+                                   env_result + "\", but it's not a directory");
+      }
+      return env_result;
+    }
+
+    Path path = Paths.get(".").toAbsolutePath();
+    for (int i = 0; i < MAX_SEARCH_DEPTH; i++) {
+      if (Files.isDirectory(path.resolve(DIR_NAME))) {
+        return path.resolve(DIR_NAME).toString();
+      }
+      path = path.getParent();
+      if (path == null) {
+        break;
+      }
+    }
+
+    throw new RuntimeException(
+        "Can't find test data directory. Specify it with " + ENV_KEY +
+        " environment variable (you may need to restart PC) or start the program with \"--test_data_dir <path>\" command-line option");
   }
 
   /**

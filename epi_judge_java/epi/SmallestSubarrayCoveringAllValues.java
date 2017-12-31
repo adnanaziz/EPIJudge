@@ -8,6 +8,7 @@ import epi.test_framework.TestTimer;
 import java.util.List;
 
 public class SmallestSubarrayCoveringAllValues {
+
   public static class Subarray {
     // Represent subarray by starting and ending indices, inclusive.
     public Integer start;
@@ -19,17 +20,20 @@ public class SmallestSubarrayCoveringAllValues {
     }
   }
 
-  public static Subarray findSmallestSequentiallyCoveringSubset(
-      List<String> paragraph, List<String> keywords) {
+  public static Subarray
+  findSmallestSequentiallyCoveringSubset(List<String> paragraph,
+                                         List<String> keywords) {
     // Implement this placeholder.
     return new Subarray(0, 0);
   }
 
   @EpiTest(testfile = "subsequence_cover.tsv")
   public static int findSmallestSequentiallyCoveringSubsetWrapper(
-      TestTimer timer, List<String> paragraph, List<String> keywords) throws TestFailureException {
+      TestTimer timer, List<String> paragraph, List<String> keywords)
+      throws TestFailureException {
     timer.start();
-    Subarray result = findSmallestSequentiallyCoveringSubset(paragraph, keywords);
+    Subarray result =
+        findSmallestSequentiallyCoveringSubset(paragraph, keywords);
     timer.stop();
 
     int kwIdx = 0;
@@ -40,7 +44,8 @@ public class SmallestSubarrayCoveringAllValues {
 
     while (kwIdx < keywords.size()) {
       if (paraIdx >= paragraph.size()) {
-        throw new TestFailureException("Not all keywords are in the generated subarray");
+        throw new TestFailureException(
+            "Not all keywords are in the generated subarray");
       }
       if (paraIdx >= paragraph.size()) {
         throw new TestFailureException("Subarray end index exceeds array size");

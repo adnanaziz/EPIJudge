@@ -6,6 +6,7 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class RookAttack {
+
   public static void rookAttack(List<List<Integer>> A) {
     // Implement this placeholder.
     return;

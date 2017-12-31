@@ -9,16 +9,18 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SortedListToBst {
+
   // Returns the root of the corresponding BST. The prev and next fields of the
   // list nodes are used as the BST nodes left and right fields, respectively.
   // The length of the list is given.
-  public static DoublyListNode<Integer> buildBSTFromSortedList(
-      DoublyListNode<Integer> L, int length) {
+  public static DoublyListNode<Integer>
+  buildBSTFromSortedList(DoublyListNode<Integer> L, int length) {
     // Implement this placeholder.
     return null;
   }
 
-  public static void compareVectorAndTree(DoublyListNode<Integer> tree, Iterator<Integer> it)
+  public static void compareVectorAndTree(DoublyListNode<Integer> tree,
+                                          Iterator<Integer> it)
       throws TestFailureException {
     if (tree == null) {
       return;
@@ -37,7 +39,8 @@ public class SortedListToBst {
   }
 
   @EpiTest(testfile = "sorted_list_to_bst.tsv")
-  public static void buildBSTFromSortedListWrapper(TestTimer timer, List<Integer> values)
+  public static void buildBSTFromSortedListWrapper(TestTimer timer,
+                                                   List<Integer> values)
       throws TestFailureException {
     DoublyListNode<Integer> list = null;
     for (int i = values.size() - 1; i >= 0; i--) {

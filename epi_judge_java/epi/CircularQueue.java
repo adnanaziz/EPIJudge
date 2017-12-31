@@ -8,7 +8,9 @@ import epi.test_framework.TestFailureException;
 import java.util.List;
 
 public class CircularQueue {
+
   public static class Queue {
+
     public Queue(int capacity) {}
 
     public void enqueue(Integer x) {
@@ -44,24 +46,28 @@ public class CircularQueue {
 
     for (QueueOp op : ops) {
       switch (op.op) {
-        case "Queue":
-          q = new Queue(op.arg);
-          break;
-        case "enqueue":
-          q.enqueue(op.arg);
-          break;
-        case "dequeue":
-          int result = q.dequeue();
-          if (result != op.arg)
-            throw new TestFailureException(
-                "Dequeue: expected " + String.valueOf(op.arg) + ", got " + String.valueOf(result));
-          break;
-        case "size":
-          int s = q.size();
-          if (s != op.arg)
-            throw new TestFailureException(
-                "Size: expected " + String.valueOf(op.arg) + ", got " + String.valueOf(s));
-          break;
+      case "Queue":
+        q = new Queue(op.arg);
+        break;
+      case "enqueue":
+        q.enqueue(op.arg);
+        break;
+      case "dequeue":
+        int result = q.dequeue();
+        if (result != op.arg) {
+          throw new TestFailureException("Dequeue: expected " +
+                                         String.valueOf(op.arg) + ", got " +
+                                         String.valueOf(result));
+        }
+        break;
+      case "size":
+        int s = q.size();
+        if (s != op.arg) {
+          throw new TestFailureException("Size: expected " +
+                                         String.valueOf(op.arg) + ", got " +
+                                         String.valueOf(s));
+        }
+        break;
       }
     }
   }

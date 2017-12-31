@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueFromStacks {
+
   public static class Queue {
+
     public void enqueue(Integer x) {
       // Implement this placeholder.
       return;
@@ -39,19 +41,20 @@ public class QueueFromStacks {
 
       for (QueueOp op : ops) {
         switch (op.op) {
-          case "QueueWithMax":
-            q = new Queue();
-            break;
-          case "enqueue":
-            q.enqueue(op.arg);
-            break;
-          case "dequeue":
-            int result = q.dequeue();
-            if (result != op.arg) {
-              throw new TestFailureException("Dequeue: expected " + String.valueOf(op.arg)
-                  + ", got " + String.valueOf(result));
-            }
-            break;
+        case "QueueWithMax":
+          q = new Queue();
+          break;
+        case "enqueue":
+          q.enqueue(op.arg);
+          break;
+        case "dequeue":
+          int result = q.dequeue();
+          if (result != op.arg) {
+            throw new TestFailureException("Dequeue: expected " +
+                                           String.valueOf(op.arg) + ", got " +
+                                           String.valueOf(result));
+          }
+          break;
         }
       }
     } catch (NoSuchElementException e) {

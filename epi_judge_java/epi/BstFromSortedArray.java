@@ -8,7 +8,8 @@ import java.util.List;
 public class BstFromSortedArray {
   @EpiTest(testfile = "bst_from_sorted_array.tsv")
 
-  public static BstNode<Integer> buildMinHeightBSTFromSortedArray(List<Integer> A) {
+  public static BstNode<Integer>
+  buildMinHeightBSTFromSortedArray(List<Integer> A) {
     // Implement this placeholder.
     return null;
   }

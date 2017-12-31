@@ -8,7 +8,7 @@ struct Subarray {
 
 Subarray FindLongestIncreasingSubarray(const vector<int>& A) {
   // Implement this placeholder.
-  return {0, 0};
+  return {};
 }
 
 int FindLongestIncreasingSubarrayWrapper(const vector<int>& A) {

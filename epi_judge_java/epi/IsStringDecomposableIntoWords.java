@@ -9,7 +9,8 @@ import java.util.Set;
 public class IsStringDecomposableIntoWords {
   @EpiTest(testfile = "is_string_decomposable_into_words.tsv")
 
-  public static List<String> decomposeIntoDictionaryWords(String domain, Set<String> dictionary) {
+  public static List<String>
+  decomposeIntoDictionaryWords(String domain, Set<String> dictionary) {
     // Implement this placeholder.
     return null;
   }

@@ -1,7 +1,6 @@
 // @library
 #pragma once
 
-#include <unistd.h>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -62,7 +61,7 @@ template <typename TestOutputT>
 void PrintFailedTest(const std::vector<std::string>& arguments,
                      const TestOutputT& test_output,
                      const std::string& test_explanation) {
-  for (int i = 0; i < arguments.size(); ++i) {
+  for (unsigned int i = 0; i < arguments.size(); ++i) {
     std::cout << "\tArg " << i + 1 << ": " << EscapeNewline{arguments[i]}
               << std::endl;
   }

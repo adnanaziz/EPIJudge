@@ -234,7 +234,7 @@ struct SerializationTraits<float, void> {
   }
 
   static bool Equal(serialization_type a, serialization_type b) {
-    constexpr float eps = 1E-4;
+    constexpr float eps = 1E-4f;
     return std::abs(a - b) <= eps * std::max(std::abs(a), std::abs(b));
   }
 
@@ -734,8 +734,9 @@ struct BinaryTreeSerializationTraits;
  * @tparam HasParent - affects the parent pointer initialization.
  */
 template <template <typename...> class SmartPtrT,
-          template <typename...> class NodeT, typename KeyT, bool HasParent>
-struct BinaryTreeSerializationTraits<SmartPtrT<NodeT<KeyT>>, HasParent> {
+          template <typename...> class NodeT, typename KeyT, 
+          bool HasParent, typename... MsvcWorkaround>
+struct BinaryTreeSerializationTraits<SmartPtrT<NodeT<KeyT>, MsvcWorkaround...>, HasParent> {
   using key_traits = SerializationTraits<KeyT>;
   using node_type = NodeT<typename key_traits::serialization_type>;
   using serialization_type = SmartPtrT<node_type>;

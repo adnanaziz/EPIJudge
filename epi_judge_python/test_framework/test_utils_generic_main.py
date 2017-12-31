@@ -21,10 +21,16 @@ def generic_test_main(filename,
         '--test_data_dir',
         nargs='?',
         const=True,
-        type=str,
-        default=test_utils.DEFAULT_TEST_DATA_PATH_DIR)
+        type=str)
     parser.add_argument('--run_all_tests', default=False, action='store_true')
     args = parser.parse_args()
+    if args.test_data_dir:
+        if not os.path.isdir(args.test_data_dir):
+            raise RuntimeError('--test_data_dir argument "{}" is not a directory'
+                               .format(args.test_data_dir))
+    else:
+        args.test_data_dir = test_utils.get_default_test_data_dir_path()
+
     timeout = 0
     stop_on_error = not args.run_all_tests
     test_utils.run_tests(

@@ -3,7 +3,11 @@ project(epi_judge_cpp)
 
 set(CMAKE_CXX_STANDARD 14)
 
-link_libraries(pthread)
+if (WIN32)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4018 -wd4800 -wd4805)    
+else()
+    link_libraries(pthread)
+endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 

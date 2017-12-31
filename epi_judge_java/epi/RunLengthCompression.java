@@ -5,6 +5,7 @@ import epi.test_framework.GenericTestHandler;
 import epi.test_framework.TestFailureException;
 
 public class RunLengthCompression {
+
   public static String decoding(String s) {
     // Implement this placeholder.
     return "";
@@ -16,7 +17,8 @@ public class RunLengthCompression {
   }
 
   @EpiTest(testfile = "run_length_compression.tsv")
-  public static void rleTester(String encoded, String decoded) throws TestFailureException {
+  public static void rleTester(String encoded, String decoded)
+      throws TestFailureException {
     if (!decoding(encoded).equals(decoded)) {
       throw new TestFailureException("Decoding failed");
     }

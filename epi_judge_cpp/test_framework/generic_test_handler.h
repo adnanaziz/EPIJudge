@@ -142,8 +142,8 @@ class GenericTestHandler {
         timer, args,
         std::make_index_sequence<std::tuple_size<arg_tuple_t>::value>());
 
-    return test_output_t{comp_(expected, result), timer, std::move(expected),
-                         std::move(result)};
+    return {comp_(expected, result), timer, std::move(expected),
+            std::move(result)};
   }
 
   /**
@@ -158,7 +158,7 @@ class GenericTestHandler {
     Invoke(timer, args,
            std::make_index_sequence<std::tuple_size<arg_tuple_t>::value>());
 
-    return test_output_t{true, timer, {}, {}};
+    return {true, timer};
   }
 
   /**

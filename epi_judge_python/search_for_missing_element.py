@@ -1,3 +1,5 @@
+import collections
+
 DuplicateAndMissing = collections.namedtuple('DuplicateAndMissing',
                                              ('duplicate', 'missing'))
 

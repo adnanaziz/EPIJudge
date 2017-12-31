@@ -26,25 +26,25 @@ struct SerializationTraits<Edge> : UserSerTraits<Edge, int, int> {};
 
 bool IsAnyPlacementFeasibleWrapper(TestTimer& timer, int k,
                                    const vector<Edge>& edges) {
-  vector<GraphVertex> g;
+  vector<GraphVertex> graph;
   if (k <= 0) {
     throw std::runtime_error("Invalid k value");
   }
-  g.reserve(k);
+  graph.reserve(k);
 
   for (int i = 0; i < k; i++) {
-    g.push_back(GraphVertex{});
+    graph.push_back(GraphVertex{});
   }
 
   for (auto& e : edges) {
     if (e.from < 0 || e.from >= k || e.to < 0 || e.to >= k) {
       throw std::runtime_error("Invalid vertex index");
     }
-    g[e.from].edges.push_back(&g[e.to]);
+    graph[e.from].edges.push_back(&graph[e.to]);
   }
 
   timer.Start();
-  bool result = IsAnyPlacementFeasible(&g);
+  bool result = IsAnyPlacementFeasible(&graph);
   timer.Stop();
   return result;
 }

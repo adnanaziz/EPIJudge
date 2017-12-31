@@ -5,7 +5,7 @@
 using std::string;
 using std::vector;
 
-vector<string> GetValidIPAddress(const string& s) {
+vector<string> GetValidIpAddress(const string& s) {
   // Implement this placeholder.
   return {};
 }
@@ -19,7 +19,7 @@ bool comp(vector<string> expected, vector<string> result) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "valid_ip_addresses.tsv", &GetValidIPAddress,
+  generic_test_main(argc, argv, "valid_ip_addresses.tsv", &GetValidIpAddress,
                     &comp);
   return 0;
 }

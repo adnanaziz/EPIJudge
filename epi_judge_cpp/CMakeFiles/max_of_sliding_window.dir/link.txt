@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/max_of_sliding_window.dir/max_of_sliding_window.cc.o  -o max_of_sliding_window -lpthread 

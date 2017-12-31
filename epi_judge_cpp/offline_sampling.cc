@@ -41,7 +41,8 @@ bool RandomSamplingRunner(TestTimer& timer, int k, vector<int> A) {
 }
 
 void RandomSamplingWrapper(TestTimer& timer, int k, const vector<int>& A) {
-  RunFuncWithRetries(bind(RandomSamplingRunner, timer, k, A));
+  RunFuncWithRetries(
+      bind(RandomSamplingRunner, std::ref(timer), k, std::cref(A)));
 }
 
 #include "test_framework/test_utils_generic_main.h"

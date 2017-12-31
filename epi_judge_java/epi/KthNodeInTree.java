@@ -11,7 +11,8 @@ public class KthNodeInTree {
     public BinaryTreeNode<T> left, right;
     public int size;
 
-    public BinaryTreeNode(T data, BinaryTreeNode<T> left, BinaryTreeNode<T> right, int size) {
+    public BinaryTreeNode(T data, BinaryTreeNode<T> left,
+                          BinaryTreeNode<T> right, int size) {
       this.data = data;
       this.left = left;
       this.right = right;
@@ -19,12 +20,14 @@ public class KthNodeInTree {
     }
   }
 
-  public static BinaryTreeNode<Integer> findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
+  public static BinaryTreeNode<Integer>
+  findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
     // Implement this placeholder.
     return null;
   }
 
-  public static BinaryTreeNode<Integer> convertToTreeWithSize(BinaryTree<Integer> original) {
+  public static BinaryTreeNode<Integer>
+  convertToTreeWithSize(BinaryTree<Integer> original) {
     if (original == null)
       return null;
     BinaryTreeNode<Integer> left = convertToTreeWithSize(original.left);
@@ -35,7 +38,8 @@ public class KthNodeInTree {
   }
 
   @EpiTest(testfile = "kth_node_in_tree.tsv")
-  public static int findKthNodeBinaryTreeWrapper(TestTimer timer, BinaryTree<Integer> tree, int k)
+  public static int
+  findKthNodeBinaryTreeWrapper(TestTimer timer, BinaryTree<Integer> tree, int k)
       throws TestFailureException {
     BinaryTreeNode<Integer> converted = convertToTreeWithSize(tree);
 

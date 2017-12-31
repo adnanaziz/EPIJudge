@@ -17,14 +17,13 @@ public class EnumeratePalindromicDecompositions {
   }
 
   @EpiTestComparator
-      @SuppressWarnings("unchecked")
       public static BiPredicate < List<List<String>>,
       List < List<String>>> comp = (expected, result) -> {
     if (result == null) {
       return false;
     }
-    expected.sort(new LexicographicalListComparator());
-    result.sort(new LexicographicalListComparator());
+    expected.sort(new LexicographicalListComparator<>());
+    result.sort(new LexicographicalListComparator<>());
     return expected.equals(result);
   };
 

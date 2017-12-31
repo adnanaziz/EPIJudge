@@ -31,7 +31,7 @@ public class RemoveDuplicates {
       if (this == obj) {
         return true;
       }
-      Name name = (Name) obj;
+      Name name = (Name)obj;
       return firstName.equals(name.firstName) && lastName.equals(name.lastName);
     }
 
@@ -62,8 +62,8 @@ public class RemoveDuplicates {
   }
 
   @EpiTestComparator
-  @SuppressWarnings("unchecked")
-  public static BiPredicate<List<String>, List<Name>> comp = (expected, result) -> {
+  public static BiPredicate<List<String>, List<Name>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }
@@ -81,7 +81,8 @@ public class RemoveDuplicates {
   };
 
   @EpiTestExpectedType
-  public static List<Class<?>> expectedType = Arrays.asList(List.class, String.class);
+  public static List<Class<?>> expectedType =
+      Arrays.asList(List.class, String.class);
 
   public static void main(String[] args) {
     GenericTestHandler.executeTestsByAnnotation(

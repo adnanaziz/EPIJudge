@@ -32,7 +32,7 @@ public class MaxOfSlidingWindow {
       if (o == null || getClass() != o.getClass()) {
         return false;
       }
-      return compareTo((TrafficElement) o) == 0;
+      return compareTo((TrafficElement)o) == 0;
     }
 
     @Override
@@ -43,7 +43,8 @@ public class MaxOfSlidingWindow {
 
   @EpiTest(testfile = "max_of_sliding_window.tsv")
 
-  public static List<TrafficElement> computeTrafficVolumes(List<TrafficElement> A, int w) {
+  public static List<TrafficElement>
+  computeTrafficVolumes(List<TrafficElement> A, int w) {
     // Implement this placeholder.
     return null;
   }

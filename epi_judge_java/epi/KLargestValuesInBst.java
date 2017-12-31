@@ -17,7 +17,8 @@ public class KLargestValuesInBst {
   }
 
   @EpiTestComparator
-  public static BiPredicate<List<Integer>, List<Integer>> comp = (expected, result) -> {
+  public static BiPredicate<List<Integer>, List<Integer>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }

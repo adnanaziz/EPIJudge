@@ -69,24 +69,24 @@ template <>
 struct SerializationTraits<Edge> : UserSerTraits<Edge, int, int> {};
 
 void CloneGraphTest(int k, const vector<Edge>& edges) {
-  vector<GraphVertex> g;
+  vector<GraphVertex> graph;
   if (k <= 0) {
     throw std::runtime_error("Invalid k value");
   }
-  g.reserve(k);
+  graph.reserve(k);
 
   for (int i = 0; i < k; i++) {
-    g.push_back(GraphVertex{i});
+    graph.push_back(GraphVertex{i});
   }
 
-  for (auto& e : edges) {
+  for (const Edge& e : edges) {
     if (e.from < 0 || e.from >= k || e.to < 0 || e.to >= k) {
       throw std::runtime_error("Invalid vertex index");
     }
-    g[e.from].edges.push_back(&g[e.to]);
+    graph[e.from].edges.push_back(&graph[e.to]);
   }
-  auto result = CloneGraph(&g[0]);
-  CheckAndDeallocateGraph(result, g);
+  GraphVertex* result = CloneGraph(&graph[0]);
+  CheckAndDeallocateGraph(result, graph);
 }
 
 #include "test_framework/test_utils_generic_main.h"

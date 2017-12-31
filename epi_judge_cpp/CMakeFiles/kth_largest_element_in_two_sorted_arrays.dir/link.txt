@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/kth_largest_element_in_two_sorted_arrays.dir/kth_largest_element_in_two_sorted_arrays.cc.o  -o kth_largest_element_in_two_sorted_arrays -lpthread 

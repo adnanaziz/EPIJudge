@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class StackWithMax {
+
   public static class Stack {
+
     public boolean empty() {
       // Implement this placeholder.
       return true;
@@ -49,35 +51,38 @@ public class StackWithMax {
       int result;
       for (StackOp op : ops) {
         switch (op.op) {
-          case "Stack":
-            s = new Stack();
-            break;
-          case "push":
-            s.push(op.arg);
-            break;
-          case "pop":
-            result = s.pop();
-            if (result != op.arg) {
-              throw new TestFailureException(
-                  "Pop: expected " + String.valueOf(op.arg) + ", got " + String.valueOf(result));
-            }
-            break;
-          case "max":
-            result = s.max();
-            if (result != op.arg) {
-              throw new TestFailureException(
-                  "Max: expected " + String.valueOf(op.arg) + ", got " + String.valueOf(result));
-            }
-            break;
-          case "empty":
-            result = s.empty() ? 1 : 0;
-            if (result != op.arg) {
-              throw new TestFailureException(
-                  "Empty: expected " + String.valueOf(op.arg) + ", got " + String.valueOf(s));
-            }
-            break;
-          default:
-            throw new RuntimeException("Unsupported stack operation: " + op.op);
+        case "Stack":
+          s = new Stack();
+          break;
+        case "push":
+          s.push(op.arg);
+          break;
+        case "pop":
+          result = s.pop();
+          if (result != op.arg) {
+            throw new TestFailureException("Pop: expected " +
+                                           String.valueOf(op.arg) + ", got " +
+                                           String.valueOf(result));
+          }
+          break;
+        case "max":
+          result = s.max();
+          if (result != op.arg) {
+            throw new TestFailureException("Max: expected " +
+                                           String.valueOf(op.arg) + ", got " +
+                                           String.valueOf(result));
+          }
+          break;
+        case "empty":
+          result = s.empty() ? 1 : 0;
+          if (result != op.arg) {
+            throw new TestFailureException("Empty: expected " +
+                                           String.valueOf(op.arg) + ", got " +
+                                           String.valueOf(s));
+          }
+          break;
+        default:
+          throw new RuntimeException("Unsupported stack operation: " + op.op);
         }
       }
     } catch (NoSuchElementException e) {

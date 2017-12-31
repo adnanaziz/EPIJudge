@@ -9,15 +9,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DoListsOverlap {
-  public static ListNode<Integer> overlappingLists(ListNode<Integer> L1, ListNode<Integer> L2) {
+
+  public static ListNode<Integer> overlappingLists(ListNode<Integer> L1,
+                                                   ListNode<Integer> L2) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "do_lists_overlap.tsv")
-  public static void overlappingListsWrapper(TestTimer timer, ListNode<Integer> l1,
-      ListNode<Integer> l2, ListNode<Integer> common, int cycle1, int cycle2)
-      throws TestFailureException {
+  public static void
+  overlappingListsWrapper(TestTimer timer, ListNode<Integer> l1,
+                          ListNode<Integer> l2, ListNode<Integer> common,
+                          int cycle1, int cycle2) throws TestFailureException {
     if (common != null) {
       if (l1 == null) {
         l1 = common;
@@ -81,8 +84,8 @@ public class DoListsOverlap {
     ListNode<Integer> result = overlappingLists(l1, l2);
     timer.stop();
 
-    if (!((commonNodes.isEmpty() && result == null)
-            || (result != null && commonNodes.contains(result.data)))) {
+    if (!((commonNodes.isEmpty() && result == null) ||
+          (result != null && commonNodes.contains(result.data)))) {
       throw new TestFailureException("Invalid result");
     }
   }

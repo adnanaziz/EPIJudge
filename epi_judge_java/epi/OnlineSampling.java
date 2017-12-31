@@ -12,13 +12,16 @@ import java.util.Iterator;
 import java.util.List;
 
 public class OnlineSampling {
+
   // Assumption: there are at least k elements in the stream.
-  public static List<Integer> onlineRandomSample(Iterator<Integer> sequence, int k) {
+  public static List<Integer> onlineRandomSample(Iterator<Integer> sequence,
+                                                 int k) {
     // Implement this placeholder.
     return null;
   }
 
-  private static boolean onlineRandomSampleRunner(TestTimer timer, List<Integer> A, int k) {
+  private static boolean onlineRandomSampleRunner(TestTimer timer,
+                                                  List<Integer> A, int k) {
     List<List<Integer>> results = new ArrayList<>();
     timer.start();
     for (int i = 0; i < 1000000; ++i) {
@@ -26,11 +29,14 @@ public class OnlineSampling {
     }
     timer.stop();
 
-    int totalPossibleOutcomes = RandomSequenceChecker.binomialCoefficient(A.size(), k);
+    int totalPossibleOutcomes =
+        RandomSequenceChecker.binomialCoefficient(A.size(), k);
     Collections.sort(A);
     List<List<Integer>> combinations = new ArrayList<>();
-    for (int i = 0; i < RandomSequenceChecker.binomialCoefficient(A.size(), k); ++i) {
-      combinations.add(RandomSequenceChecker.computeCombinationIdx(A, A.size(), k, i));
+    for (int i = 0; i < RandomSequenceChecker.binomialCoefficient(A.size(), k);
+         ++i) {
+      combinations.add(
+          RandomSequenceChecker.computeCombinationIdx(A, A.size(), k, i));
     }
     List<Integer> sequence = new ArrayList<>();
     for (List<Integer> result : results) {
@@ -42,9 +48,11 @@ public class OnlineSampling {
   }
 
   @EpiTest(testfile = "online_sampling.tsv")
-  public static void onlineRandomSampleWrapper(TestTimer timer, List<Integer> A, int k)
+  public static void onlineRandomSampleWrapper(TestTimer timer, List<Integer> A,
+                                               int k)
       throws TestFailureException {
-    RandomSequenceChecker.runFuncWithRetries(() -> onlineRandomSampleRunner(timer, A, k));
+    RandomSequenceChecker.runFuncWithRetries(
+        () -> onlineRandomSampleRunner(timer, A, k));
   }
 
   public static void main(String[] args) {

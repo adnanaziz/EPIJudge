@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/sorted_lists_merge.dir/sorted_lists_merge.cc.o  -o sorted_lists_merge -lpthread 

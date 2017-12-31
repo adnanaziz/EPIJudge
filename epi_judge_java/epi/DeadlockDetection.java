@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeadlockDetection {
+
   public static class GraphVertex {
     public enum Color { WHITE, GRAY, BLACK }
 
@@ -38,7 +39,8 @@ public class DeadlockDetection {
   }
 
   @EpiTest(testfile = "deadlock_detection.tsv")
-  public static boolean isDeadlockedWrapper(TestTimer timer, int k, List<Edge> edges) {
+  public static boolean isDeadlockedWrapper(TestTimer timer, int k,
+                                            List<Edge> edges) {
     if (k <= 0) {
       throw new RuntimeException("Invalid k value");
     }

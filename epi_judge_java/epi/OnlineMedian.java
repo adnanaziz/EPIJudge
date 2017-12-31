@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class OnlineMedian {
+
   public static List<Double> onlineMedian(Iterator<Integer> sequence) {
     // Implement this placeholder.
     return null;

@@ -8,6 +8,7 @@ import epi.test_framework.TestFailureException;
 import java.util.List;
 
 public class LruCache {
+
   LruCache(final int capacity) {}
 
   public Integer lookup(Integer key) {
@@ -47,25 +48,27 @@ public class LruCache {
     for (Op op : commands.subList(1, commands.size())) {
       int result;
       switch (op.code) {
-        case "lookup":
-          result = cache.lookup(op.arg1);
-          if (result != op.arg2) {
-            throw new TestFailureException(
-                "Lookup: expected " + String.valueOf(op.arg2) + ", got " + String.valueOf(result));
-          }
-          break;
-        case "insert":
-          cache.insert(op.arg1, op.arg2);
-          break;
-        case "erase":
-          result = cache.erase(op.arg1) ? 1 : 0;
-          if (result != op.arg2) {
-            throw new TestFailureException(
-                "Erase: expected " + String.valueOf(op.arg2) + ", got " + String.valueOf(result));
-          }
-          break;
-        default:
-          throw new RuntimeException("Unexpected command " + op.code);
+      case "lookup":
+        result = cache.lookup(op.arg1);
+        if (result != op.arg2) {
+          throw new TestFailureException("Lookup: expected " +
+                                         String.valueOf(op.arg2) + ", got " +
+                                         String.valueOf(result));
+        }
+        break;
+      case "insert":
+        cache.insert(op.arg1, op.arg2);
+        break;
+      case "erase":
+        result = cache.erase(op.arg1) ? 1 : 0;
+        if (result != op.arg2) {
+          throw new TestFailureException("Erase: expected " +
+                                         String.valueOf(op.arg2) + ", got " +
+                                         String.valueOf(result));
+        }
+        break;
+      default:
+        throw new RuntimeException("Unexpected command " + op.code);
       }
     }
   }

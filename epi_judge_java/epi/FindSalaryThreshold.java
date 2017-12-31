@@ -8,7 +8,8 @@ import java.util.List;
 public class FindSalaryThreshold {
   @EpiTest(testfile = "find_salary_threshold.tsv")
 
-  public static double findSalaryCap(int targetPayroll, List<Integer> currentSalaries) {
+  public static double findSalaryCap(int targetPayroll,
+                                     List<Integer> currentSalaries) {
     // Implement this placeholder.
     return 0.0;
   }

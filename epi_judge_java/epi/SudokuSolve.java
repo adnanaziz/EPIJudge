@@ -12,13 +12,15 @@ import java.util.Objects;
 import java.util.Set;
 
 public class SudokuSolve {
+
   public static boolean solveSudoku(List<List<Integer>> partialAssignment) {
     // Implement this placeholder.
     return true;
   }
 
   @EpiTest(testfile = "sudoku_solve.tsv")
-  public static void solveSudokuWrapper(TestTimer timer, List<List<Integer>> board)
+  public static void solveSudokuWrapper(TestTimer timer,
+                                        List<List<Integer>> board)
       throws TestFailureException {
     List<List<Integer>> solved = new ArrayList<>();
     for (List<Integer> row : board) {
@@ -32,21 +34,24 @@ public class SudokuSolve {
     timer.stop();
 
     if (board.size() != solved.size()) {
-      throw new TestFailureException("Initial cell assignment has been changed");
+      throw new TestFailureException(
+          "Initial cell assignment has been changed");
     }
 
     for (int i = 0; i < board.size(); i++) {
       List<Integer> br = board.get(i);
       List<Integer> sr = solved.get(i);
       if (br.size() != sr.size()) {
-        throw new TestFailureException("Initial cell assignment has been changed");
+        throw new TestFailureException(
+            "Initial cell assignment has been changed");
       }
       for (int j = 0; j < br.size(); j++)
         if (br.get(j) != 0 && !Objects.equals(br.get(j), sr.get(j)))
-          throw new TestFailureException("Initial cell assignment has been changed");
+          throw new TestFailureException(
+              "Initial cell assignment has been changed");
     }
 
-    int blockSize = (int) Math.sqrt(solved.size());
+    int blockSize = (int)Math.sqrt(solved.size());
     for (int i = 0; i < solved.size(); i++) {
       assertUniqueSeq(solved.get(i));
       assertUniqueSeq(gatherColumn(solved, i));
@@ -54,7 +59,8 @@ public class SudokuSolve {
     }
   }
 
-  private static void assertUniqueSeq(List<Integer> seq) throws TestFailureException {
+  private static void assertUniqueSeq(List<Integer> seq)
+      throws TestFailureException {
     Set<Integer> seen = new HashSet<>();
     for (Integer x : seq) {
       if (x == 0) {
@@ -78,7 +84,8 @@ public class SudokuSolve {
     return result;
   }
 
-  private static List<Integer> gatherSquareBlock(List<List<Integer>> data, int blockSize, int n) {
+  private static List<Integer> gatherSquareBlock(List<List<Integer>> data,
+                                                 int blockSize, int n) {
     List<Integer> result = new ArrayList<>();
     int blockX = n % blockSize;
     int blockY = n / blockSize;

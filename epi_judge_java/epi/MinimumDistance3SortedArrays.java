@@ -6,6 +6,7 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class MinimumDistance3SortedArrays {
+
   public static class ArrayData implements Comparable<ArrayData> {
     public int val;
     public int idx;
@@ -27,7 +28,8 @@ public class MinimumDistance3SortedArrays {
 
   @EpiTest(testfile = "minimum_distance_3_sorted_arrays.tsv")
 
-  public static int findMinDistanceSortedArrays(List<List<Integer>> sortedArrays) {
+  public static int
+  findMinDistanceSortedArrays(List<List<Integer>> sortedArrays) {
     // Implement this placeholder.
     return 0;
   }

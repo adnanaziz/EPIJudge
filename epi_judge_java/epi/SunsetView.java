@@ -7,13 +7,16 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SunsetView {
-  public static List<Integer> examineBuildingsWithSunset(Iterator<Integer> sequence) {
+
+  public static List<Integer>
+  examineBuildingsWithSunset(Iterator<Integer> sequence) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "sunset_view.tsv")
-  public static List<Integer> examineBuildingsWithSunsetWrapper(List<Integer> sequence) {
+  public static List<Integer>
+  examineBuildingsWithSunsetWrapper(List<Integer> sequence) {
     return examineBuildingsWithSunset(sequence.iterator());
   }
 

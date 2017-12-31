@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueWithMax {
+
   public void enqueue(Integer x) {
     // Implement this placeholder.
     return;
@@ -42,26 +43,28 @@ public class QueueWithMax {
 
       for (QueueOp op : ops) {
         switch (op.op) {
-          case "QueueWithMax":
-            q = new QueueWithMax();
-            break;
-          case "enqueue":
-            q.enqueue(op.arg);
-            break;
-          case "dequeue":
-            int result = q.dequeue();
-            if (result != op.arg) {
-              throw new TestFailureException("Dequeue: expected " + String.valueOf(op.arg)
-                  + ", got " + String.valueOf(result));
-            }
-            break;
-          case "max":
-            int s = q.max();
-            if (s != op.arg) {
-              throw new TestFailureException(
-                  "Max: expected " + String.valueOf(op.arg) + ", got " + String.valueOf(s));
-            }
-            break;
+        case "QueueWithMax":
+          q = new QueueWithMax();
+          break;
+        case "enqueue":
+          q.enqueue(op.arg);
+          break;
+        case "dequeue":
+          int result = q.dequeue();
+          if (result != op.arg) {
+            throw new TestFailureException("Dequeue: expected " +
+                                           String.valueOf(op.arg) + ", got " +
+                                           String.valueOf(result));
+          }
+          break;
+        case "max":
+          int s = q.max();
+          if (s != op.arg) {
+            throw new TestFailureException("Max: expected " +
+                                           String.valueOf(op.arg) + ", got " +
+                                           String.valueOf(s));
+          }
+          break;
         }
       }
     } catch (NoSuchElementException e) {

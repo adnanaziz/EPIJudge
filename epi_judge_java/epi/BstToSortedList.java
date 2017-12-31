@@ -9,13 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BstToSortedList {
+
   public static BstNode<Integer> bstToDoublyLinkedList(BstNode<Integer> tree) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "bst_to_sorted_list.tsv")
-  public static List<Integer> bstToDoublyLinkedListWrapper(TestTimer timer, BstNode<Integer> tree)
+  public static List<Integer>
+  bstToDoublyLinkedListWrapper(TestTimer timer, BstNode<Integer> tree)
       throws TestFailureException {
     timer.start();
     BstNode<Integer> list = bstToDoublyLinkedList(tree);

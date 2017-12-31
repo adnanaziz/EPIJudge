@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/enumerate_palindromic_decompositions.dir/enumerate_palindromic_decompositions.cc.o  -o enumerate_palindromic_decompositions -lpthread 

@@ -12,14 +12,17 @@ import java.util.List;
 import java.util.Map;
 
 public class NonuniformRandomNumber {
-  public static int nonuniformRandomNumberGeneration(
-      List<Integer> values, List<Double> probabilities) {
+
+  public static int
+  nonuniformRandomNumberGeneration(List<Integer> values,
+                                   List<Double> probabilities) {
     // Implement this placeholder.
     return 0;
   }
 
-  private static boolean nonuniformRandomNumberGenerationRunner(
-      TestTimer timer, List<Integer> values, List<Double> probabilities) {
+  private static boolean
+  nonuniformRandomNumberGenerationRunner(TestTimer timer, List<Integer> values,
+                                         List<Double> probabilities) {
     int n = 1000000;
     List<Integer> results = new ArrayList<>(n);
     timer.start();
@@ -47,10 +50,14 @@ public class NonuniformRandomNumber {
   }
 
   @EpiTest(testfile = "nonuniform_random_number.tsv")
-  public static void nonuniformRandomNumberGenerationWrapper(TestTimer timer, List<Integer> values,
-      List<Double> probabilities) throws TestFailureException {
+  public static void
+  nonuniformRandomNumberGenerationWrapper(TestTimer timer, List<Integer> values,
+                                          List<Double> probabilities)
+      throws TestFailureException {
     RandomSequenceChecker.runFuncWithRetries(
-        () -> nonuniformRandomNumberGenerationRunner(timer, values, probabilities));
+        ()
+            -> nonuniformRandomNumberGenerationRunner(timer, values,
+                                                      probabilities));
   }
 
   public static void main(String[] args) {

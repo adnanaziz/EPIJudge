@@ -16,7 +16,8 @@ public class HuffmanCoding {
 
     public CharWithFrequency(String s, double freq) {
       if (s.length() != 1) {
-        throw new RuntimeException("CharWithFrequency parser: string length is not 1");
+        throw new RuntimeException(
+            "CharWithFrequency parser: string length is not 1");
       }
       this.c = s.charAt(0);
       this.freq = freq;

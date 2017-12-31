@@ -24,12 +24,12 @@ void generic_test_main(int argc, char* argv[], const std::string& filename,
   // operation.
   std::cout.setf(std::ios::unitbuf);
 
-  std::string test_data_dir = kDefaultTestDataDir;
+  std::string test_data_dir;
   bool stop_on_error = true;
 
   std::vector<std::string> commandline_args(argv + 1, argv + argc);
   try {
-    for (int i = 0; i < commandline_args.size(); ++i) {
+    for (unsigned int i = 0; i < commandline_args.size(); ++i) {
       if (commandline_args[i] == "--test_data_dir") {
         if (i + 1 >= commandline_args.size()) {
           throw std::runtime_error("Missing param for --test_data_dir");
@@ -44,8 +44,12 @@ void generic_test_main(int argc, char* argv[], const std::string& filename,
       }
     }
 
-    if (test_data_dir.empty()) {
-      test_data_dir += '.';
+    if (!test_data_dir.empty()) {
+      if (!os::IsDir(test_data_dir.c_str()))
+        throw std::runtime_error("--test_data_dir argument \"" +
+                                 test_data_dir + "\" is not a directory");
+    } else {
+      test_data_dir = GetDefaultTestDataDirPath();
     }
     if (test_data_dir.back() != '/') {
       test_data_dir += '/';

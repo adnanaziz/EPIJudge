@@ -16,6 +16,10 @@ def use_tty_output():
     return use_tty_output.cached
 
 
+def platform_supports_color():
+    return sys.platform != 'win32'  # Windows doesn't support coloring through escape codes
+
+
 class TestResult(enum.Enum):
     PASSED = 0
     FAILED = 1
@@ -25,7 +29,7 @@ class TestResult(enum.Enum):
 
     def __str__(self):
         def colored(text, color):
-            if use_tty_output():
+            if use_tty_output() and platform_supports_color():
                 return color + text + ConsoleColor.FG_DEFAULT
             else:
                 return text

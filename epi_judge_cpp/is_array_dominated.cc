@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iterator>
 #include <vector>
 
 #include "test_framework/test_failure_exception.h"
@@ -35,6 +36,7 @@ void ValidPlacementExistsWrapper(const vector<int>& h1, const vector<int>& h2,
   if (result12 != expected12) {
     throw TestFailureException("");
   }
+
   bool result21 = Team::ValidPlacementExists(t2, t1);
   if (result21 != expected21) {
     throw TestFailureException("");

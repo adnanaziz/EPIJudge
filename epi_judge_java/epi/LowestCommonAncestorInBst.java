@@ -7,16 +7,18 @@ import epi.test_framework.TestFailureException;
 import epi.test_framework.TestTimer;
 
 public class LowestCommonAncestorInBst {
+
   // Input nodes are nonempty and the key at s is less than or equal to that at
   // b.
-  public static BstNode<Integer> findLCA(
-      BstNode<Integer> tree, BstNode<Integer> s, BstNode<Integer> b) {
+  public static BstNode<Integer>
+  findLCA(BstNode<Integer> tree, BstNode<Integer> s, BstNode<Integer> b) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "lowest_common_ancestor_in_bst.tsv")
-  public static int lcaWrapper(TestTimer timer, BstNode<Integer> root, Integer key1, int key2)
+  public static int lcaWrapper(TestTimer timer, BstNode<Integer> root,
+                               Integer key1, int key2)
       throws TestFailureException {
     BstNode<Integer> node1 = BinaryTreeUtils.mustFindNode(root, key1);
     BstNode<Integer> node2 = BinaryTreeUtils.mustFindNode(root, key2);

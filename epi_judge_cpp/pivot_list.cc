@@ -36,21 +36,30 @@ void ListPivotingWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& l,
   for (auto& i : pivoted) {
     switch (mode) {
       case LESS:
-        if (i == x) mode = EQ;
-        if (i > x) mode = GREATER;
+        if (i == x) {
+          mode = EQ;
+        } else if (i > x) {
+          mode = GREATER;
+        }
         break;
       case EQ:
-        if (i < x) throw TestFailureException("List is not pivoted");
-        if (i > x) mode = GREATER;
+        if (i < x) {
+          throw TestFailureException("List is not pivoted");
+        } else if (i > x) {
+          mode = GREATER;
+        }
         break;
       case GREATER:
-        if (i <= x) throw TestFailureException("List is not pivoted");
+        if (i <= x) {
+          throw TestFailureException("List is not pivoted");
+        }
     }
   }
   std::sort(begin(original), end(original));
   std::sort(begin(pivoted), end(pivoted));
-  if (original != pivoted)
+  if (original != pivoted) {
     throw TestFailureException("Result list contains different values");
+  }
 }
 
 #include "test_framework/test_utils_generic_main.h"

@@ -8,8 +8,8 @@ import java.util.List;
 public class TreeFromPreorderInorder {
   @EpiTest(testfile = "tree_from_preorder_inorder.tsv")
 
-  public static BinaryTreeNode<Integer> binaryTreeFromPreorderInorder(
-      List<Integer> preorder, List<Integer> inorder) {
+  public static BinaryTreeNode<Integer>
+  binaryTreeFromPreorderInorder(List<Integer> preorder, List<Integer> inorder) {
     // Implement this placeholder.
     return null;
   }
