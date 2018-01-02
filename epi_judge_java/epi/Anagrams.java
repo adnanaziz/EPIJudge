@@ -18,8 +18,8 @@ public class Anagrams {
   }
 
   @EpiTestComparator
-      public static BiPredicate < List<List<String>>,
-      List < List<String>>> comp = (expected, result) -> {
+  public static BiPredicate<List<List<String>>, List<List<String>>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }

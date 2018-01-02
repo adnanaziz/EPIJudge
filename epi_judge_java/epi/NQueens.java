@@ -17,8 +17,8 @@ public class NQueens {
   }
 
   @EpiTestComparator
-      public static BiPredicate < List<List<Integer>>,
-      List < List<Integer>>> comp = (expected, result) -> {
+  public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }

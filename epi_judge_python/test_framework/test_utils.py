@@ -114,8 +114,9 @@ def get_default_test_data_dir_path():
     env_result = os.getenv(ENV_KEY, '')
     if env_result:
         if not os.path.isdir(env_result):
-            raise RuntimeError('{} environment variable is set to "{}", but it\'s not a directory'
-                               .format(ENV_KEY, env_result))
+            raise RuntimeError(
+                '{} environment variable is set to "{}", but it\'s not a directory'
+                .format(ENV_KEY, env_result))
         return env_result
 
     path = DIR_NAME
@@ -124,7 +125,9 @@ def get_default_test_data_dir_path():
             return path
         path = os.path.join(os.path.pardir, path)
 
-    raise RuntimeError('Can\'t find test data directory. Specify it with {} environment variable (you may need to restart PC) or start the program with "--test_data_dir <path>" command-line option'.format(ENV_KEY))
+    raise RuntimeError(
+        'Can\'t find test data directory. Specify it with {} environment variable (you may need to restart PC) or start the program with "--test_data_dir <path>" command-line option'.
+        format(ENV_KEY))
 
 
 def completely_sorted(x):
@@ -146,7 +149,8 @@ def unordered_compare(a, b):
 
 
 def equal_to(a, b):
-    """Expected value comparator.
+    """
+    Expected value comparator.
 
     Compares float values with math.isclose(),
     binary trees with equal_binary_trees(),
@@ -169,9 +173,9 @@ def equal_to(a, b):
 
 
 def filter_bracket_comments(s):
-    """Serialized type name can contain multiple comments,
-       enclosed into brackets.
-       This function removes all such comments."""
+    """
+    Serialized type name can contain multiple comments, enclosed into brackets. This function removes all such comments.
+    """
     bracket_enclosed_comment = r"(\[[^\]]*\])"
     return re.sub(bracket_enclosed_comment, '', s, 0).replace(' ', '')
 

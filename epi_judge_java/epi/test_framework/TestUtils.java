@@ -216,6 +216,7 @@ public class TestUtils {
    * This method removes all such comments.
    */
   public static String filterBracketComments(String s) {
-    return s.replaceAll("(\\[[^\\]]*\\])", "").replaceAll(" ", "");
+    final String BRACKET_ENCLOSED_COMMENT = "(\\[[^\\]]*\\])";
+    return s.replaceAll(BRACKET_ENCLOSED_COMMENT, "").replaceAll(" ", "");
   }
 }

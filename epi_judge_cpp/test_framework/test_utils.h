@@ -49,8 +49,8 @@ std::vector<std::vector<std::string>> SplitTsvFile(
  * This function removes all such comments.
  */
 std::string FilterBracketComments(const std::string& type) {
-  static std::regex bracket_enclosed_comment(R"((\[[^\]]*\]))");
-  auto result = std::regex_replace(type, bracket_enclosed_comment, "");
+  static const std::regex bracket_enclosed_comment(R"((\[[^\]]*\]))");
+  std::string result = std::regex_replace(type, bracket_enclosed_comment, "");
   result.erase(std::remove_if(std::begin(result), std::end(result), isspace),
                std::end(result));
   return result;
