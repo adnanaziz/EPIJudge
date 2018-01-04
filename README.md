@@ -19,7 +19,7 @@ The judge has been tested with these compilers. Let us know if you managed to co
 
 + **GCC** 5.4.1 (on Ubuntu 16.04)  
 + **Clang** 4.0 (on Ubuntu 16.04)
-+ **OS X Clang** *TBA*
++ **Apple LLVM Clang** 9.0.0
 + **MSVC** not supported yet
 + **Java** 8
 + **Python** 3.5
@@ -30,18 +30,17 @@ Check out one minute screencapture videos on YouTube to see how easy it is to ge
 #### C++
 + [CLion](https://youtu.be/aHPDApyyYEg)
 + Eclipse *TBA*
++ Visual Studio *TBA*
 + XCode *TBA*
 
 #### Java
 + [IntelliJ IDEA](https://youtu.be/1BzHUpluQHM)
 + Eclipse *TBA*
-+ NetBeans *TBA*
 + XCode *TBA*
 
 #### Python
 + [PyCharm](https://youtu.be/ImD_iI-uGYo)
-+ Eclipse *TBA*
-+ NetBeans *TBA* 
++ Eclipse *TBA* 
 + XCode *TBA*
 
 ### Running from command-line
@@ -49,6 +48,12 @@ Check out one minute screencapture videos on YouTube to see how easy it is to ge
 You can manually compile and run all programs by directly invoking GCC or Clang compiler. Test framework is header-only, so no separate compilation is needed. Don't forget to add `-std=c++14` switch. Also you may need to provide `-pthread` switch (if you see some link errors with std::thread).
 
 Alternatively you can use Makefile in epi_judge_cpp directory (use `make <program_name>` for debug build and `make <program_name>/fast` for release build) or use CMake with the provided CMakeLists.txt file.
+
+Example: 
+`g++ -pthread -std=c++14 -O3 -o anagrams anagrams.cc`
+OR
+`make anagrams/fast`
+ 
 #### Java
 Java compilation process is quite complicated, so we recommend you to use the provided Makefile. Run `make <program_name>` to compile and immediately start the program or run `make` to compile&start the last edited file.
 #### Python
@@ -64,6 +69,7 @@ A big shout-out to [Viacheslav Kroilov](https://github.com/metopa), for applying
 ## Problem to Program Mapping
 
 (You may have to scroll to the right to view the Python column.)
+
 | Problem | C++ | Java | Python  |
 | ------ | ------ | ------ | ------ |
 | Bootcamp: Primitive Types | count\_bits.cc | CountBits.java | count\_bits.py | 
