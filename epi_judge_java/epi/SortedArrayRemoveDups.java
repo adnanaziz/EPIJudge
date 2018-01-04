@@ -14,7 +14,8 @@ public class SortedArrayRemoveDups {
   }
 
   @EpiTest(testfile = "sorted_array_remove_dups.tsv")
-  public static List<Integer> deleteDuplicatesWrapper(TestTimer timer, List<Integer> A) {
+  public static List<Integer> deleteDuplicatesWrapper(TestTimer timer,
+                                                      List<Integer> A) {
     timer.start();
     int end = deleteDuplicates(A);
     timer.stop();

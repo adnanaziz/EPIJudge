@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IntervalsUnion {
+
   public static class Interval {
     public Endpoint left = new Endpoint();
     public Endpoint right = new Endpoint();
@@ -19,21 +20,21 @@ public class IntervalsUnion {
     }
   }
 
-  @SuppressWarnings("unchecked")
-
   public static List<Interval> unionOfIntervals(List<Interval> intervals) {
     // Implement this placeholder.
     return null;
   }
 
-  @EpiUserType(ctorParams = {int.class, boolean.class, int.class, boolean.class})
+  @EpiUserType(
+      ctorParams = {int.class, boolean.class, int.class, boolean.class})
   public static class FlatInterval {
     int leftVal;
     boolean leftIsClosed;
     int rightVal;
     boolean rightIsClosed;
 
-    public FlatInterval(int leftVal, boolean leftIsClosed, int rightVal, boolean rightIsClosed) {
+    public FlatInterval(int leftVal, boolean leftIsClosed, int rightVal,
+                        boolean rightIsClosed) {
       this.leftVal = leftVal;
       this.leftIsClosed = leftIsClosed;
       this.rightVal = rightVal;
@@ -67,7 +68,7 @@ public class IntervalsUnion {
         return false;
       }
 
-      FlatInterval that = (FlatInterval) o;
+      FlatInterval that = (FlatInterval)o;
 
       if (leftVal != that.leftVal) {
         return false;
@@ -92,13 +93,14 @@ public class IntervalsUnion {
 
     @Override
     public String toString() {
-      return "" + (leftIsClosed ? "<" : "(") + leftVal + ", " + rightVal
-          + (rightIsClosed ? ">" : ")");
+      return "" + (leftIsClosed ? "<" : "(") + leftVal + ", " + rightVal +
+          (rightIsClosed ? ">" : ")");
     }
   }
 
   @EpiTest(testfile = "intervals_union.tsv")
-  public static List<FlatInterval> unionIntervalWrapper(TestTimer timer, List<FlatInterval> input) {
+  public static List<FlatInterval>
+  unionIntervalWrapper(TestTimer timer, List<FlatInterval> input) {
     List<Interval> I = new ArrayList<>(input.size());
     for (FlatInterval in : input) {
       I.add(in.toInterval());

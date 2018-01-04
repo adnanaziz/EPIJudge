@@ -24,9 +24,7 @@ public class KClosestStars {
       this.z = z;
     }
 
-    public double distance() {
-      return Math.sqrt(x * x + y * y + z * z);
-    }
+    public double distance() { return Math.sqrt(x * x + y * y + z * z); }
 
     @Override
     public int compareTo(Star that) {
@@ -50,11 +48,12 @@ public class KClosestStars {
   }
 
   @EpiTestExpectedType
-  public static List<Class<?>> expectedType = Arrays.asList(List.class, Double.class);
+  public static List<Class<?>> expectedType =
+      Arrays.asList(List.class, Double.class);
 
   @EpiTestComparator
-  @SuppressWarnings("unchecked")
-  public static BiPredicate<List<Double>, List<Star>> comp = (expected, result) -> {
+  public static BiPredicate<List<Double>, List<Star>> comp =
+      (expected, result) -> {
     if (expected.size() != result.size()) {
       return false;
     }

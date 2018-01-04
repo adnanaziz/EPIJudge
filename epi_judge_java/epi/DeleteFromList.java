@@ -5,6 +5,7 @@ import epi.test_framework.GenericTestHandler;
 import epi.test_framework.TestTimer;
 
 public class DeleteFromList {
+
   // Delete the node immediately following aNode. Assumes aNode is not a tail.
   public static void deleteList(ListNode<Integer> aNode) {
     // Implement this placeholder.

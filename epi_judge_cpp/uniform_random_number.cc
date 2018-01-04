@@ -38,7 +38,7 @@ bool UniformRandomRunner(TestTimer& timer, int lower_bound, int upper_bound) {
 
 void UniformRandomWrapper(TestTimer& timer, int lower_bound, int upper_bound) {
   RunFuncWithRetries(
-      bind(UniformRandomRunner, timer, lower_bound, upper_bound));
+      bind(UniformRandomRunner, std::ref(timer), lower_bound, upper_bound));
 }
 
 #include "test_framework/test_utils_generic_main.h"

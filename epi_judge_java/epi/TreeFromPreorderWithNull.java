@@ -8,14 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeFromPreorderWithNull {
-  public static BinaryTreeNode<Integer> reconstructPreorder(List<Integer> preorder) {
+
+  public static BinaryTreeNode<Integer>
+  reconstructPreorder(List<Integer> preorder) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "tree_from_preorder_with_null.tsv")
-  public static BinaryTreeNode<Integer> reconstructPreorderWrapper(
-      TestTimer timer, List<String> strings) {
+  public static BinaryTreeNode<Integer>
+  reconstructPreorderWrapper(TestTimer timer, List<String> strings) {
     List<Integer> ints = new ArrayList<>();
     for (String s : strings) {
       if (s.equals("null")) {

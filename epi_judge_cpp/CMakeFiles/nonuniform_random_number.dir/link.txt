@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/nonuniform_random_number.dir/nonuniform_random_number.cc.o  -o nonuniform_random_number -lpthread 

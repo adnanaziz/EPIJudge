@@ -43,7 +43,7 @@ bool RandomSubsetRunner(TestTimer& timer, int n, int k) {
 }
 
 void RandomSubsetWrapper(TestTimer& timer, int n, int k) {
-  RunFuncWithRetries(bind(RandomSubsetRunner, timer, n, k));
+  RunFuncWithRetries(bind(RandomSubsetRunner, std::ref(timer), n, k));
 }
 
 #include "test_framework/test_utils_generic_main.h"

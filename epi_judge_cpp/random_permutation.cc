@@ -46,7 +46,8 @@ bool ComputeRandomPermutationRunner(TestTimer& timer, int n) {
 }
 
 void ComputeRandomPermutationWrapper(TestTimer& timer, int n) {
-  RunFuncWithRetries(std::bind(ComputeRandomPermutationRunner, timer, n));
+  RunFuncWithRetries(
+      std::bind(ComputeRandomPermutationRunner, std::ref(timer), n));
 }
 
 #include "test_framework/test_utils_generic_main.h"

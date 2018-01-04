@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Stack;
 
 public class EnumerateTrees {
-  public static List<BinaryTreeNode<Integer>> generateAllBinaryTrees(int numNodes) {
+
+  public static List<BinaryTreeNode<Integer>>
+  generateAllBinaryTrees(int numNodes) {
     // Implement this placeholder.
     return null;
   }
@@ -31,7 +33,8 @@ public class EnumerateTrees {
   }
 
   @EpiTest(testfile = "enumerate_trees.tsv")
-  public static List<List<Integer>> generateAllBinaryTreesWrapper(TestTimer timer, int i) {
+  public static List<List<Integer>>
+  generateAllBinaryTreesWrapper(TestTimer timer, int i) {
     timer.start();
     List<BinaryTreeNode<Integer>> result = generateAllBinaryTrees(i);
     timer.stop();

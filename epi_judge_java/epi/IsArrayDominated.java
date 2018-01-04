@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 
 public class IsArrayDominated {
   @EpiTest(testfile = "is_array_dominated.tsv")
-  public static void validPlacementExistsWrapper(TestTimer timer, List<Integer> h1,
-      List<Integer> h2, boolean expected12, boolean expected21) throws TestFailureException {
+  public static void
+  validPlacementExistsWrapper(TestTimer timer, List<Integer> h1,
+                              List<Integer> h2, boolean expected12,
+                              boolean expected21) throws TestFailureException {
     Team t1 = new Team(h1);
     Team t2 = new Team(h2);
 
@@ -35,9 +37,7 @@ class Team {
   private static class Player implements Comparable<Player> {
     public Integer height;
 
-    public Player(Integer h) {
-      height = h;
-    }
+    public Player(Integer h) { height = h; }
 
     @Override
     public int compareTo(Player that) {
@@ -46,7 +46,8 @@ class Team {
   }
 
   public Team(List<Integer> height) {
-    players = height.stream().map(h -> new Player(h)).collect(Collectors.toList());
+    players =
+        height.stream().map(h -> new Player(h)).collect(Collectors.toList());
   }
 
   // Checks if A can be placed in front of B.

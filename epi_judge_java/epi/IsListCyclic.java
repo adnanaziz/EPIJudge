@@ -6,14 +6,15 @@ import epi.test_framework.TestFailureException;
 import epi.test_framework.TestTimer;
 
 public class IsListCyclic {
+
   public static ListNode<Integer> hasCycle(ListNode<Integer> head) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "is_list_cyclic.tsv")
-  public static void HasCycleWrapper(TestTimer timer, ListNode<Integer> head, int cycleIdx)
-      throws TestFailureException {
+  public static void HasCycleWrapper(TestTimer timer, ListNode<Integer> head,
+                                     int cycleIdx) throws TestFailureException {
     int cycleLength = 0;
     if (cycleIdx != -1) {
       if (head == null) {

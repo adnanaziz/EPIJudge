@@ -29,7 +29,7 @@ public class TaskPairing {
         return false;
       }
 
-      PairedTasks that = (PairedTasks) o;
+      PairedTasks that = (PairedTasks)o;
 
       return task1.equals(that.task1) && task2.equals(that.task2);
     }
@@ -42,11 +42,13 @@ public class TaskPairing {
 
   @EpiTest(testfile = "task_pairing.tsv")
 
-  public static List<PairedTasks> optimumTaskAssignment(List<Integer> taskDurations) {
+  public static List<PairedTasks>
+  optimumTaskAssignment(List<Integer> taskDurations) {
     Collections.sort(taskDurations);
     List<PairedTasks> optimumAssignments = new ArrayList<>();
     for (int i = 0, j = taskDurations.size() - 1; i < j; ++i, --j) {
-      optimumAssignments.add(new PairedTasks(taskDurations.get(i), taskDurations.get(j)));
+      optimumAssignments.add(
+          new PairedTasks(taskDurations.get(i), taskDurations.get(j)));
     }
     return optimumAssignments;
   }

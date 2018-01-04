@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/k_largest_in_heap.dir/k_largest_in_heap.cc.o  -o k_largest_in_heap -lpthread 

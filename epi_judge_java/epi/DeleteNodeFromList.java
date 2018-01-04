@@ -5,6 +5,7 @@ import epi.test_framework.GenericTestHandler;
 import epi.test_framework.TestTimer;
 
 public class DeleteNodeFromList {
+
   // Assumes nodeToDelete is not tail.
   public static void deletionFromList(ListNode<Integer> nodeToDelete) {
     // Implement this placeholder.
@@ -12,8 +13,8 @@ public class DeleteNodeFromList {
   }
 
   @EpiTest(testfile = "delete_node_from_list.tsv")
-  public static ListNode<Integer> deleteListWrapper(
-      TestTimer timer, ListNode<Integer> head, int i) {
+  public static ListNode<Integer>
+  deleteListWrapper(TestTimer timer, ListNode<Integer> head, int i) {
     ListNode<Integer> nodeToDelete = head;
     if (nodeToDelete == null)
       throw new RuntimeException("List is empty");

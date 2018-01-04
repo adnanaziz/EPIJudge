@@ -17,7 +17,8 @@ public class EnumerateBalancedParentheses {
   }
 
   @EpiTestComparator
-  public static BiPredicate<List<String>, List<String>> comp = (expected, result) -> {
+  public static BiPredicate<List<String>, List<String>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }

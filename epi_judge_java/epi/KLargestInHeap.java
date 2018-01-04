@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class KLargestInHeap {
+
   @EpiTest(testfile = "k_largest_in_heap.tsv")
 
   public static List<Integer> kLargestInBinaryHeap(List<Integer> A, int k) {
@@ -18,7 +19,8 @@ public class KLargestInHeap {
   }
 
   @EpiTestComparator
-  public static BiPredicate<List<Integer>, List<Integer>> comp = (expected, result) -> {
+  public static BiPredicate<List<Integer>, List<Integer>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }

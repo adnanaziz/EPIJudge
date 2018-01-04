@@ -21,7 +21,8 @@ public class UniformRandomNumber {
     return 0;
   }
 
-  private static boolean uniformRandomRunner(TestTimer timer, int lowerBound, int upperBound) {
+  private static boolean uniformRandomRunner(TestTimer timer, int lowerBound,
+                                             int upperBound) {
     List<Integer> results = new ArrayList<>();
     timer.start();
     for (int i = 0; i < 100000; ++i) {
@@ -38,7 +39,8 @@ public class UniformRandomNumber {
   }
 
   @EpiTest(testfile = "uniform_random_number.tsv")
-  public static void uniformRandomWrapper(TestTimer timer, int lowerBound, int upperBound)
+  public static void uniformRandomWrapper(TestTimer timer, int lowerBound,
+                                          int upperBound)
       throws TestFailureException {
     RandomSequenceChecker.runFuncWithRetries(
         () -> uniformRandomRunner(timer, lowerBound, upperBound));

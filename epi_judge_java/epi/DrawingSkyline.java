@@ -27,7 +27,7 @@ public class DrawingSkyline {
         return false;
       }
 
-      Rectangle rectangle = (Rectangle) o;
+      Rectangle rectangle = (Rectangle)o;
 
       if (left != rectangle.left) {
         return false;

@@ -6,6 +6,7 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class RotateArray {
+
   public static void rotateArray(int i, List<Integer> A) {
     // Implement this placeholder.
     return;

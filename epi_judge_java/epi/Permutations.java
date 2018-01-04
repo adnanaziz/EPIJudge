@@ -18,20 +18,19 @@ public class Permutations {
   }
 
   @EpiTestComparator
-      @SuppressWarnings("unchecked")
-      public static BiPredicate < List<List<Integer>>,
-      List < List<Integer>>> comp = (expected, result) -> {
+  public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }
     for (List<Integer> l : expected) {
       Collections.sort(l);
     }
-    expected.sort(new LexicographicalListComparator());
+    expected.sort(new LexicographicalListComparator<>());
     for (List<Integer> l : result) {
       Collections.sort(l);
     }
-    result.sort(new LexicographicalListComparator());
+    result.sort(new LexicographicalListComparator<>());
     return expected.equals(result);
   };
 

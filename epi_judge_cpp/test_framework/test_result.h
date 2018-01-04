@@ -2,6 +2,7 @@
 #pragma once
 
 #include <ostream>
+#include "platform.h"
 
 enum TestResult { PASSED, FAILED, TIMEOUT, UNKNOWN_EXCEPTION };
 
@@ -13,12 +14,20 @@ const char* FG_DEFAULT = "\033[39m";
 };  // namespace console_color
 
 bool UseTtyOutput() {
-  static int cached = isatty(STDOUT_FILENO);
+  static int cached = os::IsATty(os::StdOutFd());
   return static_cast<bool>(cached);
 }
 
+inline bool PlatformSupportsColor() {
+#ifdef _WINDOWS
+  return false;  // Windows doesn't support coloring through escape codes
+#else
+  return true;
+#endif
+}
+
 std::string Colored(std::string text, const char* color) {
-  if (UseTtyOutput()) {
+  if (UseTtyOutput() && PlatformSupportsColor()) {
     return color + std::move(text) + console_color::FG_DEFAULT;
   } else {
     return std::move(text);

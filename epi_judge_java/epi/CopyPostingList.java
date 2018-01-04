@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CopyPostingList {
+
   public static PostingListNode copyPostingsList(PostingListNode L) {
     // Implement this placeholder.
     return null;
@@ -27,7 +28,8 @@ public class CopyPostingList {
     }
   }
 
-  public static PostingListNode createPostingList(List<SerializedNode> serialized) {
+  public static PostingListNode
+  createPostingList(List<SerializedNode> serialized) {
     Map<Integer, PostingListNode> keyMapping = new HashMap<>();
     PostingListNode head = null;
     for (int i = serialized.size() - 1; i >= 0; i--) {
@@ -47,7 +49,8 @@ public class CopyPostingList {
     return head;
   }
 
-  public static void assertListsEqual(PostingListNode orig, PostingListNode copy)
+  public static void assertListsEqual(PostingListNode orig,
+                                      PostingListNode copy)
       throws TestFailureException {
     Map<PostingListNode, PostingListNode> nodeMapping = new HashMap<>();
     PostingListNode oIt = orig;
@@ -55,7 +58,8 @@ public class CopyPostingList {
 
     while (oIt != null) {
       if (cIt == null) {
-        throw new TestFailureException("Copied list has fewer nodes than the original");
+        throw new TestFailureException(
+            "Copied list has fewer nodes than the original");
       }
       if (oIt.order != cIt.order) {
         throw new TestFailureException("Order value mismatch");
@@ -66,7 +70,8 @@ public class CopyPostingList {
     }
 
     if (cIt != null) {
-      throw new TestFailureException("Copied list has more nodes than the original");
+      throw new TestFailureException(
+          "Copied list has more nodes than the original");
     }
 
     oIt = orig;
@@ -74,7 +79,8 @@ public class CopyPostingList {
 
     while (oIt != null) {
       if (nodeMapping.get(cIt) != null) {
-        throw new TestFailureException("Copied list contains a node from the original list");
+        throw new TestFailureException(
+            "Copied list contains a node from the original list");
       }
       if (oIt.jump != null) {
         if (nodeMapping.get(oIt.jump) != cIt.jump) {
@@ -93,7 +99,8 @@ public class CopyPostingList {
   }
 
   @EpiTest(testfile = "copy_posting_list.tsv")
-  public static void copyPostingsListWrapper(TestTimer timer, List<SerializedNode> serializedNodes)
+  public static void
+  copyPostingsListWrapper(TestTimer timer, List<SerializedNode> serializedNodes)
       throws TestFailureException {
     PostingListNode head = createPostingList(serializedNodes);
 

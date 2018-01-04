@@ -16,7 +16,8 @@ public class OfflineSampling {
     return;
   }
 
-  private static boolean randomSamplingRunner(TestTimer timer, int k, List<Integer> A) {
+  private static boolean randomSamplingRunner(TestTimer timer, int k,
+                                              List<Integer> A) {
     List<List<Integer>> results = new ArrayList<>();
     timer.start();
     for (int i = 0; i < 1000000; ++i) {
@@ -25,11 +26,14 @@ public class OfflineSampling {
     }
     timer.stop();
 
-    int totalPossibleOutcomes = RandomSequenceChecker.binomialCoefficient(A.size(), k);
+    int totalPossibleOutcomes =
+        RandomSequenceChecker.binomialCoefficient(A.size(), k);
     Collections.sort(A);
     List<List<Integer>> combinations = new ArrayList<>();
-    for (int i = 0; i < RandomSequenceChecker.binomialCoefficient(A.size(), k); ++i) {
-      combinations.add(RandomSequenceChecker.computeCombinationIdx(A, A.size(), k, i));
+    for (int i = 0; i < RandomSequenceChecker.binomialCoefficient(A.size(), k);
+         ++i) {
+      combinations.add(
+          RandomSequenceChecker.computeCombinationIdx(A, A.size(), k, i));
     }
     List<Integer> sequence = new ArrayList<>();
     for (List<Integer> result : results) {
@@ -41,9 +45,11 @@ public class OfflineSampling {
   }
 
   @EpiTest(testfile = "offline_sampling.tsv")
-  public static void randomSamplingWrapper(TestTimer timer, int k, List<Integer> A)
+  public static void randomSamplingWrapper(TestTimer timer, int k,
+                                           List<Integer> A)
       throws TestFailureException {
-    RandomSequenceChecker.runFuncWithRetries(() -> randomSamplingRunner(timer, k, A));
+    RandomSequenceChecker.runFuncWithRetries(
+        () -> randomSamplingRunner(timer, k, A));
   }
 
   public static void main(String[] args) {

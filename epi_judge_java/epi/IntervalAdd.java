@@ -27,7 +27,7 @@ public class IntervalAdd {
         return false;
       }
 
-      Interval interval = (Interval) o;
+      Interval interval = (Interval)o;
 
       if (left != interval.left) {
         return false;
@@ -43,7 +43,8 @@ public class IntervalAdd {
 
   @EpiTest(testfile = "interval_add.tsv")
 
-  public static List<Interval> addInterval(List<Interval> disjointIntervals, Interval newInterval) {
+  public static List<Interval> addInterval(List<Interval> disjointIntervals,
+                                           Interval newInterval) {
     // Implement this placeholder.
     return null;
   }

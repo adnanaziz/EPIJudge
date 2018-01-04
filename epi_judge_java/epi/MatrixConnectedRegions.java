@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatrixConnectedRegions {
+
   public static void flipColor(int x, int y, List<List<Boolean>> A) {
     // Implement this placeholder.
     return;
   }
 
   @EpiTest(testfile = "painting.tsv")
-  public static List<List<Integer>> flipColorWrapper(
-      TestTimer timer, int x, int y, List<List<Integer>> A) {
+  public static List<List<Integer>>
+  flipColorWrapper(TestTimer timer, int x, int y, List<List<Integer>> A) {
     List<List<Boolean>> B = new ArrayList<>();
     for (int i = 0; i < A.size(); i++) {
       B.add(new ArrayList<>());

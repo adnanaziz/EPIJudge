@@ -17,7 +17,8 @@ public class DutchNationalFlag {
   }
 
   @EpiTest(testfile = "dutch_national_flag.tsv")
-  public static void dutchFlagPartitionWrapper(TestTimer timer, List<Integer> data, int pivotIdx)
+  public static void dutchFlagPartitionWrapper(TestTimer timer,
+                                               List<Integer> data, int pivotIdx)
       throws TestFailureException {
     List<Color> colors = new ArrayList<>();
     int[] count = new int[3];

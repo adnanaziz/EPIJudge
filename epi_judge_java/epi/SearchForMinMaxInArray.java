@@ -31,7 +31,7 @@ public class SearchForMinMaxInArray {
         return false;
       }
 
-      MinMax minMax = (MinMax) o;
+      MinMax minMax = (MinMax)o;
 
       if (!smallest.equals(minMax.smallest)) {
         return false;

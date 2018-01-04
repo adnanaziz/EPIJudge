@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MajorityElement {
+
   public static String majoritySearch(Iterator<String> inputStream) {
     // Implement this placeholder.
     return "";

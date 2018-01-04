@@ -11,11 +11,10 @@ public class BinaryTreeNode<T> {
 
   public BinaryTreeNode() {}
 
-  public BinaryTreeNode(T data) {
-    this.data = data;
-  }
+  public BinaryTreeNode(T data) { this.data = data; }
 
-  public BinaryTreeNode(T data, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
+  public BinaryTreeNode(T data, BinaryTreeNode<T> left,
+                        BinaryTreeNode<T> right) {
     this.data = data;
     this.left = left;
     this.right = right;
@@ -30,7 +29,7 @@ public class BinaryTreeNode<T> {
       return false;
     }
 
-    BinaryTreeNode that = (BinaryTreeNode) o;
+    BinaryTreeNode that = (BinaryTreeNode)o;
     if (data != null ? !data.equals(that.data) : that.data != null) {
       return false;
     }

@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReplaceAndRemove {
+
   public static int replaceAndRemove(int size, char[] s) {
     // Implement this placeholder.
     return 0;
   }
 
   @EpiTest(testfile = "replace_and_remove.tsv")
-  public static List<String> replaceAndRemoveWrapper(
-      TestTimer timer, Integer size, List<String> inputS) {
+  public static List<String>
+  replaceAndRemoveWrapper(TestTimer timer, Integer size, List<String> inputS) {
     char[] s = new char[inputS.size()];
     for (int i = 0; i < size; ++i) {
       if (!inputS.get(i).isEmpty()) {

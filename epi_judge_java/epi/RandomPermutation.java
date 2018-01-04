@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RandomPermutation {
+
   public static List<Integer> computeRandomPermutation(int n) {
     // Implement this placeholder.
     return null;
@@ -35,7 +36,8 @@ public class RandomPermutation {
     return idx;
   }
 
-  private static boolean computeRandomPermutationRunner(TestTimer timer, int n) {
+  private static boolean computeRandomPermutationRunner(TestTimer timer,
+                                                        int n) {
     List<List<Integer>> results = new ArrayList<>();
     timer.start();
     for (int i = 0; i < 1000000; ++i) {
@@ -47,13 +49,15 @@ public class RandomPermutation {
     for (List<Integer> result : results) {
       sequence.add(permutationIndex(result));
     }
-    return RandomSequenceChecker.checkSequenceIsUniformlyRandom(sequence, factorial(n), 0.01);
+    return RandomSequenceChecker.checkSequenceIsUniformlyRandom(
+        sequence, factorial(n), 0.01);
   }
 
   @EpiTest(testfile = "random_permutation.tsv")
   public static void computeRandomPermutationWrapper(TestTimer timer, int n)
       throws TestFailureException {
-    RandomSequenceChecker.runFuncWithRetries(() -> computeRandomPermutationRunner(timer, n));
+    RandomSequenceChecker.runFuncWithRetries(
+        () -> computeRandomPermutationRunner(timer, n));
   }
 
   public static void main(String[] args) {

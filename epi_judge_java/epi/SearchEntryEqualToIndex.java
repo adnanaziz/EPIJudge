@@ -8,13 +8,15 @@ import epi.test_framework.TestTimer;
 import java.util.List;
 
 public class SearchEntryEqualToIndex {
+
   public static int searchEntryEqualToItsIndex(List<Integer> A) {
     // Implement this placeholder.
     return 0;
   }
 
   @EpiTest(testfile = "binary_search_ai=i.tsv")
-  public static void searchEntryEqualToItsIndexWrapper(TestTimer timer, List<Integer> A)
+  public static void searchEntryEqualToItsIndexWrapper(TestTimer timer,
+                                                       List<Integer> A)
       throws TestFailureException {
     timer.start();
     int result = searchEntryEqualToItsIndex(A);
@@ -27,7 +29,8 @@ public class SearchEntryEqualToIndex {
     } else {
       for (int i = 0; i < A.size(); ++i) {
         if (A.get(i) == i) {
-          throw new TestFailureException("There are entries which equal to its index");
+          throw new TestFailureException(
+              "There are entries which equal to its index");
         }
       }
     }

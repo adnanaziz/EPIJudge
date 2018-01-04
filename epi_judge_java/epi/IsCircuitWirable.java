@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IsCircuitWirable {
+
   public static class GraphVertex {
     public int d = -1;
     public List<GraphVertex> edges = new ArrayList<>();
@@ -31,11 +32,13 @@ public class IsCircuitWirable {
   }
 
   @EpiTest(testfile = "is_circuit_wirable.tsv")
-  public static boolean isAnyPlacementFeasibleWrapper(TestTimer timer, int k, List<Edge> edges) {
+  public static boolean isAnyPlacementFeasibleWrapper(TestTimer timer, int k,
+                                                      List<Edge> edges) {
     if (k <= 0)
       throw new RuntimeException("Invalid k value");
     List<GraphVertex> graph = new ArrayList<>();
-    for (int i = 0; i < k; i++) graph.add(new GraphVertex());
+    for (int i = 0; i < k; i++)
+      graph.add(new GraphVertex());
     for (Edge e : edges) {
       if (e.from < 0 || e.from >= k || e.to < 0 || e.to >= k)
         throw new RuntimeException("Invalid vertex index");

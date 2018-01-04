@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/kth_node_in_tree.dir/kth_node_in_tree.cc.o  -o kth_node_in_tree -lpthread 

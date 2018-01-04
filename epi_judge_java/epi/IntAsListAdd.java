@@ -6,7 +6,8 @@ import epi.test_framework.GenericTestHandler;
 public class IntAsListAdd {
   @EpiTest(testfile = "int_as_list_add.tsv")
 
-  public static ListNode<Integer> addTwoNumbers(ListNode<Integer> L1, ListNode<Integer> L2) {
+  public static ListNode<Integer> addTwoNumbers(ListNode<Integer> L1,
+                                                ListNode<Integer> L2) {
     // Implement this placeholder.
     return null;
   }

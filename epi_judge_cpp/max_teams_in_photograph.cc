@@ -31,17 +31,17 @@ int FindLargestNumberTeamsWrapper(TestTimer& timer, int k,
     throw std::runtime_error("Invalid k value");
   }
 
-  vector<GraphVertex> g(k, GraphVertex{});
+  vector<GraphVertex> graph(k, GraphVertex{});
 
-  for (auto& e : edges) {
+  for (const Edge& e : edges) {
     if (e.from < 0 || e.from >= k || e.to < 0 || e.to >= k) {
       throw std::runtime_error("Invalid vertex index");
     }
-    g[e.from].edges.push_back(&g[e.to]);
+    graph[e.from].edges.push_back(&graph[e.to]);
   }
 
   timer.Start();
-  int result = FindLargestNumberTeams(&g);
+  int result = FindLargestNumberTeams(&graph);
   timer.Stop();
   return result;
 }

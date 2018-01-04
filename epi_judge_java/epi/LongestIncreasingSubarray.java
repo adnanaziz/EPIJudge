@@ -6,6 +6,7 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class LongestIncreasingSubarray {
+
   // Represent subarray by starting and ending indices, inclusive.
   private static class Subarray {
     public Integer start;

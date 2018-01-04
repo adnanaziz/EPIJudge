@@ -6,6 +6,7 @@ import epi.test_framework.GenericTestHandler;
 import java.util.Set;
 
 public class StringTransformability {
+
   @EpiTest(testfile = "string_transformability.tsv")
 
   // Uses BFS to find the least steps of transformation.

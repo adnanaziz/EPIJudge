@@ -10,9 +10,7 @@ public class BinaryTree<T> {
 
   public BinaryTree() {}
 
-  public BinaryTree(T data) {
-    this.data = data;
-  }
+  public BinaryTree(T data) { this.data = data; }
 
   public BinaryTree(T data, BinaryTree<T> left, BinaryTree<T> right) {
     this.data = data;
@@ -20,7 +18,8 @@ public class BinaryTree<T> {
     this.right = right;
   }
 
-  public BinaryTree(T data, BinaryTree<T> left, BinaryTree<T> right, BinaryTree<T> parent) {
+  public BinaryTree(T data, BinaryTree<T> left, BinaryTree<T> right,
+                    BinaryTree<T> parent) {
     this(data, left, right);
     this.parent = parent;
   }

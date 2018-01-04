@@ -6,6 +6,7 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class Bonus {
+
   private static class EmployeeData {
     public Integer productivity;
     public Integer index;

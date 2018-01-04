@@ -71,7 +71,7 @@ struct FunctionalTraits<ReturnT (*)(ArgsT...)> {
   using return_t = ReturnT;
   using arg_tuple_t = std::tuple<ArgsT...>;
 
-  constexpr bool HasTimerHook() { return false; }
+  static constexpr bool HasTimerHook() { return false; }
 
   template <typename Func, typename... ArgsFwd>
   static ReturnT InvokeWithTimer(Func& f, TestTimer& timer,
@@ -91,7 +91,7 @@ struct FunctionalTraits<ReturnT (*)(TestTimer&, ArgsT...)> {
   using return_t = ReturnT;
   using arg_tuple_t = std::tuple<ArgsT...>;
 
-  constexpr bool HasTimerHook() { return true; }
+  static constexpr bool HasTimerHook() { return true; }
 
   template <typename Func, typename... ArgsFwd>
   static ReturnT InvokeWithTimer(Func& f, TestTimer& timer,

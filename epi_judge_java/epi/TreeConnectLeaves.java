@@ -9,14 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeConnectLeaves {
-  public static List<BinaryTreeNode<Integer>> createListOfLeaves(BinaryTreeNode<Integer> tree) {
+
+  public static List<BinaryTreeNode<Integer>>
+  createListOfLeaves(BinaryTreeNode<Integer> tree) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "tree_connect_leaves.tsv")
-  public static List<Integer> createListOfLeavesWrapper(
-      TestTimer timer, BinaryTreeNode<Integer> tree) throws TestFailureException {
+  public static List<Integer>
+  createListOfLeavesWrapper(TestTimer timer, BinaryTreeNode<Integer> tree)
+      throws TestFailureException {
     timer.start();
     List<BinaryTreeNode<Integer>> result = createListOfLeaves(tree);
     timer.stop();

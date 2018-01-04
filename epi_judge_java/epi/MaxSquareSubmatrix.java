@@ -6,8 +6,8 @@ import epi.test_framework.GenericTestHandler;
 import java.util.List;
 
 public class MaxSquareSubmatrix {
+
   @EpiTest(testfile = "max_square_submatrix.tsv")
-  @SuppressWarnings("unchecked")
 
   public static int maxSquareSubmatrix(List<List<Boolean>> A) {
     // Implement this placeholder.

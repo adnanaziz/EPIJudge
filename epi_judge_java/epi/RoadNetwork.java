@@ -27,7 +27,7 @@ public class RoadNetwork {
         return false;
       }
 
-      HighwaySection that = (HighwaySection) o;
+      HighwaySection that = (HighwaySection)o;
       return x == that.x && y == that.y && distance == that.distance;
     }
 
@@ -39,8 +39,8 @@ public class RoadNetwork {
 
   @EpiTest(testfile = "road_network.tsv")
 
-  public static HighwaySection findBestProposals(
-      List<HighwaySection> H, List<HighwaySection> P, int n) {
+  public static HighwaySection
+  findBestProposals(List<HighwaySection> H, List<HighwaySection> P, int n) {
     // Implement this placeholder.
     return new HighwaySection(0, 0, 0);
   }

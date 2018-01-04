@@ -20,7 +20,7 @@ int NonuniformRandomNumberGeneration(const vector<int>& values,
 bool NonuniformRandomNumberGenerationRunner(
     TestTimer& timer, const vector<int>& values,
     const vector<double>& probabilities) {
-  int n = 1.0e6;
+  int n = 1000000;
   vector<int> results;
   timer.Start();
   for (int i = 0; i < n; ++i) {
@@ -50,8 +50,9 @@ bool NonuniformRandomNumberGenerationRunner(
 void NonuniformRandomNumberGenerationWrapper(
     TestTimer& timer, const vector<int>& values,
     const vector<double>& probabilities) {
-  RunFuncWithRetries(bind(NonuniformRandomNumberGenerationRunner, timer, values,
-                          probabilities));
+  RunFuncWithRetries(bind(NonuniformRandomNumberGenerationRunner,
+                          std::ref(timer), std::cref(values),
+                          std::cref(probabilities)));
 }
 
 #include "test_framework/test_utils_generic_main.h"

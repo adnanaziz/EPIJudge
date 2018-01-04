@@ -25,7 +25,7 @@ public class RectangleIntersection {
         return false;
       }
 
-      Rectangle rectangle = (Rectangle) o;
+      Rectangle rectangle = (Rectangle)o;
 
       if (x != rectangle.x) {
         return false;

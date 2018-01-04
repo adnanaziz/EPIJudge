@@ -1,11 +1,13 @@
 // @library
 package epi.test_framework;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,8 +36,6 @@ import java.util.function.Function;
  * current test is marked as failed and the execution goes on. In case of any
  * other exception thrown by the tested method, the test program is terminated.
  * <p>
- * TODO: Mark tests terminated by the stack overflow error as OVERFLOW, not as
- * FAILED
  */
 public class GenericTestHandler implements TestHandler {
   private Method testedMethod;
@@ -283,7 +283,7 @@ public class GenericTestHandler implements TestHandler {
                                   List<Class<?>> expectedType,
                                   String[] commandlineArgs) {
     boolean stopOnAError = true;
-    String testDataDir = TestUtils.DEFAULT_TEST_DATA_DIR;
+    String testDataDir = null;
     for (int i = 0; i < commandlineArgs.length; i++) {
       if (Objects.equals(commandlineArgs[i], "--test_data_dir")) {
         if (i + 1 >= commandlineArgs.length) {
@@ -297,6 +297,15 @@ public class GenericTestHandler implements TestHandler {
         throw new RuntimeException("Unrecognized argument: " +
                                    commandlineArgs[i]);
       }
+    }
+
+    if (testDataDir != null && !testDataDir.isEmpty()) {
+      if (!Files.isDirectory(Paths.get(testDataDir))) {
+        throw new RuntimeException("--test_data_dir argument \"" + testDataDir +
+                                   "\" is not a directory");
+      }
+    } else {
+      testDataDir = TestUtils.getDefaultTestDataDirPath();
     }
 
     TestUtils.runTests(Paths.get(testDataDir, testfile),

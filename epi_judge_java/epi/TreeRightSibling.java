@@ -13,9 +13,7 @@ public class TreeRightSibling {
     public BinaryTreeNode<T> left, right;
     public BinaryTreeNode<T> next; // Populates this field.
 
-    public BinaryTreeNode(T data) {
-      this.data = data;
-    }
+    public BinaryTreeNode(T data) { this.data = data; }
   }
 
   public static void constructRightSibling(BinaryTreeNode<Integer> tree) {
@@ -23,7 +21,8 @@ public class TreeRightSibling {
     return;
   }
 
-  private static BinaryTreeNode<Integer> cloneTree(BinaryTree<Integer> original) {
+  private static BinaryTreeNode<Integer>
+  cloneTree(BinaryTree<Integer> original) {
     if (original != null) {
       BinaryTreeNode<Integer> cloned = new BinaryTreeNode<>(original.data);
       cloned.left = cloneTree(original.left);
@@ -34,8 +33,8 @@ public class TreeRightSibling {
   }
 
   @EpiTest(testfile = "tree_right_sibling.tsv")
-  public static List<List<Integer>> constructRightSiblingWrapper(
-      TestTimer timer, BinaryTree<Integer> tree) {
+  public static List<List<Integer>>
+  constructRightSiblingWrapper(TestTimer timer, BinaryTree<Integer> tree) {
     BinaryTreeNode<Integer> cloned = cloneTree(tree);
 
     timer.start();

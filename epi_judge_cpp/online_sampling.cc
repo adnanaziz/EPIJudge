@@ -42,8 +42,9 @@ bool OnlineRandomSamplingRunner(TestTimer& timer, vector<int> A, int k) {
                                         0.01);
 }
 
-void OnlineRandomSampleWrapper(TestTimer& timer, vector<int> A, int k) {
-  RunFuncWithRetries(bind(OnlineRandomSamplingRunner, timer, A, k));
+void OnlineRandomSampleWrapper(TestTimer& timer, const vector<int>& A, int k) {
+  RunFuncWithRetries(
+      bind(OnlineRandomSamplingRunner, std::ref(timer), std::cref(A), k));
 }
 
 #include "test_framework/test_utils_generic_main.h"

@@ -27,7 +27,7 @@ public class SearchForMissingElement {
         return false;
       }
 
-      DuplicateAndMissing that = (DuplicateAndMissing) o;
+      DuplicateAndMissing that = (DuplicateAndMissing)o;
 
       if (!duplicate.equals(that.duplicate)) {
         return false;

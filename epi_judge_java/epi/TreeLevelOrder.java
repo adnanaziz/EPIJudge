@@ -8,7 +8,8 @@ import java.util.List;
 public class TreeLevelOrder {
   @EpiTest(testfile = "tree_level_order.tsv")
 
-  public static List<List<Integer>> binaryTreeDepthOrder(BinaryTreeNode<Integer> tree) {
+  public static List<List<Integer>>
+  binaryTreeDepthOrder(BinaryTreeNode<Integer> tree) {
     // Implement this placeholder.
     return null;
   }

@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/number_of_score_combinations.dir/number_of_score_combinations.cc.o  -o number_of_score_combinations -lpthread 

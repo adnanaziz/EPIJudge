@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/sorted_list_to_bst.dir/sorted_list_to_bst.cc.o  -o sorted_list_to_bst -lpthread 

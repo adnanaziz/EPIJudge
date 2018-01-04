@@ -14,6 +14,7 @@ import java.util.Queue;
 import java.util.Set;
 
 public class GraphClone {
+
   public static class GraphVertex {
     public int label;
     public List<GraphVertex> edges;
@@ -44,13 +45,13 @@ public class GraphClone {
     vertexSet.add(node);
     while (!q.isEmpty()) {
       GraphVertex vertex = q.remove();
-      assert(vertex.label < g.size());
+      assert (vertex.label < g.size());
       List<Integer> label1 = copyLabels(vertex.edges),
                     label2 = copyLabels(g.get(vertex.label).edges);
       Collections.sort(label1);
       Collections.sort(label2);
-      assert(label1.size() == label2.size());
-      assert(Arrays.equals(label1.toArray(), label2.toArray()));
+      assert (label1.size() == label2.size());
+      assert (Arrays.equals(label1.toArray(), label2.toArray()));
       for (GraphVertex e : vertex.edges) {
         if (!vertexSet.contains(e)) {
           vertexSet.add(e);

@@ -29,7 +29,7 @@ public class SearchMaze {
         return false;
       }
 
-      Coordinate that = (Coordinate) o;
+      Coordinate that = (Coordinate)o;
       if (x != that.x || y != that.y) {
         return false;
       }
@@ -39,23 +39,27 @@ public class SearchMaze {
 
   public static enum Color { WHITE, BLACK }
 
-  public static List<Coordinate> searchMaze(List<List<Color>> maze, Coordinate s, Coordinate e) {
+  public static List<Coordinate> searchMaze(List<List<Color>> maze,
+                                            Coordinate s, Coordinate e) {
     // Implement this placeholder.
     return null;
   }
 
-  public static boolean pathElementIsFeasible(
-      List<List<Integer>> maze, Coordinate prev, Coordinate cur) {
-    if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y && cur.y < maze.get(cur.x).size()
-            && maze.get(cur.x).get(cur.y) == 0)) {
+  public static boolean pathElementIsFeasible(List<List<Integer>> maze,
+                                              Coordinate prev, Coordinate cur) {
+    if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
+          cur.y < maze.get(cur.x).size() && maze.get(cur.x).get(cur.y) == 0)) {
       return false;
     }
-    return cur.x == prev.x + 1 && cur.y == prev.y || cur.x == prev.x - 1 && cur.y == prev.y
-        || cur.x == prev.x && cur.y == prev.y + 1 || cur.x == prev.x && cur.y == prev.y - 1;
+    return cur.x == prev.x + 1 && cur.y == prev.y ||
+        cur.x == prev.x - 1 && cur.y == prev.y ||
+        cur.x == prev.x && cur.y == prev.y + 1 ||
+        cur.x == prev.x && cur.y == prev.y - 1;
   }
 
   @EpiTest(testfile = "search_maze.tsv")
-  public static boolean searchMazeWrapper(List<List<Integer>> maze, Coordinate s, Coordinate e)
+  public static boolean searchMazeWrapper(List<List<Integer>> maze,
+                                          Coordinate s, Coordinate e)
       throws TestFailureException {
     List<List<Color>> colored = new ArrayList<>();
     for (List<Integer> col : maze) {
@@ -71,7 +75,8 @@ public class SearchMaze {
     }
 
     if (!path.get(0).equals(s) || !path.get(path.size() - 1).equals(e)) {
-      throw new TestFailureException("Path doesn't lay between start and end points");
+      throw new TestFailureException(
+          "Path doesn't lay between start and end points");
     }
 
     for (int i = 1; i < path.size(); i++) {

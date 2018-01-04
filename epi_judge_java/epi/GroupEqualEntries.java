@@ -31,7 +31,7 @@ public class GroupEqualEntries {
       if (o == null || getClass() != o.getClass())
         return false;
 
-      Person person = (Person) o;
+      Person person = (Person)o;
 
       if (!age.equals(person.age))
         return false;
