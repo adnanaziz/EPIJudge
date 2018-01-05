@@ -1,22 +1,105 @@
-The EPI Judge is ready! This screenshot should give you a good idea of what it's about. 
+# EPI Judge
+
+## Intro
+
+The EPI Judge is ready! This screenshot should give you a good idea of what it's about.
 
 <img src="http://elementsofprogramminginterviews.com/img/judge-ide-example.png" width="600px"></img>
 
-Check out one minute screencapture videos on YouTube to see how easy it is to get started with the judge:  <a href="https://youtu.be/ImD_iI-uGYo">PyCharm</a>, <a href="https://youtu.be/1BzHUpluQHM">IntelliJ</a>, <a href="https://youtu.be/aHPDApyyYEg">CLion</a>
-
 EPI Judge consists of the following:
 
-  - **Stub programs** for each problem in our book in Python, Java, and C++
-  - **Test-cases** that cover common corner-case and performance bugs 
-  - A **framework** for running these tests on your implementation on your machine
+- **Stub programs** for each problem in our book in Python, Java, and C++
+- **Test-cases** that cover common corner-case and performance bugs
+- A **framework** for running these tests on your implementation on your machine
 
-The installation is super-simple - there's no install! You just **download the project, point your IDE/editor to it**, and start the code-debug cycle, with instant feedback! (You can download via as a git project via git clone, or just get the source as a [zip](https://github.com/adnanaziz/EPIJudge/archive/master.zip).)
+## Installation
+
+The installation is super-simple &mdash; there's no install! You just **download the project, point your IDE/editor to it**, and start the code-debug cycle, with instant feedback! You can download the judge as a git project via `git clone`, or just get the source as a [zip](https://github.com/adnanaziz/EPIJudge/archive/master.zip).
+
+### C++ project import
+
+If you want to import the project into your favourite IDE, you probably need to create IDE project with [CMake](https://cmake.org/) (no need to do it for CLion, it supports CMake out-of-the-box).
+
+Here is an example recipe for generationg Visual Studio project ([list](https://cmake.org/cmake/help/v3.10/manual/cmake-generators.7.html) of all CMake supported IDEs).
+After installing CMake, open your terminal, go to `epi_judge_cpp` folder and run following commands:
+
+    mkdir vs
+    cd vs
+    cmake -G "Visual Studio 15 2017" ..
+
+Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio and it will load all EPI programs.
+
+### Supported compilers
+
+The judge has been tested with these compilers. Let us know if you managed to compile all programs with an older version.
+
+- **GCC** 5.4.1 (on Ubuntu 16.04)
+- **Clang** 4.0 (on Ubuntu 16.04)
+- **Apple LLVM Clang** 9.0.0
+- **Visual Studio** 2017 (may be compatible with 2015, though we didn't check it (yet))
+- **Java** 8
+- **Python** 3.5
+
+### IDE guides
+
+Check out one minute screencapture videos on YouTube to see how easy it is to get started with the judge.
+
+#### C++
+
+- [CLion](https://youtu.be/aHPDApyyYEg)
+- Eclipse *TBA*
+- Visual Studio *TBA*
+- XCode *TBA*
+
+#### Java
+
+- [IntelliJ IDEA](https://youtu.be/1BzHUpluQHM)
+- Eclipse *TBA*
+- XCode *TBA*
+
+#### Python
+
+- [PyCharm](https://youtu.be/ImD_iI-uGYo)
+- Eclipse *TBA*
+- XCode *TBA*
+
+### Running from command-line
+
+#### C++
+
+You can manually compile and run all programs by directly invoking GCC or Clang compiler. Test framework is header-only, so no separate compilation is needed. Don't forget to add `-std=c++14` switch. Also you may need to provide `-pthread` switch (if you see some link errors with std::thread).
+
+Alternatively you can use Makefile in epi_judge_cpp directory (use `make <program_name>` for release build and `make <program_name>_dbg` for debug build) or use CMake with the provided CMakeLists.txt file. Default Makefile target ("last") compiles and runs the last edited file.
+
+Example:
+
+    g++ -pthread -std=c++14 -O3 -o anagrams anagrams.cc
+
+OR
+
+    make anagrams
+
+#### Java
+
+Java compilation process is quite complicated, so we recommend you to use the provided Makefile. Run `make <program_name>` to compile and immediately start the program or run `make` to compile and start the last edited file.
+
+Example:
+
+    make Anagrams
+
+#### Python
+
+    python3 <program_name>.py
+
+That's all.
+
+## Acknowledgment
 
 Please send us questions and feedback by email; we're adnan.aziz@gmail.com and tsung.hsien.lee@gmail.com
 
-A big shout-out to <a href="https://github.com/metopa">Viacheslav Kroilov</a>, for applying his exceptional software engineering skills to make EPI Judge a reality.
+A big shout-out to [Viacheslav Kroilov](https://github.com/metopa), for applying his exceptional software engineering skills to make EPI Judge a reality.
 
-# Problem to Program Mapping
+## Problem to Program Mapping
 
 (You may have to scroll to the right to view the Python column.)
 
