@@ -108,12 +108,12 @@ std::string GetDefaultTestDataDirPath() {
   constexpr int MAX_SEARCH_DEPTH = 4;
   const std::string ENV_KEY = "EPI_TEST_DATA_DIR";
   const std::string DIR_NAME = "test_data";
-  char pardir[]{'.', '.', os::PathSep(), '\0'};
+  char pardir[]{'.', '.', platform::PathSep(), '\0'};
   std::string path;
 
   const char* env_result = std::getenv(ENV_KEY.c_str());
   if (env_result && env_result[0] != '\0') {
-    if (!os::IsDir(env_result)) {
+    if (!platform::IsDir(env_result)) {
       throw std::runtime_error(ENV_KEY +
                                " environment variable is set to \"" +
                                env_result + "\", but it's not a directory");
@@ -124,7 +124,7 @@ std::string GetDefaultTestDataDirPath() {
 
   path = DIR_NAME;
   for (int i = 0; i < MAX_SEARCH_DEPTH; i++) {
-    if (os::IsDir(path.c_str())) {
+    if (platform::IsDir(path.c_str())) {
       return path;
     }
     path.insert(0, pardir);
@@ -224,7 +224,7 @@ void RunTests(const std::string& test_data_path, TestHandlerT& handler,
                        durations_size)
                 << std::endl;
       std::sort(std::begin(durations), std::end(durations));
-      std::cout << "Median running time: "
+      std::cout << "Median running time:  "
                 << DurationToString(durations_size & 1
                                         ? durations[durations_size / 2]
                                         : (durations[durations_size / 2 - 1] +

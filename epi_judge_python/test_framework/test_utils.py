@@ -2,12 +2,11 @@
 import concurrent.futures
 import inspect
 import math
+import os
 import re
 import statistics
 import sys
 import traceback
-
-import os
 
 from test_framework.test_failure_exception import TestFailureException
 from test_framework.test_output import TestOutput
@@ -20,11 +19,14 @@ def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
     def split_tsv_file(data_file):
         ROW_DELIM = '\n'
         FIELD_DELIM = '\t'
-        with open(data_file) as input_data:
-            return [
-                row.replace(ROW_DELIM, '').split(FIELD_DELIM)
-                for row in input_data
-            ]
+        try :
+            with open(data_file) as input_data:
+                return [
+                    row.replace(ROW_DELIM, '').split(FIELD_DELIM)
+                    for row in input_data
+                ]
+        except OSError:
+            raise RuntimeError('Test data file not found')
 
     test_data = split_tsv_file(test_data_path)
 
@@ -64,11 +66,7 @@ def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
         except RecursionError:
             result = TestResult.STACK_OVERFLOW
         except RuntimeError:
-            print()
-            print()
-            print('Critical error:')
-            traceback.print_exc(file=sys.stdout)
-            exit(0)
+            raise
         except Exception as exc:
             result = TestResult.UNKNOWN_EXCEPTION
             diagnostic = exc.__class__.__name__ + ': ' + str(exc)
@@ -97,7 +95,7 @@ def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
         if len(durations):
             print("Average running time: {}".format(
                 duration_to_string(statistics.mean(durations))))
-            print("Median running time: {}".format(
+            print("Median running time:  {}".format(
                 duration_to_string(statistics.median(durations))))
         if tests_passed < total_tests:
             print("*** You've passed {}/{} tests. ***".format(

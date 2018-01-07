@@ -1,1 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/descendant_and_ancestor_in_bst.dir/descendant_and_ancestor_in_bst.cc.o  -o descendant_and_ancestor_in_bst -lpthread 

@@ -16,7 +16,7 @@
 #include <unistd.h>
 #endif
 
-namespace os {
+namespace platform {
 
 inline int StdOutFd() {
 #ifdef _WINDOWS
@@ -54,4 +54,4 @@ inline char PathSep() {
 #endif
 }
 
-}  // namespace os
+}  // namespace platform

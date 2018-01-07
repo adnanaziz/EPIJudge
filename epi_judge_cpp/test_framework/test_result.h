@@ -4,7 +4,8 @@
 #include <ostream>
 #include "platform.h"
 
-enum TestResult { PASSED, FAILED, TIMEOUT, UNKNOWN_EXCEPTION };
+//We can't detect STACK_OVERFLOW in C++
+enum TestResult { PASSED, FAILED, TIMEOUT, UNKNOWN_EXCEPTION, /*STACK_OVERFLOW*/ };
 
 namespace console_color {
 const char* FG_RED = "\033[31m";
@@ -14,7 +15,7 @@ const char* FG_DEFAULT = "\033[39m";
 };  // namespace console_color
 
 bool UseTtyOutput() {
-  static int cached = os::IsATty(os::StdOutFd());
+  static int cached = platform::IsATty(platform::StdOutFd());
   return static_cast<bool>(cached);
 }
 

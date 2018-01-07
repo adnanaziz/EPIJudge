@@ -1,1 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/sort_almost_sorted_array.dir/sort_almost_sorted_array.cc.o  -o sort_almost_sorted_array -lpthread 

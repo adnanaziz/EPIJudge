@@ -11,7 +11,7 @@ LAST_MODIFIED_JAVA_FILE = $(shell ls -rt $(SRC_DIR)/$(MAIN_PACKAGE)/*\.java | ta
 
 .PHONY: last
 last: $(notdir $(basename $(LAST_MODIFIED_JAVA_FILE)))
-      
+
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -116,28 +116,7 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class : $(S
 TEST_FRAMEWORK := \
     $(BUILD_DIR) \
     $(JSON_CLASSES) \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTree.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/BstNode.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/DoublyListNode.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailureException.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestHandler.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestOutput.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class
+    
 
 .PHONY: AbsentValueArray
 $(BUILD_DIR)/$(MAIN_PACKAGE)/AbsentValueArray.class: $(SRC_DIR)/$(MAIN_PACKAGE)/AbsentValueArray.java $(TEST_FRAMEWORK)
@@ -1597,7 +1576,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/UniformRandomNumber.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/ValidIpAddresses.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/ZipList.class
-  
+
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)

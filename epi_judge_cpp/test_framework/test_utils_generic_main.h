@@ -22,13 +22,14 @@ void generic_test_main(int argc, char* argv[], const std::string& filename,
                        Function func, Comparator comp = {}) {
   // Enables automatic flushing of the output stream after any output
   // operation.
-  std::cout.setf(std::ios::unitbuf);
-
-  std::string test_data_dir;
-  bool stop_on_error = true;
-
-  std::vector<std::string> commandline_args(argv + 1, argv + argc);
   try {
+    std::cout.setf(std::ios::unitbuf);
+
+    std::string test_data_dir;
+    bool stop_on_error = true;
+
+    std::vector<std::string> commandline_args(argv + 1, argv + argc);
+
     for (unsigned int i = 0; i < commandline_args.size(); ++i) {
       if (commandline_args[i] == "--test_data_dir") {
         if (i + 1 >= commandline_args.size()) {
@@ -45,7 +46,7 @@ void generic_test_main(int argc, char* argv[], const std::string& filename,
     }
 
     if (!test_data_dir.empty()) {
-      if (!os::IsDir(test_data_dir.c_str()))
+      if (!platform::IsDir(test_data_dir.c_str()))
         throw std::runtime_error("--test_data_dir argument \"" +
                                  test_data_dir + "\" is not a directory");
     } else {
@@ -54,11 +55,11 @@ void generic_test_main(int argc, char* argv[], const std::string& filename,
     if (test_data_dir.back() != '/') {
       test_data_dir += '/';
     }
+
+    GenericTestHandler<Function, Comparator> test_handler(func, comp);
+    using namespace std::chrono_literals;
+    RunTests(test_data_dir + filename, test_handler, 0s, stop_on_error);
   } catch (std::runtime_error& e) {
     std::cerr << std::endl << "Critical error: " << e.what() << std::endl;
   }
-
-  GenericTestHandler<Function, Comparator> test_handler(func, comp);
-  using namespace std::chrono_literals;
-  RunTests(test_data_dir + filename, test_handler, 0s, stop_on_error);
 }

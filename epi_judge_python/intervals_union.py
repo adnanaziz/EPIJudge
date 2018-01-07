@@ -1,5 +1,6 @@
-from test_framework.test_utils import enable_timer_hook
 import collections
+
+from test_framework.test_utils import enable_timer_hook
 
 Endpoint = collections.namedtuple('Endpoint', ('is_closed', 'val'))
 

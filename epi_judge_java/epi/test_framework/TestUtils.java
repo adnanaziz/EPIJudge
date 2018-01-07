@@ -24,8 +24,7 @@ public class TestUtils {
     try {
       inputData = Files.lines(dataFile);
     } catch (IOException e) {
-      e.printStackTrace();
-      System.exit(-1);
+      throw new RuntimeException("Test data file not found");
     }
     List<String> asList =
         inputData.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
@@ -146,7 +145,7 @@ public class TestUtils {
                 durationsSize));
 
         Collections.sort(durations);
-        System.out.println("Median running time: " +
+        System.out.println("Median running time:  " +
                            TestTimer.durationToString(
                                (durationsSize % 2 == 1)
                                    ? durations.get(durationsSize / 2)
