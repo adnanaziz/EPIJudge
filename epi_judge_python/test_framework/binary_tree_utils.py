@@ -85,8 +85,8 @@ def binary_tree_to_string(node):
             result += '"{}"'.format(n.data)
 
             visited.add(id(n))
-            q.append(node.left)
             q.append(node.right)
+            q.append(node.left)
         else:
             null_nodes_pending += 1
 
