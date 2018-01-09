@@ -1,6 +1,6 @@
 # @library
 import sys
-
+import collections
 sys.setrecursionlimit(15500)
 
 
@@ -64,14 +64,14 @@ def must_find_node(tree, val):
 
 def binary_tree_to_string(node):
     result = '['
-    q = [node]
+    q = collections.deque([node])
     visited = set()
 
     null_nodes_pending = 0
     first = True
 
     while q:
-        n = q.pop()
+        n = q.popleft()
         if id(n) in visited:  # TODO: Denote cycles
             continue
         if n:
@@ -85,8 +85,8 @@ def binary_tree_to_string(node):
             result += '"{}"'.format(n.data)
 
             visited.add(id(n))
-            q.append(node.left)
-            q.append(node.right)
+            q.append(n.left)
+            q.append(n.right)
         else:
             null_nodes_pending += 1
 
