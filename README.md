@@ -58,6 +58,7 @@ Check out one minute screencapture videos on YouTube to see how easy it is to ge
 
 - [PyCharm](https://youtu.be/ImD_iI-uGYo)
 - [Eclipse](https://youtu.be/rZ1qqwEXwQY)
+- [NetBeans](https://youtu.be/Z41jW1TyZwY)
 
 ### Running from command-line
 
