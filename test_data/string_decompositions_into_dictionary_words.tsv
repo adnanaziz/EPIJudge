@@ -1,4 +1,5 @@
 string	array(string)	array(int)
+@	s	words
 barfoothefoobarman	["foo", "bar"]	[0, 9]	TODO
 dcacdabcd	["cd", "ab"]	[3, 5]	TODO
 iuwvllmkxvlliuwgue	["vll", "iuw"]	[0, 9]	TODO

@@ -1,4 +1,5 @@
 array(int[height])[team 1]	array(int[height])[team 2]	bool[team1->team2 result]	bool[team2->team1 result]	void
+@	h1	h2	expected12	expected21
 [1, 5, 4]	[2, 3, 4]	false	false	TODO
 [1, 5, 4]	[0, 3, 2]	false	true	TODO
 [2, 3, 4]	[0, 3, 2]	false	true	TODO

@@ -14,39 +14,42 @@ import java.util.Queue;
 import java.util.Set;
 
 public class BinaryTreeUtils {
-  private static <T> void treeGenerateHelper(BinaryTreeNode<T> tree,
-                                             List<T> result, int order) {
+  private static void treeGenerateHelper(Object tree,
+                                         List<Object> result, int order) {
     if (tree != null) {
       if (order == -1) {
-        result.add(tree.data);
+        result.add(getData(tree));
       }
-      treeGenerateHelper(tree.left, result, order);
+      treeGenerateHelper(getLeft(tree), result, order);
       if (order == 0) {
-        result.add(tree.data);
+        result.add(getData(tree));
       }
-      treeGenerateHelper(tree.right, result, order);
-      if (order == 0) {
-        result.add(tree.data);
+      treeGenerateHelper(getRight(tree), result, order);
+      if (order == 1) {
+        result.add(getData(tree));
       }
     }
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> List<T> generatePreorder(BinaryTreeNode<T> tree) {
-    List<T> result = new ArrayList<>();
+    List<Object> result = new ArrayList<>();
     treeGenerateHelper(tree, result, -1);
-    return result;
+    return (List<T>) result;
   }
 
-  public static <T> List<T> generateInorder(BinaryTreeNode<T> tree) {
-    List<T> result = new ArrayList<>();
+  @SuppressWarnings("unchecked")
+  public static <T> List<T> generateInorder(Object tree) {
+    List<Object> result = new ArrayList<>();
     treeGenerateHelper(tree, result, 0);
-    return result;
+    return (List<T>) result;
   }
 
-  public static <T> List<T> generatePostorder(BinaryTreeNode<T> tree) {
-    List<T> result = new ArrayList<>();
+  @SuppressWarnings("unchecked")
+  public static <T> List<T> generatePostorder(Object tree) {
+    List<Object> result = new ArrayList<>();
     treeGenerateHelper(tree, result, 1);
-    return result;
+    return (List<T>) result;
   }
 
   private static <T> Object findNode(Object node, Object val) {
@@ -112,6 +115,14 @@ public class BinaryTreeUtils {
 
     result.append("]");
     return result.toString();
+  }
+
+  public static <T> int binaryTreeHeight(T tree) {
+    if (tree == null) {
+      return -1;
+    }
+    return 1 +
+        Math.max(binaryTreeHeight(getLeft(tree)), binaryTreeHeight(getRight(tree)));
   }
 
   /**

@@ -1,7 +1,7 @@
 from test_framework.binary_tree_utils import equal_binary_trees, binary_tree_to_string
 
 
-class BSTNode:
+class BstNode:
     def __init__(self, data=None, left=None, right=None):
         self.data, self.left, self.right = data, left, right
 

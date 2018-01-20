@@ -810,7 +810,7 @@ struct BinaryTreeSerializationTraits<
     q.push(&x);
 
     bool first = true;
-    int pending_null_nodes = 0;
+    int null_nodes_pending = 0;
 
     out << "[";
     while (!q.empty()) {
@@ -823,7 +823,7 @@ struct BinaryTreeSerializationTraits<
         else
           out << ", ";
 
-        for (; pending_null_nodes > 0; pending_null_nodes--) {
+        for (; null_nodes_pending > 0; null_nodes_pending--) {
           out << "null, ";
         }
         out << '"';
@@ -833,7 +833,7 @@ struct BinaryTreeSerializationTraits<
         q.push(&(*node)->left);
         q.push(&(*node)->right);
       } else {
-        pending_null_nodes++;
+        null_nodes_pending++;
       }
     }
     out << "]";

@@ -1,4 +1,5 @@
 int	array(string)
+@	num_pairs
 0	[""]	TODO
 1	["()"]	TODO
 2	["(())", "()()"]	TODO

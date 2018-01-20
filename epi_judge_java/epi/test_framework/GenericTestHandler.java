@@ -166,7 +166,9 @@ public class GenericTestHandler implements TestHandler {
       throw new RuntimeException(e.getMessage());
     } catch (InvocationTargetException e) {
       Throwable t = e.getTargetException();
-      if (t instanceof Exception) {
+      if (t instanceof StackOverflowError) {
+        throw(StackOverflowError) t;
+      } else if (t instanceof Exception) {
         throw(Exception) t;
       } else {
         throw new RuntimeException(t.getMessage());
@@ -195,6 +197,11 @@ public class GenericTestHandler implements TestHandler {
   @Override
   public boolean expectedIsVoid() {
     return retParser == null;
+  }
+
+  @Override
+  public int argumentCount() {
+    return argParsers.length;
   }
 
   @SuppressWarnings("unchecked")
@@ -282,34 +289,38 @@ public class GenericTestHandler implements TestHandler {
                                   BiPredicate<Object, Object> comparator,
                                   List<Class<?>> expectedType,
                                   String[] commandlineArgs) {
-    boolean stopOnAError = true;
-    String testDataDir = null;
-    for (int i = 0; i < commandlineArgs.length; i++) {
-      if (Objects.equals(commandlineArgs[i], "--test_data_dir")) {
-        if (i + 1 >= commandlineArgs.length) {
-          throw new RuntimeException("Missing param for --test_data_dir");
+    try {
+      boolean stopOnAError = true;
+      String testDataDir = null;
+      for (int i = 0; i < commandlineArgs.length; i++) {
+        if (Objects.equals(commandlineArgs[i], "--test_data_dir")) {
+          if (i + 1 >= commandlineArgs.length) {
+            throw new RuntimeException("Missing param for --test_data_dir");
+          }
+          testDataDir = commandlineArgs[i + 1];
+          i++;
+        } else if (Objects.equals(commandlineArgs[i], "--run_all_tests")) {
+          stopOnAError = false;
+        } else {
+          throw new RuntimeException("Unrecognized argument: " +
+                                     commandlineArgs[i]);
         }
-        testDataDir = commandlineArgs[i + 1];
-        i++;
-      } else if (Objects.equals(commandlineArgs[i], "--run_all_tests")) {
-        stopOnAError = false;
+      }
+
+      if (testDataDir != null && !testDataDir.isEmpty()) {
+        if (!Files.isDirectory(Paths.get(testDataDir))) {
+          throw new RuntimeException("--test_data_dir argument \"" +
+                                     testDataDir + "\" is not a directory");
+        }
       } else {
-        throw new RuntimeException("Unrecognized argument: " +
-                                   commandlineArgs[i]);
+        testDataDir = TestUtils.getDefaultTestDataDirPath();
       }
-    }
 
-    if (testDataDir != null && !testDataDir.isEmpty()) {
-      if (!Files.isDirectory(Paths.get(testDataDir))) {
-        throw new RuntimeException("--test_data_dir argument \"" + testDataDir +
-                                   "\" is not a directory");
-      }
-    } else {
-      testDataDir = TestUtils.getDefaultTestDataDirPath();
+      TestUtils.runTests(Paths.get(testDataDir, testfile),
+                         new GenericTestHandler(m, comparator, expectedType), 0,
+                         stopOnAError);
+    } catch (RuntimeException e) {
+      System.err.println("\nCritical error: " + e.getMessage());
     }
-
-    TestUtils.runTests(Paths.get(testDataDir, testfile),
-                       new GenericTestHandler(m, comparator, expectedType), 0,
-                       stopOnAError);
   }
 }

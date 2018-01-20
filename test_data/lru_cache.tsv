@@ -1,4 +1,5 @@
 array(tuple(string, int, int))	void
+@	commands
 [["LruCache", 6, 0], ["insert", 1, 763], ["lookup", 7, -1], ["insert", 8, 652], ["insert", 8, 91], ["lookup", 7, -1], ["insert", 4, 323], ["lookup", 1, 763], ["insert", 1, 683], ["insert", 11, 66], ["insert", 9, 964]]	TODO
 [["LruCache", 3, 0], ["insert", 5, 623], ["lookup", 5, 623], ["erase", 1, 0], ["lookup", 4, -1], ["lookup", 6, -1], ["insert", 4, 981], ["insert", 5, 550], ["lookup", 2, -1], ["lookup", 5, 623], ["erase", 3, 0]]	TODO
 [["LruCache", 1, 0], ["lookup", 2, -1], ["lookup", 1, -1], ["lookup", 1, -1], ["lookup", 1, -1], ["insert", 1, 239], ["insert", 1, 227], ["lookup", 2, -1], ["insert", 1, 679], ["insert", 1, 765], ["lookup", 2, -1]]	TODO

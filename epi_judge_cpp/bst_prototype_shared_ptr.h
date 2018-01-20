@@ -9,13 +9,13 @@
 using std::shared_ptr;
 
 template <typename T>
-struct BSTNode {
+struct BstNode {
   T data;
-  shared_ptr<BSTNode<T>> left, right;
+  shared_ptr<BstNode<T>> left, right;
 
-  explicit BSTNode(const T& data) : data(data) {}
+  explicit BstNode(const T& data) : data(data) {}
 };
 
 template <typename KeyT>
-struct SerializationTraits<std::shared_ptr<BSTNode<KeyT>>>
-    : BinaryTreeSerializationTraits<std::shared_ptr<BSTNode<KeyT>>, false> {};
+struct SerializationTraits<std::shared_ptr<BstNode<KeyT>>>
+    : BinaryTreeSerializationTraits<std::shared_ptr<BstNode<KeyT>>, false> {};

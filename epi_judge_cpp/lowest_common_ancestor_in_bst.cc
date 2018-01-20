@@ -9,14 +9,14 @@ using std::unique_ptr;
 
 // Input nodes are nonempty and the key at s is less than or equal to that at
 // b.
-BSTNode<int>* FindLCA(const unique_ptr<BSTNode<int>>& tree,
-                      const unique_ptr<BSTNode<int>>& s,
-                      const unique_ptr<BSTNode<int>>& b) {
+BstNode<int>* FindLCA(const unique_ptr<BstNode<int>>& tree,
+                      const unique_ptr<BstNode<int>>& s,
+                      const unique_ptr<BstNode<int>>& b) {
   // Implement this placeholder.
   return nullptr;
 }
 
-int LcaWrapper(TestTimer& timer, const std::unique_ptr<BSTNode<int>>& root,
+int LcaWrapper(TestTimer& timer, const std::unique_ptr<BstNode<int>>& root,
                int key1, int key2) {
   auto& node1 = MustFindNode(root, key1);
   auto& node2 = MustFindNode(root, key2);

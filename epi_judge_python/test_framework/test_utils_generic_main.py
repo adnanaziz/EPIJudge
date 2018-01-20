@@ -1,6 +1,7 @@
 # @library
 import argparse
 import os
+import sys
 
 from test_framework import test_utils, generic_test_handler
 
@@ -16,24 +17,32 @@ def generic_test_main(filename,
         (expected, computed result) and returns a boolean value
     :param res_printer - function for customized printing
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--test_data_dir', nargs='?', const=True, type=str)
-    parser.add_argument('--run_all_tests', default=False, action='store_true')
-    args = parser.parse_args()
-    if args.test_data_dir:
-        if not os.path.isdir(args.test_data_dir):
-            raise RuntimeError(
-                '--test_data_dir argument "{}" is not a directory'.format(
-                    args.test_data_dir))
-    else:
-        args.test_data_dir = test_utils.get_default_test_data_dir_path()
+    try:
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--test_data_dir', nargs='?', const=True, type=str)
+        parser.add_argument('--run_all_tests', default=False, action='store_true')
+        parser.add_argument('--gen_arg_names_mode', default=False, action='store_true')
+        args = parser.parse_args()
+        if args.test_data_dir:
+            if not os.path.isdir(args.test_data_dir):
+                raise RuntimeError(
+                    '--test_data_dir argument "{}" is not a directory'.format(
+                        args.test_data_dir))
+        else:
+            args.test_data_dir = test_utils.get_default_test_data_dir_path()
 
-    timeout = 0
-    stop_on_error = not args.run_all_tests
-    test_utils.run_tests(
-        os.path.join(args.test_data_dir, filename),
-        generic_test_handler.GenericTestHandler(func, comp=comp), timeout,
-        stop_on_error, res_printer)
+        test_data_path = os.path.join(args.test_data_dir, filename)
+        if args.gen_arg_names_mode:
+            test_utils.generate_arg_names_header(test_data_path, func)
+            return
+
+        timeout = 0
+        stop_on_error = not args.run_all_tests
+        test_utils.run_tests(test_data_path,
+                             generic_test_handler.GenericTestHandler(func, comp=comp),
+                             timeout, stop_on_error, res_printer)
+    except RuntimeError as e:
+        print('\nCritical error: {}'.format(e), file=sys.stderr)
 
 
 def test_func(i1, i2, i3, l, f1, f2, s1, s2):

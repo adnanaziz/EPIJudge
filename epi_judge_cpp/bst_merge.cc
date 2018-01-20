@@ -4,8 +4,8 @@
 
 using std::shared_ptr;
 
-shared_ptr<BSTNode<int>> MergeTwoBSTs(shared_ptr<BSTNode<int>> A,
-                                      shared_ptr<BSTNode<int>> B) {
+shared_ptr<BstNode<int>> MergeTwoBSTs(shared_ptr<BstNode<int>> A,
+                                      shared_ptr<BstNode<int>> B) {
   // Implement this placeholder.
   return nullptr;
 }

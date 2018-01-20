@@ -5,7 +5,7 @@
 using std::unique_ptr;
 using std::vector;
 
-unique_ptr<BSTNode<int>> RebuildBSTFromPreorder(
+unique_ptr<BstNode<int>> RebuildBSTFromPreorder(
     const vector<int>& preorder_sequence) {
   // Implement this placeholder.
   return nullptr;

@@ -1,4 +1,5 @@
 linked_list(int)	linked_list(int)	linked_list(int)	int	int	void
+@	l1	l2	common	cycle1	cycle2
 []	[]	[]	-1	-1	TODO
 [8, 1, 4, 3, 9, 0, 7, 5, 2, 6]	[]	[]	-1	-1	TODO
 []	[0, 3, 5, 9, 1, 8, 4, 7, 2, 6]	[]	-1	-1	TODO

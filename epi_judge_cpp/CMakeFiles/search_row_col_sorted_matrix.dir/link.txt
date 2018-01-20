@@ -1,1 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/search_row_col_sorted_matrix.dir/search_row_col_sorted_matrix.cc.o  -o search_row_col_sorted_matrix -lpthread 
