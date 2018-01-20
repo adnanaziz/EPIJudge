@@ -7,15 +7,15 @@
 using std::unique_ptr;
 
 bool PairIncludesAncestorAndDescendantOfM(
-    const unique_ptr<BSTNode<int>>& possible_anc_or_desc_0,
-    const unique_ptr<BSTNode<int>>& possible_anc_or_desc_1,
-    const unique_ptr<BSTNode<int>>& middle) {
+    const unique_ptr<BstNode<int>>& possible_anc_or_desc_0,
+    const unique_ptr<BstNode<int>>& possible_anc_or_desc_1,
+    const unique_ptr<BstNode<int>>& middle) {
   // Implement this placeholder.
   return true;
 }
 
 bool PairIncludesAncestorAndDescendantOfMWrapper(
-    TestTimer& timer, const unique_ptr<BSTNode<int>>& tree, int candidate1idx,
+    TestTimer& timer, const unique_ptr<BstNode<int>>& tree, int candidate1idx,
     int candidate2idx, int middle_idx) {
   auto& candidate1 = MustFindNode(tree, candidate1idx);
   auto& candidate2 = MustFindNode(tree, candidate2idx);

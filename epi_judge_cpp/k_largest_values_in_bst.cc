@@ -6,7 +6,7 @@
 using std::unique_ptr;
 using std::vector;
 
-vector<int> FindKLargestInBST(const unique_ptr<BSTNode<int>>& tree, int k) {
+vector<int> FindKLargestInBST(const unique_ptr<BstNode<int>>& tree, int k) {
   // Implement this placeholder.
   return {};
 }

@@ -1,4 +1,5 @@
 binary_tree(int)	int	int
+@	tree	idx
 ["-1", "-1", "-7", "null", "-1", "11", "null", "null", "0", "null", "-8", "-6", "null", "1"]	1	-1	TODO
 ["-1", "-1", "2", "null", "4", "null", "3", "5"]	2	5	TODO
 ["-1", "-1", "8", "null", "11", "null", "9", "8"]	6	9	TODO

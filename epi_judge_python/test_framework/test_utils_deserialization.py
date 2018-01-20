@@ -144,9 +144,7 @@ def get_object_cast_for_type(typename):
 
         def tuple_parse(data):
             if len(data) != len(parsers):
-                raise RuntimeError(
-                    "Tuple parser: expected {} values, got {}".format(
-                        len(parsers), len(data)))
+                raise RuntimeError('Tuple parser: expected {} values, got {}'.format(len(parsers), len(data)))
             return tuple([p(x) for (p, x) in zip(parsers, data)])
 
         return tuple_parse

@@ -1,4 +1,5 @@
 int	array(tuple(int[from], int[to])[edge])[graph]	bool
+@	k	edges
 2	[[0, 1], [1, 0]]	true	A simple two nodes cycle
 3	[[0, 1], [1, 2], [2, 0]]	true	A simple three nodes cycle
 4	[[0, 1], [0, 2], [0, 3]]	false	A star tree

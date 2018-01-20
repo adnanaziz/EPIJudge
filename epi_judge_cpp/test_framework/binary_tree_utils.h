@@ -1,6 +1,7 @@
 // @library
 #pragma once
 
+#include <algorithm>
 #include <memory>
 #include <stdexcept>
 #include <vector>
@@ -101,4 +102,13 @@ void DeleteBinaryTree(Node* tree) {
     }
     tree->reset(nullptr);
   }
+}
+
+template <typename Node>
+int BinaryTreeHeight(const Node& tree) {
+  if (!tree) {
+    return -1;
+  }
+  return 1 + std::max(BinaryTreeHeight(tree->left),
+                      BinaryTreeHeight(tree->right));
 }

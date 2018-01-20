@@ -1,4 +1,5 @@
 int	array(int)	int
+@	final_score	individual_play_scores
 12	[2, 3, 7]	4	Example in the book
 5	[2, 3, 7]	1	Example in the book
 9	[2, 3, 7]	3	Example in the book

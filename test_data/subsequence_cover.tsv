@@ -1,4 +1,5 @@
 array(string)[paragraphs]	array(string)[keywords]	int[minimal length]
+@	paragraph	keywords
 ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "2", "4", "6", "1", "0", "1", "0", "1", "0", "3", "2", "1", "0"]	["0", "2", "9", "4", "6"]	13	TODO
 ["W", "T", "G", "V", "F", "D", "r", "l", "j", "N", "I"]	["T", "D"]	5	TODO
 ["p", "K", "H", "M", "D", "O", "s", "D", "h", "E", "S", "v", "S", "K", "Z", "V", "w", "e", "H", "A", "I", "X", "e", "t", "T", "E", "i", "i", "D", "s", "o", "N", "S", "H", "r", "H", "O", "Q", "s", "a", "N", "N", "z", "l", "X", "I", "A", "t", "I", "C", "Z", "s", "C", "q", "W"]	["e", "r", "N", "l", "Z"]	29	TODO

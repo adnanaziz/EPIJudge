@@ -1,4 +1,5 @@
 binary_tree(int)	array(array(int))
+@	tree
 ["null"]	[]	TODO
 ["518"]	[[518]]	TODO
 ["305", "588", "929"]	[[305], [588, 929]]	TODO

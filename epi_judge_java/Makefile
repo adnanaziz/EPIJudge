@@ -2,8 +2,13 @@ BUILD_DIR := java_build
 SRC_DIR := .
 TEST_DATA_DIR := ../test_data
 
-JAVAC_CMD := javac -d "$(BUILD_DIR)" -cp "$(BUILD_DIR):."
-RUN_CMD := java -cp "$(BUILD_DIR)"
+ifdef ComSpec # Running on Windows
+	JAVAC_CMD := javac -d "$(BUILD_DIR)" -cp "$(BUILD_DIR);."
+	RUN_CMD := java -cp "$(BUILD_DIR)" -Djava.library.path="$(SRC_DIR)/epi/test_framework/"
+else
+	JAVAC_CMD := javac -d "$(BUILD_DIR)" -cp "$(BUILD_DIR):."
+	RUN_CMD := java -cp "$(BUILD_DIR)"
+endif
 
 MAIN_PACKAGE := epi
 
@@ -53,14 +58,23 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTree.class : $(SRC_DIR)/$(MAIN_PACKAGE)/Binar
 $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java $(JSON_CLASSES) $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java"
-
 $(BUILD_DIR)/$(MAIN_PACKAGE)/BstNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BstNode.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/BstNode.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/DoublyListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/DoublyListNode.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/DoublyListNode.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/ListNode.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/ListNode.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.java"
@@ -80,11 +94,8 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.class : $(SRC_DIR
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/ListNode.java $(JSON_CLASSES) $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/ListNode.java"
-
-$(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java $(JSON_CLASSES) $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java"
@@ -116,7 +127,30 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class : $(S
 TEST_FRAMEWORK := \
     $(BUILD_DIR) \
     $(JSON_CLASSES) \
-    
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTree.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/BstNode.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/DoublyListNode.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailureException.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestHandler.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestOutput.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class
 
 .PHONY: AbsentValueArray
 $(BUILD_DIR)/$(MAIN_PACKAGE)/AbsentValueArray.class: $(SRC_DIR)/$(MAIN_PACKAGE)/AbsentValueArray.java $(TEST_FRAMEWORK)

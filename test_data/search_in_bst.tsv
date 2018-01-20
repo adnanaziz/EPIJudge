@@ -1,4 +1,5 @@
 binary_tree(int)	int	int
+@	tree	key
 ["43", "23", "47", "null", "37", "null", "53", "29", "41", "null", "null", "null", "31"]	43	43	TODO
 ["43", "23", "47", "null", "37", "null", "53", "29", "41", "null", "null", "null", "31"]	23	23	TODO
 ["43", "23", "47", "null", "37", "null", "53", "29", "41", "null", "null", "null", "31"]	47	47	TODO

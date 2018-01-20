@@ -166,7 +166,9 @@ public class GenericTestHandler implements TestHandler {
       throw new RuntimeException(e.getMessage());
     } catch (InvocationTargetException e) {
       Throwable t = e.getTargetException();
-      if (t instanceof Exception) {
+      if (t instanceof StackOverflowError) {
+        throw(StackOverflowError) t;
+      } else if (t instanceof Exception) {
         throw(Exception) t;
       } else {
         throw new RuntimeException(t.getMessage());
@@ -195,6 +197,11 @@ public class GenericTestHandler implements TestHandler {
   @Override
   public boolean expectedIsVoid() {
     return retParser == null;
+  }
+
+  @Override
+  public int argumentCount() {
+    return argParsers.length;
   }
 
   @SuppressWarnings("unchecked")
@@ -302,8 +309,8 @@ public class GenericTestHandler implements TestHandler {
 
       if (testDataDir != null && !testDataDir.isEmpty()) {
         if (!Files.isDirectory(Paths.get(testDataDir))) {
-          throw new RuntimeException("--test_data_dir argument \"" + testDataDir +
-                                     "\" is not a directory");
+          throw new RuntimeException("--test_data_dir argument \"" +
+                                     testDataDir + "\" is not a directory");
         }
       } else {
         testDataDir = TestUtils.getDefaultTestDataDirPath();

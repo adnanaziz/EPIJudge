@@ -1,6 +1,7 @@
 # @library
-import sys
 import collections
+import sys
+
 sys.setrecursionlimit(15500)
 
 
@@ -115,3 +116,9 @@ def strip_parent_link(tree):
         n.parent = None
         nodes.append(n.left)
         nodes.append(n.right)
+
+
+def binary_tree_height(tree):
+    if not tree:
+        return -1
+    return 1 + max(binary_tree_height(tree.left), binary_tree_height(tree.right))

@@ -1,4 +1,5 @@
 set(string)[dictionary]	string[source]	string[target]	int[distance]
+@	D	s	t
 ["abc", "abd"]	abc	abd	1	TODO
 ["bat", "cot", "dog", "dag", "dot", "cat"]	cat	dog	3	TODO
 ["bat", "dog", "dag", "dot", "cat"]	cat	dog	-1	TODO

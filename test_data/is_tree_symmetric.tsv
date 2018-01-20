@@ -1,4 +1,5 @@
 binary_tree(int)	bool
+@	tree
 ["-1", "-1", "0", "null", "-1", "null", "1", "null", "2"]	false	TODO
 ["-1", "-1", "10", "-2", "null", "null", "3", "null", "5"]	false	TODO
 ["-1", "-1", "10", "5", "null", "null", "2", "null", "4"]	false	TODO

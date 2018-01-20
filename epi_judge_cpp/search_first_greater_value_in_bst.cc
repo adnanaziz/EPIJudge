@@ -4,13 +4,13 @@
 
 using std::unique_ptr;
 
-BSTNode<int>* FindFirstGreaterThanK(const unique_ptr<BSTNode<int>>& tree,
+BstNode<int>* FindFirstGreaterThanK(const unique_ptr<BstNode<int>>& tree,
                                     int k) {
   // Implement this placeholder.
   return nullptr;
 }
 
-int FindFirstGreaterThanKWrapper(const unique_ptr<BSTNode<int>>& tree, int k) {
+int FindFirstGreaterThanKWrapper(const unique_ptr<BstNode<int>>& tree, int k) {
   auto result = FindFirstGreaterThanK(tree, k);
   return result ? result->data : -1;
 }

@@ -35,17 +35,38 @@ public class TestUtils {
     return result;
   }
 
+  public static List<String> getDefaultArgNames(int count) {
+    List<String> result = new ArrayList<>();
+    for (int i = 0; i < count; i++) {
+      result.add("arg " + String.valueOf(i + 1));
+    }
+    return result;
+  }
+
   public static void runTests(Path testDataPath, TestHandler handler,
                               long timeout, boolean stopOnError) {
     List<List<String>> testData = splitTsvFile(testDataPath);
     handler.parseSignature(testData.get(0));
 
+    List<String> argNames;
+    int firstIdx;
+
+    if (testData.size() >= 2 && !testData.get(1).isEmpty() &&
+        (testData.get(1).get(0).equals("@") ||
+         testData.get(1).get(0).equals("+"))) {
+      argNames = testData.get(1).subList(1, testData.get(1).size());
+      firstIdx = 2;
+    } else {
+      argNames = getDefaultArgNames(handler.argumentCount());
+      firstIdx = 1;
+    }
+
     int testNr = 0;
-    final int totalTests = testData.size() - 1;
+    final int totalTests = testData.size() - firstIdx;
     int testsPassed = 0;
     List<Long> durations = new ArrayList<>();
 
-    for (List<String> testCase : testData.subList(1, testData.size())) {
+    for (List<String> testCase : testData.subList(firstIdx, testData.size())) {
       testNr++;
 
       // Since the last field of test_data is test_explanation, which is not
@@ -115,8 +136,8 @@ public class TestUtils {
         }
       }
 
-      TestUtilsConsole.printTestResult(result, testNr, totalTests, diagnostic,
-                                       testOutput.timer);
+      TestUtilsConsole.printTestInfo(result, testNr, totalTests, diagnostic,
+                                     testOutput.timer);
 
       if (result == TestResult.PASSED) {
         testsPassed++;
@@ -130,7 +151,8 @@ public class TestUtils {
         if (!handler.expectedIsVoid()) {
           testCase = testCase.subList(0, testCase.size() - 1);
         }
-        TestUtilsConsole.printFailedTest(testCase, testOutput, testExplanation);
+        TestUtilsConsole.printFailedTest(argNames, testCase, testOutput,
+                                         testExplanation);
         break;
       }
     }

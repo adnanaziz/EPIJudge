@@ -5,39 +5,51 @@ import math
 import os
 import re
 import statistics
-import sys
-import traceback
 
+from test_framework import console_color
 from test_framework.test_failure_exception import TestFailureException
 from test_framework.test_output import TestOutput
 from test_framework.test_result import TestResult
 from test_framework.test_timer import TestTimer, duration_to_string
-from test_framework.test_utils_console import print_test_result, print_failed_test
+from test_framework.test_utils_console import print_test_info, print_failed_test
+
+
+def split_tsv_file(data_file):
+    ROW_DELIM = '\n'
+    FIELD_DELIM = '\t'
+    try:
+        with open(data_file) as input_data:
+            return [
+                row.replace(ROW_DELIM, '').split(FIELD_DELIM)
+                for row in input_data
+            ]
+    except OSError:
+        raise RuntimeError('Test data file not found')
+
+
+def get_default_arg_names(count):
+    return ['arg {}'.format(i + 1) for i in range(count)]
 
 
 def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
-    def split_tsv_file(data_file):
-        ROW_DELIM = '\n'
-        FIELD_DELIM = '\t'
-        try :
-            with open(data_file) as input_data:
-                return [
-                    row.replace(ROW_DELIM, '').split(FIELD_DELIM)
-                    for row in input_data
-                ]
-        except OSError:
-            raise RuntimeError('Test data file not found')
-
     test_data = split_tsv_file(test_data_path)
 
     handler.parse_signature(test_data[0])
 
+    if len(test_data) >= 2 and len(test_data[1]) > 0 \
+            and test_data[1][0] in {'@', '+'}:
+        arg_names = test_data[1][1:]
+        first_idx = 2
+    else:
+        arg_names = get_default_arg_names(handler.argument_count())
+        first_idx = 1
+
     test_nr = 0
-    total_tests = len(test_data) - 1
+    total_tests = len(test_data) - first_idx
     tests_passed = 0
     durations = []
 
-    for test_case in test_data[1:]:
+    for test_case in test_data[first_idx:]:
         test_nr += 1
 
         test_explanation = test_case.pop()
@@ -77,8 +89,8 @@ def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
             if not handler.expected_is_void():
                 test_output.expected = test_case[-1]
 
-        print_test_result(result, test_nr, total_tests, diagnostic,
-                          test_output.timer)
+        print_test_info(result, test_nr, total_tests, diagnostic,
+                        test_output.timer)
         tests_passed += 1 if result == TestResult.PASSED else 0
         if test_output.timer.has_valid_result():
             durations.append(test_output.timer.get_microseconds())
@@ -86,8 +98,8 @@ def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
         if result != TestResult.PASSED and stop_on_error:
             if not handler.expected_is_void():
                 test_case = test_case[:-1]
-            print_failed_test(test_case, test_output, test_explanation,
-                              res_printer)
+            print_failed_test(arg_names, test_case, test_output,
+                              test_explanation, res_printer)
             break
 
     print()
@@ -162,10 +174,10 @@ def equal_to(a, b):
     from test_framework.binary_tree_utils import equal_binary_trees
     if (isinstance(a, binary_tree_node.BinaryTreeNode)
             or isinstance(a, binary_tree_with_parent_prototype.BinaryTreeNode)
-            or isinstance(a, bst_node.BSTNode)) and (
+            or isinstance(a, bst_node.BstNode)) and (
                 isinstance(b, binary_tree_node.BinaryTreeNode) or isinstance(
                     b, binary_tree_with_parent_prototype.BinaryTreeNode)
-                or isinstance(b, bst_node.BSTNode)):
+                or isinstance(b, bst_node.BstNode)):
         return equal_binary_trees(a, b)
     return a == b
 
@@ -193,3 +205,42 @@ def has_timer_hook(func):
 def enable_timer_hook(func):
     func.timer_hook = True
     return func
+
+
+def generate_arg_names_header(test_data_path, func):
+    sig = inspect.signature(func)
+    arg_names = [p for p in sig.parameters]
+    if has_timer_hook(func):
+        arg_names = arg_names[1:]
+
+    try:
+        with open(test_data_path) as file:
+            test_data_lines = file.readlines()
+    except OSError:
+        raise RuntimeError('Test data file not found')
+
+    header = test_data_lines[0].split('\t')
+    arg_count = len(header) - 1
+    assert len(arg_names) >= arg_count
+    arg_names = arg_names[:arg_count]
+    print('Arg names for {}: {}'.format(func.__name__, arg_names))
+    arg_names = '@\t' + '\t'.join(arg_names) + '\n'
+    # @ marks automatically generated header that can be overwritten,
+    # while + marks manual header that will be preserved
+    if test_data_lines[1][0] == '+':
+        console_color.print_std_out_colored(
+            console_color.ConsoleColor.FG_RED, 'SKIPPED\n')
+    else:
+        overwritten = False
+        if test_data_lines[1][0] == '@':
+            test_data_lines.pop(1)
+            overwritten = True
+        test_data_lines.insert(1, arg_names)
+        with open(test_data_path, 'w') as file:
+            file.writelines(test_data_lines)
+        if overwritten:
+            console_color.print_std_out_colored(
+                console_color.ConsoleColor.FG_BLUE, 'OVERWRITTEN\n')
+        else:
+            console_color.print_std_out_colored(
+                console_color.ConsoleColor.FG_GREEN, 'OK\n')

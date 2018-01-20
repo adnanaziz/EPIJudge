@@ -1,4 +1,4 @@
-from bst_node import BSTNode
+from bst_node import BstNode
 
 
 def rebuild_bst_from_preorder(preorder_sequence):

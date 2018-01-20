@@ -102,3 +102,6 @@ class GenericTestHandler:
 
     def expected_is_void(self):
         return self._ret_value_parser is None
+
+    def argument_count(self):
+        return len(self._param_parsers)

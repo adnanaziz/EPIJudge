@@ -7,14 +7,14 @@
 
 using std::shared_ptr;
 
-shared_ptr<BSTNode<int>> BSTToDoublyLinkedList(
-    const shared_ptr<BSTNode<int>>& tree) {
+shared_ptr<BstNode<int>> BSTToDoublyLinkedList(
+    const shared_ptr<BstNode<int>>& tree) {
   // Implement this placeholder.
   return nullptr;
 }
 
 std::vector<int> BSTToDoublyLinkedListWrapper(
-    TestTimer& timer, const std::shared_ptr<BSTNode<int>>& tree) {
+    TestTimer& timer, const std::shared_ptr<BstNode<int>>& tree) {
   timer.Start();
   auto list = BSTToDoublyLinkedList(tree);
   timer.Stop();

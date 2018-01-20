@@ -1,4 +1,5 @@
 binary_tree(int)	tuple(int[from], int[to])	array(int)
+@	tree	i
 ["19", "7", "43", "3", "11", "23", "47", "2", "5", "null", "17", "null", "37", "null", "53", "null", "null", "null", "null", "13", "null", "29", "41", "null", "null", "null", "null", "null", "31"]	[16, 31]	[17, 19, 23, 29, 31]	TODO
 ["19", "7", "43", "3", "11", "23", "47", "2", "5", "null", "17", "null", "37", "null", "53", "null", "null", "null", "null", "13", "null", "29", "41", "null", "null", "null", "null", "null", "31"]	[38, 39]	[]	TODO
 ["19", "7", "43", "3", "11", "23", "47", "2", "5", "null", "17", "null", "37", "null", "53", "null", "null", "null", "null", "13", "null", "29", "41", "null", "null", "null", "null", "null", "31"]	[38, 42]	[41]	TODO

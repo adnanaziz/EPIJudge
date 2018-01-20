@@ -1,4 +1,4 @@
-from bst_node import BSTNode
+from bst_node import BstNode
 
 
 def find_first_greater_than_k(tree, k):

@@ -1,4 +1,5 @@
 int	int
+@	x
 0	0	0 in binary is 0b0
 1	1	1 in binary is 0b1
 2	1	2 in binary is 0b10

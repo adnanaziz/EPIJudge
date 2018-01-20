@@ -102,6 +102,11 @@ class GenericTestHandler {
     return std::is_same<expected_tag, ExpectedIsVoidTag>::value;
   }
 
+  static constexpr size_t ArgumentCount() {
+    return std::tuple_size<
+        typename FunctionalTraits<Function>::arg_tuple_t>::value;
+  }
+
  private:
   /**
    * This method parses expected value (if return type is not void),
