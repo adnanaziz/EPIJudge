@@ -47,21 +47,17 @@ Check out one minute screencapture videos on YouTube to see how easy it is to ge
 #### C++
 
 - [CLion](https://youtu.be/aHPDApyyYEg)
-- Eclipse *TBA*
-- Visual Studio *TBA*
-- XCode *TBA*
+- [Visual Studio 2017](https://youtu.be/hgd8IIQpBEE)
 
 #### Java
 
 - [IntelliJ IDEA](https://youtu.be/1BzHUpluQHM)
-- Eclipse *TBA*
-- XCode *TBA*
+- [Eclipse](https://youtu.be/i9uz9Zazo0A)
 
 #### Python
 
 - [PyCharm](https://youtu.be/ImD_iI-uGYo)
-- Eclipse *TBA*
-- XCode *TBA*
+- [Eclipse](Installation: https://youtu.be/3_-iy-QJeo8, Run: https://youtu.be/rZ1qqwEXwQY)
 
 ### Running from command-line
 
