@@ -57,7 +57,7 @@ Check out one minute screencapture videos on YouTube to see how easy it is to ge
 #### Python
 
 - [PyCharm](https://youtu.be/ImD_iI-uGYo)
-- [Eclipse](Installation: https://youtu.be/3_-iy-QJeo8, Run: https://youtu.be/rZ1qqwEXwQY)
+- [Eclipse](https://youtu.be/rZ1qqwEXwQY)
 
 ### Running from command-line
 
