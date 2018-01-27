@@ -267,6 +267,7 @@ A big shout-out to [Viacheslav Kroilov](https://github.com/metopa), for applying
 | The gasup problem | refueling\_schedule.cc | RefuelingSchedule.java | refueling\_schedule.py | 
 | Compute the largest rectangle under the skyline | largest\_rectangle\_under\_skyline.cc | LargestRectangleUnderSkyline.java | largest\_rectangle\_under\_skyline.py | 
 | Search a maze | search\_maze.cc | SearchMaze.java | search\_maze.py | 
+| Paint a Boolean Matrix | matrix_connected_regions.cc | MatrixConnectedRegions.java | matrix_connected_regions.py | 
 | Compute enclosed regions | matrix\_enclosed\_regions.cc | MatrixEnclosedRegions.java | matrix\_enclosed\_regions.py | 
 | Deadlock detection | deadlock\_detection.cc | DeadlockDetection.java | deadlock\_detection.py | 
 | Clone a graph | graph\_clone.cc | GraphClone.java | graph\_clone.py | 
