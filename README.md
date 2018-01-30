@@ -326,15 +326,3 @@ The judge harness is fairly complex (but does not use nonstandard language featu
 | Find the longest subarray whose sum <=  k | longest\_subarray\_with\_sum\_constraint.cc | LongestSubarrayWithSumConstraint.java | longest\_subarray\_with\_sum\_constraint.py | 
 | Road network | road\_network.cc | RoadNetwork.java | road\_network.py | 
 | Test if arbitrage is possible | arbitrage.cc | Arbitrage.java | arbitrage.py | 
-
-<html>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-37651502-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-37651502-1');
-</script>
-</html>
