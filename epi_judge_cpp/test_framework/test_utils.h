@@ -141,13 +141,18 @@ template <typename TestHandlerT>
 void RunTests(std::string test_data_path, TestHandlerT& handler,
               const std::chrono::milliseconds& timeout, bool stop_on_error,
               std::vector<std::string> param_names) {
-  std::vector<std::vector<std::string>> test_data =
-      SplitTsvFile(test_data_path);
-  handler.ParseSignature(test_data[0]);
-
   if (handler.HasTimerHook()) {
     param_names.erase(param_names.begin()); //Remove "timer" parameter
   }
+
+  std::vector<std::vector<std::string>> test_data =
+      SplitTsvFile(test_data_path);
+  if (param_names.size() != test_data[0].size() - 1) {
+    throw std::runtime_error("Signature parameter count mismatch");
+  }
+
+  handler.ParseSignature(test_data[0]);
+
   int first_test_idx = 1;
   int test_nr = 1;
   const int total_tests = static_cast<int>(test_data.size() - first_test_idx);
@@ -292,7 +297,7 @@ void MatchFunctionSignature(std::vector<std::string>::const_iterator begin,
  * @param end - end iterator of the vector,
  * containing arguments in their string representation.
  * @return deserialized function arguments, packed into std::tuple.
- * @throws std::runtime_error if deserialization can't be performed.
+ * @throw std::runtime_error if deserialization can't be performed.
  */
 template <typename ArgTuple>
 decltype(auto) ParseSerializedArgs(
