@@ -9,5 +9,5 @@ public interface TestHandler {
 
   boolean expectedIsVoid();
 
-  int argumentCount();
+  List<String> paramNames();
 }

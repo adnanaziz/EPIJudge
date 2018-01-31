@@ -1,5 +1,4 @@
 array(array(int))	array(int)
-@	square_matrix
 []	[]	TODO
 [[1]]	[1]	TODO
 [[4, 2], [3, 1]]	[4, 2, 1, 3]	TODO

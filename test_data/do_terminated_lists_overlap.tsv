@@ -1,5 +1,4 @@
 linked_list(int)[first prefix]	linked_list(int)[second prefix]	linked_list(int)[common part]	void
-@	p1	p2	common
 []	[]	[]	TODO
 []	[3]	[]	TODO
 [2]	[]	[]	TODO

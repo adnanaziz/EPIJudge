@@ -29,6 +29,8 @@ std::ostream& operator<<(std::ostream& out, const HighwaySection& hs) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "road_network.tsv", &FindBestProposals);
+  std::vector<std::string> param_names{"H", "P", "n"};
+  generic_test_main(argc, argv, param_names, "road_network.tsv",
+                    &FindBestProposals);
   return 0;
 }

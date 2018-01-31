@@ -2,32 +2,32 @@ from test_framework.test_utils import enable_timer_hook
 from test_framework.test_failure_exception import TestFailureException
 
 
-def overlapping_no_cycle_lists(L1, L2):
+def overlapping_no_cycle_lists(l0, l1):
     # Implement this placeholder.
     return None
 
 
 @enable_timer_hook
-def overlapping_no_cycle_lists_wrapper(timer, p1, p2, common):
+def overlapping_no_cycle_lists_wrapper(timer, l0, l1, common):
     if common:
-        if p1:
-            l = p1
-            while l.next:
-                l = l.next
-            l.next = common
+        if l0:
+            i = l0
+            while i.next:
+                i = i.next
+            i.next = common
         else:
-            p1 = common
+            l0 = common
 
-        if p2:
-            l = p2
-            while l.next:
-                l = l.next
-            l.next = common
+        if l1:
+            i = l1
+            while i.next:
+                i = i.next
+            i.next = common
         else:
-            p2 = common
+            l1 = common
 
     timer.start()
-    result = overlapping_no_cycle_lists(p1, p2)
+    result = overlapping_no_cycle_lists(l0, l1)
     timer.stop()
 
     if result != common:

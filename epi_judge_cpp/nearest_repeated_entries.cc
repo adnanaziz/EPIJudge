@@ -12,7 +12,8 @@ int FindNearestRepetition(const vector<string>& paragraph) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "nearest_repeated_entries.tsv",
+  std::vector<std::string> param_names{"paragraph"};
+  generic_test_main(argc, argv, param_names, "nearest_repeated_entries.tsv",
                     &FindNearestRepetition);
   return 0;
 }

@@ -17,14 +17,12 @@ public class LowestCommonAncestorInBst {
   }
 
   @EpiTest(testfile = "lowest_common_ancestor_in_bst.tsv")
-  public static int lcaWrapper(TestTimer timer, BstNode<Integer> root,
-                               Integer key1, int key2)
-      throws TestFailureException {
-    BstNode<Integer> node1 = BinaryTreeUtils.mustFindNode(root, key1);
-    BstNode<Integer> node2 = BinaryTreeUtils.mustFindNode(root, key2);
-
+  public static int lcaWrapper(TestTimer timer, BstNode<Integer> tree,
+                               Integer s, int b) throws TestFailureException {
     timer.start();
-    BstNode<Integer> result = findLCA(root, node1, node2);
+    BstNode<Integer> result =
+        findLCA(tree, BinaryTreeUtils.mustFindNode(tree, s),
+                BinaryTreeUtils.mustFindNode(tree, b));
     timer.stop();
 
     if (result == null)

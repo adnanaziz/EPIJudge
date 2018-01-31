@@ -31,7 +31,8 @@ void SearchEntryEqualToItsIndexWrapper(TestTimer& timer, const vector<int>& A) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "binary_search_ai=i.tsv",
+  std::vector<std::string> param_names{"timer", "A"};
+  generic_test_main(argc, argv, param_names, "binary_search_ai=i.tsv",
                     &SearchEntryEqualToItsIndexWrapper);
   return 0;
 }

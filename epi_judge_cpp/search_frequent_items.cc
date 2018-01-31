@@ -13,14 +13,15 @@ vector<string> SearchFrequentItems(
   return {};
 }
 
-vector<string> SearchFrequentItemsWrapper(int k, vector<string>& v) {
-  return SearchFrequentItems(k, begin(v), end(v));
+vector<string> SearchFrequentItemsWrapper(int k, vector<string>& stream) {
+  return SearchFrequentItems(k, begin(stream), end(stream));
 }
 
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "search_frequent_items.tsv",
+  std::vector<std::string> param_names{"k", "stream"};
+  generic_test_main(argc, argv, param_names, "search_frequent_items.tsv",
                     &SearchFrequentItemsWrapper,
                     &UnorderedComparator<std::vector<std::string>>);
   return 0;

@@ -12,29 +12,29 @@ def group_by_age(people):
 
 
 @enable_timer_hook
-def group_by_age_wrapper(timer, v):
-    if not v:
+def group_by_age_wrapper(timer, people):
+    if not people:
         return
-    v = [Person(*x) for x in v]
+    people = [Person(*x) for x in people]
     values = collections.Counter()
-    values.update(v)
+    values.update(people)
 
     timer.start()
-    group_by_age(v)
+    group_by_age(people)
     timer.stop()
 
-    if not v:
+    if not people:
         raise TestFailureException('Empty result')
 
     new_values = collections.Counter()
-    new_values.update(v)
+    new_values.update(people)
     if new_values != values:
         raise TestFailureException('Entry set changed')
 
     ages = set()
-    last_age = v[0]
+    last_age = people[0]
 
-    for x in v:
+    for x in people:
         if x.age in ages:
             raise TestFailureException('Entries are not grouped by age')
         if last_age != x.age:

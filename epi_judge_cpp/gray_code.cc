@@ -50,6 +50,7 @@ void GrayCodeWrapper(TestTimer& timer, int num_bits) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "gray_code.tsv", &GrayCodeWrapper);
+  std::vector<std::string> param_names{"timer", "num_bits"};
+  generic_test_main(argc, argv, param_names, "gray_code.tsv", &GrayCodeWrapper);
   return 0;
 }

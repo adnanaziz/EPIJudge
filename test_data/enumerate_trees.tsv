@@ -1,5 +1,4 @@
 int	array(array(int))
-@	i
 0	[[0]]	TODO
 1	[[1, 0, 0]]	TODO
 2	[[1, 0, 1, 0, 0], [1, 1, 0, 0, 0]]	TODO

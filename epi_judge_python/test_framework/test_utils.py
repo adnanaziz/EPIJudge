@@ -27,29 +27,19 @@ def split_tsv_file(data_file):
         raise RuntimeError('Test data file not found')
 
 
-def get_default_arg_names(count):
-    return ['arg {}'.format(i + 1) for i in range(count)]
-
-
 def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
     test_data = split_tsv_file(test_data_path)
 
     handler.parse_signature(test_data[0])
 
-    if len(test_data) >= 2 and len(test_data[1]) > 0 \
-            and test_data[1][0] in {'@', '+'}:
-        arg_names = test_data[1][1:]
-        first_idx = 2
-    else:
-        arg_names = get_default_arg_names(handler.argument_count())
-        first_idx = 1
-
+    param_names = handler.param_names()
+    first_test_idx = 1
     test_nr = 0
-    total_tests = len(test_data) - first_idx
+    total_tests = len(test_data) - first_test_idx
     tests_passed = 0
     durations = []
 
-    for test_case in test_data[first_idx:]:
+    for test_case in test_data[first_test_idx:]:
         test_nr += 1
 
         test_explanation = test_case.pop()
@@ -98,7 +88,7 @@ def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
         if result != TestResult.PASSED and stop_on_error:
             if not handler.expected_is_void():
                 test_case = test_case[:-1]
-            print_failed_test(arg_names, test_case, test_output,
+            print_failed_test(param_names, test_case, test_output,
                               test_explanation, res_printer)
             break
 
@@ -190,14 +180,6 @@ def filter_bracket_comments(s):
     return re.sub(bracket_enclosed_comment, '', s, 0).replace(' ', '')
 
 
-def nondefault_param_count(s: inspect.Signature):
-    """
-    Counts the number of function arguments that have no default value
-    """
-    return sum(1 if p.default is inspect.Parameter.empty else 0
-               for p in s.parameters.values())
-
-
 def has_timer_hook(func):
     return hasattr(func, 'timer_hook') and func.timer_hook
 
@@ -205,42 +187,3 @@ def has_timer_hook(func):
 def enable_timer_hook(func):
     func.timer_hook = True
     return func
-
-
-def generate_arg_names_header(test_data_path, func):
-    sig = inspect.signature(func)
-    arg_names = [p for p in sig.parameters]
-    if has_timer_hook(func):
-        arg_names = arg_names[1:]
-
-    try:
-        with open(test_data_path) as file:
-            test_data_lines = file.readlines()
-    except OSError:
-        raise RuntimeError('Test data file not found')
-
-    header = test_data_lines[0].split('\t')
-    arg_count = len(header) - 1
-    assert len(arg_names) >= arg_count
-    arg_names = arg_names[:arg_count]
-    print('Arg names for {}: {}'.format(func.__name__, arg_names))
-    arg_names = '@\t' + '\t'.join(arg_names) + '\n'
-    # @ marks automatically generated header that can be overwritten,
-    # while + marks manual header that will be preserved
-    if test_data_lines[1][0] == '+':
-        console_color.print_std_out_colored(
-            console_color.ConsoleColor.FG_RED, 'SKIPPED\n')
-    else:
-        overwritten = False
-        if test_data_lines[1][0] == '@':
-            test_data_lines.pop(1)
-            overwritten = True
-        test_data_lines.insert(1, arg_names)
-        with open(test_data_path, 'w') as file:
-            file.writelines(test_data_lines)
-        if overwritten:
-            console_color.print_std_out_colored(
-                console_color.ConsoleColor.FG_BLUE, 'OVERWRITTEN\n')
-        else:
-            console_color.print_std_out_colored(
-                console_color.ConsoleColor.FG_GREEN, 'OK\n')

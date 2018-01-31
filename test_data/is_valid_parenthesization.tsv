@@ -1,5 +1,4 @@
 string	bool
-@	s
 ()	true	TODO
 ()[]{}	true	TODO
 [()[]]{}	true	TODO

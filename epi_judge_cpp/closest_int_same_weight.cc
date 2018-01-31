@@ -8,7 +8,8 @@ unsigned long ClosestIntSameBitCount(unsigned long x) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "closest_int_same_weight.tsv",
+  std::vector<std::string> param_names{"x"};
+  generic_test_main(argc, argv, param_names, "closest_int_same_weight.tsv",
                     &ClosestIntSameBitCount);
   return 0;
 }

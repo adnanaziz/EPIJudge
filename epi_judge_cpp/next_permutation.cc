@@ -10,6 +10,8 @@ vector<int> NextPermutation(vector<int> perm) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "next_permutation.tsv", &NextPermutation);
+  std::vector<std::string> param_names{"perm"};
+  generic_test_main(argc, argv, param_names, "next_permutation.tsv",
+                    &NextPermutation);
   return 0;
 }

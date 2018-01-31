@@ -17,6 +17,8 @@ int SearchListWrapper(shared_ptr<ListNode<int>> L, int key) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "search_in_list.tsv", &SearchListWrapper);
+  std::vector<std::string> param_names{"L", "key"};
+  generic_test_main(argc, argv, param_names, "search_in_list.tsv",
+                    &SearchListWrapper);
   return 0;
 }

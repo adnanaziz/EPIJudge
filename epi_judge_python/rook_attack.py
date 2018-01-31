@@ -4,8 +4,9 @@ def rook_attack(A):
 
 
 def rook_attack_wrapper(A):
-    rook_attack(A)
-    return A
+    a_copy = copy.deepcopy(A)
+    rook_attack(a_copy)
+    return a_copy
 
 
 from test_framework import test_utils_generic_main, test_utils

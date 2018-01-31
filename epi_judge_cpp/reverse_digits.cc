@@ -7,6 +7,7 @@ long Reverse(int x) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "reverse_digits.tsv", &Reverse);
+  std::vector<std::string> param_names{"x"};
+  generic_test_main(argc, argv, param_names, "reverse_digits.tsv", &Reverse);
   return 0;
 }

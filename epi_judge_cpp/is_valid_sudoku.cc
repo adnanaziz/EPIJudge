@@ -11,6 +11,8 @@ bool IsValidSudoku(const vector<vector<int>>& partial_assignment) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "is_valid_sudoku.tsv", &IsValidSudoku);
+  std::vector<std::string> param_names{"partial_assignment"};
+  generic_test_main(argc, argv, param_names, "is_valid_sudoku.tsv",
+                    &IsValidSudoku);
   return 0;
 }

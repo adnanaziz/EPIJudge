@@ -58,7 +58,8 @@ void NonuniformRandomNumberGenerationWrapper(
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "nonuniform_random_number.tsv",
+  std::vector<std::string> param_names{"timer", "values", "probabilities"};
+  generic_test_main(argc, argv, param_names, "nonuniform_random_number.tsv",
                     &NonuniformRandomNumberGenerationWrapper);
   return 0;
 }

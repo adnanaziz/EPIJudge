@@ -20,10 +20,10 @@ public class SudokuSolve {
 
   @EpiTest(testfile = "sudoku_solve.tsv")
   public static void solveSudokuWrapper(TestTimer timer,
-                                        List<List<Integer>> board)
+                                        List<List<Integer>> partialAssignment)
       throws TestFailureException {
     List<List<Integer>> solved = new ArrayList<>();
-    for (List<Integer> row : board) {
+    for (List<Integer> row : partialAssignment) {
       List<Integer> copy = new ArrayList<>();
       copy.addAll(row);
       solved.add(copy);
@@ -33,13 +33,13 @@ public class SudokuSolve {
     solveSudoku(solved);
     timer.stop();
 
-    if (board.size() != solved.size()) {
+    if (partialAssignment.size() != solved.size()) {
       throw new TestFailureException(
           "Initial cell assignment has been changed");
     }
 
-    for (int i = 0; i < board.size(); i++) {
-      List<Integer> br = board.get(i);
+    for (int i = 0; i < partialAssignment.size(); i++) {
+      List<Integer> br = partialAssignment.get(i);
       List<Integer> sr = solved.get(i);
       if (br.size() != sr.size()) {
         throw new TestFailureException(

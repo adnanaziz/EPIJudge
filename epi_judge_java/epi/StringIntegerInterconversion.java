@@ -17,11 +17,11 @@ public class StringIntegerInterconversion {
   }
 
   @EpiTest(testfile = "string_integer_interconversion.tsv")
-  public static void wrapper(int num, String s) throws TestFailureException {
-    if (!intToString(num).equals(s)) {
+  public static void wrapper(int x, String s) throws TestFailureException {
+    if (!intToString(x).equals(s)) {
       throw new TestFailureException("Int to string conversion failed");
     }
-    if (stringToInt(s) != num) {
+    if (stringToInt(s) != x) {
       throw new TestFailureException("String to int conversion failed");
     }
   }

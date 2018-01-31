@@ -41,6 +41,8 @@ double HuffmanEncodingWrapper(vector<huffman::CharWithFrequency> symbols) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "huffman_coding.tsv", &HuffmanEncodingWrapper);
+  std::vector<std::string> param_names{"symbols"};
+  generic_test_main(argc, argv, param_names, "huffman_coding.tsv",
+                    &HuffmanEncodingWrapper);
   return 0;
 }

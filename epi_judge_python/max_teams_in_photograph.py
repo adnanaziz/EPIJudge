@@ -4,10 +4,11 @@ from test_framework.test_utils import enable_timer_hook
 class GraphVertex:
     def __init__(self):
         self.edges = []
+        # Set max_distance = 0 to indicate unvisitied vertex.
         self.max_distance = 0
 
 
-def find_largest_number_teams(G):
+def find_largest_number_teams(graph):
     # Implement this placeholder.
     return 0
 

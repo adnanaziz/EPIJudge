@@ -14,7 +14,8 @@ shared_ptr<ListNode<int>> RemoveKthLast(const shared_ptr<ListNode<int>>& L,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "delete_kth_last_from_list.tsv",
+  std::vector<std::string> param_names{"L", "k"};
+  generic_test_main(argc, argv, param_names, "delete_kth_last_from_list.tsv",
                     &RemoveKthLast);
   return 0;
 }

@@ -14,12 +14,12 @@ int StringToInt(const string& s) {
   return 0;
 }
 
-void Wrapper(int num, const string& s) {
-  if (IntToString(num) != s) {
+void Wrapper(int x, const string& s) {
+  if (IntToString(x) != s) {
     throw TestFailureException("Int to string conversion failed");
   }
 
-  if (StringToInt(s) != num) {
+  if (StringToInt(s) != x) {
     throw TestFailureException("String to int conversion failed");
   }
 }
@@ -27,6 +27,8 @@ void Wrapper(int num, const string& s) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "string_integer_interconversion.tsv", &Wrapper);
+  std::vector<std::string> param_names{"x", "s"};
+  generic_test_main(argc, argv, param_names,
+                    "string_integer_interconversion.tsv", &Wrapper);
   return 0;
 }

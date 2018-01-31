@@ -6,16 +6,16 @@
 using std::deque;
 using std::vector;
 
-void FlipColor(int x, int y, vector<deque<bool>>* A_ptr) {
+void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   // Implement this placeholder.
   return;
 }
 
 vector<vector<int>> FlipColorWrapper(TestTimer& timer, int x, int y,
-                                     vector<vector<int>> a) {
+                                     vector<vector<int>> image) {
   vector<deque<bool>> b;
-  b.reserve(a.size());
-  for (const vector<int>& row : a) {
+  b.reserve(image.size());
+  for (const vector<int>& row : image) {
     deque<bool> tmp;
     tmp.resize(row.size());
     for (int i = 0; i < row.size(); ++i) {
@@ -28,20 +28,21 @@ vector<vector<int>> FlipColorWrapper(TestTimer& timer, int x, int y,
   FlipColor(x, y, &b);
   timer.Stop();
 
-  a.resize(b.size());
+  image.resize(b.size());
 
-  for (int i = 0; i < a.size(); ++i) {
-    a[i].resize(b.size());
-    for (int j = 0; j < a[i].size(); ++j) {
-      a[i][j] = b[i][j];
+  for (int i = 0; i < image.size(); ++i) {
+    image[i].resize(b.size());
+    for (int j = 0; j < image[i].size(); ++j) {
+      image[i][j] = b[i][j];
     }
   }
-  return a;
+  return image;
 }
 
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "painting.tsv", &FlipColorWrapper);
+  std::vector<std::string> param_names{"timer", "x", "y", "image"};
+  generic_test_main(argc, argv, param_names, "painting.tsv", &FlipColorWrapper);
   return 0;
 }

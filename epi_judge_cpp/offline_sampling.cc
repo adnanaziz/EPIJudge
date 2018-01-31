@@ -48,6 +48,8 @@ void RandomSamplingWrapper(TestTimer& timer, int k, const vector<int>& A) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "offline_sampling.tsv", &RandomSamplingWrapper);
+  std::vector<std::string> param_names{"timer", "k", "A"};
+  generic_test_main(argc, argv, param_names, "offline_sampling.tsv",
+                    &RandomSamplingWrapper);
   return 0;
 }

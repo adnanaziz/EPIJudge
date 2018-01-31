@@ -69,6 +69,8 @@ void QueueTester(const std::vector<QueueOp>& ops) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "queue_from_stacks.tsv", &QueueTester);
+  std::vector<std::string> param_names{"ops"};
+  generic_test_main(argc, argv, param_names, "queue_from_stacks.tsv",
+                    &QueueTester);
   return 0;
 }

@@ -44,14 +44,6 @@ std::vector<std::vector<std::string>> SplitTsvFile(
   return result;
 }
 
-std::vector<std::string> GetDefaultArgNames(size_t count) {
-  std::vector<std::string> result;
-  for (size_t i = 0; i < count; i++) {
-    result.push_back("arg " + std::to_string(i));
-  }
-  return result;
-}
-
 /**
  * Serialized type name can contain multiple comments, enclosed into brackets.
  * This function removes all such comments.
@@ -146,32 +138,24 @@ std::string GetDefaultTestDataDirPath() {
 }  // namespace
 
 template <typename TestHandlerT>
-void RunTests(const std::string& test_data_path, TestHandlerT& handler,
-              const std::chrono::milliseconds& timeout, bool stop_on_error) {
+void RunTests(std::string test_data_path, TestHandlerT& handler,
+              const std::chrono::milliseconds& timeout, bool stop_on_error,
+              std::vector<std::string> param_names) {
   std::vector<std::vector<std::string>> test_data =
       SplitTsvFile(test_data_path);
   handler.ParseSignature(test_data[0]);
 
-  std::vector<std::string> arg_names;
-  size_t first_idx;
-
-  if (test_data.size() >= 2 && !test_data[1].empty() &&
-      (test_data[1][0] == "@" || test_data[1][0] == "+")) {
-    std::copy(test_data[1].begin() + 1, test_data[1].end(),
-              std::back_inserter(arg_names));
-    first_idx = 2;
-  } else {
-    arg_names = GetDefaultArgNames(handler.ArgumentCount());
-    first_idx = 1;
+  if (handler.HasTimerHook()) {
+    param_names.erase(param_names.begin()); //Remove "timer" parameter
   }
-
+  int first_test_idx = 1;
   int test_nr = 1;
-  const int total_tests = static_cast<int>(test_data.size() - first_idx);
+  const int total_tests = static_cast<int>(test_data.size() - first_test_idx);
   int tests_passed = 0;
   const bool use_timeout = (timeout != timeout.zero());
   std::vector<std::chrono::microseconds> durations;
 
-  for (size_t i = first_idx; i < test_data.size(); i++, test_nr++) {
+  for (int i = first_test_idx; i < test_data.size(); ++i, ++test_nr) {
     // Since the last field of test_data is test_explanation, which is not
     // used for running test, we extract that here.
     const std::string test_explanation = std::move(test_data[i].back());
@@ -223,7 +207,7 @@ void RunTests(const std::string& test_data_path, TestHandlerT& handler,
       if (!handler.ExpectedIsVoid()) {
         test_data[i].pop_back();
       }
-      PrintFailedTest(arg_names, test_data[i], test_output, test_explanation);
+      PrintFailedTest(param_names, test_data[i], test_output, test_explanation);
       break;
     }
   }

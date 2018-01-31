@@ -29,9 +29,10 @@ vector<int> SerializeStructure(const unique_ptr<BinaryTreeNode<int>>& tree) {
   return result;
 }
 
-vector<vector<int>> GenerateAllBinaryTreesWrapper(TestTimer& timer, int i) {
+vector<vector<int>> GenerateAllBinaryTreesWrapper(TestTimer& timer,
+                                                  int num_nodes) {
   timer.Start();
-  auto result = GenerateAllBinaryTrees(i);
+  auto result = GenerateAllBinaryTrees(num_nodes);
   timer.Stop();
 
   vector<vector<int>> serialized;
@@ -45,7 +46,8 @@ vector<vector<int>> GenerateAllBinaryTreesWrapper(TestTimer& timer, int i) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "enumerate_trees.tsv",
+  std::vector<std::string> param_names{"timer", "num_nodes"};
+  generic_test_main(argc, argv, param_names, "enumerate_trees.tsv",
                     &GenerateAllBinaryTreesWrapper);
   return 0;
 }

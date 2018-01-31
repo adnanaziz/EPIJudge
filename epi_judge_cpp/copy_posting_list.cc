@@ -10,7 +10,7 @@ using std::make_shared;
 using std::shared_ptr;
 
 shared_ptr<PostingListNode> CopyPostingsList(
-    const shared_ptr<PostingListNode>& L) {
+    const shared_ptr<PostingListNode>& l) {
   // Implement this placeholder.
   return nullptr;
 }
@@ -84,8 +84,8 @@ void AssertListsEqual(const PostingListPtr& orig, const PostingListPtr& copy) {
 }
 
 void CopyPostingsListWrapper(TestTimer& timer,
-                             const std::vector<SerializedNode>& serialized) {
-  auto head = CreatePostingList(serialized);
+                             const std::vector<SerializedNode>& l) {
+  auto head = CreatePostingList(l);
   timer.Start();
   auto copy = CopyPostingsList(head);
   timer.Stop();
@@ -95,7 +95,8 @@ void CopyPostingsListWrapper(TestTimer& timer,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "copy_posting_list.tsv",
+  std::vector<std::string> param_names{"timer", "l"};
+  generic_test_main(argc, argv, param_names, "copy_posting_list.tsv",
                     &CopyPostingsListWrapper);
   return 0;
 }

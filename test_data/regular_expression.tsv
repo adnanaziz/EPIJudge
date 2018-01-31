@@ -1,5 +1,4 @@
 string	string	bool
-@	regex	s
 c*.*a*b*ac*a*a*	bcbaccbbbccabaac	true	TODO
 ^c*.*a*b*ac*a*a*	bcbaccbbbccabaac	true	TODO
 c*.*a*b*ac*a*a*$	bcbaccbbbccabaac	true	TODO

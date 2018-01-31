@@ -10,6 +10,8 @@ int MaximumRevenue(const vector<int>& coins) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "picking_up_coins.tsv", &MaximumRevenue);
+  std::vector<std::string> param_names{"coins"};
+  generic_test_main(argc, argv, param_names, "picking_up_coins.tsv",
+                    &MaximumRevenue);
   return 0;
 }

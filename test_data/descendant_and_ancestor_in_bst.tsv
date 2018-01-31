@@ -1,5 +1,4 @@
 binary_tree(int)	int[possible anc or desc 1]	int[possible anc or desc 2]	int[middle node]	bool
-@	tree	candidate1_idx	candidate2_idx	middle_idx
 ["5"]	5	5	5	false	TODO
 ["5", "2", "null", "null", "4"]	5	2	4	false	TODO
 ["5", "2", "null", "null", "4"]	5	4	2	true	TODO

@@ -17,17 +17,17 @@ public class DescendantAndAncestorInBst {
 
   @EpiTest(testfile = "descendant_and_ancestor_in_bst.tsv")
   public static boolean pairIncludesAncestorAndDescendantOfMWrapper(
-      TestTimer timer, BstNode<Integer> tree, int candidate1Idx,
-      int candidate2Idx, int middleIdx) {
+      TestTimer timer, BstNode<Integer> tree, int possibleAncOrDesc0,
+      int possibleAncOrDesc1, int middle) {
+    BstNode<Integer> candidate0 =
+        BinaryTreeUtils.mustFindNode(tree, possibleAncOrDesc0);
     BstNode<Integer> candidate1 =
-        BinaryTreeUtils.mustFindNode(tree, candidate1Idx);
-    BstNode<Integer> candidate2 =
-        BinaryTreeUtils.mustFindNode(tree, candidate2Idx);
-    BstNode<Integer> middle = BinaryTreeUtils.mustFindNode(tree, middleIdx);
+        BinaryTreeUtils.mustFindNode(tree, possibleAncOrDesc1);
+    BstNode<Integer> middleNode = BinaryTreeUtils.mustFindNode(tree, middle);
 
     timer.start();
-    boolean result =
-        pairIncludesAncestorAndDescendantOfM(candidate1, candidate2, middle);
+    boolean result = pairIncludesAncestorAndDescendantOfM(
+        candidate0, candidate1, middleNode);
     timer.stop();
     return result;
   }

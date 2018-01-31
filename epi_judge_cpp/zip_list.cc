@@ -13,6 +13,8 @@ shared_ptr<ListNode<int>> ZippingLinkedList(
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "zip_list.tsv", &ZippingLinkedList);
+  std::vector<std::string> param_names{"L"};
+  generic_test_main(argc, argv, param_names, "zip_list.tsv",
+                    &ZippingLinkedList);
   return 0;
 }

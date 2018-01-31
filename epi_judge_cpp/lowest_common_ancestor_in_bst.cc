@@ -16,12 +16,10 @@ BstNode<int>* FindLCA(const unique_ptr<BstNode<int>>& tree,
   return nullptr;
 }
 
-int LcaWrapper(TestTimer& timer, const std::unique_ptr<BstNode<int>>& root,
-               int key1, int key2) {
-  auto& node1 = MustFindNode(root, key1);
-  auto& node2 = MustFindNode(root, key2);
+int LcaWrapper(TestTimer& timer, const std::unique_ptr<BstNode<int>>& tree,
+               int s, int b) {
   timer.Start();
-  auto result = FindLCA(root, node1, node2);
+  auto result = FindLCA(tree, MustFindNode(tree, s), MustFindNode(tree, b));
   timer.Stop();
   if (!result) {
     throw TestFailureException("Result can not be nullptr");
@@ -32,7 +30,8 @@ int LcaWrapper(TestTimer& timer, const std::unique_ptr<BstNode<int>>& root,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "lowest_common_ancestor_in_bst.tsv",
-                    &LcaWrapper);
+  std::vector<std::string> param_names{"timer", "tree", "s", "b"};
+  generic_test_main(argc, argv, param_names,
+                    "lowest_common_ancestor_in_bst.tsv", &LcaWrapper);
   return 0;
 }

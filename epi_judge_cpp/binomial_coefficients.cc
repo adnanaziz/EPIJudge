@@ -8,7 +8,8 @@ int ComputeBinomialCoefficient(int n, int k) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "binomial_coefficients.tsv",
+  std::vector<std::string> param_names{"n", "k"};
+  generic_test_main(argc, argv, param_names, "binomial_coefficients.tsv",
                     &ComputeBinomialCoefficient);
   return 0;
 }

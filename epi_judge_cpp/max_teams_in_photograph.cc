@@ -12,7 +12,7 @@ struct GraphVertex {
   int max_distance = 0;
 };
 
-int FindLargestNumberTeams(vector<GraphVertex>* G) {
+int FindLargestNumberTeams(vector<GraphVertex>* graph) {
   // Implement this placeholder.
   return 0;
 }
@@ -49,7 +49,8 @@ int FindLargestNumberTeamsWrapper(TestTimer& timer, int k,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "max_teams_in_photograph.tsv",
+  std::vector<std::string> param_names{"timer", "k", "edges"};
+  generic_test_main(argc, argv, param_names, "max_teams_in_photograph.tsv",
                     &FindLargestNumberTeamsWrapper);
   return 0;
 }

@@ -12,12 +12,10 @@ void DeleteAfter(const shared_ptr<ListNode<int>>& node) {
 }
 
 shared_ptr<ListNode<int>> DeleteFromListWrapper(
-    TestTimer& timer, const shared_ptr<ListNode<int>>& head, int i) {
-  static int nr = 1;
-  nr++;
+    TestTimer& timer, const shared_ptr<ListNode<int>>& head, int node_idx) {
   shared_ptr<ListNode<int>> selected_node = head;
   shared_ptr<ListNode<int>> prev;
-  while (i-- > 0) {
+  while (node_idx-- > 0) {
     if (!selected_node || !selected_node->next)
       throw std::runtime_error("Node index is out of range");
     prev = selected_node;
@@ -32,6 +30,8 @@ shared_ptr<ListNode<int>> DeleteFromListWrapper(
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "delete_from_list.tsv", &DeleteFromListWrapper);
+  std::vector<std::string> param_names{"timer", "head", "node_idx"};
+  generic_test_main(argc, argv, param_names, "delete_from_list.tsv",
+                    &DeleteFromListWrapper);
   return 0;
 }

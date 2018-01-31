@@ -1,5 +1,4 @@
 string	string
-@	path
 123/456	123/456	TODO
 /123/456	/123/456	TODO
 usr/lib/../bin/gcc	usr/bin/gcc	TODO

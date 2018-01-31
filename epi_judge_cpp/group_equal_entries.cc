@@ -23,25 +23,25 @@ void GroupByAge(vector<Person>* people) {
 template <>
 struct SerializationTraits<Person> : UserSerTraits<Person, int, string> {};
 
-void GroupByAgeWrapper(TestTimer& timer, vector<Person>& v) {
-  if (v.empty()) {
+void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
+  if (people.empty()) {
     return;
   }
   std::multiset<Person, std::function<bool(Person, Person)>> values(
-      begin(v), end(v), [](const Person& a, const Person& b) {
+      begin(people), end(people), [](const Person& a, const Person& b) {
         return a.age == b.age ? a.name < b.name : a.age < b.age;
       });
 
   timer.Start();
-  GroupByAge(&v);
+  GroupByAge(&people);
   timer.Stop();
 
-  if (v.empty()) {
+  if (people.empty()) {
     throw TestFailureException("Empty result");
   }
   std::set<int> ages;
-  int last_age = v[0].age;
-  for (auto& x : v) {
+  int last_age = people[0].age;
+  for (auto& x : people) {
     if (ages.count(x.age) != 0) {
       throw TestFailureException("Entries are not grouped by age");
     }
@@ -60,6 +60,8 @@ void GroupByAgeWrapper(TestTimer& timer, vector<Person>& v) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "group_equal_entries.tsv", &GroupByAgeWrapper);
+  std::vector<std::string> param_names{"timer", "people"};
+  generic_test_main(argc, argv, param_names, "group_equal_entries.tsv",
+                    &GroupByAgeWrapper);
   return 0;
 }

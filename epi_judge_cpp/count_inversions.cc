@@ -10,6 +10,8 @@ int CountInversions(vector<int> A) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "count_inversions.tsv", &CountInversions);
+  std::vector<std::string> param_names{"A"};
+  generic_test_main(argc, argv, param_names, "count_inversions.tsv",
+                    &CountInversions);
   return 0;
 }

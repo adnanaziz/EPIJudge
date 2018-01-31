@@ -13,13 +13,13 @@ public class ReverseWords {
 
   @EpiTest(testfile = "reverse_words.tsv")
   public static String reverseWordsWrapper(TestTimer timer, String s) {
-    char[] a = s.toCharArray();
+    char[] sCopy = s.toCharArray();
 
     timer.start();
-    reverseWords(a);
+    reverseWords(sCopy);
     timer.stop();
 
-    return String.valueOf(a);
+    return String.valueOf(sCopy);
   }
 
   public static void main(String[] args) {

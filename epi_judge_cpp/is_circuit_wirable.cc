@@ -11,7 +11,7 @@ struct GraphVertex {
   vector<GraphVertex*> edges;
 };
 
-bool IsAnyPlacementFeasible(vector<GraphVertex>* G) {
+bool IsAnyPlacementFeasible(vector<GraphVertex>* graph) {
   // Implement this placeholder.
   return true;
 }
@@ -52,7 +52,8 @@ bool IsAnyPlacementFeasibleWrapper(TestTimer& timer, int k,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "is_circuit_wirable.tsv",
+  std::vector<std::string> param_names{"timer", "k", "edges"};
+  generic_test_main(argc, argv, param_names, "is_circuit_wirable.tsv",
                     &IsAnyPlacementFeasibleWrapper);
   return 0;
 }

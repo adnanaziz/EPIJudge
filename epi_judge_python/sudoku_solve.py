@@ -27,23 +27,23 @@ def gather_square_block(data, block_size, n):
     block_y = (n // block_size) * block_size
 
     return [
-        data[block_x + i][block_y + j]
-        for j in range(block_size) for i in range(block_size)
+        data[block_x + i][block_y + j] for j in range(block_size)
+        for i in range(block_size)
     ]
 
 
 @enable_timer_hook
-def solve_sudoku_wrapper(timer, board):
-    solved = copy.deepcopy(board)
+def solve_sudoku_wrapper(timer, partial_assignment):
+    solved = copy.deepcopy(partial_assignment)
 
     timer.start()
     solve_sudoku(solved)
     timer.stop()
 
-    if len(board) != len(solved):
+    if len(partial_assignment) != len(solved):
         raise TestFailureException('Initial cell assignment has been changed')
 
-    for (br, sr) in zip(board, solved):
+    for (br, sr) in zip(partial_assignment, solved):
         if len(br) != len(sr):
             raise TestFailureException(
                 'Initial cell assignment has been changed')

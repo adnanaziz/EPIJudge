@@ -13,11 +13,13 @@ def union_of_intervals(intervals):
 
 
 @enable_timer_hook
-def union_of_intervals_wrapper(timer, A):
-    A = [Interval(Endpoint(x[1], x[0]), Endpoint(x[3], x[2])) for x in A]
+def union_of_intervals_wrapper(timer, intervals):
+    intervals = [
+        Interval(Endpoint(x[1], x[0]), Endpoint(x[3], x[2])) for x in intervals
+    ]
 
     timer.start()
-    result = union_of_intervals(A)
+    result = union_of_intervals(intervals)
     timer.stop()
 
     return [(i.left.val, i.left.is_closed, i.right.val, i.right.is_closed)

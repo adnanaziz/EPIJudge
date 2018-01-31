@@ -8,11 +8,11 @@ def deletion_from_list(node_to_delete):
 
 
 @enable_timer_hook
-def deletion_from_list_wrapper(timer, head, i):
+def deletion_from_list_wrapper(timer, head, node_to_delete_idx):
     node_to_delete = head
     if node_to_delete is None:
         raise RuntimeError('List is empty')
-    for _ in range(i):
+    for _ in range(node_to_delete_idx):
         if node_to_delete.next is None:
             raise RuntimeError("Can't delete last node")
         node_to_delete = node_to_delete.next

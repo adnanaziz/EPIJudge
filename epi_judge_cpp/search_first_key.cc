@@ -10,6 +10,8 @@ int SearchFirstOfK(const vector<int>& A, int k) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "search_first_key.tsv", &SearchFirstOfK);
+  std::vector<std::string> param_names{"A", "k"};
+  generic_test_main(argc, argv, param_names, "search_first_key.tsv",
+                    &SearchFirstOfK);
   return 0;
 }

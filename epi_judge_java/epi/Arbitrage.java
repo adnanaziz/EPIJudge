@@ -8,7 +8,7 @@ import java.util.List;
 public class Arbitrage {
   @EpiTest(testfile = "arbitrage.tsv")
 
-  public static boolean isArbitrageExist(List<List<Double>> G) {
+  public static boolean isArbitrageExist(List<List<Double>> graph) {
     // Implement this placeholder.
     return true;
   }

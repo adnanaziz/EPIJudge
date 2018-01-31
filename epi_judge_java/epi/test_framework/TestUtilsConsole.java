@@ -65,7 +65,7 @@ public class TestUtilsConsole {
     return new String(new char[count]).replace('\0', ' ');
   }
 
-  public static void printFailedTest(List<String> argNames,
+  public static void printFailedTest(List<String> paramNames,
                                      List<String> arguments,
                                      TestOutput testOutput,
                                      String testExplanation) {
@@ -73,44 +73,40 @@ public class TestUtilsConsole {
     String resultStr = "result";
     String explanationStr = "explanation";
 
-    boolean hasExpected = testOutput != null &&
-                          testOutput.expected != TestOutput.EMPTY_OBJECT;
-    boolean hasResult = testOutput != null &&
-                        testOutput.result != TestOutput.EMPTY_OBJECT;
-    boolean hasExplanation = !testExplanation.equals("TODO") &&
-                             !testExplanation.equals("");
+    boolean hasExpected =
+        testOutput != null && testOutput.expected != TestOutput.EMPTY_OBJECT;
+    boolean hasResult =
+        testOutput != null && testOutput.result != TestOutput.EMPTY_OBJECT;
+    boolean hasExplanation =
+        !testExplanation.equals("TODO") && !testExplanation.equals("");
 
-    int maxColSize = hasExplanation ? explanationStr.length() :
-                     hasExpected ? expectedStr.length() :
-                     hasResult ? resultStr.length() :
-                     0;
+    int maxColSize = hasExplanation
+                         ? explanationStr.length()
+                         : hasExpected ? expectedStr.length()
+                                       : hasResult ? resultStr.length() : 0;
 
-    for (String arg : argNames) {
-      if (arg.length() > maxColSize)
-        maxColSize = arg.length();
+    for (String param : paramNames) {
+      if (param.length() > maxColSize) maxColSize = param.length();
     }
 
     for (int i = 0; i < arguments.size(); i++) {
-      System.out.printf("\t%s: %s%s\n", argNames.get(i),
-                        genSpaces(maxColSize - argNames.get(i).length()),
+      System.out.printf("\t%s: %s%s\n", paramNames.get(i),
+                        genSpaces(maxColSize - paramNames.get(i).length()),
                         escapeNewline(arguments.get(i)));
     }
 
     if (hasExpected) {
-      System.out.printf("\t%s: %s%s\n",
-                        expectedStr,
+      System.out.printf("\t%s: %s%s\n", expectedStr,
                         genSpaces(maxColSize - expectedStr.length()),
                         escapeNewline(String.valueOf(testOutput.expected)));
     }
     if (hasResult) {
-      System.out.printf("\t%s: %s%s\n",
-                        resultStr,
+      System.out.printf("\t%s: %s%s\n", resultStr,
                         genSpaces(maxColSize - resultStr.length()),
                         escapeNewline(String.valueOf(testOutput.result)));
     }
     if (hasExplanation) {
-      System.out.printf("\t%s: %s%s\n",
-                        explanationStr,
+      System.out.printf("\t%s: %s%s\n", explanationStr,
                         genSpaces(maxColSize - explanationStr.length()),
                         testExplanation);
     }

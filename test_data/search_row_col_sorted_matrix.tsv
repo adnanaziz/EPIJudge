@@ -1,5 +1,4 @@
 array(array(int))	int	bool
-@	A	x
 [[1]]	0	false	TODO
 [[1]]	1	true	TODO
 [[1, 5], [2, 6]]	0	false	TODO

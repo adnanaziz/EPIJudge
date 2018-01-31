@@ -1,5 +1,4 @@
 binary_tree(int)	int	array(int)
-@	tree	k
 ["3", "2", "5", "1", "null", "4", "6"]	2	[6, 5]	TODO
 ["1"]	1	[1]	TODO
 ["6", "1"]	2	[6, 1]	TODO

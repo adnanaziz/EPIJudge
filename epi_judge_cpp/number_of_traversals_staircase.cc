@@ -8,7 +8,8 @@ int NumberOfWaysToTop(int top, int maximum_step) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "number_of_traversals_staircase.tsv",
-                    &NumberOfWaysToTop);
+  std::vector<std::string> param_names{"top", "maximum_step"};
+  generic_test_main(argc, argv, param_names,
+                    "number_of_traversals_staircase.tsv", &NumberOfWaysToTop);
   return 0;
 }

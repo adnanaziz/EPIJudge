@@ -47,7 +47,8 @@ std::vector<std::vector<int>> ConstructRightSiblingWrapper(
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "tree_right_sibling.tsv",
+  std::vector<std::string> param_names{"timer", "tree"};
+  generic_test_main(argc, argv, param_names, "tree_right_sibling.tsv",
                     &ConstructRightSiblingWrapper);
   return 0;
 }

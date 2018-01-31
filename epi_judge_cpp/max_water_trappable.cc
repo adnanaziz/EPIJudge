@@ -10,7 +10,8 @@ int CalculateTrappingWater(const vector<int>& heights) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "max_water_trappable.tsv",
+  std::vector<std::string> param_names{"&heights"};
+  generic_test_main(argc, argv, param_names, "max_water_trappable.tsv",
                     &CalculateTrappingWater);
   return 0;
 }

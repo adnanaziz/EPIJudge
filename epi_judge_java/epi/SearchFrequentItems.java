@@ -11,16 +11,16 @@ import java.util.stream.Collectors;
 
 public class SearchFrequentItems {
 
-  public static List<String> searchFrequentItems(Iterable<String> stream,
-                                                 int k) {
+  public static List<String> searchFrequentItems(int k,
+                                                 Iterable<String> stream) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "search_frequent_items.tsv")
   public static List<String> searchFrequentItemsWrapper(int k,
-                                                        List<String> data) {
-    return searchFrequentItems(data, k);
+                                                        List<String> stream) {
+    return searchFrequentItems(k, stream);
   }
 
   @EpiTestComparator

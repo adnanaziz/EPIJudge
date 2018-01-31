@@ -11,7 +11,8 @@ int NumCombinationsForFinalScore(int final_score,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "number_of_score_combinations.tsv",
+  std::vector<std::string> param_names{"final_score", "individual_play_scores"};
+  generic_test_main(argc, argv, param_names, "number_of_score_combinations.tsv",
                     &NumCombinationsForFinalScore);
   return 0;
 }

@@ -53,7 +53,8 @@ void ComputeRandomPermutationWrapper(TestTimer& timer, int n) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "random_permutation.tsv",
+  std::vector<std::string> param_names{"timer", "n"};
+  generic_test_main(argc, argv, param_names, "random_permutation.tsv",
                     &ComputeRandomPermutationWrapper);
   return 0;
 }

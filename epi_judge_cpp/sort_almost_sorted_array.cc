@@ -9,14 +9,16 @@ vector<int> SortApproximatelySortedData(
   return {};
 }
 
-vector<int> SortApproximatelySortedDataWrapper(const vector<int>& data, int k) {
-  return SortApproximatelySortedData(cbegin(data), cend(data), k);
+vector<int> SortApproximatelySortedDataWrapper(const vector<int>& sequence,
+                                               int k) {
+  return SortApproximatelySortedData(cbegin(sequence), cend(sequence), k);
 }
 
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "sort_almost_sorted_array.tsv",
+  std::vector<std::string> param_names{"sequence", "k"};
+  generic_test_main(argc, argv, param_names, "sort_almost_sorted_array.tsv",
                     &SortApproximatelySortedDataWrapper);
   return 0;
 }

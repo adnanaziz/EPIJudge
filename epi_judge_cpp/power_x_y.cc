@@ -6,6 +6,7 @@ double Power(double x, int y) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "power_x_y.tsv", &Power);
+  std::vector<std::string> param_names{"x", "y"};
+  generic_test_main(argc, argv, param_names, "power_x_y.tsv", &Power);
   return 0;
 }

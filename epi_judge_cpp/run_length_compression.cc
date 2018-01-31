@@ -26,6 +26,8 @@ void RleTester(const string &encoded, const string &decoded) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char *argv[]) {
-  generic_test_main(argc, argv, "run_length_compression.tsv", &RleTester);
+  std::vector<std::string> param_names{"&encoded", "&decoded"};
+  generic_test_main(argc, argv, param_names, "run_length_compression.tsv",
+                    &RleTester);
   return 0;
 }

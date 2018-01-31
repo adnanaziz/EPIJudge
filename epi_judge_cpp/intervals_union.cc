@@ -59,22 +59,24 @@ std::ostream& operator<<(std::ostream& out, const FlatInterval& i) {
 }
 
 std::vector<FlatInterval> UnionOfIntervalsWrapper(
-    TestTimer& timer, const std::vector<FlatInterval>& input) {
+    TestTimer& timer, const std::vector<FlatInterval>& intervals) {
   std::vector<Interval> casted;
-  for (const FlatInterval& i : input) {
+  for (const FlatInterval& i : intervals) {
     casted.push_back(static_cast<Interval>(i));
   }
 
   timer.Start();
   std::vector<Interval> result = UnionOfIntervals(casted);
   timer.Stop();
+
   return {begin(result), end(result)};
 }
 
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "intervals_union.tsv",
+  std::vector<std::string> param_names{"timer", "intervals"};
+  generic_test_main(argc, argv, param_names, "intervals_union.tsv",
                     &UnionOfIntervalsWrapper);
   return 0;
 }

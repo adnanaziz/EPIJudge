@@ -1,5 +1,4 @@
 array(tuple(string[op], int[arg]))	void
-@	ops
 [["Stack", 0]]	TODO
 [["Stack", 0], ["push", -784], ["pop", -784], ["push", 452], ["max", 452], ["pop", 452], ["push", 761], ["push", 402], ["max", 761], ["pop", 402], ["max", 761], ["pop", 761]]	TODO
 [["Stack", 0], ["empty", 1], ["push", -238], ["pop", -238], ["push", 573], ["pop", 573], ["push", 190], ["empty", 0], ["push", -411], ["max", 190], ["max", 190], ["pop", -411], ["max", 190], ["pop", 190]]	TODO

@@ -29,22 +29,22 @@ public class SmallestSubarrayCoveringSet {
   }
 
   @EpiTest(testfile = "smallest_subarray_covering_set.tsv")
-  public static int findSmallestSubarrayCoveringSetWrapper(TestTimer timer,
-                                                           List<String> v,
-                                                           Set<String> s)
+  public static int findSmallestSubarrayCoveringSetWrapper(
+      TestTimer timer, List<String> paragraph, Set<String> keywords)
       throws TestFailureException {
-    Set<String> copy = new HashSet<>(s);
+    Set<String> copy = new HashSet<>(keywords);
 
     timer.start();
-    Subarray result = findSmallestSubarrayCoveringSet(v, s);
+    Subarray result = findSmallestSubarrayCoveringSet(paragraph, keywords);
     timer.stop();
 
-    if (result.start < 0 || result.start >= v.size() || result.end < 0 ||
-        result.end >= v.size() || result.start > result.end)
+    if (result.start < 0 || result.start >= paragraph.size() ||
+        result.end < 0 || result.end >= paragraph.size() ||
+        result.start > result.end)
       throw new TestFailureException("Index out of range");
 
     for (int i = result.start; i <= result.end; i++)
-      copy.remove(v.get(i));
+      copy.remove(paragraph.get(i));
 
     if (!copy.isEmpty())
       throw new TestFailureException("Not all keywords are in the range");

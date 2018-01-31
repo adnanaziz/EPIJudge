@@ -8,14 +8,14 @@ import java.util.List;
 
 public class MajorityElement {
 
-  public static String majoritySearch(Iterator<String> inputStream) {
+  public static String majoritySearch(Iterator<String> stream) {
     // Implement this placeholder.
     return "";
   }
 
   @EpiTest(testfile = "majority_element.tsv")
-  public static String majoritySearchWrapper(List<String> inputStream) {
-    return majoritySearch(inputStream.iterator());
+  public static String majoritySearchWrapper(List<String> stream) {
+    return majoritySearch(stream.iterator());
   }
 
   public static void main(String[] args) {

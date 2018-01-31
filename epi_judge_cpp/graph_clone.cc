@@ -15,7 +15,7 @@ struct GraphVertex {
   vector<GraphVertex*> edges;
 };
 
-GraphVertex* CloneGraph(GraphVertex* G) {
+GraphVertex* CloneGraph(GraphVertex* graph) {
   // Implement this placeholder.
   return nullptr;
 }
@@ -27,8 +27,9 @@ vector<int> CopyLabels(const vector<GraphVertex*>& edges) {
   return labels;
 }
 
-void CheckAndDeallocateGraph(GraphVertex* node, const vector<GraphVertex>& G) {
-  if (node == &G[0]) {
+void CheckAndDeallocateGraph(GraphVertex* node,
+                             const vector<GraphVertex>& graph) {
+  if (node == &graph[0]) {
     throw TestFailureException("Graph was not copied");
   }
 
@@ -39,11 +40,11 @@ void CheckAndDeallocateGraph(GraphVertex* node, const vector<GraphVertex>& G) {
   while (!q.empty()) {
     auto vertex = q.front();
     q.pop();
-    if (vertex->label > G.size()) {
+    if (vertex->label > graph.size()) {
       throw TestFailureException("Invalid vertex label");
     }
     vector<int> label1 = CopyLabels(vertex->edges),
-                label2 = CopyLabels(G[vertex->label].edges);
+                label2 = CopyLabels(graph[vertex->label].edges);
     sort(begin(label1), end(label1)), sort(begin(label2), end(label2));
     if (label1 != label2) {
       throw TestFailureException("Invalid vertex label");
@@ -92,6 +93,8 @@ void CloneGraphTest(int k, const vector<Edge>& edges) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "graph_clone.tsv", &CloneGraphTest);
+  std::vector<std::string> param_names{"k", "edges"};
+  generic_test_main(argc, argv, param_names, "graph_clone.tsv",
+                    &CloneGraphTest);
   return 0;
 }

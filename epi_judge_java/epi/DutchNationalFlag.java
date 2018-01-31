@@ -17,16 +17,16 @@ public class DutchNationalFlag {
   }
 
   @EpiTest(testfile = "dutch_national_flag.tsv")
-  public static void dutchFlagPartitionWrapper(TestTimer timer,
-                                               List<Integer> data, int pivotIdx)
+  public static void dutchFlagPartitionWrapper(TestTimer timer, List<Integer> A,
+                                               int pivotIdx)
       throws TestFailureException {
     List<Color> colors = new ArrayList<>();
     int[] count = new int[3];
 
     Color[] C = Color.values();
-    for (int i = 0; i < data.size(); i++) {
-      count[data.get(i)]++;
-      colors.add(C[data.get(i)]);
+    for (int i = 0; i < A.size(); i++) {
+      count[A.get(i)]++;
+      colors.add(C[A.get(i)]);
     }
     Color pivot = colors.get(pivotIdx);
 

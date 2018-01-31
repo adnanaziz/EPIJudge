@@ -13,21 +13,21 @@ int ReplaceAndRemove(int size, char s[]) {
 }
 
 vector<string> ReplaceAndRemoveWrapper(TestTimer& timer, int size,
-                                       const vector<string>& input_s) {
-  std::vector<char> s(input_s.size(), '\0');
-  for (int i = 0; i < input_s.size(); ++i) {
-    if (!input_s[i].empty()) {
-      s[i] = input_s[i][0];
+                                       const vector<string>& s) {
+  std::vector<char> s_copy(s.size(), '\0');
+  for (int i = 0; i < s.size(); ++i) {
+    if (!s[i].empty()) {
+      s_copy[i] = s[i][0];
     }
   }
 
   timer.Start();
-  int res_size = ReplaceAndRemove(size, s.data());
+  int res_size = ReplaceAndRemove(size, s_copy.data());
   timer.Stop();
 
   vector<string> result;
   for (int i = 0; i < res_size; ++i) {
-    result.emplace_back(string(1, s[i]));
+    result.emplace_back(string(1, s_copy[i]));
   }
   return result;
 }
@@ -35,7 +35,8 @@ vector<string> ReplaceAndRemoveWrapper(TestTimer& timer, int size,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "replace_and_remove.tsv",
+  std::vector<std::string> param_names{"timer", "size", "s"};
+  generic_test_main(argc, argv, param_names, "replace_and_remove.tsv",
                     &ReplaceAndRemoveWrapper);
   return 0;
 }

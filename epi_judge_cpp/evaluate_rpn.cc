@@ -10,6 +10,7 @@ int Evaluate(const string& expression) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "evaluate_rpn.tsv", &Evaluate);
+  std::vector<std::string> param_names{"expression"};
+  generic_test_main(argc, argv, param_names, "evaluate_rpn.tsv", &Evaluate);
   return 0;
 }

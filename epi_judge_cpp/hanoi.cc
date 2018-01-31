@@ -51,6 +51,8 @@ void ComputeTowerHanoiWrapper(TestTimer& timer, int num_rings) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "hanoi.tsv", &ComputeTowerHanoiWrapper);
+  std::vector<std::string> param_names{"timer", "num_rings"};
+  generic_test_main(argc, argv, param_names, "hanoi.tsv",
+                    &ComputeTowerHanoiWrapper);
   return 0;
 }

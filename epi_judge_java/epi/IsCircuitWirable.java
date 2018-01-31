@@ -15,7 +15,7 @@ public class IsCircuitWirable {
     public List<GraphVertex> edges = new ArrayList<>();
   }
 
-  public static boolean isAnyPlacementFeasible(List<GraphVertex> G) {
+  public static boolean isAnyPlacementFeasible(List<GraphVertex> graph) {
     // Implement this placeholder.
     return true;
   }

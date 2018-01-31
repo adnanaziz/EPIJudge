@@ -62,21 +62,21 @@ class GenericTestHandler {
       TestOutput<expected_value_t,
                  typename FunctionalTraits<Function>::return_t>;
 
-  GenericTestHandler(Function func_ptr, Comparator comp)
-      : func_(func_ptr), comp_(comp) {}
+  GenericTestHandler(Function func, Comparator comp)
+      : func_(func), comp_(comp) {}
 
   /**
    * This method ensures that test data header matches with the signature of
    * the tested function.
    *
-   * @param arg_types - test data header
+   * @param signature - test data header
    */
-  void ParseSignature(const std::vector<std::string>& arg_types) {
+  void ParseSignature(const std::vector<std::string>& signature) {
     using arg_tuple_t = typename FunctionalTraits<Function>::arg_tuple_t;
     using ret_t = typename FunctionalTraits<Function>::return_t;
 
     MatchFunctionSignature<expected_value_t, arg_tuple_t>(
-        std::cbegin(arg_types), std::cend(arg_types));
+        std::cbegin(signature), std::cend(signature));
   }
 
   /**
@@ -107,6 +107,9 @@ class GenericTestHandler {
         typename FunctionalTraits<Function>::arg_tuple_t>::value;
   }
 
+  static constexpr bool HasTimerHook() {
+    return FunctionalTraits<Function>::HasTimerHook();
+  }
  private:
   /**
    * This method parses expected value (if return type is not void),

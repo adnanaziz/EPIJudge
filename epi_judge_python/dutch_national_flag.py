@@ -10,28 +10,28 @@ def dutch_flag_partition(pivot_index, A):
 
 
 @enable_timer_hook
-def dutch_flag_partition_wrapper(timer, data, pivot_idx):
+def dutch_flag_partition_wrapper(timer, A, pivot_idx):
     count = [0, 0, 0]
-    for x in data:
+    for x in A:
         count[x] += 1
-    pivot = data[pivot_idx]
+    pivot = A[pivot_idx]
 
     timer.start()
-    dutch_flag_partition(pivot_idx, data)
+    dutch_flag_partition(pivot_idx, A)
     timer.stop()
 
     i = 0
-    while i < len(data) and data[i] < pivot:
-        count[data[i]] -= 1
+    while i < len(A) and A[i] < pivot:
+        count[A[i]] -= 1
         i += 1
-    while i < len(data) and data[i] == pivot:
-        count[data[i]] -= 1
+    while i < len(A) and A[i] == pivot:
+        count[A[i]] -= 1
         i += 1
-    while i < len(data) and data[i] > pivot:
-        count[data[i]] -= 1
+    while i < len(A) and A[i] > pivot:
+        count[A[i]] -= 1
         i += 1
 
-    if i != len(data) or any(count):
+    if i != len(A) or any(count):
         raise TestFailureException("Invalid output")
 
 

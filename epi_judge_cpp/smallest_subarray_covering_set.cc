@@ -19,22 +19,22 @@ Subarray FindSmallestSubarrayCoveringSet(
   return {0, 0};
 }
 
-int FindSmallestSubarrayCoveringSetWrapper(TestTimer &timer,
-                                           const vector<string> &v,
-                                           const unordered_set<string> &s) {
-  auto copy = s;
+int FindSmallestSubarrayCoveringSetWrapper(
+    TestTimer &timer, const vector<string> &paragraph,
+    const unordered_set<string> &keywords) {
+  unordered_set<string> copy = keywords;
 
   timer.Start();
-  auto result = FindSmallestSubarrayCoveringSet(v, s);
+  auto result = FindSmallestSubarrayCoveringSet(paragraph, keywords);
   timer.Stop();
 
-  if (result.start < 0 || result.start >= v.size() || result.end < 0 ||
-      result.end >= v.size() || result.start > result.end) {
+  if (result.start < 0 || result.start >= paragraph.size() || result.end < 0 ||
+      result.end >= paragraph.size() || result.start > result.end) {
     throw TestFailureException("Index out of range");
   }
 
   for (int i = result.start; i <= result.end; i++) {
-    copy.erase(v[i]);
+    copy.erase(paragraph[i]);
   }
 
   if (!copy.empty()) {
@@ -47,7 +47,9 @@ int FindSmallestSubarrayCoveringSetWrapper(TestTimer &timer,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char *argv[]) {
-  generic_test_main(argc, argv, "smallest_subarray_covering_set.tsv",
+  std::vector<std::string> param_names{"&timer", "&paragraph", "&keywords"};
+  generic_test_main(argc, argv, param_names,
+                    "smallest_subarray_covering_set.tsv",
                     &FindSmallestSubarrayCoveringSetWrapper);
   return 0;
 }
