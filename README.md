@@ -90,11 +90,27 @@ Example:
 
 That's all.
 
-## Acknowledgment
+## Acknowledgments
 
 Please send us questions and feedback by email; we're adnan.aziz@gmail.com and tsung.hsien.lee@gmail.com
 
-A big shout-out to [Viacheslav Kroilov](https://github.com/metopa), for applying his exceptional software engineering skills to make EPI Judge a reality.
+A big shout-out to the hundreds of users who tried out the alpha release over the past couple of months. As always, we never fail to be impressed by the enthusiasm and commitment our readers have; it has served to bring out the best in us.
+We all thank [Viacheslav Kroilov](https://github.com/metopa), for applying his exceptional software engineering skills to make EPI Judge a reality.
+
+## FAQ
+
+- Help, my EPIJudge is not working, what should I do?
+
+If you do have issues, e.g., with install or with buggy tests, feel free to reach out to us via email. Please be as detailed as you can: the ideal is if you can upload a screencast video of the issue to youtube; failing that, please upload screenshots.  The more detailed the description of the problem and your environment (OS, language version, IDE and version), the easier it’ll be for us to help you.
+
+- I'm new to programming, and don't have any kind of development environment, what should I do?
+
+The IntelliJ Integrated Development environments described above are best-in-class, and have free versions that will work fine for the EPI Judge. They do not include the compilers. You can get the Java development environment from [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), and the Python development environment from [Python.org](https://www.python.org/downloads/). For C++, you have multiple options. The simplest is to install [VisualStudio](https://code.visualstudio.com/download), which includes both the IDE and the compiler. Google is a good resource for installation help.
+
+- How can I understand the test framework better?
+
+The judge harness is fairly complex (but does not use nonstandard language features or libraries). You are welcome to study it, but we’d advise you against making changes to it (since it will lead to nasty merge conflicts when you update).
+
 
 ## Problem to Program Mapping
 
