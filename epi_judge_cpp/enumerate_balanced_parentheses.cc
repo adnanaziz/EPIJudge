@@ -12,7 +12,7 @@ vector<string> GenerateBalancedParentheses(int num_pairs) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"int", "int", "string&", "num_pairs"};
+  std::vector<std::string> param_names{"num_pairs"};
   generic_test_main(
       argc, argv, param_names, "enumerate_balanced_parentheses.tsv",
       &GenerateBalancedParentheses, &UnorderedComparator<vector<string>>);
