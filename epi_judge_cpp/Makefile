@@ -2378,21 +2378,6 @@ rotate_array_dbg: $(BUILD_DIR)/rotate_array_dbg
 .PHONY: rotate_array rotate_array_dbg
 
 
-# rotate_array_permutation.cc
-
-$(BUILD_DIR)/rotate_array_permutation: $(SRC_DIR)/rotate_array_permutation.cc $(BUILD_DIR)
-	$(CXX_COMPILER) $(CXX_FLAGS_RELEASE) -o $@ $<
-rotate_array_permutation: $(BUILD_DIR)/rotate_array_permutation
-	$< --test_data_dir $(TEST_DATA_DIR)
-
-$(BUILD_DIR)/rotate_array_permutation_dbg: $(SRC_DIR)/rotate_array_permutation.cc $(BUILD_DIR)
-	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
-rotate_array_permutation_dbg: $(BUILD_DIR)/rotate_array_permutation_dbg
-	$< --test_data_dir $(TEST_DATA_DIR)
-
-.PHONY: rotate_array_permutation rotate_array_permutation_dbg
-
-
 # run_length_compression.cc
 
 $(BUILD_DIR)/run_length_compression: $(SRC_DIR)/run_length_compression.cc $(BUILD_DIR)
