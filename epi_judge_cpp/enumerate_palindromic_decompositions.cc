@@ -20,7 +20,8 @@ bool Comp(vector<vector<string>> expected, vector<vector<string>> result) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"input"};
+  std::vector<std::string> param_names{"string&", "int", "vector<string>*",
+                                       "input"};
   generic_test_main(argc, argv, param_names,
                     "enumerate_palindromic_decompositions.tsv",
                     &PalindromeDecompositions, &Comp);
