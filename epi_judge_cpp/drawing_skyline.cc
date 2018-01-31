@@ -29,6 +29,8 @@ std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "drawing_skyline.tsv", &ComputeSkyline);
+  std::vector<std::string> param_names{"buildings"};
+  generic_test_main(argc, argv, param_names, "drawing_skyline.tsv",
+                    &ComputeSkyline);
   return 0;
 }

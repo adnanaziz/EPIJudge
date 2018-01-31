@@ -13,11 +13,11 @@ void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
 }
 
 vector<vector<string>> FillSurroundedRegionsWrapper(
-    TestTimer& timer, vector<vector<string>> raw) {
+    TestTimer& timer, vector<vector<string>> board) {
   vector<vector<char>> char_vector;
-  char_vector.resize(raw.size());
-  for (size_t i = 0; i < raw.size(); i++) {
-    for (auto& s : raw[i]) {
+  char_vector.resize(board.size());
+  for (int i = 0; i < board.size(); i++) {
+    for (const string& s : board[i]) {
       if (s.size() != 1) {
         throw std::runtime_error("String size is not 1");
       }
@@ -29,21 +29,22 @@ vector<vector<string>> FillSurroundedRegionsWrapper(
   FillSurroundedRegions(&char_vector);
   timer.Stop();
 
-  raw.clear();
-  raw.resize(char_vector.size(), {});
-  for (size_t i = 0; i < raw.size(); i++) {
-    for (auto c : char_vector[i]) {
-      raw[i].emplace_back(1, c);
+  board.clear();
+  board.resize(char_vector.size(), {});
+  for (int i = 0; i < board.size(); i++) {
+    for (char c : char_vector[i]) {
+      board[i].emplace_back(1, c);
     }
   }
 
-  return raw;
+  return board;
 }
 
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "matrix_enclosed_regions.tsv",
+  std::vector<std::string> param_names{"timer", "board"};
+  generic_test_main(argc, argv, param_names, "matrix_enclosed_regions.tsv",
                     &FillSurroundedRegionsWrapper);
   return 0;
 }

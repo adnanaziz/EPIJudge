@@ -58,10 +58,9 @@ class OnScopeExit {
 };
 
 /**
- * Simple function reflexion.
- * It is used to deduce argument types and
- * return type of the function.
- * @tparam Function - the type of the function to be reflected.
+ * Simple function reflexion. It is used to deduce argument types and return
+ * type of the function.
+ * @param Function - the type of the function to be reflected.
  */
 template <typename Function>
 struct FunctionalTraits;

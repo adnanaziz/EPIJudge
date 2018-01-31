@@ -12,18 +12,18 @@ class ConsoleColor:
 
 
 def get_color_code_win(color):
-    values = {ConsoleColor.FG_RED:     4 | 8,
-              ConsoleColor.FG_GREEN:   2 | 8,
-              ConsoleColor.FG_BLUE:    1 | 8,
-              ConsoleColor.FG_DEFAULT: 7}
+    values = {
+        ConsoleColor.FG_RED: 4 | 8, ConsoleColor.FG_GREEN: 2 | 8,
+        ConsoleColor.FG_BLUE: 1 | 8, ConsoleColor.FG_DEFAULT: 7
+    }
     return values[color]
 
 
 def get_color_code_unix(color):
-    values = {ConsoleColor.FG_RED:     '\033[31m',
-              ConsoleColor.FG_GREEN:   '\033[32m',
-              ConsoleColor.FG_BLUE:    '\033[34m',
-              ConsoleColor.FG_DEFAULT: '\033[39m'}
+    values = {
+        ConsoleColor.FG_RED: '\033[31m', ConsoleColor.FG_GREEN: '\033[32m',
+        ConsoleColor.FG_BLUE: '\033[34m', ConsoleColor.FG_DEFAULT: '\033[39m'
+    }
     return values[color]
 
 
@@ -43,7 +43,8 @@ def print_std_out_colored(color, value):
 
         platform.set_console_text_attribute(old_color_attrs)
     else:
-        print('{}{}{}'.format(
-            get_color_code_unix(color), value,
-            get_color_code_unix(ConsoleColor.FG_DEFAULT)),
+        print(
+            '{}{}{}'.format(
+                get_color_code_unix(color), value,
+                get_color_code_unix(ConsoleColor.FG_DEFAULT)),
             end='')

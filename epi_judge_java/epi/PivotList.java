@@ -11,30 +11,30 @@ import java.util.List;
 
 public class PivotList {
 
-  public static ListNode<Integer> listPivoting(ListNode<Integer> L, int x) {
+  public static ListNode<Integer> listPivoting(ListNode<Integer> l, int x) {
     // Implement this placeholder.
     return null;
   }
 
-  public static List<Integer> linkedToList(ListNode<Integer> ll) {
-    List<Integer> l = new ArrayList<>();
-    while (ll != null) {
-      l.add(ll.data);
-      ll = ll.next;
+  public static List<Integer> linkedToList(ListNode<Integer> l) {
+    List<Integer> v = new ArrayList<>();
+    while (l != null) {
+      v.add(l.data);
+      l = l.next;
     }
-    return l;
+    return v;
   }
 
   @EpiTest(testfile = "pivot_list.tsv")
-  public static void listPivotingWrapper(TestTimer timer, ListNode<Integer> ll,
+  public static void listPivotingWrapper(TestTimer timer, ListNode<Integer> l,
                                          int x) throws TestFailureException {
-    List<Integer> original = linkedToList(ll);
+    List<Integer> original = linkedToList(l);
 
     timer.start();
-    ll = listPivoting(ll, x);
+    l = listPivoting(l, x);
     timer.stop();
 
-    List<Integer> pivoted = linkedToList(ll);
+    List<Integer> pivoted = linkedToList(l);
 
     int mode = -1;
     for (Integer i : pivoted) {

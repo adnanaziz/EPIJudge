@@ -1,5 +1,4 @@
 array(int)	int	bool
-@	A	t
 [2, 3, 5, 7, 11]	21	true	Example in the book. 11 + 7 + 3 = 21
 [2, 3, 5, 7, 11]	22	false	Example in the book. 22 is impossible, since 11 + 7 + 5 is too big and 11 + 7 + 3 is too small
 [1, 2, 3]	6	true	1 + 2 + 3 = 6

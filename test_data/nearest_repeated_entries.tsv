@@ -1,5 +1,4 @@
 array(string)	int
-@	paragraph
 ["foo", "bar", "widget", "foo", "widget", "widget", "adnan"]	1	TODO
 ["foo", "bar", "widget", "foo", "xyz", "widget", "bar", "adnan"]	3	TODO
 ["foo", "bar", "widget", "adnan"]	-1	TODO

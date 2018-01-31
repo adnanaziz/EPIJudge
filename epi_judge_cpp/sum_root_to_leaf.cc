@@ -8,6 +8,8 @@ int SumRootToLeaf(const unique_ptr<BinaryTreeNode<int>>& tree) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "sum_root_to_leaf.tsv", &SumRootToLeaf);
+  std::vector<std::string> param_names{"tree"};
+  generic_test_main(argc, argv, param_names, "sum_root_to_leaf.tsv",
+                    &SumRootToLeaf);
   return 0;
 }

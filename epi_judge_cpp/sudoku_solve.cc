@@ -53,15 +53,16 @@ void AssertUniqueSeq(const vector<int>& seq) {
   }
 }
 
-void SolveSudokuWrapper(TestTimer& timer, const vector<vector<int>>& board) {
-  vector<vector<int>> solved = board;
+void SolveSudokuWrapper(TestTimer& timer,
+                        const vector<vector<int>>& partial_assignment) {
+  vector<vector<int>> solved = partial_assignment;
 
   timer.Start();
   SolveSudoku(&solved);
   timer.Stop();
 
-  if (!std::equal(begin(board), end(board), begin(solved), end(solved),
-                  [](auto br, auto cr) {
+  if (!std::equal(begin(partial_assignment), end(partial_assignment),
+                  begin(solved), end(solved), [](auto br, auto cr) {
                     return std::equal(begin(br), end(br), begin(cr), end(cr),
                                       [](int bcell, int ccell) {
                                         return bcell == 0 || bcell == ccell;
@@ -81,6 +82,8 @@ void SolveSudokuWrapper(TestTimer& timer, const vector<vector<int>>& board) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "sudoku_solve.tsv", &SolveSudokuWrapper);
+  std::vector<std::string> param_names{"timer", "partial_assignment"};
+  generic_test_main(argc, argv, param_names, "sudoku_solve.tsv",
+                    &SolveSudokuWrapper);
   return 0;
 }

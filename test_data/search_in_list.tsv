@@ -1,5 +1,4 @@
 linked_list(int)	int	int
-@	L	key
 [2, 4, 3]	2	2	TODO
 [2, 4, 3]	4	4	TODO
 [2, 4, 3]	3	3	TODO

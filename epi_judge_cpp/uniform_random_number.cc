@@ -44,7 +44,8 @@ void UniformRandomWrapper(TestTimer& timer, int lower_bound, int upper_bound) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "uniform_random_number.tsv",
+  std::vector<std::string> param_names{"timer", "lower_bound", "upper_bound"};
+  generic_test_main(argc, argv, param_names, "uniform_random_number.tsv",
                     &UniformRandomWrapper);
   return 0;
 }

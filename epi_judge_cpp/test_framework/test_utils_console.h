@@ -78,12 +78,10 @@ void PrintTestInfo(const TestResult& test_result, int test_nr,
   }
 }
 
-std::string GenSpaces(size_t count) {
-  return std::string(count, ' ');
-}
+std::string GenSpaces(size_t count) { return std::string(count, ' '); }
 
 template <typename TestOutputT>
-void PrintFailedTest(const std::vector<std::string>& arg_names,
+void PrintFailedTest(const std::vector<std::string>& param_names,
                      const std::vector<std::string>& arguments,
                      const TestOutputT& test_output,
                      const std::string& test_explanation) {
@@ -93,25 +91,25 @@ void PrintFailedTest(const std::vector<std::string>& arg_names,
 
   const bool has_expected = (bool)test_output.expected;
   const bool has_result = (bool)test_output.result;
-  const bool has_explanation = test_explanation != "TODO" &&
-                               !test_explanation.empty();
+  const bool has_explanation =
+      test_explanation != "TODO" && !test_explanation.empty();
 
-  size_t max_col_size = has_explanation ? explanation_str.size() :
-                        has_expected ? expected_str.size() :
-                        has_result ? result_str.size() :
-                        0;
+  size_t max_col_size =
+      has_explanation ? explanation_str.size()
+                      : has_expected ? expected_str.size()
+                                     : has_result ? result_str.size() : 0;
 
-  for (auto& arg : arg_names) {
-    if (arg.size() > max_col_size)
-      max_col_size = arg.size();
+  for (auto& param : param_names) {
+    if (param.size() > max_col_size) {
+      max_col_size = param.size();
+    }
   }
 
   for (unsigned int i = 0; i < arguments.size(); ++i) {
-    std::cout << '\t' << arg_names[i] << ": "
-              << GenSpaces(max_col_size - arg_names[i].size())
+    std::cout << '\t' << param_names[i] << ": "
+              << GenSpaces(max_col_size - param_names[i].size())
               << EscapeNewline{arguments[i]} << std::endl;
   }
-
 
   if (has_expected) {
     std::cout << '\t' << expected_str << ": "

@@ -78,6 +78,8 @@ void StackTester(const std::vector<StackOp>& ops) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "stack_with_max.tsv", &StackTester);
+  std::vector<std::string> param_names{"ops"};
+  generic_test_main(argc, argv, param_names, "stack_with_max.tsv",
+                    &StackTester);
   return 0;
 }

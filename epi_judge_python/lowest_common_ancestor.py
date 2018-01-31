@@ -11,11 +11,8 @@ def lca(tree, node0, node1):
 @enable_timer_hook
 def lca_wrapper(timer, tree, key1, key2):
     strip_parent_link(tree)
-    node1 = must_find_node(tree, key1)
-    node2 = must_find_node(tree, key2)
-
     timer.start()
-    result = lca(tree, node1, node2)
+    result = lca(tree, must_find_node(tree, key1), must_find_node(tree, key2))
     timer.stop()
 
     if result is None:

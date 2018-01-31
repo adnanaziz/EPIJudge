@@ -27,21 +27,21 @@ def compare_vector_and_tree(tree, it):
 
 
 @enable_timer_hook
-def build_bst_from_sorted_doubly_list_wrapper(timer, values):
+def build_bst_from_sorted_doubly_list_wrapper(timer, L):
     l = None
-    for v in reversed(values):
+    for v in reversed(L):
         l = DoublyListNode(v, next=l)
         if l.next != None:
             l.next.prev = l
 
     timer.start()
-    l = build_bst_from_sorted_doubly_list(l, len(values))
+    l = build_bst_from_sorted_doubly_list(l, len(L))
     timer.stop()
 
-    it = iter(values)
+    it = iter(L)
     compare_vector_and_tree(l, it)
     if next(it, None) is not None:
-        raise TestFailureException("Too many values in the tree")
+        raise TestFailureException("Too many L in the tree")
 
 
 from test_framework import test_utils_generic_main, test_utils

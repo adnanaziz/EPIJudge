@@ -14,8 +14,8 @@ import java.util.Queue;
 import java.util.Set;
 
 public class BinaryTreeUtils {
-  private static void treeGenerateHelper(Object tree,
-                                         List<Object> result, int order) {
+  private static void treeGenerateHelper(Object tree, List<Object> result,
+                                         int order) {
     if (tree != null) {
       if (order == -1) {
         result.add(getData(tree));
@@ -35,21 +35,21 @@ public class BinaryTreeUtils {
   public static <T> List<T> generatePreorder(BinaryTreeNode<T> tree) {
     List<Object> result = new ArrayList<>();
     treeGenerateHelper(tree, result, -1);
-    return (List<T>) result;
+    return (List<T>)result;
   }
 
   @SuppressWarnings("unchecked")
   public static <T> List<T> generateInorder(Object tree) {
     List<Object> result = new ArrayList<>();
     treeGenerateHelper(tree, result, 0);
-    return (List<T>) result;
+    return (List<T>)result;
   }
 
   @SuppressWarnings("unchecked")
   public static <T> List<T> generatePostorder(Object tree) {
     List<Object> result = new ArrayList<>();
     treeGenerateHelper(tree, result, 1);
-    return (List<T>) result;
+    return (List<T>)result;
   }
 
   private static <T> Object findNode(Object node, Object val) {
@@ -121,8 +121,8 @@ public class BinaryTreeUtils {
     if (tree == null) {
       return -1;
     }
-    return 1 +
-        Math.max(binaryTreeHeight(getLeft(tree)), binaryTreeHeight(getRight(tree)));
+    return 1 + Math.max(binaryTreeHeight(getLeft(tree)),
+                        binaryTreeHeight(getRight(tree)));
   }
 
   /**

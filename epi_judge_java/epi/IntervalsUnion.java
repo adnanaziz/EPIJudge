@@ -100,21 +100,21 @@ public class IntervalsUnion {
 
   @EpiTest(testfile = "intervals_union.tsv")
   public static List<FlatInterval>
-  unionIntervalWrapper(TestTimer timer, List<FlatInterval> input) {
-    List<Interval> I = new ArrayList<>(input.size());
-    for (FlatInterval in : input) {
-      I.add(in.toInterval());
+  unionIntervalWrapper(TestTimer timer, List<FlatInterval> intervals) {
+    List<Interval> casted = new ArrayList<>(intervals.size());
+    for (FlatInterval in : intervals) {
+      casted.add(in.toInterval());
     }
 
     timer.start();
-    I = unionOfIntervals(I);
+    List<Interval> result = unionOfIntervals(casted);
     timer.stop();
 
-    input = new ArrayList<>(I.size());
-    for (Interval in : I) {
-      input.add(new FlatInterval(in));
+    intervals = new ArrayList<>(result.size());
+    for (Interval i : result) {
+      intervals.add(new FlatInterval(i));
     }
-    return input;
+    return intervals;
   }
 
   public static void main(String[] args) {

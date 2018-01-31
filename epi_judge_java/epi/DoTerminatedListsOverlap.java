@@ -8,40 +8,40 @@ import epi.test_framework.TestTimer;
 public class DoTerminatedListsOverlap {
 
   public static ListNode<Integer>
-  overlappingNoCycleLists(ListNode<Integer> L1, ListNode<Integer> L2) {
+  overlappingNoCycleLists(ListNode<Integer> l0, ListNode<Integer> l1) {
     // Implement this placeholder.
     return null;
   }
 
   @EpiTest(testfile = "do_terminated_lists_overlap.tsv")
   public static void
-  overlappingNoCycleListsWrapper(TestTimer timer, ListNode<Integer> p1,
-                                 ListNode<Integer> p2, ListNode<Integer> common)
+  overlappingNoCycleListsWrapper(TestTimer timer, ListNode<Integer> l0,
+                                 ListNode<Integer> l1, ListNode<Integer> common)
       throws TestFailureException {
     if (common != null) {
-      if (p1 != null) {
-        ListNode<Integer> i = p1;
+      if (l0 != null) {
+        ListNode<Integer> i = l0;
         while (i.next != null) {
           i = i.next;
         }
         i.next = common;
       } else {
-        p1 = common;
+        l0 = common;
       }
 
-      if (p2 != null) {
-        ListNode<Integer> i = p2;
+      if (l1 != null) {
+        ListNode<Integer> i = l1;
         while (i.next != null) {
           i = i.next;
         }
         i.next = common;
       } else {
-        p2 = common;
+        l1 = common;
       }
     }
 
     timer.start();
-    ListNode<Integer> result = overlappingNoCycleLists(p1, p2);
+    ListNode<Integer> result = overlappingNoCycleLists(l0, l1);
     timer.stop();
 
     if (result != common) {

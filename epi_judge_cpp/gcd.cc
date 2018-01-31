@@ -1,5 +1,5 @@
 
-long long GCD(long long x, long long y) {
+long long Gcd(long long x, long long y) {
   // Implement this placeholder.
   return 0;
 }
@@ -7,6 +7,7 @@ long long GCD(long long x, long long y) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "gcd.tsv", &GCD);
+  std::vector<std::string> param_names{"x", "y"};
+  generic_test_main(argc, argv, param_names, "gcd.tsv", &Gcd);
   return 0;
 }

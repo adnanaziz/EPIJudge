@@ -10,6 +10,7 @@ string ConvertBase(const string& num_as_string, int b1, int b2) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "convert_base.tsv", &ConvertBase);
+  std::vector<std::string> param_names{"num_as_string", "b1", "b2"};
+  generic_test_main(argc, argv, param_names, "convert_base.tsv", &ConvertBase);
   return 0;
 }

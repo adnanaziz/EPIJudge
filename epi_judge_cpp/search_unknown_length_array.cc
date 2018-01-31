@@ -10,7 +10,8 @@ int BinarySearchUnknownLength(const vector<int>& A, int k) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "search_unknown_length_array.tsv",
+  std::vector<std::string> param_names{"A", "k"};
+  generic_test_main(argc, argv, param_names, "search_unknown_length_array.tsv",
                     &BinarySearchUnknownLength);
   return 0;
 }

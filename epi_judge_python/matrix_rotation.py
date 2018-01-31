@@ -3,9 +3,9 @@ def rotate_matrix(square_matrix):
     return
 
 
-def rotate_matrix_wrapper(A):
-    rotate_matrix(A)
-    return A
+def rotate_matrix_wrapper(square_matrix):
+    rotate_matrix(square_matrix)
+    return square_matrix
 
 
 from test_framework import test_utils_generic_main, test_utils

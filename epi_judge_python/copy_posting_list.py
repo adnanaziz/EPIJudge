@@ -8,23 +8,6 @@ def copy_postings_list(L):
     return None
 
 
-def create_posting_list(serialized):
-    key_mapping = dict()
-    head = None
-    for (order, _) in reversed(serialized):
-        head = PostingListNode(order, head)
-        key_mapping[order] = head
-
-    list_it = head
-    for (_, jump_index) in serialized:
-        if jump_index != -1:
-            list_it.jump = key_mapping.get(jump_index, None)
-            if not list_it.jump:
-                raise RuntimeError('Jump index out of range')
-
-    return head
-
-
 def assert_lists_equal(orig, copy):
     node_mapping = dict()
     o_it = orig
@@ -62,8 +45,24 @@ def assert_lists_equal(orig, copy):
 
 
 @enable_timer_hook
-def copy_postings_list_wrapper(timer, serialized):
-    head = create_posting_list(serialized)
+def copy_postings_list_wrapper(timer, l):
+    def create_posting_list(serialized):
+        key_mapping = dict()
+        head = None
+        for (order, _) in reversed(serialized):
+            head = PostingListNode(order, head)
+            key_mapping[order] = head
+
+        list_it = head
+        for (_, jump_index) in serialized:
+            if jump_index != -1:
+                list_it.jump = key_mapping.get(jump_index, None)
+                if not list_it.jump:
+                    raise RuntimeError('Jump index out of range')
+
+        return head
+
+    head = create_posting_list(l)
 
     timer.start()
     copy = copy_postings_list(head)

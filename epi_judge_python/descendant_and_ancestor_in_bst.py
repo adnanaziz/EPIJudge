@@ -10,14 +10,15 @@ def pair_includes_ancestor_and_descendant_of_m(possible_anc_or_desc_0,
 
 @enable_timer_hook
 def pair_includes_ancestor_and_descendant_of_m_wrapper(
-        timer, tree, candidate1_idx, candidate2_idx, middle_idx):
-    candidate1 = must_find_node(tree, candidate1_idx)
-    candidate2 = must_find_node(tree, candidate2_idx)
-    middle = must_find_node(tree, middle_idx)
+        timer, tree, possible_anc_or_desc_0, possible_anc_or_desc_1,
+        middle_idx):
+    candidate0 = must_find_node(tree, possible_anc_or_desc_0)
+    candidate1 = must_find_node(tree, possible_anc_or_desc_1)
+    middle_node = must_find_node(tree, middle_idx)
 
     timer.start()
     result = pair_includes_ancestor_and_descendant_of_m(
-        candidate1, candidate2, middle)
+        candidate0, candidate1, middle_node)
     timer.stop()
     return result
 

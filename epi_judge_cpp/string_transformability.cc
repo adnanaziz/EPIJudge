@@ -13,7 +13,8 @@ int TransformString(unordered_set<string> D, const string& s, const string& t) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "string_transformability.tsv",
+  std::vector<std::string> param_names{"D", "s", "t"};
+  generic_test_main(argc, argv, param_names, "string_transformability.tsv",
                     &TransformString);
   return 0;
 }

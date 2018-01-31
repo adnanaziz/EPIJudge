@@ -3,10 +3,10 @@ SRC_DIR := .
 TEST_DATA_DIR := ../test_data
 
 ifdef ComSpec # Running on Windows
-	JAVAC_CMD := javac -d "$(BUILD_DIR)" -cp "$(BUILD_DIR);."
+	JAVAC_CMD := javac -parameters -d "$(BUILD_DIR)" -cp "$(BUILD_DIR);."
 	RUN_CMD := java -cp "$(BUILD_DIR)" -Djava.library.path="$(SRC_DIR)/epi/test_framework/"
 else
-	JAVAC_CMD := javac -d "$(BUILD_DIR)" -cp "$(BUILD_DIR):."
+	JAVAC_CMD := javac -parameters -d "$(BUILD_DIR)" -cp "$(BUILD_DIR):."
 	RUN_CMD := java -cp "$(BUILD_DIR)"
 endif
 

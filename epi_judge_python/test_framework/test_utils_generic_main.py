@@ -20,8 +20,8 @@ def generic_test_main(filename,
     try:
         parser = argparse.ArgumentParser()
         parser.add_argument('--test_data_dir', nargs='?', const=True, type=str)
-        parser.add_argument('--run_all_tests', default=False, action='store_true')
-        parser.add_argument('--gen_arg_names_mode', default=False, action='store_true')
+        parser.add_argument(
+            '--run_all_tests', default=False, action='store_true')
         args = parser.parse_args()
         if args.test_data_dir:
             if not os.path.isdir(args.test_data_dir):
@@ -32,15 +32,13 @@ def generic_test_main(filename,
             args.test_data_dir = test_utils.get_default_test_data_dir_path()
 
         test_data_path = os.path.join(args.test_data_dir, filename)
-        if args.gen_arg_names_mode:
-            test_utils.generate_arg_names_header(test_data_path, func)
-            return
 
         timeout = 0
         stop_on_error = not args.run_all_tests
         test_utils.run_tests(test_data_path,
-                             generic_test_handler.GenericTestHandler(func, comp=comp),
-                             timeout, stop_on_error, res_printer)
+                             generic_test_handler.GenericTestHandler(
+                                 func, comp=comp), timeout, stop_on_error,
+                             res_printer)
     except RuntimeError as e:
         print('\nCritical error: {}'.format(e), file=sys.stderr)
 

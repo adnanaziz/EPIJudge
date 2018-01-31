@@ -1,11 +1,11 @@
-def flip_color(x, y, A):
+def flip_color(x, y, image):
     # Implement this placeholder.
     return
 
 
-def flip_color_wrapper(x, y, a):
-    flip_color(x, y, a)
-    return a
+def flip_color_wrapper(x, y, image):
+    flip_color(x, y, image)
+    return image
 
 
 from test_framework import test_utils_generic_main, test_utils

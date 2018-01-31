@@ -50,15 +50,15 @@ public class RemoveDuplicates {
     }
   }
 
-  public static void eliminateDuplicate(List<Name> A) {
+  public static void eliminateDuplicate(List<Name> names) {
     // Implement this placeholder.
     return;
   }
 
   @EpiTest(testfile = "remove_duplicates.tsv")
-  public static List<Name> eliminateDuplicateWrapper(List<Name> data) {
-    eliminateDuplicate(data);
-    return data;
+  public static List<Name> eliminateDuplicateWrapper(List<Name> names) {
+    eliminateDuplicate(names);
+    return names;
   }
 
   @EpiTestComparator

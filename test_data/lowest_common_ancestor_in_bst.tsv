@@ -1,5 +1,4 @@
 binary_tree(int)	int	int	int
-@	tree	key1	key2
 ["3", "2", "5", "1", "null", "4", "6"]	1	4	3	TODO
 ["3", "2", "5", "1", "null", "4", "6"]	4	6	5	TODO
 ["3", "2", "5", "1", "null", "4", "6"]	1	2	2	TODO

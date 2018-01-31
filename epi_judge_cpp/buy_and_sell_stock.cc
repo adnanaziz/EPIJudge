@@ -10,6 +10,8 @@ double BuyAndSellStockOnce(const vector<double>& prices) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "buy_and_sell_stock.tsv", &BuyAndSellStockOnce);
+  std::vector<std::string> param_names{"prices"};
+  generic_test_main(argc, argv, param_names, "buy_and_sell_stock.tsv",
+                    &BuyAndSellStockOnce);
   return 0;
 }

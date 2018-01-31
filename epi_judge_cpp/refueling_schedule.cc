@@ -12,6 +12,8 @@ int FindAmpleCity(const vector<int>& gallons, const vector<int>& distances) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "refueling_schedule.tsv", &FindAmpleCity);
+  std::vector<std::string> param_names{"gallons", "distances"};
+  generic_test_main(argc, argv, param_names, "refueling_schedule.tsv",
+                    &FindAmpleCity);
   return 0;
 }

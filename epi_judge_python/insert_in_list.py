@@ -9,17 +9,17 @@ def insert_after(node, new_node):
 
 
 @enable_timer_hook
-def insert_list_wrapper(timer, L, pos, key):
-    node = L
-    for _ in range(pos - 1):
+def insert_list_wrapper(timer, l, node_idx, new_node_data):
+    node = l
+    for _ in range(node_idx - 1):
         node = node.next
-    new_node = ListNode(key)
+    new_node = ListNode(new_node_data)
 
     timer.start()
     insert_after(node, new_node)
     timer.stop()
 
-    return L
+    return l
 
 
 from test_framework import test_utils_generic_main, test_utils

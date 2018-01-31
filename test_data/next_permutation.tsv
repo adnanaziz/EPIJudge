@@ -1,5 +1,4 @@
 array(int)	array(int)
-@	perm
 [1, 2, 3]	[1, 3, 2]	TODO
 [1, 3, 2]	[2, 1, 3]	TODO
 [2, 1, 3]	[2, 3, 1]	TODO

@@ -1,4 +1,4 @@
-def is_arbitrage_exist(G):
+def is_arbitrage_exist(graph):
     # Implement this placeholder.
     return True
 

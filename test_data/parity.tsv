@@ -1,5 +1,4 @@
 long	int
-@	x
 0	0	0, its binary is 0b0
 1	1	1, its binary is 0b1
 10	0	10, its binary is 0b1010

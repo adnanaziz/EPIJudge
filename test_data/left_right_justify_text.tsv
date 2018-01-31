@@ -1,5 +1,4 @@
 array(string)	int	array(string)
-@	words	L
 ["Text", "justification", "is", "trickier", "than", "it", "seems!"]	14	["Text          ", "justification ", "is    trickier", "than it seems!"]	TODO
 ["Listen", "to", "many,", "speak", "to", "a", "few."]	6	["Listen", "to    ", "many, ", "speak ", "to   a", "few.  "]	TODO
 ["The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dogs."]	11	["The   quick", "brown   fox", "jumped over", "the    lazy", "dogs.      "]	TODO

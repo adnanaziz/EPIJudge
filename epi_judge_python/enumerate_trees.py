@@ -20,9 +20,9 @@ def serialize_structure(tree):
 
 
 @enable_timer_hook
-def generate_all_binary_trees_wrapper(timer, i):
+def generate_all_binary_trees_wrapper(timer, num_nodes):
     timer.start()
-    result = generate_all_binary_trees(i)
+    result = generate_all_binary_trees(num_nodes)
     timer.stop()
 
     return sorted(map(serialize_structure, result))

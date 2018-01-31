@@ -18,7 +18,9 @@ int FindFirstGreaterThanKWrapper(const unique_ptr<BstNode<int>>& tree, int k) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "search_first_greater_value_in_bst.tsv",
+  std::vector<std::string> param_names{"tree", "k"};
+  generic_test_main(argc, argv, param_names,
+                    "search_first_greater_value_in_bst.tsv",
                     &FindFirstGreaterThanKWrapper);
   return 0;
 }

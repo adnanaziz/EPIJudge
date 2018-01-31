@@ -14,6 +14,8 @@ vector<int> InorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "tree_inorder.tsv", &InorderTraversal);
+  std::vector<std::string> param_names{"tree"};
+  generic_test_main(argc, argv, param_names, "tree_inorder.tsv",
+                    &InorderTraversal);
   return 0;
 }

@@ -1,11 +1,18 @@
-def rotate_array(i, A):
+from test_framework.test_utils import enable_timer_hook
+
+
+def rotate_array(rotate_amount, A):
     # Implement this placeholder.
     return
 
 
-def rotate_array_wrapper(a, k):
-    rotate_array(k, a)
-    return a
+@enable_timer_hook
+def rotate_array_wrapper(timer, A, rotate_amount):
+    a_copy = A[:]
+    timer.start()
+    rotate_array(rotate_amount, a_copy)
+    timer.stop()
+    return a_copy
 
 
 from test_framework import test_utils_generic_main, test_utils

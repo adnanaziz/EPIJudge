@@ -19,7 +19,8 @@ bool comp(vector<string> expected, vector<string> result) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "valid_ip_addresses.tsv", &GetValidIpAddress,
-                    &comp);
+  std::vector<std::string> param_names{"s"};
+  generic_test_main(argc, argv, param_names, "valid_ip_addresses.tsv",
+                    &GetValidIpAddress, &comp);
   return 0;
 }

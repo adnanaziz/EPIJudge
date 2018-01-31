@@ -10,19 +10,19 @@ class GraphVertex:
         self.edges = []
 
 
-def is_deadlocked(G):
+def is_deadlocked(graph):
     # Implement this placeholder.
     return True
 
 
 @enable_timer_hook
-def is_deadlocked_wrapper(timer, k, edges):
-    if k <= 0:
-        raise RuntimeError('Invalid k value')
-    graph = [GraphVertex() for _ in range(k)]
+def is_deadlocked_wrapper(timer, num_nodes, edges):
+    if num_nodes <= 0:
+        raise RuntimeError('Invalid num_nodes value')
+    graph = [GraphVertex() for _ in range(num_nodes)]
 
     for (fr, to) in edges:
-        if fr < 0 or fr >= k or to < 0 or to >= k:
+        if fr < 0 or fr >= num_nodes or to < 0 or to >= num_nodes:
             raise RuntimeError('Invalid vertex index')
         graph[fr].edges.append(graph[to])
 

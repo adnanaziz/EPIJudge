@@ -82,6 +82,8 @@ bool SearchMazeWrapper(TestTimer& timer, const vector<vector<Color>>& maze,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "search_maze.tsv", &SearchMazeWrapper);
+  std::vector<std::string> param_names{"timer", "maze", "s", "e"};
+  generic_test_main(argc, argv, param_names, "search_maze.tsv",
+                    &SearchMazeWrapper);
   return 0;
 }

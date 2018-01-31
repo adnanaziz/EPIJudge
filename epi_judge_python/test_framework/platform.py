@@ -43,7 +43,6 @@ if running_on_win():
                 ("dwMaximumWindowSize", COORD),
             ]
 
-
         _GetStdHandle = windll.kernel32.GetStdHandle
         _GetStdHandle.argtypes = [
             wintypes.DWORD,
@@ -74,4 +73,3 @@ if running_on_win():
 
         def set_console_text_attribute(attrs):
             return _SetConsoleTextAttribute(stdout_handle, attrs)
-

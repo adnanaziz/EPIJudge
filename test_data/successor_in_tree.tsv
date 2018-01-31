@@ -1,5 +1,4 @@
 binary_tree(int)	int	int
-@	tree	node_idx
 ["1"]	1	-1	TODO
 ["1", "2"]	2	1	TODO
 ["1", "2", "3"]	2	1	TODO

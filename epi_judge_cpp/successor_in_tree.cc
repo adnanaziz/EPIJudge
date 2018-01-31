@@ -7,15 +7,17 @@ BinaryTreeNode<int>* FindSuccessor(
   return nullptr;
 }
 
-int FindSuccessorWrapper(const unique_ptr<BinaryTreeNode<int>>& root,
+int FindSuccessorWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
                          int node_idx) {
-  auto result = FindSuccessor(MustFindNode(root, node_idx));
+  auto result = FindSuccessor(MustFindNode(tree, node_idx));
   return result ? result->data : -1;
 }
 
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "successor_in_tree.tsv", &FindSuccessorWrapper);
+  std::vector<std::string> param_names{"tree", "node_idx"};
+  generic_test_main(argc, argv, param_names, "successor_in_tree.tsv",
+                    &FindSuccessorWrapper);
   return 0;
 }

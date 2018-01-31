@@ -17,7 +17,7 @@ struct Name {
   string first_name, last_name;
 };
 
-void EliminateDuplicate(vector<Name>* A) {
+void EliminateDuplicate(vector<Name>* names) {
   // Implement this placeholder.
   return;
 }
@@ -30,9 +30,9 @@ std::ostream& operator<<(std::ostream& out, const Name& n) {
   return out << n.first_name;
 }
 
-vector<Name> EliminateDuplicateWrapper(vector<Name> data) {
-  EliminateDuplicate(&data);
-  return data;
+vector<Name> EliminateDuplicateWrapper(vector<Name> names) {
+  EliminateDuplicate(&names);
+  return names;
 }
 
 bool Comp(vector<std::string> expected, vector<Name> result) {
@@ -46,7 +46,8 @@ bool Comp(vector<std::string> expected, vector<Name> result) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "remove_duplicates.tsv",
+  std::vector<std::string> param_names{"names"};
+  generic_test_main(argc, argv, param_names, "remove_duplicates.tsv",
                     &EliminateDuplicateWrapper, &Comp);
   return 0;
 }

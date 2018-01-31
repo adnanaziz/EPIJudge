@@ -16,7 +16,7 @@ public class MaxTeamsInPhotograph {
     public int maxDistance = 0;
   }
 
-  public static int findLargestNumberTeams(List<GraphVertex> G) {
+  public static int findLargestNumberTeams(List<GraphVertex> graph) {
     // Implement this placeholder.
     return 0;
   }

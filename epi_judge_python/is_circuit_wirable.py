@@ -7,7 +7,7 @@ class GraphVertex:
         self.edges = []
 
 
-def is_any_placement_feasible(G):
+def is_any_placement_feasible(graph):
     # Implement this placeholder.
     return True
 

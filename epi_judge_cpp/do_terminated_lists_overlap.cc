@@ -7,39 +7,39 @@
 using std::shared_ptr;
 
 shared_ptr<ListNode<int>> OverlappingNoCycleLists(
-    shared_ptr<ListNode<int>> L1, shared_ptr<ListNode<int>> L2) {
+    shared_ptr<ListNode<int>> l0, shared_ptr<ListNode<int>> l1) {
   // Implement this placeholder.
   return nullptr;
 }
 
 void OverlappingNoCycleListsWrapper(TestTimer& timer,
-                                    shared_ptr<ListNode<int>> p1,
-                                    shared_ptr<ListNode<int>> p2,
+                                    shared_ptr<ListNode<int>> l0,
+                                    shared_ptr<ListNode<int>> l1,
                                     shared_ptr<ListNode<int>> common) {
   if (common) {
-    if (!p1) {
-      p1 = common;
-    } else {
-      auto l1 = p1;
-      while (l1->next) {
-        l1 = l1->next;
+    if (l0) {
+      auto i = l0;
+      while (i->next) {
+        i = i->next;
       }
-      l1->next = common;
+      i->next = common;
+    } else {
+      l0 = common;
     }
 
-    if (!p2) {
-      p2 = common;
-    } else {
-      auto l2 = p2;
-      while (l2->next) {
-        l2 = l2->next;
+    if (l1) {
+      auto i = l1;
+      while (i->next) {
+        i = i->next;
       }
-      l2->next = common;
+      i->next = common;
+    } else {
+      l1 = common;
     }
   }
 
   timer.Start();
-  auto result = OverlappingNoCycleLists(p1, p2);
+  auto result = OverlappingNoCycleLists(l0, l1);
   timer.Stop();
 
   if (result != common) {
@@ -50,7 +50,8 @@ void OverlappingNoCycleListsWrapper(TestTimer& timer,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "do_terminated_lists_overlap.tsv",
+  std::vector<std::string> param_names{"timer", "l0", "l1", "common"};
+  generic_test_main(argc, argv, param_names, "do_terminated_lists_overlap.tsv",
                     &OverlappingNoCycleListsWrapper);
   return 0;
 }

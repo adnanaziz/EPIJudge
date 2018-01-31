@@ -10,6 +10,8 @@ bool TestCollatzConjecture(int n) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "collatz_checker.tsv", &TestCollatzConjecture);
+  std::vector<std::string> param_names{"n"};
+  generic_test_main(argc, argv, param_names, "collatz_checker.tsv",
+                    &TestCollatzConjecture);
   return 0;
 }

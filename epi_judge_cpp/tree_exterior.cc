@@ -35,7 +35,8 @@ vector<int> ExteriorBinaryTreeWrapper(
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "tree_exterior.tsv",
+  std::vector<std::string> param_names{"timer", "tree"};
+  generic_test_main(argc, argv, param_names, "tree_exterior.tsv",
                     &ExteriorBinaryTreeWrapper);
   return 0;
 }

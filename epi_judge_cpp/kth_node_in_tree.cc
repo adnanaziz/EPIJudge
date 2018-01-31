@@ -88,9 +88,9 @@ struct SerializationTraits<unique_ptr<BinaryTreeNode<KeyT>>> {
   }
 };
 
-int FindKthNodeBinaryTreeWrapper(const unique_ptr<BinaryTreeNode<int>>& root,
-                                 int node_idx) {
-  auto result = FindKthNodeBinaryTree(root, node_idx);
+int FindKthNodeBinaryTreeWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
+                                 int k) {
+  auto result = FindKthNodeBinaryTree(tree, k);
   if (!result) {
     throw TestFailureException("Result can't be nullptr");
   }
@@ -100,7 +100,8 @@ int FindKthNodeBinaryTreeWrapper(const unique_ptr<BinaryTreeNode<int>>& root,
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "kth_node_in_tree.tsv",
+  std::vector<std::string> param_names{"tree", "k"};
+  generic_test_main(argc, argv, param_names, "kth_node_in_tree.tsv",
                     &FindKthNodeBinaryTreeWrapper);
   return 0;
 }

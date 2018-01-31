@@ -1,5 +1,4 @@
 array(int)	int	void
-@	data	pivotIdx
 [0, 1, 1, 2]	2	Basic test, unchanged
 [1, 1, 0, 2]	1	Basic test, one swap
 [1]	0	Corner-case input: single entry

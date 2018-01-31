@@ -16,7 +16,7 @@ def find_kth_node_binary_tree(tree, k):
 
 
 @enable_timer_hook
-def find_kth_node_binary_tree_wrapper(timer, tree, idx):
+def find_kth_node_binary_tree_wrapper(timer, tree, k):
     def init_size(node):
         if not node:
             return 0
@@ -26,7 +26,7 @@ def find_kth_node_binary_tree_wrapper(timer, tree, idx):
     init_size(tree)
 
     timer.start()
-    result = find_kth_node_binary_tree(tree, idx)
+    result = find_kth_node_binary_tree(tree, k)
     timer.stop()
 
     if not result:

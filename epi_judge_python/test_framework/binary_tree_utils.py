@@ -121,4 +121,5 @@ def strip_parent_link(tree):
 def binary_tree_height(tree):
     if not tree:
         return -1
-    return 1 + max(binary_tree_height(tree.left), binary_tree_height(tree.right))
+    return 1 + max(
+        binary_tree_height(tree.left), binary_tree_height(tree.right))

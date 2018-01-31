@@ -10,6 +10,7 @@ bool HasTwoSum(const vector<int>& A, int t) {
 #include "test_framework/test_utils_generic_main.h"
 
 int main(int argc, char* argv[]) {
-  generic_test_main(argc, argv, "two_sum.tsv", &HasTwoSum);
+  std::vector<std::string> param_names{"A", "t"};
+  generic_test_main(argc, argv, param_names, "two_sum.tsv", &HasTwoSum);
   return 0;
 }

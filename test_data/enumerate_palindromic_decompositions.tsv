@@ -1,5 +1,4 @@
 string	array(array(string))
-@	input
 pphhphihpi	[["p", "p", "h", "h", "p", "h", "i", "h", "p", "i"], ["p", "p", "h", "h", "p", "hih", "p", "i"], ["p", "p", "h", "h", "phihp", "i"], ["p", "p", "h", "hph", "i", "h", "p", "i"], ["p", "p", "hh", "p", "h", "i", "h", "p", "i"], ["p", "p", "hh", "p", "hih", "p", "i"], ["p", "p", "hh", "phihp", "i"], ["p", "phhp", "h", "i", "h", "p", "i"], ["p", "phhp", "hih", "p", "i"], ["pp", "h", "h", "p", "h", "i", "h", "p", "i"], ["pp", "h", "h", "p", "hih", "p", "i"], ["pp", "h", "h", "phihp", "i"], ["pp", "h", "hph", "i", "h", "p", "i"], ["pp", "hh", "p", "h", "i", "h", "p", "i"], ["pp", "hh", "p", "hih", "p", "i"], ["pp", "hh", "phihp", "i"]]	TODO
 zpp	[["z", "p", "p"], ["z", "pp"]]	TODO
 hhi	[["h", "h", "i"], ["hh", "i"]]	TODO

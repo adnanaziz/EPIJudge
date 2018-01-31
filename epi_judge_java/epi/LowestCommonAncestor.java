@@ -16,14 +16,13 @@ public class LowestCommonAncestor {
   }
 
   @EpiTest(testfile = "lowest_common_ancestor.tsv")
-  public static int lcaWrapper(TestTimer timer, BinaryTreeNode<Integer> root,
-                               Integer key1, int key2)
+  public static int lcaWrapper(TestTimer timer, BinaryTreeNode<Integer> tree,
+                               Integer node0, int node1)
       throws TestFailureException {
-    BinaryTreeNode<Integer> node1 = BinaryTreeUtils.mustFindNode(root, key1);
-    BinaryTreeNode<Integer> node2 = BinaryTreeUtils.mustFindNode(root, key2);
-
     timer.start();
-    BinaryTreeNode<Integer> result = LCA(root, node1, node2);
+    BinaryTreeNode<Integer> result =
+        LCA(tree, BinaryTreeUtils.mustFindNode(tree, node0),
+            BinaryTreeUtils.mustFindNode(tree, node1));
     timer.stop();
 
     if (result == null) {

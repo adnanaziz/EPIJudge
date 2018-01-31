@@ -19,11 +19,14 @@ def return_caret_if_tty_output():
 
 
 def print_test_result(test_result):
-    values = {TestResult.PASSED: ('PASSED', ConsoleColor.FG_GREEN),
-              TestResult.FAILED: ('FAILED', ConsoleColor.FG_RED),
-              TestResult.TIMEOUT: ('TIMEOUT', ConsoleColor.FG_BLUE),
-              TestResult.UNKNOWN_EXCEPTION: ('UNHANDLED EXCEPTION', ConsoleColor.FG_RED),
-              TestResult.STACK_OVERFLOW: ('STACK OVERFLOW', ConsoleColor.FG_RED)}
+    values = {
+        TestResult.PASSED: ('PASSED', ConsoleColor.FG_GREEN),
+        TestResult.FAILED: ('FAILED', ConsoleColor.FG_RED), TestResult.TIMEOUT:
+        ('TIMEOUT', ConsoleColor.FG_BLUE), TestResult.UNKNOWN_EXCEPTION:
+        ('UNHANDLED EXCEPTION',
+         ConsoleColor.FG_RED), TestResult.STACK_OVERFLOW: ('STACK OVERFLOW',
+                                                           ConsoleColor.FG_RED)
+    }
 
     if test_result in values:
         print_std_out_colored(values[test_result][1], values[test_result][0])
@@ -39,11 +42,12 @@ def print_test_info(test_result, test_nr, total_tests, diagnostic, timer):
     total_tests_str = str(total_tests)
     print('Test ', end='')
     print_test_result(test_result)
-    print(' ({:>{test_nr_w}}/{})'.format(
-        test_nr,
-        total_tests_str,
-        diagnostic,
-        test_nr_w=len(total_tests_str)),
+    print(
+        ' ({:>{test_nr_w}}/{})'.format(
+            test_nr,
+            total_tests_str,
+            diagnostic,
+            test_nr_w=len(total_tests_str)),
         end='',
         flush=True)
 
@@ -61,7 +65,8 @@ def gen_spaces(count):
     return ' ' * count
 
 
-def print_failed_test(arg_names, arguments, test_output, test_explanation, res_printer):
+def print_failed_test(param_names, arguments, test_output, test_explanation,
+                      res_printer):
     expected_str = 'expected'
     result_str = 'result'
     explanation_str = 'explanation'
@@ -76,9 +81,11 @@ def print_failed_test(arg_names, arguments, test_output, test_explanation, res_p
                 len(result_str) if has_result else \
                     0
 
-    max_col_size = max(max_col_size, max(len(arg) for arg in arg_names))
+    for param in param_names:
+        if len(param) > max_col_size:
+            max_col_size = len(param)
 
-    for (name, value) in zip(arg_names, arguments):
+    for (name, value) in zip(param_names, arguments):
         print('\t{}: {}{}'.format(name, gen_spaces(max_col_size - len(name)),
                                   escape_newline(str(value))))
 
@@ -89,14 +96,14 @@ def print_failed_test(arg_names, arguments, test_output, test_explanation, res_p
             (expected, result) = res_printer(expected, result)
 
         if has_expected:
-            print('\t{}: {}{}'.format(expected_str,
-                                      gen_spaces(max_col_size - len(expected_str)),
-                                      escape_newline(str(expected))))
+            print('\t{}: {}{}'.format(
+                expected_str, gen_spaces(max_col_size - len(expected_str)),
+                escape_newline(str(expected))))
         if has_result:
-            print('\t{}: {}{}'.format(result_str,
-                                      gen_spaces(max_col_size - len(result_str)),
-                                      escape_newline(str(result))))
+            print('\t{}: {}{}'.format(
+                result_str, gen_spaces(max_col_size - len(result_str)),
+                escape_newline(str(result))))
     if has_explanation:
-        print('\t{}: {}{}'.format(explanation_str,
-                                  gen_spaces(max_col_size - len(explanation_str)),
-                                  test_explanation))
+        print('\t{}: {}{}'.format(
+            explanation_str, gen_spaces(max_col_size - len(explanation_str)),
+            test_explanation))
