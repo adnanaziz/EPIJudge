@@ -711,13 +711,13 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
 template <bool HasParent>
 struct BinaryTreeSerializationTraitsHelper {
   template <typename Node, typename Parent>
-  static void initParent(const Node& n, const Parent& p) {}
+  static void InitParent(const Node& n, const Parent& p) {}
 };
 
 template <>
 struct BinaryTreeSerializationTraitsHelper<true> {
   template <typename Node, typename Parent>
-  static void initParent(Node& n, Parent& p) {
+  static void InitParent(Node& n, Parent& p) {
     n->parent = p;
   }
 };
@@ -750,15 +750,15 @@ struct BinaryTreeSerializationTraits<
 
   static serialization_type Parse(const std::string& str) {
     auto v = SerializationTraits<std::vector<std::string>>::Parse(str);
-    return buildTreeFromVector(v);
+    return BuildTreeFromVector(v);
   }
 
   static serialization_type JsonParse(std::istream& in) {
     auto v = SerializationTraits<std::vector<std::string>>::JsonParse(in);
-    return buildTreeFromVector(v);
+    return BuildTreeFromVector(v);
   }
 
-  static serialization_type buildTreeFromVector(
+  static serialization_type BuildTreeFromVector(
       const std::vector<std::string>& data) {
     if (data.empty()) {
       throw std::runtime_error("Tree parser: missing data");
@@ -780,7 +780,7 @@ struct BinaryTreeSerializationTraits<
         if (!candidate_children.empty()) {
           node->left = serialization_type(candidate_children.back());
           if (node->left) {
-            BinaryTreeSerializationTraitsHelper<HasParent>::initParent(
+            BinaryTreeSerializationTraitsHelper<HasParent>::InitParent(
                 node->left, node);
           }
           candidate_children.pop_back();
@@ -789,7 +789,7 @@ struct BinaryTreeSerializationTraits<
         if (!candidate_children.empty()) {
           node->right = serialization_type(candidate_children.back());
           if (node->right) {
-            BinaryTreeSerializationTraitsHelper<HasParent>::initParent(
+            BinaryTreeSerializationTraitsHelper<HasParent>::InitParent(
                 node->right, node);
           }
           candidate_children.pop_back();
@@ -806,37 +806,7 @@ struct BinaryTreeSerializationTraits<
   }
 
   static void Print(std::ostream& out, const serialization_type& x) {
-    std::queue<const serialization_type*> q;
-    q.push(&x);
-
-    bool first = true;
-    int null_nodes_pending = 0;
-
-    out << "[";
-    while (!q.empty()) {
-      auto node = q.front();
-      q.pop();
-
-      if (*node) {
-        if (first)
-          first = false;
-        else
-          out << ", ";
-
-        for (; null_nodes_pending > 0; null_nodes_pending--) {
-          out << "null, ";
-        }
-        out << '"';
-        EpiPrint(out, (*node)->data);
-        out << '"';
-
-        q.push(&(*node)->left);
-        q.push(&(*node)->right);
-      } else {
-        null_nodes_pending++;
-      }
-    }
-    out << "]";
+    out << BinaryTreeToString(x);
   }
 };
 

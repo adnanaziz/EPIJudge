@@ -34,7 +34,7 @@ public class TestUtilsDeserialization {
       TYPE_JSON_PARSER_MAPPING;
 
   static {
-    Map<Type, String> tn = new HashMap<Type, String>() {
+    TYPE_NAME_MAPPING = new HashMap<Type, String>() {
       {
         put(String.class, "string");
         put(Integer.class, "int");
@@ -53,31 +53,28 @@ public class TestUtilsDeserialization {
         put(double.class, "float");
       }
     };
-    TYPE_NAME_MAPPING = tn;
 
-    Map<Type, Function<String, Object>> tp =
-        new HashMap<Type, Function<String, Object>>() {
-          {
-            put(String.class, (String s) -> s);
-            put(Integer.class, Integer::parseInt);
-            put(int.class, Integer::parseInt);
-            put(Short.class, Short::parseShort);
-            put(short.class, Short::parseShort);
-            put(Long.class, Long::parseLong);
-            put(long.class, Long::parseLong);
-            put(Character.class, TestUtilsDeserialization::stringToChar);
-            put(char.class, TestUtilsDeserialization::stringToChar);
-            put(Boolean.class, Boolean::parseBoolean);
-            put(boolean.class, Boolean::parseBoolean);
-            put(Float.class, Float::parseFloat);
-            put(float.class, Float::parseFloat);
-            put(Double.class, Double::parseDouble);
-            put(double.class, Double::parseDouble);
-          }
-        };
-    TYPE_PARSER_MAPPING = tp;
+    TYPE_PARSER_MAPPING = new HashMap<Type, Function<String, Object>>() {
+      {
+        put(String.class, (String s) -> s);
+        put(Integer.class, Integer::parseInt);
+        put(int.class, Integer::parseInt);
+        put(Short.class, Short::parseShort);
+        put(short.class, Short::parseShort);
+        put(Long.class, Long::parseLong);
+        put(long.class, Long::parseLong);
+        put(Character.class, TestUtilsDeserialization::stringToChar);
+        put(char.class, TestUtilsDeserialization::stringToChar);
+        put(Boolean.class, Boolean::parseBoolean);
+        put(boolean.class, Boolean::parseBoolean);
+        put(Float.class, Float::parseFloat);
+        put(float.class, Float::parseFloat);
+        put(Double.class, Double::parseDouble);
+        put(double.class, Double::parseDouble);
+      }
+    };
 
-    Map<Type, Function<JsonValue, Object>> tj =
+    TYPE_JSON_PARSER_MAPPING =
         new HashMap<Type, Function<JsonValue, Object>>() {
           {
             put(String.class, JsonValue::asString);
@@ -97,7 +94,6 @@ public class TestUtilsDeserialization {
             put(double.class, JsonValue::asDouble);
           }
         };
-    TYPE_JSON_PARSER_MAPPING = tj;
   }
 
   /**

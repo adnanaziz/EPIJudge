@@ -54,16 +54,18 @@ class GenericTestHandler {
       std::conditional_t<std::is_same<expected_value_t, void>::value,
                          ExpectedIsVoidTag, ExpectedIsValueTag>;
 
-  Function func_;
-  Comparator comp_;
-
  public:
   using test_output_t =
       TestOutput<expected_value_t,
                  typename FunctionalTraits<Function>::return_t>;
 
-  GenericTestHandler(Function func, Comparator comp)
-      : func_(func), comp_(comp) {}
+  GenericTestHandler(Function func, Comparator comp,
+                     const std::vector<std::string>& param_names)
+      : func_(func), comp_(comp), param_names_(param_names) {
+    if (FunctionalTraits<Function>::HasTimerHook()) {
+      param_names_.erase(param_names_.begin());  // Remove "timer" parameter
+    }
+  }
 
   /**
    * This method ensures that test data header matches with the signature of
@@ -77,6 +79,10 @@ class GenericTestHandler {
 
     MatchFunctionSignature<expected_value_t, arg_tuple_t>(
         std::cbegin(signature), std::cend(signature));
+
+    if (param_names_.size() != signature.size() - 1) {
+      throw std::runtime_error("parameter names count mismatch");
+    }
   }
 
   /**
@@ -102,14 +108,8 @@ class GenericTestHandler {
     return std::is_same<expected_tag, ExpectedIsVoidTag>::value;
   }
 
-  static constexpr size_t ArgumentCount() {
-    return std::tuple_size<
-        typename FunctionalTraits<Function>::arg_tuple_t>::value;
-  }
+  const std::vector<std::string>& ParamNames() const { return param_names_; }
 
-  static constexpr bool HasTimerHook() {
-    return FunctionalTraits<Function>::HasTimerHook();
-  }
  private:
   /**
    * This method parses expected value (if return type is not void),
@@ -180,4 +180,8 @@ class GenericTestHandler {
     return FunctionalTraits<Function>::InvokeWithTimer(func_, timer,
                                                        std::get<I>(args)...);
   };
+
+  Function func_;
+  Comparator comp_;
+  std::vector<std::string> param_names_;
 };

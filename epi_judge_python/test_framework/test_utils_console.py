@@ -1,10 +1,9 @@
 # @library
-
 from test_framework.console_color import ConsoleColor, print_std_out_colored
 from test_framework.platform import use_tty_output
-from test_framework.test_result import TestResult
 from test_framework.test_output import TestOutput
-from test_framework.test_timer import duration_to_string
+from test_framework.test_result import TestResult
+from test_framework.test_timer import duration_to_string, avg_and_median_from_durations
 
 
 def escape_newline(s):
@@ -18,18 +17,19 @@ def return_caret_if_tty_output():
         print('\n', end='')
 
 
-def print_test_result(test_result):
-    values = {
-        TestResult.PASSED: ('PASSED', ConsoleColor.FG_GREEN),
-        TestResult.FAILED: ('FAILED', ConsoleColor.FG_RED), TestResult.TIMEOUT:
-        ('TIMEOUT', ConsoleColor.FG_BLUE), TestResult.UNKNOWN_EXCEPTION:
-        ('UNHANDLED EXCEPTION',
-         ConsoleColor.FG_RED), TestResult.STACK_OVERFLOW: ('STACK OVERFLOW',
-                                                           ConsoleColor.FG_RED)
-    }
+_print_test_result_values = {
+    TestResult.PASSED: ('PASSED', ConsoleColor.FG_GREEN),
+    TestResult.FAILED: ('FAILED', ConsoleColor.FG_RED),
+    TestResult.TIMEOUT: ('TIMEOUT', ConsoleColor.FG_BLUE),
+    TestResult.UNKNOWN_EXCEPTION: ('UNHANDLED EXCEPTION', ConsoleColor.FG_RED),
+    TestResult.STACK_OVERFLOW: ('STACK OVERFLOW', ConsoleColor.FG_RED)
+}
 
-    if test_result in values:
-        print_std_out_colored(values[test_result][1], values[test_result][0])
+
+def print_test_result(test_result):
+    if test_result in _print_test_result_values:
+        print_std_out_colored(_print_test_result_values[test_result][1],
+                              _print_test_result_values[test_result][0])
     else:
         raise RuntimeError('Unknown TestResult')
 
@@ -107,3 +107,19 @@ def print_failed_test(param_names, arguments, test_output, test_explanation,
         print('\t{}: {}{}'.format(
             explanation_str, gen_spaces(max_col_size - len(explanation_str)),
             test_explanation))
+
+
+def print_post_run_stats(tests_passed, total_tests, durations):
+    if durations:
+        avg_median = avg_and_median_from_durations(durations)
+        print(
+            'Average running time: {}\n'
+            'Median running time:  {}\n'.format(
+                duration_to_string(avg_median[0]),
+                duration_to_string(avg_median[1])),
+            end='')
+    if tests_passed < total_tests:
+        print('*** You\'ve passed {}/{} tests. ***'.format(
+            tests_passed, total_tests))
+    else:
+        print('*** You\'ve passed ALL tests. Congratulations! ***')

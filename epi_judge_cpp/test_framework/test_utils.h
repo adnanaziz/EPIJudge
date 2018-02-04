@@ -21,17 +21,18 @@
 #include "test_utils_console.h"
 #include "test_utils_meta.h"
 #include "test_utils_serialization_traits.h"
-
-namespace {
+#include "timeout_exception.h"
 
 std::vector<std::vector<std::string>> SplitTsvFile(
-    const std::string& data_file) {
-  std::ifstream input_data(data_file);
+    const std::string& tsv_file) {
+  const char kRowDelim = '\n';
+  const char kFieldDelim = '\t';
+
+  std::ifstream input_data(tsv_file);
   if (!input_data.is_open()) {
     throw std::runtime_error("Test data file not found");
   }
-  const char kRowDelim = '\n';
-  const char kFieldDelim = '\t';
+
   std::vector<std::vector<std::string>> result;
   for (std::string row; getline(input_data, row, kRowDelim);) {
     std::vector<std::string> one_test_data_set;
@@ -42,6 +43,38 @@ std::vector<std::vector<std::string>> SplitTsvFile(
     result.emplace_back(one_test_data_set);
   }
   return result;
+}
+
+std::string GetDefaultTestDataDirPath() {
+  constexpr int MAX_SEARCH_DEPTH = 4;
+  static const std::string ENV_KEY = "EPI_TEST_DATA_DIR";
+  static const std::string DIR_NAME = "test_data";
+  static char pardir[]{'.', '.', platform::PathSep(), '\0'};
+  std::string path;
+
+  const char* env_result = std::getenv(ENV_KEY.c_str());
+  if (env_result && env_result[0] != '\0') {
+    if (!platform::IsDir(env_result)) {
+      throw std::runtime_error(ENV_KEY +
+                               " environment variable is set to \"" +
+                               env_result + "\", but it's not a directory");
+    }
+    path = env_result;  // Enable RVO optimization
+    return path;
+  }
+
+  path = DIR_NAME;
+  for (int i = 0; i < MAX_SEARCH_DEPTH; i++) {
+    if (platform::IsDir(path.c_str())) {
+      return path;
+    }
+    path.insert(0, pardir);
+  }
+
+  throw std::runtime_error(
+      "Can't find test data directory. Specify it with " + ENV_KEY +
+      " environment variable (you may need to restart PC) or start the "
+      "program with \"--test_data_dir <path>\" command-line option");
 }
 
 /**
@@ -55,6 +88,30 @@ std::string FilterBracketComments(const std::string& type) {
                std::end(result));
   return result;
 }
+
+/**
+ * Invokes func with a specified timeout.
+ * If func takes more than timeout milliseconds to run,
+ * TimeoutException is thrown.
+ * If timeout == 0, it simply calls the function.
+ *
+ * @return whatever func returns
+ */
+template <typename Func>
+decltype(auto) InvokeWithTimeout(std::chrono::milliseconds timeout,
+                                 Func func) {
+  if (timeout == timeout.zero()) {
+    // timeout is disabled
+    return func();
+  } else {
+    auto future = std::async(std::launch::async, [&] { return func(); });
+    if (future.wait_for(timeout) == std::future_status::ready) {
+      return future.get();
+    } else {
+      throw TimeoutException();
+    }
+  }
+};
 
 /**
  * Helper function, see MatchFunctionSignature().
@@ -103,149 +160,6 @@ decltype(auto) ParseSerializedArgsImpl(
       SerializationTraits<std::tuple_element_t<I, ArgTuple>>::Parse(
           *(begin + I))...);
 };
-
-std::string GetDefaultTestDataDirPath() {
-  constexpr int MAX_SEARCH_DEPTH = 4;
-  const std::string ENV_KEY = "EPI_TEST_DATA_DIR";
-  const std::string DIR_NAME = "test_data";
-  char pardir[]{'.', '.', platform::PathSep(), '\0'};
-  std::string path;
-
-  const char* env_result = std::getenv(ENV_KEY.c_str());
-  if (env_result && env_result[0] != '\0') {
-    if (!platform::IsDir(env_result)) {
-      throw std::runtime_error(ENV_KEY +
-                               " environment variable is set to \"" +
-                               env_result + "\", but it's not a directory");
-    }
-    path = env_result;  // Enable RVO optimization
-    return path;
-  }
-
-  path = DIR_NAME;
-  for (int i = 0; i < MAX_SEARCH_DEPTH; i++) {
-    if (platform::IsDir(path.c_str())) {
-      return path;
-    }
-    path.insert(0, pardir);
-  }
-
-  throw std::runtime_error(
-      "Can't find test data directory. Specify it with " + ENV_KEY +
-      " environment variable (you may need to restart PC) or start the "
-      "program with \"--test_data_dir <path>\" command-line option");
-}
-}  // namespace
-
-template <typename TestHandlerT>
-void RunTests(std::string test_data_path, TestHandlerT& handler,
-              const std::chrono::milliseconds& timeout, bool stop_on_error,
-              std::vector<std::string> param_names) {
-  if (handler.HasTimerHook()) {
-    param_names.erase(param_names.begin()); //Remove "timer" parameter
-  }
-
-  std::vector<std::vector<std::string>> test_data =
-      SplitTsvFile(test_data_path);
-  if (param_names.size() != test_data[0].size() - 1) {
-    throw std::runtime_error("Signature parameter count mismatch");
-  }
-
-  handler.ParseSignature(test_data[0]);
-
-  int first_test_idx = 1;
-  int test_nr = 1;
-  const int total_tests = static_cast<int>(test_data.size() - first_test_idx);
-  int tests_passed = 0;
-  const bool use_timeout = (timeout != timeout.zero());
-  std::vector<std::chrono::microseconds> durations;
-
-  for (int i = first_test_idx; i < test_data.size(); ++i, ++test_nr) {
-    // Since the last field of test_data is test_explanation, which is not
-    // used for running test, we extract that here.
-    const std::string test_explanation = std::move(test_data[i].back());
-    test_data[i].pop_back();
-
-    TestResult result = FAILED;
-    typename TestHandlerT::test_output_t test_output;
-    std::string diagnostic;
-
-    try {
-      if (use_timeout) {
-        auto run_test_future = std::async(std::launch::async, [&] {
-          return handler.RunTest(test_data[i]);
-        });
-
-        if (run_test_future.wait_for(timeout) == std::future_status::ready) {
-          test_output = run_test_future.get();
-          result = test_output.comparison_result ? PASSED : FAILED;
-        } else {
-          result = TIMEOUT;
-        }
-      } else {
-        test_output = handler.RunTest(test_data[i]);
-        result = test_output.comparison_result ? PASSED : FAILED;
-      }
-
-    } catch (TestFailureException& e) {
-      result = FAILED;
-      diagnostic = e.what();
-    } catch (std::runtime_error&) {
-      throw;
-    } catch (std::exception& e) {
-      result = UNKNOWN_EXCEPTION;
-      diagnostic = e.what();
-    } catch (...) {
-      result = UNKNOWN_EXCEPTION;
-      diagnostic = "???";
-    }
-
-    PrintTestInfo(result, test_nr, total_tests, diagnostic,
-                  test_output.timer);
-    if (result == PASSED) {
-      tests_passed++;
-    }
-    if (test_output.timer.HasValidResult()) {
-      durations.emplace_back(test_output.timer.GetMicroseconds());
-    }
-    if (result != PASSED && stop_on_error) {
-      if (!handler.ExpectedIsVoid()) {
-        test_data[i].pop_back();
-      }
-      PrintFailedTest(param_names, test_data[i], test_output, test_explanation);
-      break;
-    }
-  }
-  std::cout << std::endl;
-
-  if (stop_on_error) {
-    if (!durations.empty()) {
-      const size_t durations_size = durations.size();
-      std::cout << "Average running time: "
-                << DurationToString(
-                       std::accumulate(std::begin(durations),
-                                       std::end(durations),
-                                       std::chrono::microseconds::zero()) /
-                       durations_size)
-                << std::endl;
-      std::sort(std::begin(durations), std::end(durations));
-      std::cout << "Median running time:  "
-                << DurationToString(durations_size & 1
-                                        ? durations[durations_size / 2]
-                                        : (durations[durations_size / 2 - 1] +
-                                           durations[durations_size / 2]) /
-                                              2)
-                << std::endl;
-    }
-    if (tests_passed < total_tests) {
-      std::cout << "*** You've passed " << tests_passed << "/" << total_tests
-                << " tests. ***" << std::endl;
-    } else {
-      std::cout << "*** You've passed ALL tests. Congratulations! ***"
-                << std::endl;
-    }
-  }
-}
 
 /**
  * A functor-like wrapper for SerializationTraits::Equal() function

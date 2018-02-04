@@ -30,7 +30,7 @@ def check_frequencies(seq, n, false_negative_tolerance):
     sigma_indiv = math.sqrt(len(seq) * p * (1.0 - p))
     k_sigma_indiv = k_indiv * sigma_indiv
     # To make our testing meaningful "sufficiently large", we need to have enough testing data.
-    if not (len(seq) * p >= 50 and len(seq) * (1.0 - p) >= 50):
+    if len(seq) * p < 50 or len(seq) * (1.0 - p) < 50:
         return True  # Sample size is too small so we cannot use normal approximation
 
     indiv_freqs = collections.Counter(seq)

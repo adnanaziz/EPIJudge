@@ -5,8 +5,7 @@ public class Platform {
   private static Boolean isWindows;
   private static Boolean is64Bit;
   private static boolean dllLoaded = false;
-
-  public static boolean enableColorOutput = true;
+  private static boolean enableColorOutput = true;
 
   static {
     if (runningOnWin() && useColorOutput()) {
@@ -18,7 +17,9 @@ public class Platform {
         dllLoaded = true;
       } catch (UnsatisfiedLinkError ex) {
         System.out.printf(
-            "Warning: %s.dll was not found. Colored output is disabled.\nIn order to enable it, pass -Djava.library.path=<path to EPIJudge>/epi_judge_java/epi/test_framework option to java.\n",
+            "Warning: %s.dll was not found. Colored output is disabled.\n"
+                +
+                "In order to enable it, pass -Djava.library.path=<path to EPIJudge>/epi_judge_java/epi/test_framework option to java.\n",
             dllName);
       }
     }
@@ -34,13 +35,17 @@ public class Platform {
   public static boolean runningOn64BitVM() {
     if (is64Bit == null) {
       String bits = System.getProperty("sun.arch.data.model", "?");
-      if (bits.equals("64")) {
-        is64Bit = true;
-      } else if (bits.equals("?")) {
-        is64Bit =
-            System.getProperty("java.vm.name").toLowerCase().indexOf("64") >= 0;
-      } else {
-        is64Bit = false;
+      switch (bits) {
+        case "64":
+          is64Bit = true;
+          break;
+        case "?":
+          is64Bit =
+              System.getProperty("java.vm.name").toLowerCase().contains("64");
+          break;
+        default:
+          is64Bit = false;
+          break;
       }
     }
     return is64Bit;
@@ -62,5 +67,11 @@ public class Platform {
     return 0;
   }
 
+  /**
+   * Interface to the native wrapper of WinAPI.
+   * Set CONSOLE_SCREEN_BUFFER_INFO.wAttributes to attr for the stdout handle.
+   * @param attr - new value for wAttributes
+   * @return previous value of wAttributes
+   */
   private static native int winSetConsoleTextAttributeImpl(int attr);
 }

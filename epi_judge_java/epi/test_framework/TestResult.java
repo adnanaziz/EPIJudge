@@ -6,5 +6,5 @@ public enum TestResult {
   PASSED,
   TIMEOUT,
   UNKNOWN_EXCEPTION,
-  STACK_OVERFLOW;
+  STACK_OVERFLOW
 }

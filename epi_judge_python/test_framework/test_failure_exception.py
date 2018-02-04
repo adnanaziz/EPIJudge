@@ -1,3 +1,4 @@
+# @library
 class TestFailureException(Exception):
     """
     Tested function is allowed to raise this exception

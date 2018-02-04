@@ -129,3 +129,22 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
               << test_explanation << std::endl;
   }
 }
+
+void PrintPostRunStats(int tests_passed, int total_tests,
+                       std::vector<std::chrono::microseconds>& durations) {
+  if (!durations.empty()) {
+    auto avg_median = AvgAndMedianFromDurations(durations);
+    std::cout << "Average running time: "
+              << DurationToString(avg_median.first) << std::endl
+              << "Median running time:  "
+              << DurationToString(avg_median.second) << std::endl;
+  }
+
+  if (tests_passed < total_tests) {
+    std::cout << "*** You've passed " << tests_passed << "/" << total_tests
+              << " tests. ***" << std::endl;
+  } else {
+    std::cout << "*** You've passed ALL tests. Congratulations! ***"
+              << std::endl;
+  }
+}

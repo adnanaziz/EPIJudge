@@ -1,7 +1,8 @@
 # @library
 class TestOutput:
-    EMPTY_OBJECT = object(
-    )  # For distinguishing between None (returned by user code) and empty value
+    EMPTY_OBJECT = object()
+
+    # For distinguishing between None (returned by user code) and empty value
 
     def __init__(self,
                  comparison_result,

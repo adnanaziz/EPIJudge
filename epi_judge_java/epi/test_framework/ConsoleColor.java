@@ -39,12 +39,18 @@ public class ConsoleColor {
     }
 
     if (Platform.runningOnWin()) {
-      int oldAttr = Platform.winSetConsoleTextAttribute(getColorCodeWin(color));
+      System.out.flush();
+      int oldTextAttr =
+          Platform.winSetConsoleTextAttribute(getColorCodeWin(color));
+
       System.out.print(value);
-      Platform.winSetConsoleTextAttribute(oldAttr);
+
+      System.out.flush();
+      Platform.winSetConsoleTextAttribute(oldTextAttr);
     } else {
-      System.out.print(getColorCodeUnix(color) + String.valueOf(value) +
-                       getColorCodeUnix(Color.FG_DEFAULT));
+      System.out.printf("%s%s%s", getColorCodeUnix(color),
+                        String.valueOf(value),
+                        getColorCodeUnix(Color.FG_DEFAULT));
     }
   }
 }

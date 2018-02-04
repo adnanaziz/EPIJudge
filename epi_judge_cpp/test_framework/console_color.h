@@ -49,15 +49,15 @@ void PrintStdOutColored(ConsoleColor color, const T& value) {
   const HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
   CONSOLE_SCREEN_BUFFER_INFO buffer_info;
   GetConsoleScreenBufferInfo(stdout_handle, &buffer_info);
-  const WORD old_color_attrs = buffer_info.wAttributes;
-  fflush(stdout);
+  const WORD old_text_attr = buffer_info.wAttributes;
 
+  fflush(stdout);
   SetConsoleTextAttribute(stdout_handle, GetColorCodeWin(color));
 
   std::cout << value;
-  fflush(stdout);
 
-  SetConsoleTextAttribute(stdout_handle, old_color_attrs);
+  fflush(stdout);
+  SetConsoleTextAttribute(stdout_handle, old_text_attr);
 #else
   std::cout << GetColorCodeUnix(color) << value
             << GetColorCodeUnix(ConsoleColor::FG_DEFAULT);

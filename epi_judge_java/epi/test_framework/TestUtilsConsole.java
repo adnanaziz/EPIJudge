@@ -111,4 +111,22 @@ public class TestUtilsConsole {
                         testExplanation);
     }
   }
+
+  public static void printPostRunStats(int testsPassed, int totalTests,
+                                       List<Long> durations) {
+    if (!durations.isEmpty()) {
+      long[] avgMedian = TestTimer.avgAndMedianFromDuration(durations);
+
+      System.out.printf("Average running time: %s\nMedian running time:  %s\n",
+                        TestTimer.durationToString(avgMedian[0]),
+                        TestTimer.durationToString(avgMedian[1]));
+    }
+
+    if (testsPassed < totalTests) {
+      System.out.printf("*** You've passed %d/%d tests. ***\n", testsPassed,
+                        totalTests);
+    } else {
+      System.out.println("*** You've passed ALL tests. Congratulations! ***");
+    }
+  }
 }

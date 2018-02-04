@@ -1,109 +1,25 @@
 # @library
-import concurrent.futures
-import inspect
 import math
 import os
 import re
-import statistics
 
-from test_framework import console_color
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_output import TestOutput
-from test_framework.test_result import TestResult
-from test_framework.test_timer import TestTimer, duration_to_string
-from test_framework.test_utils_console import print_test_info, print_failed_test
+from concurrent import futures
+
+from test_framework.timeout_exception import TimeoutException
 
 
-def split_tsv_file(data_file):
+def split_tsv_file(tsv_file):
     ROW_DELIM = '\n'
     FIELD_DELIM = '\t'
+
     try:
-        with open(data_file) as input_data:
+        with open(tsv_file) as input_data:
             return [
                 row.replace(ROW_DELIM, '').split(FIELD_DELIM)
                 for row in input_data
             ]
     except OSError:
         raise RuntimeError('Test data file not found')
-
-
-def run_tests(test_data_path, handler, timeout, stop_on_error, res_printer):
-    test_data = split_tsv_file(test_data_path)
-
-    handler.parse_signature(test_data[0])
-
-    param_names = handler.param_names()
-    first_test_idx = 1
-    test_nr = 0
-    total_tests = len(test_data) - first_test_idx
-    tests_passed = 0
-    durations = []
-
-    for test_case in test_data[first_test_idx:]:
-        test_nr += 1
-
-        test_explanation = test_case.pop()
-
-        result = TestResult.FAILED
-        test_output = None
-        diagnostic = ''
-
-        try:
-            if timeout != 0:
-                with concurrent.futures.ThreadPoolExecutor(
-                        max_workers=1) as executor:
-                    future = executor.submit(handler.run_test, test_case)
-                    test_output = future.result(timeout=timeout)
-                    result = TestResult.PASSED if test_output.comparison_result \
-                        else TestResult.FAILED
-            else:
-                test_output = handler.run_test(test_case)
-                result = TestResult.PASSED if test_output.comparison_result \
-                    else TestResult.FAILED
-        except TestFailureException as exc:
-            result = TestResult.FAILED
-            diagnostic = str(exc)
-        except concurrent.futures.TimeoutError:
-            result = TestResult.TIMEOUT
-        except RecursionError:
-            result = TestResult.STACK_OVERFLOW
-        except RuntimeError:
-            raise
-        except Exception as exc:
-            result = TestResult.UNKNOWN_EXCEPTION
-            diagnostic = exc.__class__.__name__ + ': ' + str(exc)
-
-        if test_output is None:
-            test_output = TestOutput(False, TestTimer())
-            # Append expected value if execution ended due to an exception
-            if not handler.expected_is_void():
-                test_output.expected = test_case[-1]
-
-        print_test_info(result, test_nr, total_tests, diagnostic,
-                        test_output.timer)
-        tests_passed += 1 if result == TestResult.PASSED else 0
-        if test_output.timer.has_valid_result():
-            durations.append(test_output.timer.get_microseconds())
-
-        if result != TestResult.PASSED and stop_on_error:
-            if not handler.expected_is_void():
-                test_case = test_case[:-1]
-            print_failed_test(param_names, test_case, test_output,
-                              test_explanation, res_printer)
-            break
-
-    print()
-    if stop_on_error:
-        if len(durations):
-            print("Average running time: {}".format(
-                duration_to_string(statistics.mean(durations))))
-            print("Median running time:  {}".format(
-                duration_to_string(statistics.median(durations))))
-        if tests_passed < total_tests:
-            print("*** You've passed {}/{} tests. ***".format(
-                tests_passed, total_tests))
-        else:
-            print("*** You've passed ALL tests. Congratulations! ***")
 
 
 def get_default_test_data_dir_path():
@@ -126,8 +42,39 @@ def get_default_test_data_dir_path():
         path = os.path.join(os.path.pardir, path)
 
     raise RuntimeError(
-        'Can\'t find test data directory. Specify it with {} environment variable (you may need to restart PC) or start the program with "--test_data_dir <path>" command-line option'.
+        'Can\'t find test data directory. Specify it with {} environment variable (you may need to restart PC) or '
+        'start the program with "--test_data_dir <path>" command-line option'.
         format(ENV_KEY))
+
+
+def filter_bracket_comments(s):
+    """
+    Serialized type name can contain multiple comments, enclosed into brackets.
+    This function removes all such comments.
+    """
+    bracket_enclosed_comment = r"(\[[^\]]*\])"
+    return re.sub(bracket_enclosed_comment, '', s, 0).replace(' ', '')
+
+
+def invoke_with_timeout(timeout, func):
+    """
+    Invokes func with a specified timeout.
+
+    If func takes more than timeout seconds to run, TimeoutException is raised.
+    If timeout == 0, it simply calls the function.
+
+    :return: whatever func returns
+    """
+    if timeout == 0:
+        # timeout is disabled
+        return func()
+    else:
+        try:
+            with futures.ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(func)
+                return future.result(timeout=timeout)
+        except futures.TimeoutError:
+            raise TimeoutException
 
 
 def completely_sorted(x):
@@ -170,14 +117,6 @@ def equal_to(a, b):
                 or isinstance(b, bst_node.BstNode)):
         return equal_binary_trees(a, b)
     return a == b
-
-
-def filter_bracket_comments(s):
-    """
-    Serialized type name can contain multiple comments, enclosed into brackets. This function removes all such comments.
-    """
-    bracket_enclosed_comment = r"(\[[^\]]*\])"
-    return re.sub(bracket_enclosed_comment, '', s, 0).replace(' ', '')
 
 
 def has_timer_hook(func):

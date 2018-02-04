@@ -9,10 +9,11 @@
  */
 class TestFailureException {
  public:
-  explicit TestFailureException(std::string what) : what_(what) {}
+  explicit TestFailureException(std::string message)
+      : message_(std::move(message)) {}
 
-  const std::string& what() const { return what_; }
+  const std::string& what() const { return message_; }
 
  private:
-  const std::string what_;
+  const std::string message_;
 };

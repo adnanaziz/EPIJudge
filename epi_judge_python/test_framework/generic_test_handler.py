@@ -3,9 +3,8 @@ import inspect
 
 from test_framework.test_output import TestOutput
 from test_framework.test_timer import TestTimer
+from test_framework.test_utils import has_timer_hook, filter_bracket_comments
 from test_framework.test_utils_deserialization import get_string_parser_for_type
-
-from test_framework import test_utils
 
 
 class GenericTestHandler:
@@ -29,16 +28,16 @@ class GenericTestHandler:
     the test program is terminated.
     """
 
-    def __init__(self, func, comp):
+    def __init__(self, func, comparator):
         self._func = func
-        self._has_timer_hook = test_utils.has_timer_hook(func)
+        self._has_timer_hook = has_timer_hook(func)
         self._param_parsers = []
         self._param_names = [
-            p.name
-            for p in inspect.signature(self._func).parameters.values()
+            p.name for p in inspect.signature(self._func).parameters.values()
             if p.default is inspect.Parameter.empty
         ][1 if self._has_timer_hook else 0:]
-        self._comp = comp
+        self._comp = comparator
+        self._ret_value_parser = None
 
     def parse_signature(self, signature):
         """
@@ -52,7 +51,7 @@ class GenericTestHandler:
         if len(signature) != len(self._param_names) + 1:
             raise RuntimeError("Signature parameter count mismatch")
 
-        signature = [test_utils.filter_bracket_comments(s) for s in signature]
+        signature = [filter_bracket_comments(s) for s in signature]
 
         for param in signature[:-1]:
             self._param_parsers.append(get_string_parser_for_type(param))
