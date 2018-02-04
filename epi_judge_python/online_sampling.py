@@ -33,8 +33,8 @@ def online_random_sample_wrapper(timer, stream, k):
         functools.partial(online_random_sample_runner, timer, stream, k))
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main("online_sampling.tsv",
-                                              online_random_sample_wrapper)
+    generic_test.generic_test_main("online_sampling.tsv",
+                                   online_random_sample_wrapper)

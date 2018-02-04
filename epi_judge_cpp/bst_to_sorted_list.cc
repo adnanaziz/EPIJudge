@@ -33,11 +33,12 @@ std::vector<int> BSTToDoublyLinkedListWrapper(
   return v;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "tree"};
-  generic_test_main(argc, argv, param_names, "bst_to_sorted_list.tsv",
-                    &BSTToDoublyLinkedListWrapper);
+  GenericTestMain(args, "bst_to_sorted_list.tsv", &BSTToDoublyLinkedListWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

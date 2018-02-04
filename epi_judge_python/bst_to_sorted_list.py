@@ -27,8 +27,8 @@ def bst_to_doubly_linked_list_wrapper(timer, tree):
     return v
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'bst_to_sorted_list.tsv', bst_to_doubly_linked_list_wrapper)
+    generic_test.generic_test_main('bst_to_sorted_list.tsv',
+                                   bst_to_doubly_linked_list_wrapper)

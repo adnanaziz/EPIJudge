@@ -3,8 +3,8 @@ def number_of_ways(n, m):
     return 0
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'number_of_traversals_matrix.tsv', number_of_ways)
+    generic_test.generic_test_main('number_of_traversals_matrix.tsv',
+                                   number_of_ways)

@@ -7,11 +7,12 @@ vector<vector<int>> GeneratePowerSet(const vector<int>& input_set) {
   return {};
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"input_set"};
-  generic_test_main(argc, argv, param_names, "power_set.tsv", &GeneratePowerSet,
-                    &UnorderedComparator<vector<vector<int>>>);
+  GenericTestMain(args, "power_set.tsv", &GeneratePowerSet,
+                  &UnorderedComparator<vector<vector<int>>>, param_names);
   return 0;
 }

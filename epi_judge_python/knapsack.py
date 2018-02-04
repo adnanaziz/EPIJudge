@@ -17,8 +17,8 @@ def optimum_subject_to_capacity_wrapper(timer, items, capacity):
     return optimum_subject_to_capacity(items, capacity)
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        "knapsack.tsv", optimum_subject_to_capacity_wrapper)
+    generic_test.generic_test_main("knapsack.tsv",
+                                   optimum_subject_to_capacity_wrapper)

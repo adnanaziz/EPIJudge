@@ -20,11 +20,12 @@ bool operator==(const Point& lhs, const Point& rhs) {
   return std::tie(lhs.x, lhs.y) == std::tie(rhs.x, rhs.y);
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"points"};
-  generic_test_main(argc, argv, param_names, "line_though_most_points.tsv",
-                    &FindLineWithMostPoints);
+  GenericTestMain(args, "line_though_most_points.tsv", &FindLineWithMostPoints,
+                  DefaultComparator{}, param_names);
   return 0;
 }

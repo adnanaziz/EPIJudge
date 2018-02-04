@@ -79,11 +79,12 @@ void SolveSudokuWrapper(TestTimer& timer,
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "partial_assignment"};
-  generic_test_main(argc, argv, param_names, "sudoku_solve.tsv",
-                    &SolveSudokuWrapper);
+  GenericTestMain(args, "sudoku_solve.tsv", &SolveSudokuWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

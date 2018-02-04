@@ -42,8 +42,8 @@ def group_by_age_wrapper(timer, people):
             last_age = x.age
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('group_equal_entries.tsv',
-                                              group_by_age_wrapper)
+    generic_test.generic_test_main('group_equal_entries.tsv',
+                                   group_by_age_wrapper)

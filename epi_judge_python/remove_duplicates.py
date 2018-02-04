@@ -33,8 +33,8 @@ def comp(expected, result):
     ])
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'remove_duplicates.tsv', eliminate_duplicate_wrapper, comp)
+    generic_test.generic_test_main('remove_duplicates.tsv',
+                                   eliminate_duplicate_wrapper, comp)

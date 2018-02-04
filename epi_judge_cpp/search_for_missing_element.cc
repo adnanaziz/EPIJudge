@@ -27,11 +27,12 @@ std::ostream& operator<<(std::ostream& out, const DuplicateAndMissing& x) {
   return out << "duplicate: " << x.duplicate << ", missing: " << x.missing;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"A"};
-  generic_test_main(argc, argv, param_names, "find_missing_and_duplicate.tsv",
-                    &FindDuplicateMissing);
+  GenericTestMain(args, "find_missing_and_duplicate.tsv", &FindDuplicateMissing,
+                  DefaultComparator{}, param_names);
   return 0;
 }

@@ -13,8 +13,8 @@ def find_missing_element_wrapper(data):
         raise TestFailureException('Unexpected no_missing_element exception')
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('absent_value_array.tsv',
-                                              find_missing_element_wrapper)
+    generic_test.generic_test_main('absent_value_array.tsv',
+                                   find_missing_element_wrapper)

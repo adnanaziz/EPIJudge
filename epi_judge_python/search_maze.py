@@ -48,8 +48,7 @@ def search_maze_wrapper(timer, maze, s, e):
     return True
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('search_maze.tsv',
-                                              search_maze_wrapper)
+    generic_test.generic_test_main('search_maze.tsv', search_maze_wrapper)

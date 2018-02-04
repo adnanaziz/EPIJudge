@@ -4,7 +4,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
 import epi.test_framework.EpiTestExpectedType;
 import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTestHandler;
+import epi.test_framework.GenericTest;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class KClosestStars {
   };
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    GenericTest.runFromAnnotations(
+        args, new Object() {}.getClass().getEnclosingClass());
   }
 }

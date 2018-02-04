@@ -30,8 +30,7 @@ def random_subset_wrapper(timer, n, k):
     run_func_with_retries(functools.partial(random_subset_runner, timer, n, k))
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('random_subset.tsv',
-                                              random_subset_wrapper)
+    generic_test.generic_test_main('random_subset.tsv', random_subset_wrapper)

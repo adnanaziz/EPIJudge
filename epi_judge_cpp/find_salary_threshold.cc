@@ -7,11 +7,12 @@ double FindSalaryCap(int target_payroll, vector<int> current_salaries) {
   return 0.0;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"target_payroll", "current_salaries"};
-  generic_test_main(argc, argv, param_names, "find_salary_threshold.tsv",
-                    &FindSalaryCap);
+  GenericTestMain(args, "find_salary_threshold.tsv", &FindSalaryCap,
+                  DefaultComparator{}, param_names);
   return 0;
 }

@@ -1,3 +1,4 @@
+from test_framework.test_failure_exception import TestFailureException
 from test_framework.test_utils import enable_timer_hook
 
 
@@ -20,8 +21,8 @@ def search_entry_equal_to_its_index_wrapper(timer, A):
                 "There are entries which equal to its index")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'binary_search_ai=i.tsv', search_entry_equal_to_its_index_wrapper)
+    generic_test.generic_test_main('search_entry_equal_to_index.tsv',
+                                   search_entry_equal_to_its_index_wrapper)

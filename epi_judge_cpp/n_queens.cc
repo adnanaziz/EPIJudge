@@ -15,10 +15,11 @@ bool Comp(vector<vector<int>>& a, vector<vector<int>>& b) {
   return a == b;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"n"};
-  generic_test_main(argc, argv, param_names, "n_queens.tsv", &NQueens, &Comp);
+  GenericTestMain(args, "n_queens.tsv", &NQueens, &Comp, param_names);
   return 0;
 }

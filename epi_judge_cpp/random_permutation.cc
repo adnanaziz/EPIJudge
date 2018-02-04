@@ -50,11 +50,13 @@ void ComputeRandomPermutationWrapper(TestTimer& timer, int n) {
       std::bind(ComputeRandomPermutationRunner, std::ref(timer), n));
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "n"};
-  generic_test_main(argc, argv, param_names, "random_permutation.tsv",
-                    &ComputeRandomPermutationWrapper);
+  GenericTestMain(args, "random_permutation.tsv",
+                  &ComputeRandomPermutationWrapper, DefaultComparator{},
+                  param_names);
   return 0;
 }

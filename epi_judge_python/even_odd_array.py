@@ -29,8 +29,7 @@ def even_odd_wrapper(timer, A):
         raise TestFailureException("Elements mismatch")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('even_odd_array.tsv',
-                                              even_odd_wrapper)
+    generic_test.generic_test_main('even_odd_array.tsv', even_odd_wrapper)

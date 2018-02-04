@@ -43,11 +43,12 @@ bool Comp(vector<std::string> expected, vector<Name> result) {
       [](const std::string& s, const Name& n) { return s == n.first_name; });
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"names"};
-  generic_test_main(argc, argv, param_names, "remove_duplicates.tsv",
-                    &EliminateDuplicateWrapper, &Comp);
+  GenericTestMain(args, "remove_duplicates.tsv", &EliminateDuplicateWrapper,
+                  &Comp, param_names);
   return 0;
 }

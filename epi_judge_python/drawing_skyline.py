@@ -21,8 +21,8 @@ def compute_skyline_wrapper(timer, buildings):
     return [(x.left, x.right, x.height) for x in result]
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('drawing_skyline.tsv',
-                                              compute_skyline_wrapper)
+    generic_test.generic_test_main('drawing_skyline.tsv',
+                                   compute_skyline_wrapper)

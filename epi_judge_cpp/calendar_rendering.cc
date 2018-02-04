@@ -16,11 +16,12 @@ int FindMaxSimultaneousEvents(const vector<Event>& A) {
 template <>
 struct SerializationTraits<Event> : UserSerTraits<Event, int, int> {};
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"A"};
-  generic_test_main(argc, argv, param_names, "calendar_rendering.tsv",
-                    &FindMaxSimultaneousEvents);
+  GenericTestMain(args, "calendar_rendering.tsv", &FindMaxSimultaneousEvents,
+                  DefaultComparator{}, param_names);
   return 0;
 }

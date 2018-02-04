@@ -31,7 +31,7 @@ void ListPivotingWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& l,
   timer.Start();
   std::shared_ptr<ListNode<int>> pivoted_list = ListPivoting(l, x);
   timer.Stop();
-  vector<int> pivoted = ListToVector(pivoted_list);
+  std::vector<int> pivoted = ListToVector(pivoted_list);
   enum { LESS, EQ, GREATER } mode = LESS;
   for (auto& i : pivoted) {
     switch (mode) {
@@ -62,11 +62,12 @@ void ListPivotingWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& l,
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "l", "x"};
-  generic_test_main(argc, argv, param_names, "pivot_list.tsv",
-                    &ListPivotingWrapper);
+  GenericTestMain(args, "pivot_list.tsv", &ListPivotingWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

@@ -41,8 +41,7 @@ def queue_tester(ops):
             raise RuntimeError("Unsupported queue operation: " + op)
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('circular_queue.tsv',
-                                              queue_tester)
+    generic_test.generic_test_main('circular_queue.tsv', queue_tester)

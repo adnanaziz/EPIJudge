@@ -23,9 +23,9 @@ def pair_includes_ancestor_and_descendant_of_m_wrapper(
     return result
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
+    generic_test.generic_test_main(
         'descendant_and_ancestor_in_bst.tsv',
         pair_includes_ancestor_and_descendant_of_m_wrapper)

@@ -32,8 +32,8 @@ def uniform_random_wrapper(timer, lower_bound, upper_bound):
                           upper_bound))
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('uniform_random_number.tsv',
-                                              uniform_random_wrapper)
+    generic_test.generic_test_main('uniform_random_number.tsv',
+                                   uniform_random_wrapper)

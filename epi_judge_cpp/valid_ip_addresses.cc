@@ -16,11 +16,12 @@ bool comp(vector<string> expected, vector<string> result) {
   return expected == result;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"s"};
-  generic_test_main(argc, argv, param_names, "valid_ip_addresses.tsv",
-                    &GetValidIpAddress, &comp);
+  GenericTestMain(args, "valid_ip_addresses.tsv", &GetValidIpAddress, &comp,
+                  param_names);
   return 0;
 }

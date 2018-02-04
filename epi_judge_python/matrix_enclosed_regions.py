@@ -8,8 +8,8 @@ def fill_surrounded_regions_wrapper(board):
     return board
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('matrix_enclosed_regions.tsv',
-                                              fill_surrounded_regions_wrapper)
+    generic_test.generic_test_main('matrix_enclosed_regions.tsv',
+                                   fill_surrounded_regions_wrapper)

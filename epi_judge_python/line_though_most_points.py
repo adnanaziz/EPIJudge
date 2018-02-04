@@ -17,8 +17,8 @@ def find_line_with_most_points_wrapper(timer, points):
     return find_line_with_most_points(points)
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'line_though_most_points.tsv', find_line_with_most_points_wrapper)
+    generic_test.generic_test_main('line_though_most_points.tsv',
+                                   find_line_with_most_points_wrapper)

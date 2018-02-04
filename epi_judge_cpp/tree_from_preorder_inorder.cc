@@ -11,11 +11,13 @@ unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorder(
   return nullptr;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"preorder", "inorder"};
-  generic_test_main(argc, argv, param_names, "tree_from_preorder_inorder.tsv",
-                    &BinaryTreeFromPreorderInorder);
+  GenericTestMain(args, "tree_from_preorder_inorder.tsv",
+                  &BinaryTreeFromPreorderInorder, DefaultComparator{},
+                  param_names);
   return 0;
 }

@@ -84,12 +84,13 @@ void OverlappingListsWrapper(TestTimer& timer, shared_ptr<ListNode<int>> l0,
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer",  "l0",     "l1",
                                        "common", "cycle0", "cycle1"};
-  generic_test_main(argc, argv, param_names, "do_lists_overlap.tsv",
-                    &OverlappingListsWrapper);
+  GenericTestMain(args, "do_lists_overlap.tsv", &OverlappingListsWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

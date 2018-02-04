@@ -9,8 +9,7 @@ def rook_attack_wrapper(A):
     return a_copy
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('rook_attack.tsv',
-                                              rook_attack_wrapper)
+    generic_test.generic_test_main('rook_attack.tsv', rook_attack_wrapper)

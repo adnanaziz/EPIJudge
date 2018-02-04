@@ -44,8 +44,8 @@ def build_bst_from_sorted_doubly_list_wrapper(timer, L):
         raise TestFailureException("Too many L in the tree")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        "sorted_list_to_bst.tsv", build_bst_from_sorted_doubly_list_wrapper)
+    generic_test.generic_test_main("sorted_list_to_bst.tsv",
+                                   build_bst_from_sorted_doubly_list_wrapper)

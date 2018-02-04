@@ -55,8 +55,7 @@ def has_cycle_wrapper(timer, head, cycle_idx):
         )
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('is_list_cyclic.tsv',
-                                              has_cycle_wrapper)
+    generic_test.generic_test_main('is_list_cyclic.tsv', has_cycle_wrapper)

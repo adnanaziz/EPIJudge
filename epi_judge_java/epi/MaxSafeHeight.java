@@ -1,7 +1,7 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
+import epi.test_framework.GenericTest;
 
 public class MaxSafeHeight {
   @EpiTest(testfile = "max_safe_height.tsv")
@@ -12,7 +12,7 @@ public class MaxSafeHeight {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    GenericTest.runFromAnnotations(
+        args, new Object() {}.getClass().getEnclosingClass());
   }
 }

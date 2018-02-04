@@ -39,8 +39,8 @@ def compute_random_permutation_wrapper(timer, n):
         functools.partial(compute_random_permutation_runner, timer, n))
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'random_permutation.tsv', compute_random_permutation_wrapper)
+    generic_test.generic_test_main('random_permutation.tsv',
+                                   compute_random_permutation_wrapper)

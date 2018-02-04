@@ -3,7 +3,7 @@ def divide(x, y):
     return 0
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main("primitive_divide.tsv", divide)
+    generic_test.generic_test_main("primitive_divide.tsv", divide)

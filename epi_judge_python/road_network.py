@@ -27,10 +27,10 @@ def res_printer(expected, result):
     return fmt(expected), fmt(result)
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
+    generic_test.generic_test_main(
         'road_network.tsv',
         find_best_proposals_wrapper,
         res_printer=res_printer)

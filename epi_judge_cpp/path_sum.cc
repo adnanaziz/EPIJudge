@@ -10,10 +10,12 @@ bool HasPathSum(const unique_ptr<BinaryTreeNode<int>>& tree,
   return true;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"tree", "remaining_weight"};
-  generic_test_main(argc, argv, param_names, "path_sum.tsv", &HasPathSum);
+  GenericTestMain(args, "path_sum.tsv", &HasPathSum, DefaultComparator{},
+                  param_names);
   return 0;
 }

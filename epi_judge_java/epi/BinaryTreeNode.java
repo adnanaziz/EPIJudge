@@ -20,8 +20,7 @@ public class BinaryTreeNode<T> {
     this.right = right;
   }
 
-  @Override
-  public boolean equals(Object o) {
+  @Override public boolean equals(Object o) { // TODO Remove equal override
     if (this == o) {
       return true;
     }

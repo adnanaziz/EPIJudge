@@ -28,12 +28,13 @@ shared_ptr<ListNode<int>> InsertListWrapper(TestTimer& timer,
   return l;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "l", "node_idx",
                                        "new_node_data"};
-  generic_test_main(argc, argv, param_names, "insert_in_list.tsv",
-                    &InsertListWrapper);
+  GenericTestMain(args, "insert_in_list.tsv", &InsertListWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

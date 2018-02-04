@@ -19,8 +19,7 @@ def reverse_words_wrapper(timer, s):
     return s_copy.decode("utf-8")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('reverse_words.tsv',
-                                              reverse_words_wrapper)
+    generic_test.generic_test_main('reverse_words.tsv', reverse_words_wrapper)

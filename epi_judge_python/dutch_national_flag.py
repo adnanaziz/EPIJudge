@@ -35,8 +35,8 @@ def dutch_flag_partition_wrapper(timer, A, pivot_idx):
         raise TestFailureException("Invalid output")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('dutch_national_flag.tsv',
-                                              dutch_flag_partition_wrapper)
+    generic_test.generic_test_main('dutch_national_flag.tsv',
+                                   dutch_flag_partition_wrapper)

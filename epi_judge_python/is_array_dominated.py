@@ -29,8 +29,8 @@ def valid_placement_exists_wrapper(timer, team0, team1, expected_01,
         raise TestFailureException("")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('is_array_dominated.tsv',
-                                              valid_placement_exists_wrapper)
+    generic_test.generic_test_main('is_array_dominated.tsv',
+                                   valid_placement_exists_wrapper)

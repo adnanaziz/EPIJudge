@@ -22,11 +22,12 @@ shared_ptr<ListNode<int>> DeletionFromListWrapper(
   return head;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "head", "node_to_delete_idx"};
-  generic_test_main(argc, argv, param_names, "delete_node_from_list.tsv",
-                    &DeletionFromListWrapper);
+  GenericTestMain(args, "delete_node_from_list.tsv", &DeletionFromListWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

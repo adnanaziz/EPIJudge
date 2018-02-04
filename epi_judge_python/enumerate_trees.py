@@ -28,8 +28,8 @@ def generate_all_binary_trees_wrapper(timer, num_nodes):
     return sorted(map(serialize_structure, result))
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'enumerate_trees.tsv', generate_all_binary_trees_wrapper)
+    generic_test.generic_test_main('enumerate_trees.tsv',
+                                   generate_all_binary_trees_wrapper)

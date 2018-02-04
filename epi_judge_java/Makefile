@@ -88,6 +88,9 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.class : $(SRC_DI
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.java"
 
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.java"
+
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.java"
 
@@ -100,11 +103,11 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class : $(SRC_DIR)/$(MAIN_P
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java"
 
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java"
+
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailureException.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailureException.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailureException.java"
-
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestHandler.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestHandler.java $(JSON_CLASSES) $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestHandler.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestOutput.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestOutput.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestOutput.java"
@@ -124,6 +127,9 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.class : $(SRC_DIR)/
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.java $(JSON_CLASSES) $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.java"
 
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.java $(JSON_CLASSES) $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.java"
+
 TEST_FRAMEWORK := \
     $(BUILD_DIR) \
     $(JSON_CLASSES) \
@@ -139,18 +145,20 @@ TEST_FRAMEWORK := \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailureException.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestHandler.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestOutput.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.class
 
 .PHONY: AbsentValueArray
 $(BUILD_DIR)/$(MAIN_PACKAGE)/AbsentValueArray.class: $(SRC_DIR)/$(MAIN_PACKAGE)/AbsentValueArray.java $(TEST_FRAMEWORK)

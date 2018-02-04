@@ -27,8 +27,8 @@ def gather_square_block(data, block_size, n):
     block_y = (n // block_size) * block_size
 
     return [
-        data[block_x + i][block_y + j] for j in range(block_size)
-        for i in range(block_size)
+        data[block_x + i][block_y + j]
+        for j in range(block_size) for i in range(block_size)
     ]
 
 
@@ -60,8 +60,7 @@ def solve_sudoku_wrapper(timer, partial_assignment):
         assert_unique_seq(gather_square_block(solved, block_size, i))
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('sudoku_solve.tsv',
-                                              solve_sudoku_wrapper)
+    generic_test.generic_test_main('sudoku_solve.tsv', solve_sudoku_wrapper)

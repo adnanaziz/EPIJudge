@@ -25,11 +25,12 @@ int LcaWrapper(TestTimer& timer, const unique_ptr<BinaryTreeNode<int>>& tree,
   return result->data;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "tree", "node0", "node1"};
-  generic_test_main(argc, argv, param_names, "lowest_common_ancestor.tsv",
-                    &LcaWrapper);
+  GenericTestMain(args, "lowest_common_ancestor.tsv", &LcaWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

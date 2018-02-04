@@ -27,11 +27,12 @@ int LcaWrapper(TestTimer& timer, const std::unique_ptr<BstNode<int>>& tree,
   return result->data;
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"timer", "tree", "s", "b"};
-  generic_test_main(argc, argv, param_names,
-                    "lowest_common_ancestor_in_bst.tsv", &LcaWrapper);
+  GenericTestMain(args, "lowest_common_ancestor_in_bst.tsv", &LcaWrapper,
+                  DefaultComparator{}, param_names);
   return 0;
 }

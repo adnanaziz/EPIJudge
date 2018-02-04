@@ -40,8 +40,7 @@ def gray_code_wrapper(timer, num_bits):
             str(len(result) - len(uniq)) + " duplicates")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main("gray_code.tsv",
-                                              gray_code_wrapper)
+    generic_test.generic_test_main("gray_code.tsv", gray_code_wrapper)

@@ -18,8 +18,8 @@ def wrapper(x, s):
         raise TestFailureException("String to int conversion failed")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'string_integer_interconversion.tsv', wrapper)
+    generic_test.generic_test_main('string_integer_interconversion.tsv',
+                                   wrapper)

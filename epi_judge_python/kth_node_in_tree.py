@@ -34,8 +34,8 @@ def find_kth_node_binary_tree_wrapper(timer, tree, k):
     return result.data
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        "kth_node_in_tree.tsv", find_kth_node_binary_tree_wrapper)
+    generic_test.generic_test_main("kth_node_in_tree.tsv",
+                                   find_kth_node_binary_tree_wrapper)

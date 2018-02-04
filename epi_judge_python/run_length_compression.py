@@ -18,8 +18,7 @@ def rle_tester(encoded, decoded):
         raise TestFailureException('Encoding failed')
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('run_length_compression.tsv',
-                                              rle_tester)
+    generic_test.generic_test_main('run_length_compression.tsv', rle_tester)

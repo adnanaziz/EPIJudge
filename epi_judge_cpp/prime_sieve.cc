@@ -8,11 +8,12 @@ vector<int> GeneratePrimes(int n) {
   return {};
 }
 
-#include "test_framework/test_utils_generic_main.h"
+#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"n"};
-  generic_test_main(argc, argv, param_names, "prime_sieve.tsv",
-                    &GeneratePrimes);
+  GenericTestMain(args, "prime_sieve.tsv", &GeneratePrimes, DefaultComparator{},
+                  param_names);
   return 0;
 }

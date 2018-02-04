@@ -30,8 +30,7 @@ def compute_tower_hanoi_wrapper(timer, num_rings):
             "Pegs doesn't place in the right configuration")
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('hanoi.tsv',
-                                              compute_tower_hanoi_wrapper)
+    generic_test.generic_test_main('hanoi.tsv', compute_tower_hanoi_wrapper)

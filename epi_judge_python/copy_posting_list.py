@@ -71,8 +71,8 @@ def copy_postings_list_wrapper(timer, l):
     assert_lists_equal(head, copy)
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('copy_posting_list.tsv',
-                                              copy_postings_list_wrapper)
+    generic_test.generic_test_main('copy_posting_list.tsv',
+                                   copy_postings_list_wrapper)

@@ -20,9 +20,9 @@ def build_min_height_bst_from_sorted_array_wrapper(timer, A):
     return binary_tree_height(result)
 
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
+    generic_test.generic_test_main(
         'bst_from_sorted_array.tsv',
         build_min_height_bst_from_sorted_array_wrapper)
