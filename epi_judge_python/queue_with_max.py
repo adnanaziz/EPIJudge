@@ -1,4 +1,4 @@
-from test_framework.test_failure_exception import TestFailureException
+from test_framework.test_failure import TestFailure
 
 
 class QueueWithMax:
@@ -28,20 +28,28 @@ def queue_tester(ops):
             elif op == 'dequeue':
                 result = q.dequeue()
                 if result != arg:
-                    raise TestFailureException("Dequeue: expected " + str(arg)
-                                               + ", got " + str(result))
+                    raise TestFailure("Dequeue: expected " + str(arg) +
+                                      ", got " + str(result))
             elif op == 'max':
                 result = q.max()
                 if result != arg:
-                    raise TestFailureException(
+                    raise TestFailure(
                         "Max: expected " + str(arg) + ", got " + str(result))
             else:
                 raise RuntimeError("Unsupported queue operation: " + op)
     except IndexError:
-        raise TestFailureException('Unexpected IndexError exception')
+        raise TestFailure('Unexpected IndexError exception')
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('queue_with_max.tsv', queue_tester)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds, 'queue_with_max.tsv',
+                                       queue_tester))

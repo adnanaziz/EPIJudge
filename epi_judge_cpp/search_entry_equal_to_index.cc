@@ -1,7 +1,7 @@
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
@@ -10,19 +10,18 @@ int SearchEntryEqualToItsIndex(const vector<int>& A) {
   return 0;
 }
 
-void SearchEntryEqualToItsIndexWrapper(TestTimer& timer, const vector<int>& A) {
-  timer.Start();
-  int result = SearchEntryEqualToItsIndex(A);
-  timer.Stop();
+void SearchEntryEqualToItsIndexWrapper(TimedExecutor& executor,
+                                       const vector<int>& A) {
+  int result = executor.Run([&] { return SearchEntryEqualToItsIndex(A); });
+
   if (result != -1) {
     if (A[result] != result) {
-      throw TestFailureException("Entry does not equal to its index");
+      throw TestFailure("Entry does not equal to its index");
     }
   } else {
     for (int i = 0; i < A.size(); ++i) {
       if (A[i] == i) {
-        throw TestFailureException(
-            "There are entries which equal to its index");
+        throw TestFailure("There are entries which equal to its index");
       }
     }
   }
@@ -31,10 +30,14 @@ void SearchEntryEqualToItsIndexWrapper(TestTimer& timer, const vector<int>& A) {
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "A"};
-  GenericTestMain(args, "search_entry_equal_to_index.tsv",
-                  &SearchEntryEqualToItsIndexWrapper, DefaultComparator{},
-                  param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "A"};
+  return GenericTestMain(
+      args, timeout_seconds, "search_entry_equal_to_index.tsv",
+      &SearchEntryEqualToItsIndexWrapper, DefaultComparator{}, param_names);
 }

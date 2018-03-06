@@ -51,7 +51,7 @@ public class TestUtilsConsole {
     System.out.printf(" (%" + String.valueOf(totalTestsStr.length()) + "d/%s)",
                       testNr, totalTestsStr);
 
-    if (timer.hasValidResult()) {
+    if (timer != null) {
       System.out.printf(" [%s]",
                         TestTimer.durationToString(timer.getMicroseconds()));
     }
@@ -67,26 +67,13 @@ public class TestUtilsConsole {
 
   public static void printFailedTest(List<String> paramNames,
                                      List<String> arguments,
-                                     TestOutput testOutput,
-                                     String testExplanation) {
-    String expectedStr = "expected";
-    String resultStr = "result";
-    String explanationStr = "explanation";
-
-    boolean hasExpected =
-        testOutput != null && testOutput.expected != TestOutput.EMPTY_OBJECT;
-    boolean hasResult =
-        testOutput != null && testOutput.result != TestOutput.EMPTY_OBJECT;
-    boolean hasExplanation =
-        !testExplanation.equals("TODO") && !testExplanation.equals("");
-
-    int maxColSize = hasExplanation
-                         ? explanationStr.length()
-                         : hasExpected ? expectedStr.length()
-                                       : hasResult ? resultStr.length() : 0;
+                                     TestFailure testFailure) {
+    int maxColSize = testFailure.getMaxPropertyNameLength();
 
     for (String param : paramNames) {
-      if (param.length() > maxColSize) maxColSize = param.length();
+      if (param.length() > maxColSize) {
+        maxColSize = param.length();
+      }
     }
 
     for (int i = 0; i < arguments.size(); i++) {
@@ -95,20 +82,12 @@ public class TestUtilsConsole {
                         escapeNewline(arguments.get(i)));
     }
 
-    if (hasExpected) {
-      System.out.printf("\t%s: %s%s\n", expectedStr,
-                        genSpaces(maxColSize - expectedStr.length()),
-                        escapeNewline(String.valueOf(testOutput.expected)));
-    }
-    if (hasResult) {
-      System.out.printf("\t%s: %s%s\n", resultStr,
-                        genSpaces(maxColSize - resultStr.length()),
-                        escapeNewline(String.valueOf(testOutput.result)));
-    }
-    if (hasExplanation) {
-      System.out.printf("\t%s: %s%s\n", explanationStr,
-                        genSpaces(maxColSize - explanationStr.length()),
-                        testExplanation);
+    List<TestFailure.Property> properties = testFailure.getProperties();
+
+    for (TestFailure.Property prop : properties) {
+      System.out.printf("\t%s: %s%s\n", prop.name(),
+                        genSpaces(maxColSize - prop.name().length()),
+                        escapeNewline(String.valueOf(prop.value())));
     }
   }
 

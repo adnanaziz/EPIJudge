@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::vector;
@@ -23,7 +23,7 @@ void GroupByAge(vector<Person>* people) {
 template <>
 struct SerializationTraits<Person> : UserSerTraits<Person, int, string> {};
 
-void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
+void GroupByAgeWrapper(TimedExecutor& executor, vector<Person>& people) {
   if (people.empty()) {
     return;
   }
@@ -32,18 +32,16 @@ void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
         return a.age == b.age ? a.name < b.name : a.age < b.age;
       });
 
-  timer.Start();
-  GroupByAge(&people);
-  timer.Stop();
+  executor.Run([&] { GroupByAge(&people); });
 
   if (people.empty()) {
-    throw TestFailureException("Empty result");
+    throw TestFailure("Empty result");
   }
   std::set<int> ages;
   int last_age = people[0].age;
   for (auto& x : people) {
     if (ages.count(x.age) != 0) {
-      throw TestFailureException("Entries are not grouped by age");
+      throw TestFailure("Entries are not grouped by age");
     }
     if (x.age != last_age) {
       ages.insert(last_age);
@@ -51,7 +49,7 @@ void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
     }
     auto it = values.find(x);
     if (it == end(values)) {
-      throw TestFailureException("Entry set changed");
+      throw TestFailure("Entry set changed");
     }
     values.erase(it);
   }
@@ -60,9 +58,13 @@ void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "people"};
-  GenericTestMain(args, "group_equal_entries.tsv", &GroupByAgeWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "people"};
+  return GenericTestMain(args, timeout_seconds, "group_equal_entries.tsv",
+                         &GroupByAgeWrapper, DefaultComparator{}, param_names);
 }

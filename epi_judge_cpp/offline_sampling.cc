@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "test_framework/random_sequence_checker.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/timed_executor.h"
 
 using std::bind;
 using std::vector;
@@ -14,14 +14,15 @@ void RandomSampling(int k, vector<int>* A_ptr) {
   return;
 }
 
-bool RandomSamplingRunner(TestTimer& timer, int k, vector<int> A) {
+bool RandomSamplingRunner(TimedExecutor& executor, int k, vector<int> A) {
   vector<vector<int>> results;
-  timer.Start();
-  for (int i = 0; i < 100000; ++i) {
-    RandomSampling(k, &A);
-    results.emplace_back(begin(A), begin(A) + k);
-  }
-  timer.Stop();
+
+  executor.Run([&] {
+    for (int i = 0; i < 100000; ++i) {
+      RandomSampling(k, &A);
+      results.emplace_back(begin(A), begin(A) + k);
+    }
+  });
 
   int total_possible_outcomes = BinomialCoefficient(A.size(), k);
   sort(begin(A), end(A));
@@ -40,17 +41,23 @@ bool RandomSamplingRunner(TestTimer& timer, int k, vector<int> A) {
                                         0.01);
 }
 
-void RandomSamplingWrapper(TestTimer& timer, int k, const vector<int>& A) {
+void RandomSamplingWrapper(TimedExecutor& executor, int k,
+                           const vector<int>& A) {
   RunFuncWithRetries(
-      bind(RandomSamplingRunner, std::ref(timer), k, std::cref(A)));
+      bind(RandomSamplingRunner, std::ref(executor), k, std::cref(A)));
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "k", "A"};
-  GenericTestMain(args, "offline_sampling.tsv", &RandomSamplingWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "k", "A"};
+  return GenericTestMain(args, timeout_seconds, "offline_sampling.tsv",
+                         &RandomSamplingWrapper, DefaultComparator{},
+                         param_names);
 }

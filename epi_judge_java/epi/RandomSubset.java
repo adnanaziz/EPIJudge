@@ -3,8 +3,8 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,13 +18,15 @@ public class RandomSubset {
     return null;
   }
 
-  private static boolean randomSubsetRunner(TestTimer timer, int n, int k) {
+  private static boolean randomSubsetRunner(TimedExecutor executor, int n,
+                                            int k) throws Exception {
     List<List<Integer>> results = new ArrayList<>();
-    timer.start();
-    for (int i = 0; i < 1000000; ++i) {
-      results.add(randomSubset(n, k));
-    }
-    timer.stop();
+
+    executor.run(() -> {
+      for (int i = 0; i < 1000000; ++i) {
+        results.add(randomSubset(n, k));
+      }
+    });
 
     int totalPossibleOutcomes = RandomSequenceChecker.binomialCoefficient(n, k);
     List<Integer> A = new ArrayList<>(n);
@@ -45,14 +47,22 @@ public class RandomSubset {
   }
 
   @EpiTest(testfile = "random_subset.tsv")
-  public static void randomSubsetWrapper(TestTimer timer, int n, int k)
-      throws TestFailureException {
+  public static void randomSubsetWrapper(TimedExecutor executor, int n, int k)
+      throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
-        () -> randomSubsetRunner(timer, n, k));
+        () -> randomSubsetRunner(executor, n, k));
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

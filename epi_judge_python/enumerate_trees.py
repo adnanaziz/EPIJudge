@@ -1,5 +1,7 @@
+import functools
+
 from binary_tree_node import BinaryTreeNode
-from test_framework.test_utils import enable_timer_hook
+from test_framework.test_utils import enable_executor_hook
 
 
 def generate_all_binary_trees(num_nodes):
@@ -19,17 +21,23 @@ def serialize_structure(tree):
     return result
 
 
-@enable_timer_hook
-def generate_all_binary_trees_wrapper(timer, num_nodes):
-    timer.start()
-    result = generate_all_binary_trees(num_nodes)
-    timer.stop()
+@enable_executor_hook
+def generate_all_binary_trees_wrapper(executor, num_nodes):
+    result = executor.run(
+        functools.partial(generate_all_binary_trees, num_nodes))
 
     return sorted(map(serialize_structure, result))
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('enumerate_trees.tsv',
-                                   generate_all_binary_trees_wrapper)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds, 'enumerate_trees.tsv',
+                                       generate_all_binary_trees_wrapper))

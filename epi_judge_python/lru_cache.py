@@ -1,4 +1,4 @@
-from test_framework.test_failure_exception import TestFailureException
+from test_framework.test_failure import TestFailure
 
 
 class LruCache:
@@ -29,20 +29,28 @@ def run_test(commands):
         if cmd[0] == 'lookup':
             result = cache.lookup(cmd[1])
             if result != cmd[2]:
-                raise TestFailureException(
+                raise TestFailure(
                     'Lookup: expected ' + str(cmd[2]) + ', got ' + str(result))
         elif cmd[0] == 'insert':
             cache.insert(cmd[1], cmd[2])
         elif cmd[0] == 'erase':
             result = 1 if cache.erase(cmd[1]) else 0
             if result != cmd[2]:
-                raise TestFailureException(
+                raise TestFailure(
                     'Erase: expected ' + str(cmd[2]) + ', got ' + str(result))
         else:
             raise RuntimeError('Unexpected command ' + cmd[0])
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('lru_cache.tsv', run_test)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds, 'lru_cache.tsv',
+                                       run_test))

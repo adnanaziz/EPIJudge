@@ -4,8 +4,6 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TaskPairing {
@@ -44,17 +42,20 @@ public class TaskPairing {
 
   public static List<PairedTasks>
   optimumTaskAssignment(List<Integer> taskDurations) {
-    Collections.sort(taskDurations);
-    List<PairedTasks> optimumAssignments = new ArrayList<>();
-    for (int i = 0, j = taskDurations.size() - 1; i < j; ++i, --j) {
-      optimumAssignments.add(
-          new PairedTasks(taskDurations.get(i), taskDurations.get(j)));
-    }
-    return optimumAssignments;
+    // Implement this placeholder.
+    return null;
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

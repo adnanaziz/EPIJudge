@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_timer.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::vector;
@@ -13,7 +13,7 @@ void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
 }
 
 vector<vector<string>> FillSurroundedRegionsWrapper(
-    TestTimer& timer, vector<vector<string>> board) {
+    TimedExecutor& executor, vector<vector<string>> board) {
   vector<vector<char>> char_vector;
   char_vector.resize(board.size());
   for (int i = 0; i < board.size(); i++) {
@@ -25,9 +25,7 @@ vector<vector<string>> FillSurroundedRegionsWrapper(
     }
   }
 
-  timer.Start();
-  FillSurroundedRegions(&char_vector);
-  timer.Stop();
+  executor.Run([&] { FillSurroundedRegions(&char_vector); });
 
   board.clear();
   board.resize(char_vector.size(), {});
@@ -43,10 +41,14 @@ vector<vector<string>> FillSurroundedRegionsWrapper(
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "board"};
-  GenericTestMain(args, "matrix_enclosed_regions.tsv",
-                  &FillSurroundedRegionsWrapper, DefaultComparator{},
-                  param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "board"};
+  return GenericTestMain(args, timeout_seconds, "matrix_enclosed_regions.tsv",
+                         &FillSurroundedRegionsWrapper, DefaultComparator{},
+                         param_names);
 }

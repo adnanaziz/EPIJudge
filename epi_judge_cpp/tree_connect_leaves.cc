@@ -2,8 +2,8 @@
 #include <vector>
 
 #include "binary_tree_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::unique_ptr;
 using std::vector;
@@ -15,15 +15,14 @@ vector<const unique_ptr<BinaryTreeNode<int>>*> CreateListOfLeaves(
 }
 
 vector<int> CreateListOfLeavesWrapper(
-    TestTimer& timer, const unique_ptr<BinaryTreeNode<int>>& tree) {
-  timer.Start();
-  auto result = CreateListOfLeaves(tree);
-  timer.Stop();
+    TimedExecutor& executor, const unique_ptr<BinaryTreeNode<int>>& tree) {
+  auto result = executor.Run([&] { return CreateListOfLeaves(tree); });
+
   if (std::any_of(std::begin(result), std::end(result),
                   [](const unique_ptr<BinaryTreeNode<int>>*& x) {
                     return !x || !*x;
                   })) {
-    throw TestFailureException("Result list can't contain nullptr");
+    throw TestFailure("Result list can't contain nullptr");
   }
 
   vector<int> extracted_result;
@@ -36,9 +35,14 @@ vector<int> CreateListOfLeavesWrapper(
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "tree"};
-  GenericTestMain(args, "tree_connect_leaves.tsv", &CreateListOfLeavesWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "tree"};
+  return GenericTestMain(args, timeout_seconds, "tree_connect_leaves.tsv",
+                         &CreateListOfLeavesWrapper, DefaultComparator{},
+                         param_names);
 }

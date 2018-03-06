@@ -3,7 +3,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::queue;
@@ -30,7 +30,7 @@ vector<int> CopyLabels(const vector<GraphVertex*>& edges) {
 void CheckAndDeallocateGraph(GraphVertex* node,
                              const vector<GraphVertex>& graph) {
   if (node == &graph[0]) {
-    throw TestFailureException("Graph was not copied");
+    throw TestFailure("Graph was not copied");
   }
 
   unordered_set<GraphVertex*> vertex_set;
@@ -41,13 +41,13 @@ void CheckAndDeallocateGraph(GraphVertex* node,
     auto vertex = q.front();
     q.pop();
     if (vertex->label > graph.size()) {
-      throw TestFailureException("Invalid vertex label");
+      throw TestFailure("Invalid vertex label");
     }
     vector<int> label1 = CopyLabels(vertex->edges),
                 label2 = CopyLabels(graph[vertex->label].edges);
     sort(begin(label1), end(label1)), sort(begin(label2), end(label2));
     if (label1 != label2) {
-      throw TestFailureException("Invalid vertex label");
+      throw TestFailure("Invalid vertex label");
     }
     for (GraphVertex* e : vertex->edges) {
       if (!vertex_set.count(e)) {
@@ -93,9 +93,13 @@ void CloneGraphTest(int k, const vector<Edge>& edges) {
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"k", "edges"};
-  GenericTestMain(args, "graph_clone.tsv", &CloneGraphTest, DefaultComparator{},
-                  param_names);
-  return 0;
+  return GenericTestMain(args, timeout_seconds, "graph_clone.tsv",
+                         &CloneGraphTest, DefaultComparator{}, param_names);
 }

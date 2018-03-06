@@ -1,7 +1,9 @@
+import functools
+
 from bst_node import BstNode
 from test_framework.binary_tree_utils import binary_tree_height, generate_inorder
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 def build_min_height_bst_from_sorted_array(A):
@@ -9,20 +11,26 @@ def build_min_height_bst_from_sorted_array(A):
     return None
 
 
-@enable_timer_hook
-def build_min_height_bst_from_sorted_array_wrapper(timer, A):
-    timer.start()
-    result = build_min_height_bst_from_sorted_array(A)
-    timer.stop()
+@enable_executor_hook
+def build_min_height_bst_from_sorted_array_wrapper(executor, A):
+    result = executor.run(
+        functools.partial(build_min_height_bst_from_sorted_array, A))
 
     if generate_inorder(result) != A:
-        raise TestFailureException("Result binary tree mismatches input array")
+        raise TestFailure("Result binary tree mismatches input array")
     return binary_tree_height(result)
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main(
-        'bst_from_sorted_array.tsv',
-        build_min_height_bst_from_sorted_array_wrapper)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(
+            timeout_seconds, 'bst_from_sorted_array.tsv',
+            build_min_height_bst_from_sorted_array_wrapper))

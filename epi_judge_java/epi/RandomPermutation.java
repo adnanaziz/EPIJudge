@@ -3,8 +3,8 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +36,16 @@ public class RandomPermutation {
     return idx;
   }
 
-  private static boolean computeRandomPermutationRunner(TestTimer timer,
-                                                        int n) {
+  private static boolean computeRandomPermutationRunner(TimedExecutor executor,
+                                                        int n)
+      throws Exception {
     List<List<Integer>> results = new ArrayList<>();
-    timer.start();
-    for (int i = 0; i < 1000000; ++i) {
-      results.add(computeRandomPermutation(n));
-    }
-    timer.stop();
+
+    executor.run(() -> {
+      for (int i = 0; i < 1000000; ++i) {
+        results.add(computeRandomPermutation(n));
+      }
+    });
 
     List<Integer> sequence = new ArrayList<>();
     for (List<Integer> result : results) {
@@ -54,14 +56,22 @@ public class RandomPermutation {
   }
 
   @EpiTest(testfile = "random_permutation.tsv")
-  public static void computeRandomPermutationWrapper(TestTimer timer, int n)
-      throws TestFailureException {
+  public static void computeRandomPermutationWrapper(TimedExecutor executor,
+                                                     int n) throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
-        () -> computeRandomPermutationRunner(timer, n));
+        () -> computeRandomPermutationRunner(executor, n));
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

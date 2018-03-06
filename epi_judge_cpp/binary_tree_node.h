@@ -21,6 +21,4 @@ struct BinaryTreeNode {
       : data(data), left(std::move(left)), right(std::move(right)) {}
 };
 
-template <typename KeyT>
-struct SerializationTraits<unique_ptr<BinaryTreeNode<KeyT>>>
-    : BinaryTreeSerializationTraits<unique_ptr<BinaryTreeNode<KeyT>>, false> {};
+DECLARE_BINARY_TREE_TYPE(KeyT, std::unique_ptr<BinaryTreeNode<KeyT>>, false)

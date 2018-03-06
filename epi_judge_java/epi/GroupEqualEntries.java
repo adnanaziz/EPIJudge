@@ -3,8 +3,8 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,27 +60,25 @@ public class GroupEqualEntries {
   }
 
   @EpiTest(testfile = "group_equal_entries.tsv")
-  public static void groupByAgeWrapper(TestTimer timer, List<Person> people)
-      throws TestFailureException {
+  public static void groupByAgeWrapper(TimedExecutor executor,
+                                       List<Person> people) throws Exception {
     if (people.isEmpty()) {
       return;
     }
     Map<Person, Integer> values = buildMultiset(people);
 
-    timer.start();
-    groupByAge(people);
-    timer.stop();
+    executor.run(() -> groupByAge(people));
 
     Map<Person, Integer> newValues = buildMultiset(people);
     if (!values.equals(newValues)) {
-      throw new TestFailureException("Entry set changed");
+      throw new TestFailure("Entry set changed");
     }
     int lastAge = people.get(0).age;
     Set<Integer> ages = new HashSet<>();
 
     for (Person p : people) {
       if (ages.contains(p.age)) {
-        throw new TestFailureException("Entries are not grouped by age");
+        throw new TestFailure("Entries are not grouped by age");
       }
       if (p.age != lastAge) {
         ages.add(lastAge);
@@ -90,7 +88,15 @@ public class GroupEqualEntries {
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

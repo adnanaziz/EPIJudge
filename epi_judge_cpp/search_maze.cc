@@ -2,13 +2,13 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
-typedef enum { WHITE, BLACK } Color;
+typedef enum { kWhite, kBlack } Color;
 
 struct Coordinate {
   bool operator==(const Coordinate& that) const {
@@ -45,7 +45,7 @@ struct SerializationTraits<Coordinate> : UserSerTraits<Coordinate, int, int> {};
 bool PathElementIsFeasible(const vector<vector<Color>>& maze,
                            const Coordinate& prev, const Coordinate& cur) {
   if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
-        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == WHITE)) {
+        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == kWhite)) {
     return false;
   }
   return cur == Coordinate{prev.x + 1, prev.y} ||
@@ -54,25 +54,24 @@ bool PathElementIsFeasible(const vector<vector<Color>>& maze,
          cur == Coordinate{prev.x, prev.y - 1};
 }
 
-bool SearchMazeWrapper(TestTimer& timer, const vector<vector<Color>>& maze,
-                       const Coordinate& s, const Coordinate& e) {
+bool SearchMazeWrapper(TimedExecutor& executor,
+                       const vector<vector<Color>>& maze, const Coordinate& s,
+                       const Coordinate& e) {
   vector<vector<Color>> copy = maze;
 
-  timer.Start();
-  auto path = SearchMaze(copy, s, e);
-  timer.Stop();
+  auto path = executor.Run([&] { return SearchMaze(copy, s, e); });
 
   if (path.empty()) {
     return s == e;
   }
 
   if (!(path.front() == s) || !(path.back() == e)) {
-    throw TestFailureException("Path doesn't lay between start and end points");
+    throw TestFailure("Path doesn't lay between start and end points");
   }
 
   for (size_t i = 1; i < path.size(); i++) {
     if (!PathElementIsFeasible(maze, path[i - 1], path[i])) {
-      throw TestFailureException("Path contains invalid segments");
+      throw TestFailure("Path contains invalid segments");
     }
   }
 
@@ -82,9 +81,13 @@ bool SearchMazeWrapper(TestTimer& timer, const vector<vector<Color>>& maze,
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "maze", "s", "e"};
-  GenericTestMain(args, "search_maze.tsv", &SearchMazeWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "maze", "s", "e"};
+  return GenericTestMain(args, timeout_seconds, "search_maze.tsv",
+                         &SearchMazeWrapper, DefaultComparator{}, param_names);
 }

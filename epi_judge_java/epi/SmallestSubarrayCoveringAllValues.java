@@ -2,8 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.List;
 
@@ -29,26 +29,23 @@ public class SmallestSubarrayCoveringAllValues {
 
   @EpiTest(testfile = "subsequence_cover.tsv")
   public static int findSmallestSequentiallyCoveringSubsetWrapper(
-      TestTimer timer, List<String> paragraph, List<String> keywords)
-      throws TestFailureException {
-    timer.start();
-    Subarray result =
-        findSmallestSequentiallyCoveringSubset(paragraph, keywords);
-    timer.stop();
+      TimedExecutor executor, List<String> paragraph, List<String> keywords)
+      throws Exception {
+    Subarray result = executor.run(
+        () -> findSmallestSequentiallyCoveringSubset(paragraph, keywords));
 
     int kwIdx = 0;
     if (result.start < 0) {
-      throw new TestFailureException("Subarray start index is negative");
+      throw new TestFailure("Subarray start index is negative");
     }
     int paraIdx = result.start;
 
     while (kwIdx < keywords.size()) {
       if (paraIdx >= paragraph.size()) {
-        throw new TestFailureException(
-            "Not all keywords are in the generated subarray");
+        throw new TestFailure("Not all keywords are in the generated subarray");
       }
       if (paraIdx >= paragraph.size()) {
-        throw new TestFailureException("Subarray end index exceeds array size");
+        throw new TestFailure("Subarray end index exceeds array size");
       }
       if (paragraph.get(paraIdx).equals(keywords.get(kwIdx))) {
         kwIdx++;
@@ -59,7 +56,15 @@ public class SmallestSubarrayCoveringAllValues {
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,7 +1,6 @@
 # @library
 from test_framework.console_color import ConsoleColor, print_std_out_colored
 from test_framework.platform import use_tty_output
-from test_framework.test_output import TestOutput
 from test_framework.test_result import TestResult
 from test_framework.test_timer import duration_to_string, avg_and_median_from_durations
 
@@ -51,7 +50,7 @@ def print_test_info(test_result, test_nr, total_tests, diagnostic, timer):
         end='',
         flush=True)
 
-    if timer.has_valid_result():
+    if timer is not None:
         print(
             ' [{}]'.format(duration_to_string(timer.get_microseconds())),
             end='',
@@ -65,21 +64,8 @@ def gen_spaces(count):
     return ' ' * count
 
 
-def print_failed_test(param_names, arguments, test_output, test_explanation,
-                      res_printer):
-    expected_str = 'expected'
-    result_str = 'result'
-    explanation_str = 'explanation'
-
-    has_expected = test_output and test_output.expected is not TestOutput.EMPTY_OBJECT
-    has_result = test_output and test_output.result is not TestOutput.EMPTY_OBJECT
-    has_explanation = test_explanation not in {'TODO', ''}
-
-    max_col_size = \
-        len(explanation_str) if has_explanation else \
-            len(expected_str) if has_expected else \
-                len(result_str) if has_result else \
-                    0
+def print_failed_test(param_names, arguments, test_failure, res_printer):
+    max_col_size = test_failure.get_max_property_name_length()
 
     for param in param_names:
         if len(param) > max_col_size:
@@ -89,24 +75,15 @@ def print_failed_test(param_names, arguments, test_output, test_explanation,
         print('\t{}: {}{}'.format(name, gen_spaces(max_col_size - len(name)),
                                   escape_newline(str(value))))
 
-    if has_expected or has_result:
-        expected = test_output.expected
-        result = test_output.result
-        if res_printer:
-            (expected, result) = res_printer(expected, result)
+    properties = test_failure.get_properties()
 
-        if has_expected:
-            print('\t{}: {}{}'.format(
-                expected_str, gen_spaces(max_col_size - len(expected_str)),
-                escape_newline(str(expected))))
-        if has_result:
-            print('\t{}: {}{}'.format(
-                result_str, gen_spaces(max_col_size - len(result_str)),
-                escape_newline(str(result))))
-    if has_explanation:
-        print('\t{}: {}{}'.format(
-            explanation_str, gen_spaces(max_col_size - len(explanation_str)),
-            test_explanation))
+    for prop in properties:
+        print('\t{}: {}{}'.format(prop.name(),
+                                  gen_spaces(max_col_size - len(prop.name())),
+                                  prop.value()))
+
+    # TODO Implement res_printer logic
+    # (expected, result) = res_printer(expected, result)
 
 
 def print_post_run_stats(tests_passed, total_tests, durations):

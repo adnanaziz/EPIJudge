@@ -3,7 +3,7 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailureException;
+import epi.test_framework.TestFailure;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -35,7 +35,7 @@ public class QueueFromStacks {
   }
 
   @EpiTest(testfile = "queue_from_stacks.tsv")
-  public static void queueTest(List<QueueOp> ops) throws TestFailureException {
+  public static void queueTest(List<QueueOp> ops) throws TestFailure {
     try {
       Queue q = new Queue();
 
@@ -50,20 +50,28 @@ public class QueueFromStacks {
         case "dequeue":
           int result = q.dequeue();
           if (result != op.arg) {
-            throw new TestFailureException("Dequeue: expected " +
-                                           String.valueOf(op.arg) + ", got " +
-                                           String.valueOf(result));
+            throw new TestFailure("Dequeue: expected " +
+                                  String.valueOf(op.arg) + ", got " +
+                                  String.valueOf(result));
           }
           break;
         }
       }
     } catch (NoSuchElementException e) {
-      throw new TestFailureException("Unexpected NoSuchElement exception");
+      throw new TestFailure("Unexpected NoSuchElement exception");
     }
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

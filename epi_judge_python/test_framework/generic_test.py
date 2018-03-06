@@ -5,18 +5,17 @@ from os import path
 
 from test_framework.generic_test_handler import GenericTestHandler
 from test_framework.test_config import TestConfig
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_output import TestOutput
+from test_framework.test_failure import TestFailure, PropertyName
 from test_framework.test_result import TestResult
-from test_framework.test_timer import TestTimer
-from test_framework.test_utils import equal_to, split_tsv_file, invoke_with_timeout
+from test_framework.test_utils import split_tsv_file
 from test_framework.test_utils_console import print_test_info, print_failed_test, print_post_run_stats
 from test_framework.timeout_exception import TimeoutException
 
 
-def generic_test_main(test_data_file,
+def generic_test_main(timeous_seconds,
+                      test_data_file,
                       test_func,
-                      comparator=equal_to,
+                      comparator=None,
                       res_printer=None):
     """
     The main test starter.
@@ -28,14 +27,16 @@ def generic_test_main(test_data_file,
     """
     try:
         commandline_args = sys.argv[1:]
-        config = TestConfig.from_command_line(test_data_file, commandline_args)
+        config = TestConfig.from_command_line(
+            test_data_file, timeous_seconds * 1000, commandline_args)
 
         test_handler = GenericTestHandler(test_func, comparator=comparator)
-        run_tests(test_handler, config, res_printer)
+        return run_tests(test_handler, config, res_printer)
     except RuntimeError as e:
         print(
             '\nCritical error({}): {}'.format(e.__class__.__name__, e),
             file=sys.stderr)
+        return TestResult.RUNTIME_ERROR
 
 
 def run_tests(handler, config, res_printer):
@@ -47,6 +48,7 @@ def run_tests(handler, config, res_printer):
     tests_passed = 0
     total_tests = len(test_data) - 1
     durations = []
+    result = TestResult.FAILED
 
     for test_case in test_data[1:]:
         test_nr += 1
@@ -55,18 +57,18 @@ def run_tests(handler, config, res_printer):
         # used for running test, we extract that here.
         test_explanation = test_case.pop()
 
-        result = TestResult.FAILED
-        test_output = None
-        diagnostic = ''
+        test_timer = None
+        test_failure = None
 
         try:
-            test_output = invoke_with_timeout(
-                config.timeout, lambda: handler.run_test(test_case))
-            result = TestResult.PASSED if test_output.comparison_result \
-                else TestResult.FAILED
-        except TestFailureException as exc:
+            test_timer = handler.run_test(config.timeout, test_case)
+            result = TestResult.PASSED
+            tests_passed += 1
+            durations.append(test_timer.get_microseconds())
+
+        except TestFailure as exc:
             result = TestResult.FAILED
-            diagnostic = str(exc)
+            test_failure = exc
         except TimeoutException:
             result = TestResult.TIMEOUT
         except RecursionError:
@@ -75,30 +77,27 @@ def run_tests(handler, config, res_printer):
             raise
         except Exception as exc:
             result = TestResult.UNKNOWN_EXCEPTION
-            diagnostic = exc.__class__.__name__ + ': ' + str(exc)
+            test_failure = TestFailure(exc.__class__.__name__)\
+                .with_property(PropertyName.EXCEPTION_MESSAGE, str(exc))
 
-        if test_output is None:
-            test_output = TestOutput(False, TestTimer())
-            # Append expected value if execution ended due to an exception
-            if not handler.expected_is_void():
-                test_output.expected = test_case[-1]
-
-        print_test_info(result, test_nr, total_tests, diagnostic,
-                        test_output.timer)
-
-        if result == TestResult.PASSED:
-            tests_passed += 1
-        if test_output.timer.has_valid_result():
-            durations.append(test_output.timer.get_microseconds())
+        print_test_info(result, test_nr, total_tests,
+                        test_failure.get_description()
+                        if test_failure else '', test_timer)
 
         if result != TestResult.PASSED and config.stop_on_error:
             if not handler.expected_is_void():
                 test_case.pop()
-            print_failed_test(handler.param_names(), test_case, test_output,
-                              test_explanation, res_printer)
+            if test_failure is None:
+                test_failure = TestFailure()
+            if test_explanation not in {'', 'TODO'}:
+                test_failure\
+                    .with_property(PropertyName.EXPLANATION, test_explanation)
+            print_failed_test(handler.param_names(), test_case, test_failure,
+                              res_printer)
             break
 
     print()
 
     if config.stop_on_error:
         print_post_run_stats(tests_passed, total_tests, durations)
+    return result

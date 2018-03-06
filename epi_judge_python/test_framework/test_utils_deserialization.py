@@ -1,7 +1,8 @@
 # @library
 import json
-import list_node
 import re
+
+import list_node
 
 from binary_tree_with_parent_prototype import BinaryTreeNode
 

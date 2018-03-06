@@ -2,9 +2,9 @@
 #include <memory>
 
 #include "posting_list_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::make_shared;
 using std::shared_ptr;
@@ -52,11 +52,10 @@ void AssertListsEqual(const PostingListPtr& orig, const PostingListPtr& copy) {
   auto c_it = copy;
   while (o_it) {
     if (!c_it) {
-      throw TestFailureException(
-          "Copied list has fewer nodes than the original");
+      throw TestFailure("Copied list has fewer nodes than the original");
     }
     if (o_it->order != c_it->order) {
-      throw TestFailureException("Order value mismatch");
+      throw TestFailure("Order value mismatch");
     }
     node_mapping[o_it.get()] = c_it.get();
     o_it = o_it->next;
@@ -64,18 +63,17 @@ void AssertListsEqual(const PostingListPtr& orig, const PostingListPtr& copy) {
   }
 
   if (c_it) {
-    throw TestFailureException("Copied list has more nodes than the original");
+    throw TestFailure("Copied list has more nodes than the original");
   }
 
   o_it = orig;
   c_it = copy;
   while (o_it) {
     if (node_mapping.count(c_it.get())) {
-      throw TestFailureException(
-          "Copied list contains a node from the original list");
+      throw TestFailure("Copied list contains a node from the original list");
     }
     if (node_mapping[o_it->jump] != c_it->jump) {
-      throw TestFailureException(
+      throw TestFailure(
           "Jump link points to a different nodes in the copied list");
     }
     o_it = o_it->next;
@@ -83,21 +81,26 @@ void AssertListsEqual(const PostingListPtr& orig, const PostingListPtr& copy) {
   }
 }
 
-void CopyPostingsListWrapper(TestTimer& timer,
+void CopyPostingsListWrapper(TimedExecutor& executor,
                              const std::vector<SerializedNode>& l) {
   auto head = CreatePostingList(l);
-  timer.Start();
-  auto copy = CopyPostingsList(head);
-  timer.Stop();
+
+  auto copy = executor.Run([&] { return CopyPostingsList(head); });
+
   AssertListsEqual(head, copy);
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "l"};
-  GenericTestMain(args, "copy_posting_list.tsv", &CopyPostingsListWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "l"};
+  return GenericTestMain(args, timeout_seconds, "copy_posting_list.tsv",
+                         &CopyPostingsListWrapper, DefaultComparator{},
+                         param_names);
 }

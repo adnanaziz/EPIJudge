@@ -19,7 +19,8 @@ public class BstNode<T> {
     this.right = right;
   }
 
-  @Override public boolean equals(Object o) { // TODO Remove equal override
+  @Override
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }

@@ -1,12 +1,14 @@
-from test_framework.test_utils import enable_timer_hook
+import functools
+
+from test_framework.test_utils import enable_executor_hook
 
 
 class BinaryTreeNode:
-    def __init__(self, data=None, left=None, right=None, nxt=None):
+    def __init__(self, data=None):
         self.data = data
-        self.left = left
-        self.right = right
-        self.next = nxt  # Populates this field.
+        self.left = None
+        self.right = None
+        self.next = None  # Populates this field.
 
 
 def construct_right_sibling(tree):
@@ -28,27 +30,35 @@ def traverse_left(node):
     raise StopIteration
 
 
-def init_next_link(node):
-    if node:
-        node.next = None
-        init_next_link(node.left)
-        init_next_link(node.right)
+def clone_tree(original):
+    if not original:
+        return None
+    cloned = BinaryTreeNode(original.data)
+    cloned.left, cloned.right = clone_tree(original.left), clone_tree(
+        original.right)
+    return cloned
 
 
-@enable_timer_hook
-def construct_right_sibling_wrapper(timer, tree):
-    init_next_link(tree)
+@enable_executor_hook
+def construct_right_sibling_wrapper(executor, tree):
+    cloned = clone_tree(tree)
 
-    timer.start()
-    construct_right_sibling(tree)
-    timer.stop()
+    executor.run(functools.partial(construct_right_sibling, cloned))
 
     return [[n.data for n in traverse_next(level)]
-            for level in traverse_left(tree)]
+            for level in traverse_left(cloned)]
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('tree_right_sibling.tsv',
-                                   construct_right_sibling_wrapper)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds,
+                                       'tree_right_sibling.tsv',
+                                       construct_right_sibling_wrapper))

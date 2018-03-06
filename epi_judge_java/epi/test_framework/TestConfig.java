@@ -9,19 +9,19 @@ public class TestConfig {
   public String testDataDir;
   public String testDataFile;
   public Boolean stopOnError;
-  public int timeout;
+  public long timeout;
 
   public TestConfig(String testDataDir, String testDataFile,
-                    Boolean stopOnError, int timeout) {
+                    Boolean stopOnError, long timeout) {
     this.testDataDir = testDataDir;
     this.testDataFile = testDataFile;
     this.stopOnError = stopOnError;
     this.timeout = timeout;
   }
 
-  public static TestConfig fromCommandLine(String testDataFile,
+  public static TestConfig fromCommandLine(String testDataFile, long timeoutMs,
                                            String[] commandlineArgs) {
-    TestConfig config = new TestConfig("", testDataFile, true, 0);
+    TestConfig config = new TestConfig("", testDataFile, true, timeoutMs);
 
     for (int i = 0; i < commandlineArgs.length; i++) {
       if (Objects.equals(commandlineArgs[i], "--test_data_dir")) {

@@ -1,4 +1,6 @@
-from test_framework.test_utils import enable_timer_hook
+import functools
+
+from test_framework.test_utils import enable_executor_hook
 
 
 class Name:
@@ -16,13 +18,11 @@ def eliminate_duplicate(A):
     return
 
 
-@enable_timer_hook
-def eliminate_duplicate_wrapper(timer, names):
+@enable_executor_hook
+def eliminate_duplicate_wrapper(executor, names):
     names = [Name(*x) for x in names]
 
-    timer.start()
-    eliminate_duplicate(names)
-    timer.stop()
+    executor.run(functools.partial(eliminate_duplicate, names))
 
     return names
 
@@ -33,8 +33,16 @@ def comp(expected, result):
     ])
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('remove_duplicates.tsv',
-                                   eliminate_duplicate_wrapper, comp)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds,
+                                       'remove_duplicates.tsv',
+                                       eliminate_duplicate_wrapper, comp))

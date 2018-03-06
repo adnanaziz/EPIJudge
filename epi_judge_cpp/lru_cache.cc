@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 class LruCache {
@@ -43,18 +43,16 @@ void RunTest(const std::vector<Op>& commands) {
     if (cmd.code == "lookup") {
       int result = cache.Lookup(cmd.arg1);
       if (result != cmd.arg2) {
-        throw TestFailureException("Lookup: expected " +
-                                   std::to_string(cmd.arg2) + ", got " +
-                                   std::to_string(result));
+        throw TestFailure("Lookup: expected " + std::to_string(cmd.arg2) +
+                          ", got " + std::to_string(result));
       }
     } else if (cmd.code == "insert") {
       cache.Insert(cmd.arg1, cmd.arg2);
     } else if (cmd.code == "erase") {
       bool result = cache.Erase(cmd.arg1);
       if (result != cmd.arg2) {
-        throw TestFailureException("Erase: expected " +
-                                   std::to_string(cmd.arg2) + ", got " +
-                                   std::to_string(result));
+        throw TestFailure("Erase: expected " + std::to_string(cmd.arg2) +
+                          ", got " + std::to_string(result));
       }
     } else {
       throw std::runtime_error("Unexpected command " + cmd.code);
@@ -65,9 +63,13 @@ void RunTest(const std::vector<Op>& commands) {
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"commands"};
-  GenericTestMain(args, "lru_cache.tsv", &RunTest, DefaultComparator{},
-                  param_names);
-  return 0;
+  return GenericTestMain(args, timeout_seconds, "lru_cache.tsv", &RunTest,
+                         DefaultComparator{}, param_names);
 }

@@ -1,4 +1,4 @@
-from test_framework.test_failure_exception import TestFailureException
+from test_framework.test_failure import TestFailure
 
 
 class ClientsCreditsInfo:
@@ -35,11 +35,11 @@ def client_credits_info_tester(ops):
         if op == 'max':
             result = cr.max()
             if result != s_arg:
-                raise TestFailureException('Max: return value mismatch')
+                raise TestFailure('Max: return value mismatch')
         elif op == 'remove':
             result = cr.remove(s_arg)
             if result != i_arg:
-                raise TestFailureException('Remove: return value mismatch')
+                raise TestFailure('Remove: return value mismatch')
         elif op == 'insert':
             cr.insert(s_arg, i_arg)
         elif op == "add_all":
@@ -47,11 +47,18 @@ def client_credits_info_tester(ops):
         elif op == "lookup":
             result = cr.lookup(s_arg)
             if result != i_arg:
-                raise TestFailureException('Lookup: return value mismatch')
+                raise TestFailure('Lookup: return value mismatch')
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('adding_credits.tsv',
-                                   client_credits_info_tester)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds, 'adding_credits.tsv',
+                                       client_credits_info_tester))

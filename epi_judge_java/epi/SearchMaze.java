@@ -3,7 +3,7 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailureException;
+import epi.test_framework.TestFailure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class SearchMaze {
     }
   }
 
-  public static enum Color { WHITE, BLACK }
+  public enum Color { WHITE, BLACK }
 
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
@@ -60,7 +60,7 @@ public class SearchMaze {
   @EpiTest(testfile = "search_maze.tsv")
   public static boolean searchMazeWrapper(List<List<Integer>> maze,
                                           Coordinate s, Coordinate e)
-      throws TestFailureException {
+      throws TestFailure {
     List<List<Color>> colored = new ArrayList<>();
     for (List<Integer> col : maze) {
       List<Color> tmp = new ArrayList<>();
@@ -75,13 +75,12 @@ public class SearchMaze {
     }
 
     if (!path.get(0).equals(s) || !path.get(path.size() - 1).equals(e)) {
-      throw new TestFailureException(
-          "Path doesn't lay between start and end points");
+      throw new TestFailure("Path doesn't lay between start and end points");
     }
 
     for (int i = 1; i < path.size(); i++) {
       if (!pathElementIsFeasible(maze, path.get(i - 1), path.get(i))) {
-        throw new TestFailureException("Path contains invalid segments");
+        throw new TestFailure("Path contains invalid segments");
       }
     }
 
@@ -89,7 +88,15 @@ public class SearchMaze {
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

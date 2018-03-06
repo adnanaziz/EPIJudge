@@ -1,12 +1,14 @@
+import functools
+
 from doubly_list_node import DoublyListNode
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 # Returns the root of the corresponding BST. The prev and next fields of the
 # list nodes are used as the BST nodes left and right fields, respectively.
 # The length of the list is given.
-def build_bst_from_sorted_doubly_list(L, n):
+def build_bst_from_sorted_doubly_list(l, n):
     # Implement this placeholder.
     return None
 
@@ -19,33 +21,41 @@ def compare_vector_and_tree(tree, it):
 
     v = next(it, None)
     if v is None:
-        raise TestFailureException("Too few values in the tree")
+        raise TestFailure("Too few values in the tree")
     if v != tree.data:
-        raise TestFailureException("Unexpected value")
+        raise TestFailure("Unexpected value")
 
     compare_vector_and_tree(tree.next, it)
 
 
-@enable_timer_hook
-def build_bst_from_sorted_doubly_list_wrapper(timer, L):
-    l = None
-    for v in reversed(L):
-        l = DoublyListNode(v, next=l)
-        if l.next != None:
-            l.next.prev = l
+@enable_executor_hook
+def build_bst_from_sorted_doubly_list_wrapper(executor, l):
+    input_list = None
+    for v in reversed(l):
+        input_list = DoublyListNode(v, next=input_list)
+        if input_list.next != None:
+            input_list.next.prev = input_list
 
-    timer.start()
-    l = build_bst_from_sorted_doubly_list(l, len(L))
-    timer.stop()
+    input_list = executor.run(
+        functools.partial(build_bst_from_sorted_doubly_list, input_list,
+                          len(l)))
 
-    it = iter(L)
-    compare_vector_and_tree(l, it)
+    it = iter(l)
+    compare_vector_and_tree(input_list, it)
     if next(it, None) is not None:
-        raise TestFailureException("Too many L in the tree")
+        raise TestFailure("Too many l in the tree")
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main("sorted_list_to_bst.tsv",
-                                   build_bst_from_sorted_doubly_list_wrapper)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(
+            timeout_seconds, "sorted_list_to_bst.tsv",
+            build_bst_from_sorted_doubly_list_wrapper))

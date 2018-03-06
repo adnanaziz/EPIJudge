@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "fmt_print_fwd.h"
 #include "test_utils_serialization_traits.h"
 
 template <typename Node, typename T>
@@ -123,7 +124,7 @@ std::string BinaryTreeToString(const Node& tree) {
       }
 
       result << '"';
-      EpiPrint(result, (*node)->data);
+      PrintTo(result, (*node)->data);
       result << '"';
 
       visited.emplace(node);

@@ -1,5 +1,6 @@
 #include <vector>
 
+#include "test_framework/fmt_print.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
@@ -23,15 +24,19 @@ struct SerializationTraits<Rectangle>
     : UserSerTraits<Rectangle, int, int, int> {};
 
 std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
-  return EpiPrint(out, std::make_tuple(r.left, r.right, r.height));
+  return PrintTo(out, std::make_tuple(r.left, r.right, r.height));
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"buildings"};
-  GenericTestMain(args, "drawing_skyline.tsv", &ComputeSkyline,
-                  DefaultComparator{}, param_names);
-  return 0;
+  return GenericTestMain(args, timeout_seconds, "drawing_skyline.tsv",
+                         &ComputeSkyline, DefaultComparator{}, param_names);
 }

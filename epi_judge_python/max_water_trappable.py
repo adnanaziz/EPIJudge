@@ -3,8 +3,16 @@ def calculate_trapping_water(heights):
     return 0
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('max_water_trappable.tsv',
-                                   calculate_trapping_water)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds,
+                                       'max_water_trappable.tsv',
+                                       calculate_trapping_water))

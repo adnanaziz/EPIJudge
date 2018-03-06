@@ -1,11 +1,9 @@
 # @library
-import math
+import collections
 import os
 import re
 
-from concurrent import futures
-
-from test_framework.timeout_exception import TimeoutException
+from test_framework.test_failure import TestFailure, PropertyName
 
 
 def split_tsv_file(tsv_file):
@@ -56,25 +54,29 @@ def filter_bracket_comments(s):
     return re.sub(bracket_enclosed_comment, '', s, 0).replace(' ', '')
 
 
-def invoke_with_timeout(timeout, func):
-    """
-    Invokes func with a specified timeout.
+def assert_all_values_present(reference, result):
+    reference_set = collections.defaultdict(int)
 
-    If func takes more than timeout seconds to run, TimeoutException is raised.
-    If timeout == 0, it simply calls the function.
+    for x in reference:
+        reference_set[x] += 1
 
-    :return: whatever func returns
-    """
-    if timeout == 0:
-        # timeout is disabled
-        return func()
-    else:
-        try:
-            with futures.ThreadPoolExecutor(max_workers=1) as executor:
-                future = executor.submit(func)
-                return future.result(timeout=timeout)
-        except futures.TimeoutError:
-            raise TimeoutException
+    for x in result:
+        reference_set[x] -= 1
+
+    flatten = lambda l: [item for sublist in l for item in sublist]
+    excess_items = flatten(
+        [x] * -count for x, count in reference_set.items() if count < 0)
+    missing_items = flatten(
+        [x] * count for x, count in reference_set.items() if count > 0)
+
+    if excess_items or missing_items:
+        e = TestFailure('Value set changed')\
+            .with_property(PropertyName.RESULT, result)
+        if excess_items:
+            e.with_property(PropertyName.EXCESS_ITEMS, excess_items)
+        if missing_items:
+            e.with_property(PropertyName.MISSING_ITEMS, missing_items)
+        raise e
 
 
 def completely_sorted(x):
@@ -95,34 +97,14 @@ def unordered_compare(a, b):
     return completely_sorted(a) == completely_sorted(b)
 
 
-def equal_to(a, b):
-    """
-    Expected value comparator.
-
-    Compares float values with math.isclose(),
-    binary trees with equal_binary_trees(),
-    and other types with == operator.
-    """
-    if isinstance(a, float) or isinstance(b, float):
-        return math.isclose(a, b)
-    import binary_tree_node
-    import binary_tree_with_parent_prototype
-    import bst_node
-    from test_framework.binary_tree_utils import equal_binary_trees
-    if (isinstance(a, binary_tree_node.BinaryTreeNode)
-            or isinstance(a, binary_tree_with_parent_prototype.BinaryTreeNode)
-            or isinstance(a, bst_node.BstNode)) and (
-                isinstance(b, binary_tree_node.BinaryTreeNode) or isinstance(
-                    b, binary_tree_with_parent_prototype.BinaryTreeNode)
-                or isinstance(b, bst_node.BstNode)):
-        return equal_binary_trees(a, b)
-    return a == b
+def has_executor_hook(func):
+    return hasattr(func, 'executor_hook') and func.executor_hook
 
 
-def has_timer_hook(func):
-    return hasattr(func, 'timer_hook') and func.timer_hook
+def enable_executor_hook(func):
+    func.executor_hook = True
+    return func
 
 
 def enable_timer_hook(func):
-    func.timer_hook = True
-    return func
+    raise RuntimeError("This program uses deprecated timer_hook")

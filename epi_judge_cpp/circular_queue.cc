@@ -1,5 +1,5 @@
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 class Queue {
@@ -23,18 +23,18 @@ class Queue {
 };
 
 struct QueueOp {
-  enum { CONSTRUCT, DEQUEUE, ENQUEUE, SIZE } op;
+  enum { kConstruct, kDequeue, kEnqueue, kSize } op;
   int argument;
 
   QueueOp(const std::string& op_string, int arg) : argument(arg) {
     if (op_string == "Queue") {
-      op = CONSTRUCT;
+      op = kConstruct;
     } else if (op_string == "dequeue") {
-      op = DEQUEUE;
+      op = kDequeue;
     } else if (op_string == "enqueue") {
-      op = ENQUEUE;
+      op = kEnqueue;
     } else if (op_string == "size") {
-      op = SIZE;
+      op = kSize;
     } else {
       throw std::runtime_error("Unsupported queue operation: " + op_string);
     }
@@ -42,28 +42,26 @@ struct QueueOp {
 
   void execute(Queue& q) const {
     switch (op) {
-      case CONSTRUCT:
+      case kConstruct:
         // Hack to bypass deleted assign operator
         q.~Queue();
         new (&q) Queue(argument);
         break;
-      case DEQUEUE: {
+      case kDequeue: {
         int result = q.Dequeue();
         if (result != argument) {
-          throw TestFailureException("Dequeue: expected " +
-                                     std::to_string(argument) + ", got " +
-                                     std::to_string(result));
+          throw TestFailure("Dequeue: expected " + std::to_string(argument) +
+                            ", got " + std::to_string(result));
         }
       } break;
-      case ENQUEUE:
+      case kEnqueue:
         q.Enqueue(argument);
         break;
-      case SIZE: {
+      case kSize: {
         int s = q.Size();
         if (s != argument) {
-          throw TestFailureException("Size: expected " +
-                                     std::to_string(argument) + ", got " +
-                                     std::to_string(s));
+          throw TestFailure("Size: expected " + std::to_string(argument) +
+                            ", got " + std::to_string(s));
         }
       } break;
     }
@@ -84,9 +82,13 @@ void QueueTester(const std::vector<QueueOp>& ops) {
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
-  GenericTestMain(args, "circular_queue.tsv", &QueueTester, DefaultComparator{},
-                  param_names);
-  return 0;
+  return GenericTestMain(args, timeout_seconds, "circular_queue.tsv",
+                         &QueueTester, DefaultComparator{}, param_names);
 }

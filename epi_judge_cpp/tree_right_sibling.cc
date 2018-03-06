@@ -1,8 +1,8 @@
 #include <memory>
 #include <vector>
 
-#include "test_framework/test_timer.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::unique_ptr;
 
@@ -10,9 +10,9 @@ template <typename T>
 struct BinaryTreeNode {
   T data;
   unique_ptr<BinaryTreeNode<T>> left, right;
-  BinaryTreeNode<T>* next;  // Populates this field.
+  BinaryTreeNode<T>* next = nullptr;  // Populates this field.
 
-  explicit BinaryTreeNode(T data) : data(data), next(nullptr){};
+  explicit BinaryTreeNode(T data) : data(data){};
 };
 
 void ConstructRightSibling(BinaryTreeNode<int>* tree) {
@@ -25,10 +25,9 @@ struct SerializationTraits<unique_ptr<BinaryTreeNode<int>>>
     : BinaryTreeSerializationTraits<unique_ptr<BinaryTreeNode<int>>, false> {};
 
 std::vector<std::vector<int>> ConstructRightSiblingWrapper(
-    TestTimer& timer, unique_ptr<BinaryTreeNode<int>>& tree) {
-  timer.Start();
-  ConstructRightSibling(tree.get());
-  timer.Stop();
+    TimedExecutor& executor, unique_ptr<BinaryTreeNode<int>>& tree) {
+  executor.Run([&] { ConstructRightSibling(tree.get()); });
+
   std::vector<std::vector<int>> result;
   auto level_start = tree.get();
   while (level_start) {
@@ -40,16 +39,20 @@ std::vector<std::vector<int>> ConstructRightSiblingWrapper(
     }
     level_start = level_start->left.get();
   }
-
   return result;
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "tree"};
-  GenericTestMain(args, "tree_right_sibling.tsv", &ConstructRightSiblingWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "tree"};
+  return GenericTestMain(args, timeout_seconds, "tree_right_sibling.tsv",
+                         &ConstructRightSiblingWrapper, DefaultComparator{},
+                         param_names);
 }

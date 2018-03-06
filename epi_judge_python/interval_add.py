@@ -1,6 +1,7 @@
 import collections
+import functools
 
-from test_framework.test_utils import enable_timer_hook
+from test_framework.test_utils import enable_executor_hook
 
 Interval = collections.namedtuple('Interval', ('left', 'right'))
 
@@ -10,11 +11,12 @@ def add_interval(disjoint_intervals, new_interval):
     return []
 
 
-@enable_timer_hook
-def add_interval_wrapper(timer, disjoint_intervals, new_interval):
+@enable_executor_hook
+def add_interval_wrapper(executor, disjoint_intervals, new_interval):
     disjoint_intervals = [Interval(*x) for x in disjoint_intervals]
-    timer.start()
-    return add_interval(disjoint_intervals, Interval(*new_interval))
+    return executor.run(
+        functools.partial(add_interval, disjoint_intervals,
+                          Interval(*new_interval)))
 
 
 def res_printer(expected, result):
@@ -24,8 +26,18 @@ def res_printer(expected, result):
     return fmt(expected), fmt(result)
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main(
-        'interval_add.tsv', add_interval_wrapper, res_printer=res_printer)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(
+            timeout_seconds,
+            'interval_add.tsv',
+            add_interval_wrapper,
+            res_printer=res_printer))

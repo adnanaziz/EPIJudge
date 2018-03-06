@@ -17,7 +17,7 @@
 
 #include "json_parser.h"
 #include "platform.h"
-#include "test_failure_exception.h"
+#include "test_failure.h"
 #include "test_utils_console.h"
 #include "test_utils_meta.h"
 #include "test_utils_serialization_traits.h"
@@ -46,16 +46,16 @@ std::vector<std::vector<std::string>> SplitTsvFile(
 }
 
 std::string GetDefaultTestDataDirPath() {
-  constexpr int MAX_SEARCH_DEPTH = 4;
-  static const std::string ENV_KEY = "EPI_TEST_DATA_DIR";
-  static const std::string DIR_NAME = "test_data";
+  constexpr int kMaxSearchDepth = 4;
+  static const std::string kEnvKey = "EPI_TEST_DATA_DIR";
+  static const std::string kDirName = "test_data";
   static char pardir[]{'.', '.', platform::PathSep(), '\0'};
   std::string path;
 
-  const char* env_result = std::getenv(ENV_KEY.c_str());
+  const char* env_result = std::getenv(kEnvKey.c_str());
   if (env_result && env_result[0] != '\0') {
     if (!platform::IsDir(env_result)) {
-      throw std::runtime_error(ENV_KEY +
+      throw std::runtime_error(kEnvKey +
                                " environment variable is set to \"" +
                                env_result + "\", but it's not a directory");
     }
@@ -63,8 +63,8 @@ std::string GetDefaultTestDataDirPath() {
     return path;
   }
 
-  path = DIR_NAME;
-  for (int i = 0; i < MAX_SEARCH_DEPTH; i++) {
+  path = kDirName;
+  for (int i = 0; i < kMaxSearchDepth; i++) {
     if (platform::IsDir(path.c_str())) {
       return path;
     }
@@ -72,7 +72,7 @@ std::string GetDefaultTestDataDirPath() {
   }
 
   throw std::runtime_error(
-      "Can't find test data directory. Specify it with " + ENV_KEY +
+      "Can't find test data directory. Specify it with " + kEnvKey +
       " environment variable (you may need to restart PC) or start the "
       "program with \"--test_data_dir <path>\" command-line option");
 }
@@ -88,30 +88,6 @@ std::string FilterBracketComments(const std::string& type) {
                std::end(result));
   return result;
 }
-
-/**
- * Invokes func with a specified timeout.
- * If func takes more than timeout milliseconds to run,
- * TimeoutException is thrown.
- * If timeout == 0, it simply calls the function.
- *
- * @return whatever func returns
- */
-template <typename Func>
-decltype(auto) InvokeWithTimeout(std::chrono::milliseconds timeout,
-                                 Func func) {
-  if (timeout == timeout.zero()) {
-    // timeout is disabled
-    return func();
-  } else {
-    auto future = std::async(std::launch::async, [&] { return func(); });
-    if (future.wait_for(timeout) == std::future_status::ready) {
-      return future.get();
-    } else {
-      throw TimeoutException();
-    }
-  }
-};
 
 /**
  * Helper function, see MatchFunctionSignature().

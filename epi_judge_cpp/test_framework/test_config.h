@@ -10,23 +10,10 @@
 #include "test_utils.h"
 
 struct TestConfig {
-  std::string test_data_dir;
-  std::string test_data_file;
-  bool stop_on_error;
-  std::chrono::milliseconds timeout;
-
-  TestConfig(const std::string& test_data_dir,
-             const std::string& test_data_file, bool stop_on_error,
-             const std::chrono::milliseconds& timeout)
-      : test_data_dir(test_data_dir),
-        test_data_file(test_data_file),
-        stop_on_error(stop_on_error),
-        timeout(timeout) {}
-
   static TestConfig FromCommandLine(
-      const std::string& test_data_file,
+      const std::string& test_data_file, const std::chrono::seconds& timeout,
       const std::vector<std::string>& commandline_args) {
-    TestConfig config("", test_data_file, true, std::chrono::milliseconds{0});
+    TestConfig config{"", test_data_file, true, timeout};
 
     for (int i = 0; i < commandline_args.size(); i++) {
       if (commandline_args[i] == "--test_data_dir") {
@@ -58,4 +45,9 @@ struct TestConfig {
 
     return config;
   }
+
+  std::string test_data_dir;
+  std::string test_data_file;
+  bool stop_on_error;
+  std::chrono::milliseconds timeout;
 };

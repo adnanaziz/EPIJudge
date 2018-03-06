@@ -17,6 +17,4 @@ struct BinaryTreeNode {
   explicit BinaryTreeNode(const T& data) : data(data), parent(nullptr) {}
 };
 
-template <typename KeyT>
-struct SerializationTraits<unique_ptr<BinaryTreeNode<KeyT>>>
-    : BinaryTreeSerializationTraits<unique_ptr<BinaryTreeNode<KeyT>>, true> {};
+DECLARE_BINARY_TREE_TYPE(KeyT, std::unique_ptr<BinaryTreeNode<KeyT>>, true)

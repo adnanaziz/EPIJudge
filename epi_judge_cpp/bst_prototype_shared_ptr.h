@@ -16,6 +16,4 @@ struct BstNode {
   explicit BstNode(const T& data) : data(data) {}
 };
 
-template <typename KeyT>
-struct SerializationTraits<std::shared_ptr<BstNode<KeyT>>>
-    : BinaryTreeSerializationTraits<std::shared_ptr<BstNode<KeyT>>, false> {};
+DECLARE_BINARY_TREE_TYPE(KeyT, std::shared_ptr<BstNode<KeyT>>, false)

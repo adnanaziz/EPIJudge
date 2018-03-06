@@ -6,9 +6,10 @@
 #include <string>
 
 #include "console_color.h"
+#include "fmt_print.h"
+#include "test_failure.h"
 #include "test_result.h"
 #include "test_timer.h"
-#include "test_utils_serialization_traits.h"
 
 struct EscapeNewline {
   const std::string& str;
@@ -80,24 +81,10 @@ void PrintTestInfo(const TestResult& test_result, int test_nr,
 
 std::string GenSpaces(size_t count) { return std::string(count, ' '); }
 
-template <typename TestOutputT>
 void PrintFailedTest(const std::vector<std::string>& param_names,
                      const std::vector<std::string>& arguments,
-                     const TestOutputT& test_output,
-                     const std::string& test_explanation) {
-  static const std::string expected_str = "expected";
-  static const std::string result_str = "result";
-  static const std::string explanation_str = "explanation";
-
-  const bool has_expected = (bool)test_output.expected;
-  const bool has_result = (bool)test_output.result;
-  const bool has_explanation =
-      test_explanation != "TODO" && !test_explanation.empty();
-
-  size_t max_col_size =
-      has_explanation ? explanation_str.size()
-                      : has_expected ? expected_str.size()
-                                     : has_result ? result_str.size() : 0;
+                     TestFailure& test_failure) {
+  size_t max_col_size = test_failure.GetMaxPropertyNameLength();
 
   for (auto& param : param_names) {
     if (param.size() > max_col_size) {
@@ -111,22 +98,12 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
               << EscapeNewline{arguments[i]} << std::endl;
   }
 
-  if (has_expected) {
-    std::cout << '\t' << expected_str << ": "
-              << GenSpaces(max_col_size - expected_str.size());
-    EpiPrint(std::cout, *test_output.expected);
-    std::cout << std::endl;
-  }
-  if (has_result) {
-    std::cout << '\t' << result_str << ": "
-              << GenSpaces(max_col_size - result_str.size());
-    EpiPrint(std::cout, *test_output.result);
-    std::cout << std::endl;
-  }
-  if (has_explanation) {
-    std::cout << '\t' << explanation_str << ": "
-              << GenSpaces(max_col_size - explanation_str.size())
-              << test_explanation << std::endl;
+  auto properties = test_failure.GetProperties();
+
+  for (auto& prop : properties) {
+    std::cout << FmtStr("\t{}: {}{}\n", prop.Name(),
+                        GenSpaces(max_col_size - prop.Name().size()),
+                        prop.Value());
   }
 }
 

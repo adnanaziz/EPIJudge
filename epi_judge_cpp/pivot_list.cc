@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "list_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::shared_ptr;
 
@@ -25,49 +25,55 @@ std::vector<int> ListToVector(const shared_ptr<ListNode<int>>& l) {
   return v;
 }
 
-void ListPivotingWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& l,
-                         int x) {
+void ListPivotingWrapper(TimedExecutor& executor,
+                         const shared_ptr<ListNode<int>>& l, int x) {
   std::vector<int> original = ListToVector(l);
-  timer.Start();
-  std::shared_ptr<ListNode<int>> pivoted_list = ListPivoting(l, x);
-  timer.Stop();
+
+  std::shared_ptr<ListNode<int>> pivoted_list =
+      executor.Run([&] { return ListPivoting(l, x); });
+
   std::vector<int> pivoted = ListToVector(pivoted_list);
-  enum { LESS, EQ, GREATER } mode = LESS;
+  enum { kLess, kEq, kGreater } mode = kLess;
   for (auto& i : pivoted) {
     switch (mode) {
-      case LESS:
+      case kLess:
         if (i == x) {
-          mode = EQ;
+          mode = kEq;
         } else if (i > x) {
-          mode = GREATER;
+          mode = kGreater;
         }
         break;
-      case EQ:
+      case kEq:
         if (i < x) {
-          throw TestFailureException("List is not pivoted");
+          throw TestFailure("List is not pivoted");
         } else if (i > x) {
-          mode = GREATER;
+          mode = kGreater;
         }
         break;
-      case GREATER:
+      case kGreater:
         if (i <= x) {
-          throw TestFailureException("List is not pivoted");
+          throw TestFailure("List is not pivoted");
         }
     }
   }
   std::sort(begin(original), end(original));
   std::sort(begin(pivoted), end(pivoted));
   if (original != pivoted) {
-    throw TestFailureException("Result list contains different values");
+    throw TestFailure("Result list contains different values");
   }
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "l", "x"};
-  GenericTestMain(args, "pivot_list.tsv", &ListPivotingWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "l", "x"};
+  return GenericTestMain(args, timeout_seconds, "pivot_list.tsv",
+                         &ListPivotingWrapper, DefaultComparator{},
+                         param_names);
 }

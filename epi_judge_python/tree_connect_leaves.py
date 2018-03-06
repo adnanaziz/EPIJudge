@@ -1,5 +1,7 @@
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+import functools
+
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 def create_list_of_leaves(tree):
@@ -7,19 +9,25 @@ def create_list_of_leaves(tree):
     return []
 
 
-@enable_timer_hook
-def create_list_of_leaves_wrapper(timer, tree):
-    timer.start()
-    result = create_list_of_leaves(tree)
-    timer.stop()
+@enable_executor_hook
+def create_list_of_leaves_wrapper(executor, tree):
+    result = executor.run(functools.partial(create_list_of_leaves, tree))
 
     if any(x is None for x in result):
-        raise TestFailureException("Result list can't contain None")
+        raise TestFailure("Result list can't contain None")
     return [x.data for x in result]
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main("tree_connect_leaves.tsv",
-                                   create_list_of_leaves_wrapper)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds,
+                                       "tree_connect_leaves.tsv",
+                                       create_list_of_leaves_wrapper))

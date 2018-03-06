@@ -1,6 +1,6 @@
 #include <string>
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/test_failure.h"
 
 using std::string;
 
@@ -16,19 +16,23 @@ string Encoding(const string &s) {
 
 void RleTester(const string &encoded, const string &decoded) {
   if (Decoding(encoded) != decoded) {
-    throw TestFailureException("Decoding failed");
+    throw TestFailure("Decoding failed");
   }
   if (Encoding(decoded) != encoded) {
-    throw TestFailureException("Encoding failed");
+    throw TestFailure("Encoding failed");
   }
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char *argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"encoded", "decoded"};
-  GenericTestMain(args, "run_length_compression.tsv", &RleTester,
-                  DefaultComparator{}, param_names);
-  return 0;
+  return GenericTestMain(args, timeout_seconds, "run_length_compression.tsv",
+                         &RleTester, DefaultComparator{}, param_names);
 }

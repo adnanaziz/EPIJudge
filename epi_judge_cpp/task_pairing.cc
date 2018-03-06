@@ -1,6 +1,7 @@
 #include <tuple>
 #include <vector>
 
+#include "test_framework/fmt_print.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
@@ -23,15 +24,20 @@ bool operator==(const PairedTasks& lhs, const PairedTasks& rhs) {
 }
 
 std::ostream& operator<<(std::ostream& out, const PairedTasks& t) {
-  return EpiPrint(out, std::make_tuple(t.task_1, t.task_2));
+  return PrintTo(out, std::make_tuple(t.task_1, t.task_2));
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"task_durations"};
-  GenericTestMain(args, "task_pairing.tsv", &OptimumTaskAssignment,
-                  DefaultComparator{}, param_names);
-  return 0;
+  return GenericTestMain(args, timeout_seconds, "task_pairing.tsv",
+                         &OptimumTaskAssignment, DefaultComparator{},
+                         param_names);
 }

@@ -2,7 +2,7 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestTimer;
+import epi.test_framework.TimedExecutor;
 
 public class ReverseWords {
 
@@ -12,18 +12,25 @@ public class ReverseWords {
   }
 
   @EpiTest(testfile = "reverse_words.tsv")
-  public static String reverseWordsWrapper(TestTimer timer, String s) {
+  public static String reverseWordsWrapper(TimedExecutor executor, String s)
+      throws Exception {
     char[] sCopy = s.toCharArray();
 
-    timer.start();
-    reverseWords(sCopy);
-    timer.stop();
+    executor.run(() -> reverseWords(sCopy));
 
     return String.valueOf(sCopy);
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -45,13 +45,13 @@ public class GraphClone {
     vertexSet.add(node);
     while (!q.isEmpty()) {
       GraphVertex vertex = q.remove();
-      assert(vertex.label < g.size());
+      assert (vertex.label < g.size());
       List<Integer> label1 = copyLabels(vertex.edges),
                     label2 = copyLabels(g.get(vertex.label).edges);
       Collections.sort(label1);
       Collections.sort(label2);
-      assert(label1.size() == label2.size());
-      assert(Arrays.equals(label1.toArray(), label2.toArray()));
+      assert (label1.size() == label2.size());
+      assert (Arrays.equals(label1.toArray(), label2.toArray()));
       for (GraphVertex e : vertex.edges) {
         if (!vertexSet.contains(e)) {
           vertexSet.add(e);
@@ -92,7 +92,15 @@ public class GraphClone {
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,8 +1,8 @@
 #include <vector>
 
 #include "binary_tree_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
@@ -15,7 +15,7 @@ vector<const unique_ptr<BinaryTreeNode<int>>*> ExteriorBinaryTree(
 vector<int> CreateOutputVector(
     const vector<const unique_ptr<BinaryTreeNode<int>>*>& L) {
   if (std::find(std::begin(L), std::end(L), nullptr) != std::end(L)) {
-    throw TestFailureException("Resulting list contains nullptr");
+    throw TestFailure("Resulting list contains nullptr");
   }
   std::vector<int> output;
   for (const auto* l : L) {
@@ -25,19 +25,23 @@ vector<int> CreateOutputVector(
 }
 
 vector<int> ExteriorBinaryTreeWrapper(
-    TestTimer& timer, const unique_ptr<BinaryTreeNode<int>>& tree) {
-  timer.Start();
-  auto result = ExteriorBinaryTree(tree);
-  timer.Stop();
+    TimedExecutor& executor, const unique_ptr<BinaryTreeNode<int>>& tree) {
+  auto result = executor.Run([&] { return ExteriorBinaryTree(tree); });
+
   return CreateOutputVector(result);
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "tree"};
-  GenericTestMain(args, "tree_exterior.tsv", &ExteriorBinaryTreeWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "tree"};
+  return GenericTestMain(args, timeout_seconds, "tree_exterior.tsv",
+                         &ExteriorBinaryTreeWrapper, DefaultComparator{},
+                         param_names);
 }

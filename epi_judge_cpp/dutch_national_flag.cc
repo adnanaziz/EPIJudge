@@ -1,19 +1,19 @@
 #include <array>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
-typedef enum { RED, WHITE, BLUE } Color;
+typedef enum { kRed, kWhite, kBlue } Color;
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
   // Implement this placeholder.
   return;
 }
 
-void DutchFlagPartitionWrapper(TestTimer& timer, const vector<int>& A,
+void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
                                int pivot_idx) {
   vector<Color> colors;
   colors.resize(A.size());
@@ -24,9 +24,7 @@ void DutchFlagPartitionWrapper(TestTimer& timer, const vector<int>& A,
   }
   Color pivot = colors[pivot_idx];
 
-  timer.Start();
-  DutchFlagPartition(pivot_idx, &colors);
-  timer.Stop();
+  executor.Run([&] { DutchFlagPartition(pivot_idx, &colors); });
 
   int i = 0;
   while (i < colors.size() && colors[i] < pivot) {
@@ -44,17 +42,25 @@ void DutchFlagPartitionWrapper(TestTimer& timer, const vector<int>& A,
     ++i;
   }
 
-  if (i != colors.size() || count != std::array<int, 3>{0, 0, 0}) {
-    throw TestFailureException("Invalid output");
+  if (i != colors.size()) {
+    throw TestFailure("Not partitioned after " + std::to_string(i) +
+                      "th element");
+  } else if (count != std::array<int, 3>{0, 0, 0}) {
+    throw TestFailure("Some elements are missing from original array");
   }
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "A", "pivot_idx"};
-  GenericTestMain(args, "dutch_national_flag.tsv", &DutchFlagPartitionWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "A", "pivot_idx"};
+  return GenericTestMain(args, timeout_seconds, "dutch_national_flag.tsv",
+                         &DutchFlagPartitionWrapper, DefaultComparator{},
+                         param_names);
 }

@@ -3,8 +3,8 @@
 #include <iterator>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::begin;
 using std::end;
@@ -41,25 +41,23 @@ void AssertUniqueSeq(const vector<int>& seq) {
   vector<bool> seen(seq.size(), false);
   for (auto& x : seq) {
     if (x == 0) {
-      throw TestFailureException("Cell left uninitialized");
+      throw TestFailure("Cell left uninitialized");
     }
     if (x < 0 || x > seq.size()) {
-      throw TestFailureException("Cell value out of range");
+      throw TestFailure("Cell value out of range");
     }
     if (seen[x - 1]) {
-      throw TestFailureException("Duplicate value in section");
+      throw TestFailure("Duplicate value in section");
     }
     seen[x - 1] = true;
   }
 }
 
-void SolveSudokuWrapper(TestTimer& timer,
+void SolveSudokuWrapper(TimedExecutor& executor,
                         const vector<vector<int>>& partial_assignment) {
   vector<vector<int>> solved = partial_assignment;
 
-  timer.Start();
-  SolveSudoku(&solved);
-  timer.Stop();
+  executor.Run([&] { SolveSudoku(&solved); });
 
   if (!std::equal(begin(partial_assignment), end(partial_assignment),
                   begin(solved), end(solved), [](auto br, auto cr) {
@@ -68,7 +66,7 @@ void SolveSudokuWrapper(TestTimer& timer,
                                         return bcell == 0 || bcell == ccell;
                                       });
                   }))
-    throw TestFailureException("Initial cell assignment has been changed");
+    throw TestFailure("Initial cell assignment has been changed");
 
   auto block_size = static_cast<size_t>(sqrt(solved.size()));
 
@@ -82,9 +80,13 @@ void SolveSudokuWrapper(TestTimer& timer,
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "partial_assignment"};
-  GenericTestMain(args, "sudoku_solve.tsv", &SolveSudokuWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "partial_assignment"};
+  return GenericTestMain(args, timeout_seconds, "sudoku_solve.tsv",
+                         &SolveSudokuWrapper, DefaultComparator{}, param_names);
 }

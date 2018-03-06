@@ -1,5 +1,7 @@
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+import functools
+
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 class BinaryTreeNode:
@@ -15,8 +17,8 @@ def find_kth_node_binary_tree(tree, k):
     return None
 
 
-@enable_timer_hook
-def find_kth_node_binary_tree_wrapper(timer, tree, k):
+@enable_executor_hook
+def find_kth_node_binary_tree_wrapper(executor, tree, k):
     def init_size(node):
         if not node:
             return 0
@@ -25,17 +27,23 @@ def find_kth_node_binary_tree_wrapper(timer, tree, k):
 
     init_size(tree)
 
-    timer.start()
-    result = find_kth_node_binary_tree(tree, k)
-    timer.stop()
+    result = executor.run(
+        functools.partial(find_kth_node_binary_tree, tree, k))
 
     if not result:
-        raise TestFailureException("Result can't be None")
+        raise TestFailure("Result can't be None")
     return result.data
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main("kth_node_in_tree.tsv",
-                                   find_kth_node_binary_tree_wrapper)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds, "kth_node_in_tree.tsv",
+                                       find_kth_node_binary_tree_wrapper))

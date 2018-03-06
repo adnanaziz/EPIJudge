@@ -1,6 +1,7 @@
+import functools
 import math
 
-from test_framework.test_utils import enable_timer_hook
+from test_framework.test_utils import enable_executor_hook
 
 
 class Star:
@@ -37,15 +38,22 @@ def comp(expected_output, output):
         for s, d in zip(sorted(output), expected_output))
 
 
-@enable_timer_hook
-def find_closest_k_stars_wrapper(timer, stars, k):
+@enable_executor_hook
+def find_closest_k_stars_wrapper(executor, stars, k):
     stars = [Star(*a) for a in stars]
-    timer.start()
-    return find_closest_k_stars(iter(stars), k)
+    return executor.run(
+        functools.partial(find_closest_k_stars, iter(stars), k))
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main("k_closest_stars.tsv",
-                                   find_closest_k_stars_wrapper, comp)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(timeout_seconds, "k_closest_stars.tsv",
+                                       find_closest_k_stars_wrapper, comp))

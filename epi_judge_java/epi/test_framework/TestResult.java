@@ -2,9 +2,10 @@
 package epi.test_framework;
 
 public enum TestResult {
-  FAILED,
   PASSED,
+  FAILED,
   TIMEOUT,
   UNKNOWN_EXCEPTION,
-  STACK_OVERFLOW
+  STACK_OVERFLOW,
+  RUNTIME_EXCEPTION,
 }

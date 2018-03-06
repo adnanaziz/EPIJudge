@@ -1,7 +1,7 @@
 #include <vector>
 
-#include "test_framework/test_timer.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
@@ -59,15 +59,14 @@ std::ostream& operator<<(std::ostream& out, const FlatInterval& i) {
 }
 
 std::vector<FlatInterval> UnionOfIntervalsWrapper(
-    TestTimer& timer, const std::vector<FlatInterval>& intervals) {
+    TimedExecutor& executor, const std::vector<FlatInterval>& intervals) {
   std::vector<Interval> casted;
   for (const FlatInterval& i : intervals) {
     casted.push_back(static_cast<Interval>(i));
   }
 
-  timer.Start();
-  std::vector<Interval> result = UnionOfIntervals(casted);
-  timer.Stop();
+  std::vector<Interval> result =
+      executor.Run([&] { return UnionOfIntervals(casted); });
 
   return {begin(result), end(result)};
 }
@@ -75,9 +74,14 @@ std::vector<FlatInterval> UnionOfIntervalsWrapper(
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "intervals"};
-  GenericTestMain(args, "intervals_union.tsv", &UnionOfIntervalsWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "intervals"};
+  return GenericTestMain(args, timeout_seconds, "intervals_union.tsv",
+                         &UnionOfIntervalsWrapper, DefaultComparator{},
+                         param_names);
 }

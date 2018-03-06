@@ -1,6 +1,8 @@
+import functools
+
 from test_framework.binary_tree_utils import must_find_node, strip_parent_link
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 def lca(tree, node0, node1):
@@ -8,19 +10,27 @@ def lca(tree, node0, node1):
     return None
 
 
-@enable_timer_hook
-def lca_wrapper(timer, tree, key1, key2):
+@enable_executor_hook
+def lca_wrapper(executor, tree, key1, key2):
     strip_parent_link(tree)
-    timer.start()
-    result = lca(tree, must_find_node(tree, key1), must_find_node(tree, key2))
-    timer.stop()
+    result = executor.run(
+        functools.partial(lca, tree, must_find_node(tree, key1),
+                          must_find_node(tree, key2)))
 
     if result is None:
-        raise TestFailureException("Result can't be None")
+        raise TestFailure("Result can't be None")
     return result.data
 
 
+from sys import exit
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    generic_test.generic_test_main('lowest_common_ancestor.tsv', lca_wrapper)
+    # The timeout is set to 30 seconds.
+    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
+    # You can extend the limit by changing the following line.
+    timeout_seconds = 30
+
+    exit(
+        generic_test.generic_test_main(
+            timeout_seconds, 'lowest_common_ancestor.tsv', lca_wrapper))

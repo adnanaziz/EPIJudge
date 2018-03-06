@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
  * the deserialization of the provided arguments and the expected value,
  * invocation of the target method with these arguments and
  * comparison of the computed result with the expected value)
- * (see {@link #runTest(List)}).
+ * (see {@link #runTest(long, List)}).
  * <p>
- * {@link #parseSignature(List)} and {@link #runTest(List)} throw {@link
+ * {@link #parseSignature(List)} and {@link #runTest(long, List)} throw {@link
  * RuntimeException} in case of any error or assertion failure. This exception
  * terminates testing and, consequently, the test program. If tested method
- * throws {@link TestFailureException} or {@link StackOverflowError}, the
+ * throws {@link TestFailure} or {@link StackOverflowError}, the
  * current test is marked as failed and the execution goes on. In case of any
  * other exception thrown by the tested method, the test program is terminated.
  * <p>
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 public class GenericTestHandler {
   private Method func;
   private List<Type> paramTypes;
-  private boolean hasTimerHook;
+  private boolean hasExecutorHook;
   private Function<String, Object>[] paramParsers;
   private List<String> paramNames;
   private Function<String, Object> retValueParser;
@@ -58,12 +58,17 @@ public class GenericTestHandler {
     this.func = func;
     this.comparator = comparator;
 
-    hasTimerHook = false;
+    hasExecutorHook = false;
 
     paramTypes = Arrays.asList(func.getGenericParameterTypes());
-    if (paramTypes.size() >= 1 && paramTypes.get(0).equals(TestTimer.class)) {
-      hasTimerHook = true;
+    if (paramTypes.size() >= 1 &&
+        paramTypes.get(0).equals(TimedExecutor.class)) {
+      hasExecutorHook = true;
       paramTypes = paramTypes.subList(1, paramTypes.size());
+    }
+
+    if (paramTypes.size() >= 1 && paramTypes.get(0).equals(TestTimer.class)) {
+      throw new RuntimeException("This program uses deprecated TestTimer hook");
     }
 
     @SuppressWarnings("unchecked")
@@ -78,7 +83,7 @@ public class GenericTestHandler {
     paramNames = Arrays.stream(func.getParameters())
                      .map(Parameter::getName)
                      .collect(Collectors.toList());
-    if (hasTimerHook) {
+    if (hasExecutorHook) {
       paramNames.remove(0);
     }
 
@@ -93,8 +98,8 @@ public class GenericTestHandler {
   }
 
   /**
-   * This method ensures that test data header matches with the signature of the
-   * method provided in constructor.
+   * This method ensures that test data header matches with the signature
+   * of the method provided in constructor.
    *
    * @param signature - the header from a test data file.
    */
@@ -132,7 +137,8 @@ public class GenericTestHandler {
    * expected, result]. Two last entries are omitted in case of the void return
    * type
    */
-  public TestOutput runTest(List<String> testArgs) throws Exception {
+  public TestTimer runTest(long timeoutMs, List<String> testArgs)
+      throws Throwable {
     try {
       if (testArgs.size() !=
           paramParsers.length + (retValueParser != null ? 1 : 0)) {
@@ -144,42 +150,37 @@ public class GenericTestHandler {
         parsed.add(paramParsers[i].apply(testArgs.get(i)));
       }
 
-      TestTimer timer = new TestTimer();
+      Object result;
+      TimedExecutor executor = new TimedExecutor(timeoutMs);
 
-      if (hasTimerHook) {
-        parsed.add(0, timer);
+      if (hasExecutorHook) {
+        parsed.add(0, executor);
+        result = func.invoke(null, parsed.toArray());
+      } else {
+        result = executor.run(() -> func.invoke(null, parsed.toArray()));
       }
 
       if (!expectedIsVoid()) {
         Object expected =
             retValueParser.apply(testArgs.get(testArgs.size() - 1));
-
-        timer.start();
-        Object result = this.func.invoke(null, parsed.toArray());
-        timer.stop();
-
-        return new TestOutput(compareResults(expected, result), timer, expected,
-                              result);
-      } else {
-        timer.start();
-        this.func.invoke(null, parsed.toArray());
-        timer.stop();
-
-        return new TestOutput(true, timer);
+        assertResultsEqual(expected, result);
       }
+
+      return executor.getTimer();
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e.getMessage());
     } catch (InvocationTargetException e) {
       Throwable t = e.getCause();
       if (t instanceof Exception) {
-        throw(Exception) t;
+        throw t;
       } else {
         throw new RuntimeException(t.getMessage());
       }
     }
   }
 
-  private boolean compareResults(Object expected, Object result) {
+  private void assertResultsEqual(Object expected, Object result)
+      throws TestFailure {
     boolean comparisonResult;
     if (comparator != null) {
       comparisonResult = comparator.test(expected, result);
@@ -191,11 +192,18 @@ public class GenericTestHandler {
     } else if (expected instanceof Double && result instanceof Double) {
       comparisonResult =
           TestUtils.doubleComparison((Double)expected, (Double)result);
+    } else if (BinaryTreeUtils.isObjectTreeType(expected) ||
+               BinaryTreeUtils.isObjectTreeType(result)) {
+      BinaryTreeUtils.assertEqualBinaryTrees(expected, result);
+      return;
     } else {
-      // TODO Add binary trees comparison
       comparisonResult = expected.equals(result);
     }
-    return comparisonResult;
+    if (!comparisonResult) {
+      throw new TestFailure()
+          .withProperty(TestFailure.PropertyName.EXPECTED, expected)
+          .withProperty(TestFailure.PropertyName.RESULT, result);
+    }
   }
 
   public boolean expectedIsVoid() { return retValueParser == null; }

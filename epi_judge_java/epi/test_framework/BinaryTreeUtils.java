@@ -1,13 +1,45 @@
 // @library
 package epi.test_framework;
 
-import epi.BstNode;
 import epi.BinaryTree;
 import epi.BinaryTreeNode;
+import epi.BstNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Objects;
+import java.util.Set;
 
 public class BinaryTreeUtils {
+  public static class TreePath {
+    private TreePath prev;
+    private boolean toLeft;
+
+    public TreePath() {}
+
+    private TreePath(TreePath prev, boolean toLeft) {
+      this.prev = prev;
+      this.toLeft = toLeft;
+    }
+
+    public TreePath withLeft() { return new TreePath(this, true); }
+
+    public TreePath withRight() { return new TreePath(this, false); }
+
+    @Override
+    public String toString() {
+      if (prev == null) {
+        return "root";
+      }
+
+      return prev.toString() + (toLeft ? "->left" : "->right");
+    }
+  }
+
   private static void treeGenerateHelper(Object tree, List<Object> result,
                                          int order) {
     if (tree != null) {
@@ -75,6 +107,12 @@ public class BinaryTreeUtils {
     return result;
   }
 
+  public static boolean isObjectTreeType(Object tree) {
+    return tree != null &&
+        (tree instanceof BinaryTree || tree instanceof BinaryTreeNode ||
+         tree instanceof BstNode);
+  }
+
   public static boolean equalBinaryTrees(Object node1, Object node2) {
     if (node1 != null && node2 != null) {
       return Objects.equals(getData(node1), getData(node2)) &&
@@ -83,6 +121,62 @@ public class BinaryTreeUtils {
     } else {
       return node1 == null && node2 == null;
     }
+  }
+
+  public static void assertEqualBinaryTrees(Object expected, Object result)
+      throws TestFailure {
+    try {
+      assertEqualBinaryTreesImpl(expected, result, new TreePath());
+    } catch (TestFailure e) {
+      throw e.withProperty(TestFailure.PropertyName.EXPECTED, expected)
+          .withProperty(TestFailure.PropertyName.RESULT, result);
+    }
+  }
+
+  private static void assertEqualBinaryTreesImpl(Object expected, Object result,
+                                                 TreePath path)
+      throws TestFailure {
+    Object expectedData = getData(expected);
+    Object resultData = getData(result);
+    if (!Objects.equals(expectedData, resultData)) {
+      throw new TestFailure().withMismatchInfo(path, expectedData, resultData);
+    }
+    if (expected != null && result != null) {
+      assertEqualBinaryTreesImpl(getLeft(expected), getLeft(result),
+                                 path.withLeft());
+      assertEqualBinaryTreesImpl(getRight(expected), getRight(result),
+                                 path.withRight());
+    }
+  }
+
+  public static void assertTreeIsBst(Object tree) throws TestFailure {
+    try {
+      assertTreeIsBstImpl(tree, new TreePath(), Integer.MIN_VALUE,
+                          Integer.MAX_VALUE);
+    } catch (TestFailure e) {
+      throw e.withProperty(TestFailure.PropertyName.RESULT, tree);
+    }
+  }
+
+  private static void assertTreeIsBstImpl(Object node, TreePath path, int min,
+                                          int max) throws TestFailure {
+    if (node == null) {
+      return;
+    }
+
+    Object data = getData(node);
+    if (!(data instanceof Integer)) {
+      throw new RuntimeException("Only integer keys are supported");
+    }
+
+    @SuppressWarnings("unchecked") int value = (Integer)data;
+    if (value < min || value > max) {
+      throw new TestFailure("Binary search tree constraints violation")
+          .withMismatchInfo(
+              path, String.format("Value between %d and %d", min, max), value);
+    }
+    assertTreeIsBstImpl(getLeft(node), path.withLeft(), min, value);
+    assertTreeIsBstImpl(getRight(node), path.withRight(), value, max);
   }
 
   public static String binaryTreeToString(Object tree) {

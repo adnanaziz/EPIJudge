@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "test_framework/binary_tree_utils.h"
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::unique_ptr;
@@ -92,7 +92,7 @@ int FindKthNodeBinaryTreeWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
                                  int k) {
   auto result = FindKthNodeBinaryTree(tree, k);
   if (!result) {
-    throw TestFailureException("Result can't be nullptr");
+    throw TestFailure("Result can't be nullptr");
   }
   return result->data;
 }
@@ -100,9 +100,14 @@ int FindKthNodeBinaryTreeWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"tree", "k"};
-  GenericTestMain(args, "kth_node_in_tree.tsv", &FindKthNodeBinaryTreeWrapper,
-                  DefaultComparator{}, param_names);
-  return 0;
+  return GenericTestMain(args, timeout_seconds, "kth_node_in_tree.tsv",
+                         &FindKthNodeBinaryTreeWrapper, DefaultComparator{},
+                         param_names);
 }

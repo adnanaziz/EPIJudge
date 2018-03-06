@@ -12,37 +12,40 @@ import java.util.function.BiPredicate;
 public class GenericTest {
   /**
    * The main test starter. Is intended to be called from {@link
-   * #runFromAnnotations(String[], Class)}.
+   * #runFromAnnotations(String[], long, Class)}.
    *
    * @param commandlineArgs - command-line options
+   * @param timeoutSeconds  - execution timeout
    * @param testDataFile    - name of the file containing header and test data
    *                            without path prefix.
-   * @param test_func               - method to be tested
+   * @param testFunc        - method to be tested
    * @param comparator      - optional custom result comparator.
    *                          The 1st argument is expected value,
    *                          the 2nd is the computed result.
    * @param expectedType    - optional custom expected value type if it doesn't
    *                          match m return type
    */
-  public static void genericTestMain(String[] commandlineArgs,
-                                     String testDataFile, Method test_func,
-                                     BiPredicate<Object, Object> comparator,
-                                     List<Class<?>> expectedType) {
+  public static TestResult genericTestMain(
+      String[] commandlineArgs, long timeoutSeconds, String testDataFile,
+      Method testFunc, BiPredicate<Object, Object> comparator,
+      List<Class<?>> expectedType) {
     try {
-      TestConfig config =
-          TestConfig.fromCommandLine(testDataFile, commandlineArgs);
+      TestConfig config = TestConfig.fromCommandLine(
+          testDataFile, timeoutSeconds * 1000, commandlineArgs);
 
       GenericTestHandler testHandler =
-          new GenericTestHandler(test_func, comparator, expectedType);
-      runTests(testHandler, config);
+          new GenericTestHandler(testFunc, comparator, expectedType);
+      return runTests(testHandler, config);
     } catch (RuntimeException e) {
       System.err.printf("\nCritical error(%s): %s\n", e.getClass().getName(),
                         e.getMessage());
       e.printStackTrace();
+      return TestResult.RUNTIME_EXCEPTION;
     }
   }
 
-  public static void runTests(GenericTestHandler handler, TestConfig config) {
+  public static TestResult runTests(GenericTestHandler handler,
+                                    TestConfig config) {
     List<List<String>> testData = TestUtils.splitTsvFile(
         Paths.get(config.testDataDir, config.testDataFile));
     handler.parseSignature(testData.get(0));
@@ -52,6 +55,7 @@ public class GenericTest {
     final int totalTests = testData.size() - 1;
     List<Long> durations = new ArrayList<>();
 
+    TestResult result = TestResult.FAILED;
     for (List<String> testCase : testData.subList(1, testData.size())) {
       testNr++;
 
@@ -60,20 +64,17 @@ public class GenericTest {
       final String testExplanation = testCase.get(testCase.size() - 1);
       testCase = testCase.subList(0, testCase.size() - 1);
 
-      TestResult result = TestResult.FAILED;
-      TestOutput testOutput = null;
-      String diagnostic = "";
+      TestTimer testTimer = null;
+      TestFailure testFailure = null;
 
       try {
-        final List<String> finalTestCase = testCase;
-        testOutput = TestUtils.invokeWithTimeout(
-            config.timeout, () -> handler.runTest(finalTestCase));
-        result =
-            testOutput.comparisonResult ? TestResult.PASSED : TestResult.FAILED;
-
-      } catch (TestFailureException e) {
+        testTimer = handler.runTest(config.timeout, testCase);
+        result = TestResult.PASSED;
+        testsPassed++;
+        durations.add(testTimer.getMicroseconds());
+      } catch (TestFailure e) {
         result = TestResult.FAILED;
-        diagnostic = e.getMessage();
+        testFailure = e;
       } catch (TimeoutException e) {
         result = TestResult.TIMEOUT;
       } catch (StackOverflowError e) {
@@ -82,33 +83,31 @@ public class GenericTest {
         throw e;
       } catch (Throwable e) {
         result = TestResult.UNKNOWN_EXCEPTION;
-        diagnostic = e.getClass().getName() + ": " + e.getMessage();
+        testFailure =
+            new TestFailure(e.getClass().getName())
+                .withProperty(TestFailure.PropertyName.EXCEPTION_MESSAGE,
+                              e.getMessage());
       }
 
-      if (testOutput == null) {
-        testOutput = new TestOutput(false, new TestTimer());
-        // Append expected value if execution ended due to an exception
-        if (!handler.expectedIsVoid()) {
-          testOutput.expected = testCase.get(testCase.size() - 1);
-        }
-      }
-
-      TestUtilsConsole.printTestInfo(result, testNr, totalTests, diagnostic,
-                                     testOutput.timer);
-
-      if (result == TestResult.PASSED) {
-        testsPassed++;
-      }
-      if (testOutput.timer.hasValidResult()) {
-        durations.add(testOutput.timer.getMicroseconds());
-      }
+      TestUtilsConsole.printTestInfo(
+          result, testNr, totalTests,
+          testFailure != null ? testFailure.getDescription() : "", testTimer);
 
       if (result != TestResult.PASSED && config.stopOnError) {
         if (!handler.expectedIsVoid()) {
           testCase = testCase.subList(0, testCase.size() - 1);
         }
+        if (testFailure == null) {
+          testFailure = new TestFailure();
+        }
+
+        if (!testExplanation.equals("") && !testExplanation.equals("TODO")) {
+          testFailure.withProperty(TestFailure.PropertyName.EXPLANATION,
+                                   testExplanation);
+        }
+
         TestUtilsConsole.printFailedTest(handler.paramNames(), testCase,
-                                         testOutput, testExplanation);
+                                         testFailure);
         break;
       }
     }
@@ -118,11 +117,12 @@ public class GenericTest {
     if (config.stopOnError) {
       TestUtilsConsole.printPostRunStats(testsPassed, totalTests, durations);
     }
+    return result;
   }
 
   /**
    * This method prepares arguments for
-   * {@link #genericTestMain(String[], String, Method, BiPredicate, List)}
+   * {@link #genericTestMain(String[], long, String, Method, BiPredicate, List)}
    * method and consequently invokes it for each * method in the class,
    * marked with {@link EpiTest} annotation.
    * It scans the * provided class for custom result comparator
@@ -131,20 +131,24 @@ public class GenericTest {
    * (marked with {@link EpiTestExpectedType} annotation)
    */
   @SuppressWarnings("unchecked")
-  public static void runFromAnnotations(String[] commandlineArgs,
-                                        Class testClass) {
+  public static TestResult runFromAnnotations(String[] commandlineArgs,
+                                              long timeoutSeconds,
+                                              Class testClass) {
     BiPredicate<Object, Object> comparator =
         findCustomComparatorByAnnotation(testClass);
 
     List<Class<?>> expectedType = findCustomExpectedTypeByAnnotation(testClass);
 
+    TestResult result = TestResult.FAILED;
     for (Method m : testClass.getMethods()) {
       EpiTest annotation = m.getAnnotation(EpiTest.class);
       if (annotation != null) {
-        genericTestMain(commandlineArgs, annotation.testfile(), m, comparator,
-                        expectedType);
+        result =
+            genericTestMain(commandlineArgs, timeoutSeconds,
+                            annotation.testfile(), m, comparator, expectedType);
       }
     }
+    return result;
   }
 
   @SuppressWarnings("unchecked")

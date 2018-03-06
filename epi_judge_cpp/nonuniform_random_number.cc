@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "test_framework/random_sequence_checker.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/timed_executor.h"
 
 using std::abs;
 using std::bind;
@@ -18,16 +18,17 @@ int NonuniformRandomNumberGeneration(const vector<int>& values,
 }
 
 bool NonuniformRandomNumberGenerationRunner(
-    TestTimer& timer, const vector<int>& values,
+    TimedExecutor& executor, const vector<int>& values,
     const vector<double>& probabilities) {
-  int n = 1000000;
+  constexpr int kN = 1000000;
   vector<int> results;
-  timer.Start();
-  for (int i = 0; i < n; ++i) {
-    results.emplace_back(
-        NonuniformRandomNumberGeneration(values, probabilities));
-  }
-  timer.Stop();
+
+  executor.Run([&] {
+    for (int i = 0; i < kN; ++i) {
+      results.emplace_back(
+          NonuniformRandomNumberGeneration(values, probabilities));
+    }
+  });
 
   unordered_map<int, int> counts;
   for (int result : results) {
@@ -36,11 +37,11 @@ bool NonuniformRandomNumberGenerationRunner(
   for (int i = 0; i < values.size(); ++i) {
     const int v = values[i];
     const double p = probabilities[i];
-    if (n * p < 50 || n * (1.0 - p) < 50) {
+    if (kN * p < 50 || kN * (1.0 - p) < 50) {
       continue;
     }
-    const double sigma = sqrt(n * p * (1.0 - p));
-    if (abs(counts[v] - (p * n)) > 5 * sigma) {
+    const double sigma = sqrt(kN * p * (1.0 - p));
+    if (abs(counts[v] - (p * kN)) > 5 * sigma) {
       return false;
     }
   }
@@ -48,20 +49,24 @@ bool NonuniformRandomNumberGenerationRunner(
 }
 
 void NonuniformRandomNumberGenerationWrapper(
-    TestTimer& timer, const vector<int>& values,
+    TimedExecutor& executor, const vector<int>& values,
     const vector<double>& probabilities) {
   RunFuncWithRetries(bind(NonuniformRandomNumberGenerationRunner,
-                          std::ref(timer), std::cref(values),
+                          std::ref(executor), std::cref(values),
                           std::cref(probabilities)));
 }
 
 #include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
+  // The timeout is set to 15 seconds for each test case.
+  // If your program ends with TIMEOUT error, and you want to try longer time
+  // limit, you can extend the limit by changing the following line.
+  std::chrono::seconds timeout_seconds{15};
+
   std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"timer", "values", "probabilities"};
-  GenericTestMain(args, "nonuniform_random_number.tsv",
-                  &NonuniformRandomNumberGenerationWrapper, DefaultComparator{},
-                  param_names);
-  return 0;
+  std::vector<std::string> param_names{"executor", "values", "probabilities"};
+  return GenericTestMain(args, timeout_seconds, "nonuniform_random_number.tsv",
+                         &NonuniformRandomNumberGenerationWrapper,
+                         DefaultComparator{}, param_names);
 }

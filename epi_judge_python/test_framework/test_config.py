@@ -14,8 +14,8 @@ class TestConfig:
         self.timeout = timeout
 
     @staticmethod
-    def from_command_line(test_data_file, commandline_args):
-        config = TestConfig('', test_data_file, True, 0)
+    def from_command_line(test_data_file, timeout_ms, commandline_args):
+        config = TestConfig('', test_data_file, True, timeout_ms)
 
         parser = argparse.ArgumentParser()
         parser.add_argument('--test_data_dir', nargs='?', const=True, type=str)

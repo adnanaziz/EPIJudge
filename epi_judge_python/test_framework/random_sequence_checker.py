@@ -3,7 +3,7 @@ import collections
 import math
 import random
 
-from test_framework.test_failure_exception import TestFailureException
+from test_framework.test_failure import TestFailure
 
 
 def compute_deviation_multiplier(allowed_false_negative, num_rvs=1):
@@ -96,13 +96,13 @@ def compute_combination_idx(A, n, k, m):
     return comb
 
 
-# Run func several times, and early return if it succeed; otherwise, throws TestFailureException.
+# Run func several times, and early return if it succeeds; otherwise, throws TestFailure.
 def run_func_with_retries(func):
     NUM_RUNS = 5
     # If any of the run succeed, we assume the algorithm is correct.
     if any(func() for _ in range(NUM_RUNS)):
         return
-    raise TestFailureException("Result is not a random permutation")
+    raise TestFailure("Result is not a random permutation")
 
 
 if __name__ == '__main__':

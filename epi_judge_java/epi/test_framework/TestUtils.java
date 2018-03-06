@@ -7,8 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class TestUtils {
@@ -73,33 +74,47 @@ public class TestUtils {
   }
 
   /**
-   * Invokes func with a specified timeout.
-   * If func takes more than timeout milliseconds to run,
-   * TimeoutException is thrown.
-   * If timeout == 0, it simply calls the function.
-   *
-   * @return whatever func returns
+   * Check that result list has the same count of elements as reference.
+   * TestFailure is thrown in case of mismatch.
    */
-  public static <ReturnType> ReturnType
-  invokeWithTimeout(int timeout, Callable<ReturnType> func) throws Throwable {
-    if (timeout == 0) {
-      // timeout is disabled
-      return func.call();
-    } else {
-      try {
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Future<ReturnType> future = executor.submit(func);
-        executor
-            .shutdown();  // This does not cancel the already-scheduled task.
+  public static <T> void assertAllValuesPresent(List<T> reference,
+                                                List<T> result)
+      throws TestFailure {
+    Map<T, Integer> referenceSet = new HashMap<>();
+    for (T x : reference) {
+      referenceSet.put(x, referenceSet.getOrDefault(x, 0) + 1);
+    }
 
-        return future.get(timeout, TimeUnit.MILLISECONDS);
-      } catch (java.util.concurrent.TimeoutException e) {
-        throw new epi.test_framework.TimeoutException();
-      } catch (InterruptedException e) {
-        throw new RuntimeException(e.getMessage());
-      } catch (ExecutionException e) {
-        throw e.getCause();
+    for (T x : result) {
+      referenceSet.put(x, referenceSet.getOrDefault(x, 0) - 1);
+    }
+
+    List<T> excessItems = new ArrayList<>();
+    List<T> missingItems = new ArrayList<>();
+
+    referenceSet.forEach((x, count) -> {
+      if (count < 0) {
+        while (count++ < 0) {
+          excessItems.add(x);
+        }
+      } else if (count > 0) {
+        while (count-- > 0) {
+          missingItems.add(x);
+        }
       }
+    });
+
+    if (!excessItems.isEmpty() || !missingItems.isEmpty()) {
+      TestFailure e =
+          new TestFailure("Value set changed")
+              .withProperty(TestFailure.PropertyName.RESULT, result);
+      if (!excessItems.isEmpty()) {
+        e.withProperty(TestFailure.PropertyName.EXCESS_ITEMS, excessItems);
+      }
+      if (!missingItems.isEmpty()) {
+        e.withProperty(TestFailure.PropertyName.MISSING_ITEMS, missingItems);
+      }
+      throw e;
     }
   }
 

@@ -2,7 +2,7 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestTimer;
+import epi.test_framework.TimedExecutor;
 
 public class InsertInList {
 
@@ -15,8 +15,8 @@ public class InsertInList {
 
   @EpiTest(testfile = "insert_in_list.tsv")
   public static ListNode<Integer>
-  insertListWrapper(TestTimer timer, ListNode<Integer> l, int nodeIdx,
-                    int newNodeData) {
+  insertListWrapper(TimedExecutor executor, ListNode<Integer> l, int nodeIdx,
+                    int newNodeData) throws Exception {
     ListNode<Integer> node = l;
     while (nodeIdx > 1) {
       node = node.next;
@@ -24,15 +24,22 @@ public class InsertInList {
     }
     ListNode<Integer> newNode = new ListNode<Integer>(newNodeData, null);
 
-    timer.start();
-    insertAfter(node, newNode);
-    timer.stop();
+    final ListNode<Integer> finalNode = node;
+    executor.run(() -> insertAfter(finalNode, newNode));
 
     return l;
   }
 
   public static void main(String[] args) {
-    GenericTest.runFromAnnotations(
-        args, new Object() {}.getClass().getEnclosingClass());
+    // The timeout is set to 15 seconds for each test case.
+    // If your program ends with TIMEOUT error, and you want to try longer time
+    // limit, you can extend the limit by changing the following line.
+    long timeoutSeconds = 15;
+
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, timeoutSeconds,
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }
