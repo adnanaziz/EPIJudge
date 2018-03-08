@@ -62,7 +62,11 @@ void PrintTestResult(const TestResult& test_result) {
 void PrintTestInfo(const TestResult& test_result, int test_nr,
                    int total_tests, const std::string& diagnostic,
                    const TestTimer& timer) {
-  ReturnCaretIfTtyOutput(std::cout);
+  static bool caret_at_line_start = true;
+
+  if (!caret_at_line_start) {
+    ReturnCaretIfTtyOutput(std::cout);
+  }
 
   auto total_tests_str = std::to_string(total_tests);
   std::cout << "Test ";
@@ -74,8 +78,11 @@ void PrintTestInfo(const TestResult& test_result, int test_nr,
     std::cout << " [" << DurationToString(timer.GetMicroseconds()) << "]";
   }
 
+  caret_at_line_start = false;
+
   if (test_result != TestResult::PASSED) {
     std::cout << ' ' << diagnostic << '\n';
+    caret_at_line_start = true;
   }
 }
 
@@ -92,18 +99,26 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
     }
   }
 
+  PrintStdOutColored(ConsoleColor::FG_YELLOW, "Arguments");
+  std::cout << std::endl;
+
   for (unsigned int i = 0; i < arguments.size(); ++i) {
-    std::cout << '\t' << param_names[i] << ": "
+    std::cout << '\t';
+    PrintStdOutColored(ConsoleColor::FG_YELLOW, param_names[i]);
+    std::cout << ": "
               << GenSpaces(max_col_size - param_names[i].size())
               << EscapeNewline{arguments[i]} << std::endl;
   }
 
   auto properties = test_failure.GetProperties();
+  PrintStdOutColored(ConsoleColor::FG_YELLOW, "\nFailure info\n");
 
   for (auto& prop : properties) {
-    std::cout << FmtStr("\t{}: {}{}\n", prop.Name(),
-                        GenSpaces(max_col_size - prop.Name().size()),
-                        prop.Value());
+    std::cout << '\t';
+    PrintStdOutColored(ConsoleColor::FG_YELLOW,prop.Name());
+    std::cout << ": "
+              << GenSpaces(max_col_size -prop.Name().size())
+              << prop.Value()<< std::endl;
   }
 }
 

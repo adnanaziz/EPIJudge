@@ -36,7 +36,10 @@ def print_test_result(test_result):
 def print_test_info(test_result, test_nr, total_tests, diagnostic, timer):
     diagnostic = diagnostic.rstrip('\n')
 
-    return_caret_if_tty_output()
+    caret_at_line_start = print_test_info.__dict__.get('caret_at_line_start',
+                                                       True)
+    if not caret_at_line_start:
+        return_caret_if_tty_output()
 
     total_tests_str = str(total_tests)
     print('Test ', end='')
@@ -56,8 +59,11 @@ def print_test_info(test_result, test_nr, total_tests, diagnostic, timer):
             end='',
             flush=True)
 
+    print_test_info.caret_at_line_start = False
+
     if test_result != TestResult.PASSED:
-        print(' {}'.format(diagnostic))
+        print(' {}'.format(diagnostic), flush=True)
+        print_test_info.caret_at_line_start = True
 
 
 def gen_spaces(count):
@@ -71,15 +77,23 @@ def print_failed_test(param_names, arguments, test_failure, res_printer):
         if len(param) > max_col_size:
             max_col_size = len(param)
 
+    print_std_out_colored(ConsoleColor.FG_YELLOW, 'Arguments')
+    print()
+
     for (name, value) in zip(param_names, arguments):
-        print('\t{}: {}{}'.format(name, gen_spaces(max_col_size - len(name)),
+        print('\t', end='')
+        print_std_out_colored(ConsoleColor.FG_YELLOW, name)
+        print(': {}{}'.format(gen_spaces(max_col_size - len(name)),
                                   escape_newline(str(value))))
 
     properties = test_failure.get_properties()
 
+    print_std_out_colored(ConsoleColor.FG_YELLOW, '\nFailure info\n')
+
     for prop in properties:
-        print('\t{}: {}{}'.format(prop.name(),
-                                  gen_spaces(max_col_size - len(prop.name())),
+        print('\t', end='')
+        print_std_out_colored(ConsoleColor.FG_YELLOW, prop.name())
+        print(': {}{}'.format(gen_spaces(max_col_size - len(prop.name())),
                                   prop.value()))
 
     # TODO Implement res_printer logic

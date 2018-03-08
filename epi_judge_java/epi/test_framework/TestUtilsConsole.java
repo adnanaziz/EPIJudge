@@ -4,6 +4,8 @@ package epi.test_framework;
 import java.util.List;
 
 public class TestUtilsConsole {
+  private static boolean caretAtLineStart = true;
+
   public static String escapeNewline(String s) {
     return s.replace("\n", "\\n").replace("\r", "\\r");
   }
@@ -43,7 +45,9 @@ public class TestUtilsConsole {
   public static void printTestInfo(TestResult testResult, int testNr,
                                    int totalTests, String diagnostic,
                                    TestTimer timer) {
-    returnCaretIfTtyOutput();
+    if (!caretAtLineStart) {
+      returnCaretIfTtyOutput();
+    }
 
     String totalTestsStr = String.valueOf(totalTests);
     System.out.print("Test ");
@@ -55,9 +59,11 @@ public class TestUtilsConsole {
       System.out.printf(" [%s]",
                         TestTimer.durationToString(timer.getMicroseconds()));
     }
+    caretAtLineStart = false;
 
     if (testResult != TestResult.PASSED) {
       System.out.println(" " + diagnostic);
+      caretAtLineStart = true;
     }
   }
 
@@ -76,17 +82,22 @@ public class TestUtilsConsole {
       }
     }
 
+    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, "Arguments\n");
+
     for (int i = 0; i < arguments.size(); i++) {
-      System.out.printf("\t%s: %s%s\n", paramNames.get(i),
-                        genSpaces(maxColSize - paramNames.get(i).length()),
+      System.out.print("\t");
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, paramNames.get(i));
+      System.out.printf(": %s%s\n", genSpaces(maxColSize - paramNames.get(i).length()),
                         escapeNewline(arguments.get(i)));
     }
 
     List<TestFailure.Property> properties = testFailure.getProperties();
 
+    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, "\nFailure info\n");
     for (TestFailure.Property prop : properties) {
-      System.out.printf("\t%s: %s%s\n", prop.name(),
-                        genSpaces(maxColSize - prop.name().length()),
+      System.out.print("\t");
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, prop.name());
+      System.out.printf(": %s%s\n", genSpaces(maxColSize - prop.name().length()),
                         escapeNewline(String.valueOf(prop.value())));
     }
   }
