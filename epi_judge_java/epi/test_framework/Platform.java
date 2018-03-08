@@ -4,26 +4,19 @@ package epi.test_framework;
 public class Platform {
   private static Boolean isWindows;
   private static Boolean is64Bit;
-  private static boolean dllLoaded = false;
-  private static boolean enableColorOutput = true;
+  private static TriBool dllLoaded = TriBool.INDETERMINATE;
+  private static boolean enableTtyOutput = false;
+  private static boolean enableColorOutput = false;
 
-  static {
-    if (runningOnWin() && useColorOutput()) {
-      String dllName =
-          runningOn64BitVM() ? "console_color_64" : "console_color_32";
-
-      try {
-        System.loadLibrary(dllName);
-        dllLoaded = true;
-      } catch (UnsatisfiedLinkError ex) {
-        System.out.printf(
-            "Warning: %s.dll was not found. Colored output is disabled.\n"
-                +
-                "In order to enable it, pass -Djava.library.path=<path to EPIJudge>/epi_judge_java/epi/test_framework option to java.\n",
-            dllName);
-      }
-    }
+  public static void setOutputOpts(TriBool ttyMode, TriBool colorMode) {
+    enableTtyOutput = ttyMode.getOrDefault(System.console() != null);
+    enableColorOutput = colorMode.getOrDefault(enableTtyOutput);
+    initColorOutput();
   }
+
+  public static boolean useTtyOutput() { return enableTtyOutput; }
+
+  public static boolean useColorOutput() { return enableColorOutput; }
 
   public static boolean runningOnWin() {
     if (isWindows == null) {
@@ -51,17 +44,28 @@ public class Platform {
     return is64Bit;
   }
 
-  public static boolean useTtyOutput() {
-    // System.console() result is cached by Java
-    return System.console() != null;
-  }
+  private static void initColorOutput() {
+    if (runningOnWin() && useColorOutput() &&
+        dllLoaded == TriBool.INDETERMINATE) {
+      String dllName =
+          runningOn64BitVM() ? "console_color_64" : "console_color_32";
 
-  public static boolean useColorOutput() {
-    return useTtyOutput() && enableColorOutput;
+      try {
+        System.loadLibrary(dllName);
+        dllLoaded = TriBool.TRUE;
+      } catch (UnsatisfiedLinkError ex) {
+        dllLoaded = TriBool.FALSE;
+        System.out.printf(
+            "Warning: %s.dll was not found. Colored output is disabled.\n"
+                +
+                "In order to enable it, pass -Djava.library.path=<path to EPIJudge>/epi_judge_java/epi/test_framework option to java.\n",
+            dllName);
+      }
+    }
   }
 
   public static int winSetConsoleTextAttribute(int attr) {
-    if (dllLoaded) {
+    if (dllLoaded == TriBool.TRUE) {
       return winSetConsoleTextAttributeImpl(attr);
     }
     return 0;

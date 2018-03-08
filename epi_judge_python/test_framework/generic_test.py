@@ -9,6 +9,7 @@ from test_framework.test_failure import TestFailure, PropertyName
 from test_framework.test_result import TestResult
 from test_framework.test_utils import split_tsv_file
 from test_framework.test_utils_console import print_test_info, print_failed_test, print_post_run_stats
+from test_framework.platform import set_output_opts
 from test_framework.timeout_exception import TimeoutException
 
 
@@ -29,6 +30,8 @@ def generic_test_main(timeous_seconds,
         commandline_args = sys.argv[1:]
         config = TestConfig.from_command_line(
             test_data_file, timeous_seconds * 1000, commandline_args)
+
+        set_output_opts(config.tty_mode, config.color_mode)
 
         test_handler = GenericTestHandler(test_func, comparator=comparator)
         return run_tests(test_handler, config, res_printer)
@@ -58,14 +61,13 @@ def run_tests(handler, config, res_printer):
         test_explanation = test_case.pop()
 
         test_timer = None
-        test_failure = None
+        test_failure = TestFailure()
 
         try:
             test_timer = handler.run_test(config.timeout, test_case)
             result = TestResult.PASSED
             tests_passed += 1
             durations.append(test_timer.get_microseconds())
-
         except TestFailure as exc:
             result = TestResult.FAILED
             test_failure = exc
@@ -81,23 +83,22 @@ def run_tests(handler, config, res_printer):
                 .with_property(PropertyName.EXCEPTION_MESSAGE, str(exc))
 
         print_test_info(result, test_nr, total_tests,
-                        test_failure.get_description()
-                        if test_failure else '', test_timer)
+                        test_failure.get_description(), test_timer)
 
-        if result != TestResult.PASSED and config.stop_on_error:
-            if not handler.expected_is_void():
-                test_case.pop()
-            if test_failure is None:
-                test_failure = TestFailure()
-            if test_explanation not in {'', 'TODO'}:
-                test_failure\
-                    .with_property(PropertyName.EXPLANATION, test_explanation)
-            print_failed_test(handler.param_names(), test_case, test_failure,
-                              res_printer)
-            break
+        if result != TestResult.PASSED:
+            if config.verbose:
+                if not handler.expected_is_void():
+                    test_case.pop()
+                if test_explanation not in {'', 'TODO'}:
+                    test_failure.with_property(PropertyName.EXPLANATION,
+                                               test_explanation)
+                print_failed_test(handler.param_names(), test_case,
+                                  test_failure, res_printer)
+            if config.stop_on_error:
+                break
 
     print()
 
-    if config.stop_on_error:
+    if config.verbose:
         print_post_run_stats(tests_passed, total_tests, durations)
     return result

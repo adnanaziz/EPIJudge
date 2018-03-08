@@ -16,9 +16,12 @@
 #include <unistd.h>
 #endif
 
+#include "tribool.h"
+
 namespace platform {
 
-bool ENABLE_COLOR_OUTPUT = true;
+bool ENABLE_TTY_OUTPUT = false;
+bool ENABLE_COLOR_OUTPUT = false;
 
 int StdOutFd() {
 #ifdef _WINDOWS
@@ -36,12 +39,15 @@ int IsATty(int fd) {
 #endif
 }
 
-bool UseTtyOutput() {
-  static int cached = IsATty(StdOutFd());
-  return static_cast<bool>(cached);
+void SetOutputOpts(TriBool tty_mode, TriBool color_mode) {
+  ENABLE_TTY_OUTPUT =
+      GetTriBoolOrDefault(tty_mode, static_cast<bool>(IsATty(StdOutFd())));
+  ENABLE_COLOR_OUTPUT = GetTriBoolOrDefault(color_mode, ENABLE_TTY_OUTPUT);
 }
 
-bool UseColorOutput() { return UseTtyOutput() && ENABLE_COLOR_OUTPUT; }
+bool UseTtyOutput() { return ENABLE_TTY_OUTPUT; }
+
+bool UseColorOutput() { return ENABLE_COLOR_OUTPUT; }
 
 bool IsDir(const char* path) {
 #ifdef _WINDOWS

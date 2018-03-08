@@ -33,6 +33,8 @@ public class GenericTest {
       TestConfig config = TestConfig.fromCommandLine(
           testDataFile, timeoutSeconds * 1000, commandlineArgs);
 
+      Platform.setOutputOpts(config.ttyMode, config.colorMode);
+
       GenericTestHandler testHandler =
           new GenericTestHandler(testFunc, comparator, expectedType);
       return runTests(testHandler, config);
@@ -54,8 +56,8 @@ public class GenericTest {
     int testsPassed = 0;
     final int totalTests = testData.size() - 1;
     List<Long> durations = new ArrayList<>();
-
     TestResult result = TestResult.FAILED;
+
     for (List<String> testCase : testData.subList(1, testData.size())) {
       testNr++;
 
@@ -65,7 +67,7 @@ public class GenericTest {
       testCase = testCase.subList(0, testCase.size() - 1);
 
       TestTimer testTimer = null;
-      TestFailure testFailure = null;
+      TestFailure testFailure = new TestFailure();
 
       try {
         testTimer = handler.runTest(config.timeout, testCase);
@@ -89,32 +91,32 @@ public class GenericTest {
                               e.getMessage());
       }
 
-      TestUtilsConsole.printTestInfo(
-          result, testNr, totalTests,
-          testFailure != null ? testFailure.getDescription() : "", testTimer);
+      TestUtilsConsole.printTestInfo(result, testNr, totalTests,
+                                     testFailure.getDescription(), testTimer);
 
-      if (result != TestResult.PASSED && config.stopOnError) {
-        if (!handler.expectedIsVoid()) {
-          testCase = testCase.subList(0, testCase.size() - 1);
-        }
-        if (testFailure == null) {
-          testFailure = new TestFailure();
+      if (result != TestResult.PASSED) {
+        if (config.verbose) {
+          if (!handler.expectedIsVoid()) {
+            testCase = testCase.subList(0, testCase.size() - 1);
+          }
+          if (!testExplanation.equals("") && !testExplanation.equals("TODO")) {
+            testFailure.withProperty(TestFailure.PropertyName.EXPLANATION,
+                                     testExplanation);
+          }
+
+          TestUtilsConsole.printFailedTest(handler.paramNames(), testCase,
+                                           testFailure);
         }
 
-        if (!testExplanation.equals("") && !testExplanation.equals("TODO")) {
-          testFailure.withProperty(TestFailure.PropertyName.EXPLANATION,
-                                   testExplanation);
+        if (config.stopOnError) {
+          break;
         }
-
-        TestUtilsConsole.printFailedTest(handler.paramNames(), testCase,
-                                         testFailure);
-        break;
       }
     }
 
     System.out.println();
 
-    if (config.stopOnError) {
+    if (config.verbose) {
       TestUtilsConsole.printPostRunStats(testsPassed, totalTests, durations);
     }
     return result;

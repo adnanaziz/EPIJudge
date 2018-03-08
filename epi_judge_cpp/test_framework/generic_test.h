@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "generic_test_handler.h"
+#include "platform.h"
 #include "test_config.h"
 #include "test_timer.h"
 #include "test_utils.h"
@@ -32,6 +33,8 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
     TestConfig config = TestConfig::FromCommandLine(test_data_file, timeout,
                                                     commandline_args);
 
+    platform::SetOutputOpts(config.tty_mode, config.color_mode);
+
     GenericTestHandler<Function, Comparator> test_handler(
         test_func, comparator, param_names);
     return RunTests(test_handler, config);
@@ -44,32 +47,32 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
 template <typename Function, typename Comparator>
 TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
                     const TestConfig& config) {
-
-  auto test_data = SplitTsvFile(config.test_data_dir + config.test_data_file);
+  std::vector<std::vector<std::string>> test_data =
+      SplitTsvFile(config.test_data_dir + config.test_data_file);
   handler.ParseSignature(test_data[0]);
 
   int test_nr = 0;
   int tests_passed = 0;
   const int total_tests = static_cast<int>(test_data.size() - 1);
   std::vector<std::chrono::microseconds> durations;
-
   TestResult result = FAILED;
-  for (auto test_case = test_data.begin() + 1; test_case != test_data.end();
-       ++test_case) {
+
+  for (auto test_case : std::vector<std::vector<std::string>>{
+           test_data.begin() + 1, test_data.end()}) {
     test_nr++;
 
     // Since the last field of test_data is test_explanation, which is not
     // used for running test, we extract that here.
-    const std::string test_explanation = std::move(test_case->back());
-    test_case->pop_back();
+    const std::string test_explanation = std::move(test_case.back());
+    test_case.pop_back();
 
     TestTimer test_timer;
     TestFailure test_failure;
 
     try {
-      test_timer = handler.RunTest(config.timeout, *test_case);
+      test_timer = handler.RunTest(config.timeout, test_case);
       result = PASSED;
-      tests_passed++;
+      ++tests_passed;
       durations.push_back(test_timer.GetMicroseconds());
     } catch (TestFailure& e) {
       result = FAILED;
@@ -85,28 +88,32 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
                                        std::string(e.what()));
     } catch (...) {
       result = UNKNOWN_EXCEPTION;
-      test_failure = TestFailure("???");
+      test_failure = TestFailure("Can't get exception information");
     }
 
     PrintTestInfo(result, test_nr, total_tests, test_failure.GetDescription(),
                   test_timer);
 
-    if (result != PASSED && config.stop_on_error) {
-      if (!handler.ExpectedIsVoid()) {
-        test_case->pop_back();
+    if (result != PASSED) {
+      if (config.verbose) {
+        if (!handler.ExpectedIsVoid()) {
+          test_case.pop_back();
+        }
+        if (test_explanation != "TODO" && !test_explanation.empty()) {
+          test_failure.WithProperty(PropertyName::EXPLANATION,
+                                    test_explanation);
+        }
+        PrintFailedTest(handler.ParamNames(), test_case, test_failure);
       }
-      if (test_explanation != "TODO" && !test_explanation.empty()) {
-        test_failure.WithProperty(PropertyName::EXPLANATION,
-                                  test_explanation);
+      if (config.stop_on_error) {
+        break;
       }
-      PrintFailedTest(handler.ParamNames(), *test_case, test_failure);
-      break;
     }
   }
 
   std::cout << std::endl;
 
-  if (config.stop_on_error) {
+  if (config.verbose) {
     PrintPostRunStats(tests_passed, total_tests, durations);
   }
   return result;

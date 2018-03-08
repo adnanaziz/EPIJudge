@@ -104,7 +104,3 @@ def has_executor_hook(func):
 def enable_executor_hook(func):
     func.executor_hook = True
     return func
-
-
-def enable_timer_hook(func):
-    raise RuntimeError("This program uses deprecated timer_hook")

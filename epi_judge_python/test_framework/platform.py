@@ -1,21 +1,28 @@
 # @library
 import sys
 
-ENABLE_COLOR_OUTPUT = True
+ENABLE_TTY_OUTPUT = False
+ENABLE_COLOR_OUTPUT = False
+
+
+def set_output_opts(tty_mode, color_mode):
+    global ENABLE_TTY_OUTPUT
+    global ENABLE_COLOR_OUTPUT
+
+    ENABLE_TTY_OUTPUT = tty_mode.get_or_default(sys.stdout.isatty())
+    ENABLE_COLOR_OUTPUT = color_mode.get_or_default(ENABLE_TTY_OUTPUT)
+
+
+def use_tty_output():
+    return ENABLE_TTY_OUTPUT
+
+
+def use_color_output():
+    return ENABLE_COLOR_OUTPUT
 
 
 def running_on_win():
     return sys.platform == 'win32'
-
-
-def use_tty_output():
-    if not use_tty_output.__dict__.get('cached', None):
-        use_tty_output.cached = sys.stdout.isatty()
-    return use_tty_output.cached
-
-
-def use_color_output():
-    return use_tty_output() and ENABLE_COLOR_OUTPUT
 
 
 if running_on_win():
