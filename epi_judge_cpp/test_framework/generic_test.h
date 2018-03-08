@@ -44,7 +44,6 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
 template <typename Function, typename Comparator>
 TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
                     const TestConfig& config) {
-  using handler_t = GenericTestHandler<Function, Comparator>;
 
   auto test_data = SplitTsvFile(config.test_data_dir + config.test_data_file);
   handler.ParseSignature(test_data[0]);

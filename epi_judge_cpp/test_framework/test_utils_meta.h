@@ -273,13 +273,13 @@ struct No {};
 template <typename T, typename EqualTo>
 struct HasEqualOpImpl {
   template <typename U, typename V>
-  static auto Test(U*) -> decltype(std::declval<U>() == std::declval<V>());
+  static auto Test(U*) -> decltype(std::declval<U&>() == std::declval<V&>());
 
   template <typename, typename>
   static auto Test(...) -> No;
 
-  using type = std::bool_constant<
-      !std::is_same<decltype(Test<T, EqualTo>(0)), No>::value>;
+  using type = std::integral_constant<
+      bool, !std::is_same<decltype(Test<T, EqualTo>(0)), No>::value>;
 };
 
 /**
@@ -288,13 +288,13 @@ struct HasEqualOpImpl {
 template <typename S, typename T>
 struct HasLeftShiftOpImpl {
   template <typename U, typename V>
-  static auto Test(U*) -> decltype(std::declval<U>() << std::declval<V>());
+  static auto Test(U*) -> decltype(std::declval<U&>() << std::declval<V&>());
 
   template <typename, typename>
   static auto Test(...) -> No;
 
-  using type =
-      std::bool_constant<!std::is_same<decltype(Test<S, T>(0)), No>::value>;
+  using type = std::integral_constant<
+      bool, !std::is_same<decltype(Test<S, T>(0)), No>::value>;
 };
 
 // Additional namespace is introduced to escape
@@ -306,10 +306,10 @@ using std::end;
 template <typename T>
 struct HasBeginEndImpl {
   template <typename U>
-  static auto TestBegin(U*) -> decltype(begin(std::declval<U>()));
+  static auto TestBegin(U*) -> decltype(begin(std::declval<U&>()));
 
   template <typename U>
-  static auto TestEnd(U*) -> decltype(end(std::declval<U>()));
+  static auto TestEnd(U*) -> decltype(end(std::declval<U&>()));
 
   template <typename>
   static auto TestBegin(...) -> No;
@@ -317,9 +317,9 @@ struct HasBeginEndImpl {
   template <typename>
   static auto TestEnd(...) -> No;
 
-  using type = std::bool_constant<
-      !std::is_same<decltype(TestBegin<T>(0)), No>::value &&
-      !std::is_same<decltype(TestEnd<T>(0)), No>::value>;
+  using type = std::integral_constant<
+      bool, !std::is_same<decltype(TestBegin<T>(0)), No>::value &&
+                !std::is_same<decltype(TestEnd<T>(0)), No>::value>;
 };
 }  // namespace std_import
 

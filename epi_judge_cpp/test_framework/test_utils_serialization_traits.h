@@ -59,7 +59,8 @@ struct SerializationTraits : NoSpecializationTag {
 };
 
 template <typename T>
-using HasSerializationTraitsSpecialization = std::bool_constant<
+using HasSerializationTraitsSpecialization = std::integral_constant<
+    bool,
     !std::is_base_of<NoSpecializationTag, SerializationTraits<T>>::value>;
 
 /**

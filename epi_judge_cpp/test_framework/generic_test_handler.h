@@ -71,7 +71,6 @@ class GenericTestHandler {
    */
   void ParseSignature(const std::vector<std::string>& signature) {
     using arg_tuple_t = typename func_traits::arg_tuple_t;
-    using ret_t = typename func_traits::return_t;
 
     MatchFunctionSignature<expected_value_t, arg_tuple_t>(
         std::cbegin(signature), std::cend(signature));
@@ -94,7 +93,6 @@ class GenericTestHandler {
   TestTimer RunTest(const std::chrono::milliseconds& timeout_ms,
                     const std::vector<std::string>& test_args) const {
     using arg_tuple_t = typename func_traits::arg_tuple_t;
-    using ret_t = typename func_traits::return_t;
     auto args = ParseSerializedArgs<arg_tuple_t>(
         std::cbegin(test_args),
         std::cend(test_args) - (ExpectedIsVoid() ? 0 : 1));
