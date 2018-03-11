@@ -8,6 +8,13 @@ def find_min_max(A):
     return MinMax(0, 0)
 
 
+def res_printer(expected, result):
+    def fmt(x):
+        return 'min: {}, max: {}'.format(x[0], x[1]) if x else None
+
+    return fmt(expected), fmt(result)
+
+
 from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
