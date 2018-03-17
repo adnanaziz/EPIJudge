@@ -1,6 +1,7 @@
 import collections
 import functools
 
+from test_framework.test_failure import PropertyName
 from test_framework.test_utils import enable_executor_hook
 
 Interval = collections.namedtuple('Interval', ('left', 'right'))
@@ -19,11 +20,14 @@ def add_interval_wrapper(executor, disjoint_intervals, new_interval):
                           Interval(*new_interval)))
 
 
-def res_printer(expected, result):
+def res_printer(prop, value):
     def fmt(x):
         return [[e[0], e[1]] for e in x] if x else None
 
-    return fmt(expected), fmt(result)
+    if prop in (PropertyName.EXPECTED, PropertyName.RESULT):
+        return fmt(value)
+    else:
+        return value
 
 
 from sys import exit

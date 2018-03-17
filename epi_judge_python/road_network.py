@@ -2,6 +2,7 @@ import collections
 import functools
 
 from test_framework.test_utils import enable_executor_hook
+from test_framework.test_failure import PropertyName
 
 HighwaySection = collections.namedtuple('HighwaySection',
                                         ('x', 'y', 'distance'))
@@ -20,11 +21,14 @@ def find_best_proposals_wrapper(executor, H, P, n):
     return executor.run(functools.partial(find_best_proposals, H, P, n))
 
 
-def res_printer(expected, result):
+def res_printer(prop, value):
     def fmt(x):
         return [x[0], x[1], x[2]] if x else None
 
-    return fmt(expected), fmt(result)
+    if prop in (PropertyName.EXPECTED, PropertyName.RESULT):
+        return fmt(value)
+    else:
+        return value
 
 
 from sys import exit

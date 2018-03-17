@@ -91,13 +91,14 @@ def print_failed_test(param_names, arguments, test_failure, res_printer):
     print_std_out_colored(ConsoleColor.FG_YELLOW, '\nFailure info\n')
 
     for prop in properties:
+        if res_printer is not None:
+            value = res_printer(prop.raw_name(), prop.value())
+        else:
+            value = prop.value()
         print('\t', end='')
         print_std_out_colored(ConsoleColor.FG_YELLOW, prop.name())
-        print(': {}{}'.format(gen_spaces(max_col_size - len(prop.name())),
-                                  prop.value()))
-
-    # TODO Implement res_printer logic
-    # (expected, result) = res_printer(expected, result)
+        print(': {}{}'.format(
+            gen_spaces(max_col_size - len(prop.name())), value))
 
 
 def print_post_run_stats(tests_passed, total_tests, durations):

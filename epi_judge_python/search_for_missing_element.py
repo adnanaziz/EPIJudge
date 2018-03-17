@@ -1,5 +1,7 @@
 import collections
 
+from test_framework.test_failure import PropertyName
+
 DuplicateAndMissing = collections.namedtuple('DuplicateAndMissing',
                                              ('duplicate', 'missing'))
 
@@ -9,11 +11,14 @@ def find_duplicate_missing(A):
     return DuplicateAndMissing(0, 0)
 
 
-def res_printer(expected, result):
+def res_printer(prop, value):
     def fmt(x):
         return 'duplicate: {}, missing: {}'.format(x[0], x[1]) if x else None
 
-    return fmt(expected), fmt(result)
+    if prop in (PropertyName.EXPECTED, PropertyName.RESULT):
+        return fmt(value)
+    else:
+        return value
 
 
 from sys import exit
