@@ -1,11 +1,10 @@
 #include "list_node.h"
+#include "test_framework/generic_test.h"
 
 bool IsLinkedListAPalindrome(shared_ptr<ListNode<int>> L) {
   // Implement this placeholder.
   return true;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

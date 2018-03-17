@@ -2,6 +2,7 @@
 #include <iterator>
 #include <string>
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::string;
 using std::vector;
@@ -16,8 +17,6 @@ bool Comp(vector<vector<string>> expected, vector<vector<string>> result) {
   std::sort(begin(result), end(result));
   return expected == result;
 };
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

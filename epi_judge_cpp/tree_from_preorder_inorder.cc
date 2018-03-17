@@ -2,6 +2,7 @@
 
 #include "binary_tree_node.h"
 #include "test_framework/binary_tree_utils.h"
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -10,8 +11,6 @@ unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorder(
   // Implement this placeholder.
   return nullptr;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

@@ -1,4 +1,7 @@
+from sys import exit
+
 from binary_tree_node import BinaryTreeNode
+from test_framework import generic_test, test_utils
 
 
 # We use stack and previous node pointer to simulate postorder traversal.
@@ -6,9 +9,6 @@ def postorder_traversal(tree):
     # Implement this placeholder.
     return []
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

@@ -1,4 +1,5 @@
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -13,8 +14,6 @@ int FindKthLargest(int k, vector<int>* A_ptr) {
 int FindKthLargestWrapper(int k, vector<int>& A) {
   return FindKthLargest(k, &A);
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

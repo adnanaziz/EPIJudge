@@ -1,13 +1,13 @@
+from sys import exit
+
 from bst_node import BstNode
+from test_framework import generic_test, test_utils
 
 
 def merge_two_bsts(A, B):
     # Implement this placeholder.
     return None
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

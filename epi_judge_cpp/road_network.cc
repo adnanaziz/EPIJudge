@@ -1,6 +1,7 @@
 #include <vector>
 
 #include "test_framework/fmt_print.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
@@ -26,8 +27,6 @@ bool operator==(const HighwaySection& lhs, const HighwaySection& rhs) {
 std::ostream& operator<<(std::ostream& out, const HighwaySection& hs) {
   return PrintTo(out, std::make_tuple(hs.x, hs.y, hs.distance));
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

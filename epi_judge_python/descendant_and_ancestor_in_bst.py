@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.binary_tree_utils import must_find_node
 from test_framework.test_utils import enable_executor_hook
 
@@ -22,9 +24,6 @@ def pair_includes_ancestor_and_descendant_of_m_wrapper(
         functools.partial(pair_includes_ancestor_and_descendant_of_m,
                           candidate0, candidate1, middle_node))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

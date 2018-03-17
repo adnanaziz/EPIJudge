@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "test_framework/fmt_print.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
@@ -26,8 +27,6 @@ bool operator==(const PairedTasks& lhs, const PairedTasks& rhs) {
 std::ostream& operator<<(std::ostream& out, const PairedTasks& t) {
   return PrintTo(out, std::make_tuple(t.task_1, t.task_2));
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

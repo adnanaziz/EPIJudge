@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -14,8 +15,6 @@ bool Comp(vector<vector<int>>& a, vector<vector<int>>& b) {
   std::sort(std::begin(b), std::end(b));
   return a == b;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

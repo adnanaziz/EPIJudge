@@ -1,4 +1,5 @@
 #include "list_node.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
 
 // Assumes node_to_delete is not tail.
@@ -20,8 +21,6 @@ shared_ptr<ListNode<int>> DeletionFromListWrapper(
   executor.Run([&] { DeletionFromList(selected_node); });
   return head;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

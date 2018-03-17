@@ -4,6 +4,7 @@ def minimum_total_waiting_time(service_times):
 
 
 from sys import exit
+
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':

@@ -1,4 +1,7 @@
+from sys import exit
+
 from list_node import ListNode
+from test_framework import generic_test, test_utils
 
 
 # Assumes L has at least k nodes, deletes the k-th last node in L.
@@ -6,9 +9,6 @@ def remove_kth_last(L, k):
     # Implement this placeholder.
     return None
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

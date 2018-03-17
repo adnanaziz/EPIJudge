@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "binary_tree_node.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
 
 using std::vector;
@@ -40,8 +41,6 @@ vector<vector<int>> GenerateAllBinaryTreesWrapper(TimedExecutor& executor,
   std::sort(begin(serialized), end(serialized));
   return serialized;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

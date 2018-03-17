@@ -1,4 +1,5 @@
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -12,8 +13,6 @@ vector<vector<int>> RookAttackWrapper(vector<vector<int>> A) {
   RookAttack(&a_copy);
   return a_copy;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

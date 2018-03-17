@@ -1,6 +1,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::string;
 using std::unordered_set;
@@ -11,8 +12,6 @@ vector<string> DecomposeIntoDictionaryWords(
   // Implement this placeholder.
   return {};
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

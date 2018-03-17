@@ -1,7 +1,10 @@
 import functools
 import random
+from sys import exit
 
-from test_framework.random_sequence_checker import check_sequence_is_uniformly_random, run_func_with_retries
+from test_framework import generic_test, test_utils
+from test_framework.random_sequence_checker import (
+    check_sequence_is_uniformly_random, run_func_with_retries)
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -27,9 +30,6 @@ def uniform_random_wrapper(executor, lower_bound, upper_bound):
         functools.partial(uniform_random_runner, executor, lower_bound,
                           upper_bound))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

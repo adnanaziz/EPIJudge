@@ -1,7 +1,9 @@
 import functools
+from sys import exit
 
-from is_list_cyclic import has_cycle
 from do_terminated_lists_overlap import overlapping_no_cycle_lists
+from is_list_cyclic import has_cycle
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -63,9 +65,6 @@ def overlapping_lists_wrapper(executor, l0, l1, common, cycle0, cycle1):
     if not (id(result) in common_nodes or (not common_nodes and not result)):
         raise TestFailure('Invalid result')
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

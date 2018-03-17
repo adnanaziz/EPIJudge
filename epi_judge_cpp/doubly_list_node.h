@@ -1,7 +1,6 @@
+#include <memory>
 
 #pragma once
-
-#include <memory>
 
 using std::shared_ptr;
 

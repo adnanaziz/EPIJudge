@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -17,9 +19,6 @@ def create_list_of_leaves_wrapper(executor, tree):
         raise TestFailure("Result list can't contain None")
     return [x.data for x in result]
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

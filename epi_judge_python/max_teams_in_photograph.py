@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -28,9 +30,6 @@ def find_largest_number_teams_wrapper(executor, k, edges):
 
     return executor.run(functools.partial(find_largest_number_teams, graph))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

@@ -1,7 +1,9 @@
 import collections
 import functools
 import math
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.random_sequence_checker import run_func_with_retries
 from test_framework.test_utils import enable_executor_hook
 
@@ -32,9 +34,6 @@ def nonuniform_random_number_generation_wrapper(executor, values,
         functools.partial(nonuniform_random_number_generation_runner, executor,
                           values, probabilities))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

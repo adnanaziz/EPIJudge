@@ -1,12 +1,11 @@
 #include "list_node.h"
+#include "test_framework/generic_test.h"
 
 shared_ptr<ListNode<int>> ReverseSublist(shared_ptr<ListNode<int>> L, int start,
                                          int finish) {
   // Implement this placeholder.
   return nullptr;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

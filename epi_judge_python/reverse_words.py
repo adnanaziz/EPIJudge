@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -18,9 +20,6 @@ def reverse_words_wrapper(executor, s):
 
     return s_copy.decode("utf-8")
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

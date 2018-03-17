@@ -1,6 +1,8 @@
 import collections
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_utils import enable_executor_hook
 
 CharWithFrequency = collections.namedtuple('CharWithFrequency', ('c', 'freq'))
@@ -19,9 +21,6 @@ def huffman_encoding_wrapper(executor, symbols):
     symbols = [CharWithFrequency(c[0], freq) for (c, freq) in symbols]
     return executor.run(functools.partial(huffman_encoding, symbols))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

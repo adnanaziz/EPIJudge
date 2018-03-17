@@ -1,3 +1,6 @@
+from sys import exit
+
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 
 
@@ -12,9 +15,6 @@ def find_missing_element_wrapper(data):
     except ValueError:
         raise TestFailure('Unexpected no_missing_element exception')
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

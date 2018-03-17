@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
@@ -47,8 +48,6 @@ void ComputeTowerHanoiWrapper(TimedExecutor& executor, int num_rings) {
     throw TestFailure("Pegs doesn't place in the right configuration");
   }
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

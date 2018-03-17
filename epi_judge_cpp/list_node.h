@@ -1,10 +1,8 @@
-
-#pragma once
-
 #include <iostream>
 #include <memory>
-
 #include "test_framework/test_utils_serialization_traits.h"
+
+#pragma once
 
 using std::make_shared;
 using std::shared_ptr;

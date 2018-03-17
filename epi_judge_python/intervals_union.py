@@ -1,6 +1,8 @@
 import collections
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_utils import enable_executor_hook
 
 Endpoint = collections.namedtuple('Endpoint', ('is_closed', 'val'))
@@ -24,9 +26,6 @@ def union_of_intervals_wrapper(executor, intervals):
     return [(i.left.val, i.left.is_closed, i.right.val, i.right.is_closed)
             for i in result]
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

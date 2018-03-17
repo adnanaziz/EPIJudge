@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -54,9 +56,6 @@ def has_cycle_wrapper(executor, head, cycle_idx):
             "Returned node does not belong to the cycle or is not the closest node to the head"
         )
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

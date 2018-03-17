@@ -4,6 +4,7 @@
 #include <numeric>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
 
@@ -46,8 +47,6 @@ bool RandomSubsetRunner(TimedExecutor& executor, int n, int k) {
 void RandomSubsetWrapper(TimedExecutor& executor, int n, int k) {
   RunFuncWithRetries(bind(RandomSubsetRunner, std::ref(executor), n, k));
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

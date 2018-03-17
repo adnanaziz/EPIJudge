@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::string;
@@ -42,8 +43,6 @@ bool Comp(vector<std::string> expected, vector<Name> result) {
       begin(expected), end(expected), begin(result), end(result),
       [](const std::string& s, const Name& n) { return s == n.first_name; });
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

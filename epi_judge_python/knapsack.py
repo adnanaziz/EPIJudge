@@ -1,6 +1,8 @@
 import collections
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_utils import enable_executor_hook
 
 Item = collections.namedtuple('Item', ('weight', 'value'))
@@ -17,9 +19,6 @@ def optimum_subject_to_capacity_wrapper(executor, items, capacity):
     return executor.run(
         functools.partial(optimum_subject_to_capacity, items, capacity))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

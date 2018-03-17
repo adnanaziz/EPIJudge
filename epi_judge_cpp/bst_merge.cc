@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "bst_prototype_shared_ptr.h"
+#include "test_framework/generic_test.h"
 
 using std::shared_ptr;
 
@@ -9,8 +10,6 @@ shared_ptr<BstNode<int>> MergeTwoBSTs(shared_ptr<BstNode<int>> A,
   // Implement this placeholder.
   return nullptr;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

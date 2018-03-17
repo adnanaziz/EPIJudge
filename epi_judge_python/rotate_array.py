@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -14,9 +16,6 @@ def rotate_array_wrapper(executor, A, rotate_amount):
     executor.run(functools.partial(rotate_array, rotate_amount, a_copy))
     return a_copy
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

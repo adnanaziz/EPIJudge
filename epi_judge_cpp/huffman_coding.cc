@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::string;
@@ -37,8 +38,6 @@ struct SerializationTraits<huffman::CharWithFrequency>
 double HuffmanEncodingWrapper(vector<huffman::CharWithFrequency> symbols) {
   return huffman::HuffmanEncoding(&symbols);
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

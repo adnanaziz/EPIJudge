@@ -1,8 +1,7 @@
-
-#pragma once
-
 #include <memory>
 #include <utility>
+
+#pragma once
 
 using std::shared_ptr;
 

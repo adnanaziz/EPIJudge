@@ -1,3 +1,6 @@
+from sys import exit
+
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 
 
@@ -41,9 +44,6 @@ def run_test(commands):
         else:
             raise RuntimeError('Unexpected command ' + cmd[0])
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

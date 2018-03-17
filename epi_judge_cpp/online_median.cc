@@ -1,4 +1,5 @@
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -11,8 +12,6 @@ vector<double> OnlineMedian(vector<int>::const_iterator sequence_begin,
 vector<double> OnlineMedianWrapper(const vector<int>& sequence) {
   return OnlineMedian(cbegin(sequence), cend(sequence));
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

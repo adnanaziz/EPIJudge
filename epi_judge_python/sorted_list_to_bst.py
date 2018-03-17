@@ -1,6 +1,8 @@
 import functools
+from sys import exit
 
 from doubly_list_node import DoublyListNode
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -45,9 +47,6 @@ def build_bst_from_sorted_doubly_list_wrapper(executor, l):
     if next(it, None) is not None:
         raise TestFailure("Too many l in the tree")
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

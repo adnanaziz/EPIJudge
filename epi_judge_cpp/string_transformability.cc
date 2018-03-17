@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_set>
+#include "test_framework/generic_test.h"
 
 using std::string;
 using std::unordered_set;
@@ -9,8 +10,6 @@ int TransformString(unordered_set<string> D, const string& s, const string& t) {
   // Implement this placeholder.
   return 0;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

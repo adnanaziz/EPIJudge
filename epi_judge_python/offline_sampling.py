@@ -1,6 +1,10 @@
 import functools
+from sys import exit
 
-from test_framework.random_sequence_checker import check_sequence_is_uniformly_random, binomial_coefficient, compute_combination_idx, run_func_with_retries
+from test_framework import generic_test, test_utils
+from test_framework.random_sequence_checker import (
+    binomial_coefficient, check_sequence_is_uniformly_random,
+    compute_combination_idx, run_func_with_retries)
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -35,9 +39,6 @@ def random_sampling_wrapper(executor, k, A):
     run_func_with_retries(
         functools.partial(random_sampling_runner, executor, k, A))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

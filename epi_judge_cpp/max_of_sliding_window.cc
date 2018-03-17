@@ -1,5 +1,6 @@
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
@@ -26,8 +27,6 @@ struct SerializationTraits<TrafficElement>
 std::ostream& operator<<(std::ostream& out, const TrafficElement& te) {
   return out << '[' << te.time << ", " << te.volume << ']';
 };
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

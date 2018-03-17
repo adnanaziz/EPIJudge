@@ -1,8 +1,10 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
+from test_framework.binary_tree_utils import must_find_node
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
-from test_framework.binary_tree_utils import must_find_node
 
 
 # Input nodes are nonempty and the key at s is less than or equal to that at b.
@@ -20,9 +22,6 @@ def lca_wrapper(executor, tree, s, b):
         raise TestFailure("Result can't be None")
     return result.data
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

@@ -9,6 +9,7 @@ def apply_permutation_wrapper(perm, A):
 
 
 from sys import exit
+
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':

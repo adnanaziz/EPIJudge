@@ -1,4 +1,5 @@
 #include <string>
+#include "test_framework/generic_test.h"
 
 using std::string;
 
@@ -7,8 +8,6 @@ bool IsLetterConstructibleFromMagazine(const string& letter_text,
   // Implement this placeholder.
   return true;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

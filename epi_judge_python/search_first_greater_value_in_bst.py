@@ -1,4 +1,7 @@
+from sys import exit
+
 from bst_node import BstNode
+from test_framework import generic_test, test_utils
 
 
 def find_first_greater_than_k(tree, k):
@@ -10,9 +13,6 @@ def find_first_greater_than_k_wrapper(tree, k):
     result = find_first_greater_than_k(tree, k)
     return result.data if result else -1
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

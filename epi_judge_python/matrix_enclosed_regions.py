@@ -9,6 +9,7 @@ def fill_surrounded_regions_wrapper(board):
 
 
 from sys import exit
+
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':

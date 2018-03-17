@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "test_framework/fmt_print.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
@@ -55,8 +56,6 @@ void RearrangeWrapper(TimedExecutor& executor, vector<int> A) {
 
   CheckAnswer(A);
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

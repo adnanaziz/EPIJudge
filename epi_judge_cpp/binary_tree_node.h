@@ -1,12 +1,10 @@
-
-#pragma once
-
 #include <list>
 #include <memory>
 #include <random>
-
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/test_utils_serialization_traits.h"
+
+#pragma once
 
 using std::unique_ptr;
 

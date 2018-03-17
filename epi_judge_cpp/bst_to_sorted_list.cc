@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "bst_prototype_shared_ptr.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
@@ -31,8 +32,6 @@ std::vector<int> BSTToDoublyLinkedListWrapper(
   }
   return v;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

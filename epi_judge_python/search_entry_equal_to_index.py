@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -20,9 +22,6 @@ def search_entry_equal_to_its_index_wrapper(executor, A):
         if any(i == a for i, a in enumerate(A)):
             raise TestFailure("There are entries which equal to its index")
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

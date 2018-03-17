@@ -1,4 +1,7 @@
 import collections
+from sys import exit
+
+from test_framework import generic_test, test_utils
 
 
 class GraphVertex:
@@ -51,9 +54,6 @@ def clone_graph_test(k, edges):
     result = clone_graph(graph[0])
     check_graph(result, graph)
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

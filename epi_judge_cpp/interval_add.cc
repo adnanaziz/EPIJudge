@@ -1,6 +1,7 @@
 #include <vector>
 
 #include "test_framework/fmt_print.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
@@ -25,8 +26,6 @@ bool operator==(const Interval& a, const Interval& b) {
 std::ostream& operator<<(std::ostream& out, const Interval& i) {
   return PrintTo(out, std::make_tuple(i.left, i.right));
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

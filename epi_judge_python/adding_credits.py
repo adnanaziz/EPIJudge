@@ -1,3 +1,6 @@
+from sys import exit
+
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 
 
@@ -49,9 +52,6 @@ def client_credits_info_tester(ops):
             if result != i_arg:
                 raise TestFailure('Lookup: return value mismatch')
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

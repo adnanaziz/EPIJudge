@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -48,9 +50,6 @@ def construct_right_sibling_wrapper(executor, tree):
     return [[n.data for n in traverse_next(level)]
             for level in traverse_left(cloned)]
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

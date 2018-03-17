@@ -1,7 +1,9 @@
 import copy
 import functools
 import math
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -56,9 +58,6 @@ def solve_sudoku_wrapper(executor, partial_assignment):
         assert_unique_seq([row[i] for row in solved])
         assert_unique_seq(gather_square_block(solved, block_size, i))
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

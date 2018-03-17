@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "binary_tree_node.h"
+#include "test_framework/generic_test.h"
 
 using std::unique_ptr;
 using std::vector;
@@ -11,8 +12,6 @@ vector<int> PostorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
   // Implement this placeholder.
   return {};
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

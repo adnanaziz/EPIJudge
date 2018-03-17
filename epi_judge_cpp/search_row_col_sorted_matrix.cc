@@ -1,4 +1,5 @@
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -6,8 +7,6 @@ bool MatrixSearch(const vector<vector<int>>& A, int x) {
   // Implement this placeholder.
   return true;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

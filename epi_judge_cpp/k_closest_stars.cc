@@ -2,6 +2,7 @@
 #include <cmath>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
@@ -50,8 +51,6 @@ bool Comp(const vector<double>& expected, vector<Star> output) {
 vector<Star> FindClosestKStarsWrapper(const vector<Star>& stars, int k) {
   return FindClosestKStars(cbegin(stars), cend(stars), k);
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

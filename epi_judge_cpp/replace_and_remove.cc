@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
 
 using std::string;
@@ -30,8 +31,6 @@ vector<string> ReplaceAndRemoveWrapper(TimedExecutor& executor, int size,
   }
   return result;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

@@ -4,6 +4,7 @@ def find_first_missing_positive(A):
 
 
 from sys import exit
+
 from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':

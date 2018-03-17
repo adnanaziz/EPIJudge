@@ -3,6 +3,7 @@
 #include <iterator>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
 
@@ -46,8 +47,6 @@ void RandomSamplingWrapper(TimedExecutor& executor, int k,
   RunFuncWithRetries(
       bind(RandomSamplingRunner, std::ref(executor), k, std::cref(A)));
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.

@@ -1,5 +1,7 @@
 import functools
+from sys import exit
 
+from test_framework import generic_test, test_utils
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -28,9 +30,6 @@ def compute_tower_hanoi_wrapper(executor, num_rings):
     if pegs not in (expected_pegs1, expected_pegs2):
         raise TestFailure("Pegs doesn't place in the right configuration")
 
-
-from sys import exit
-from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
     # The timeout is set to 30 seconds.

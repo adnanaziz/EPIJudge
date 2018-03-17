@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "list_node.h"
+#include "test_framework/generic_test.h"
 
 using std::shared_ptr;
 
@@ -13,8 +14,6 @@ int SearchListWrapper(shared_ptr<ListNode<int>> L, int key) {
   auto result = SearchList(L, key);
   return result ? result->data : -1;
 }
-
-#include "test_framework/generic_test.h"
 
 int main(int argc, char* argv[]) {
   // The timeout is set to 15 seconds for each test case.
