@@ -8,6 +8,13 @@ public class TestTimer {
   private long start;
   private long stop;
 
+  public TestTimer() {}
+
+  public TestTimer(long durationMs) {
+    stop = System.nanoTime();
+    start = stop - durationMs * 1000000;
+  }
+
   public void start() { start = System.nanoTime(); }
 
   public void stop() {

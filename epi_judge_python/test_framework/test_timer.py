@@ -4,9 +4,13 @@ import time
 
 
 class TestTimer:
-    def __init__(self):
-        self._start = 0
-        self._stop = 0
+    def __init__(self, duration_ms=None):
+        if duration_ms is None:
+            self._start = 0
+            self._stop = 0
+        else:
+            self._stop = time.perf_counter()
+            self._start = self._stop - duration_ms / 1000
 
     def start(self):
         self._start = time.perf_counter()

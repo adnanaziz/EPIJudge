@@ -8,6 +8,15 @@ public class Platform {
   private static boolean enableTtyOutput = false;
   private static boolean enableColorOutput = false;
 
+  public static void stdOutClearLine() {
+    if (runningOnWin()) {
+      System.out.print("\r");
+    } else {
+      String clearLineSequence = "\033[2K";
+      System.out.print(clearLineSequence + "\r");
+    }
+  }
+
   public static void setOutputOpts(TriBool ttyMode, TriBool colorMode) {
     enableTtyOutput = ttyMode.getOrDefault(System.console() != null);
     enableColorOutput = colorMode.getOrDefault(enableTtyOutput);

@@ -49,7 +49,7 @@ public class TimedExecutor {
         return future.get(timeoutMs, TimeUnit.MILLISECONDS);
 
       } catch (java.util.concurrent.TimeoutException e) {
-        throw new epi.test_framework.TimeoutException();
+        throw new epi.test_framework.TimeoutException(timeoutMs);
       } catch (InterruptedException e) {
         throw new RuntimeException(e.getMessage());
       } catch (ExecutionException e) {

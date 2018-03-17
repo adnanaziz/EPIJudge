@@ -1,6 +1,6 @@
 # @library
 from test_framework.console_color import ConsoleColor, print_std_out_colored
-from test_framework.platform import use_tty_output
+from test_framework.platform import std_out_clear_line, use_tty_output
 from test_framework.test_result import TestResult
 from test_framework.test_timer import duration_to_string, avg_and_median_from_durations
 
@@ -9,11 +9,11 @@ def escape_newline(s):
     return s.replace('\n', '\\n').replace('\r', '\\r')
 
 
-def return_caret_if_tty_output():
+def clear_line_if_tty():
     if use_tty_output():
-        print('\r', end='')
+        std_out_clear_line()
     else:
-        print('\n', end='')
+        print(end='\n')
 
 
 _print_test_result_values = {
@@ -39,7 +39,7 @@ def print_test_info(test_result, test_nr, total_tests, diagnostic, timer):
     caret_at_line_start = print_test_info.__dict__.get('caret_at_line_start',
                                                        True)
     if not caret_at_line_start:
-        return_caret_if_tty_output()
+        clear_line_if_tty()
 
     total_tests_str = str(total_tests)
     print('Test ', end='')
@@ -83,8 +83,8 @@ def print_failed_test(param_names, arguments, test_failure, res_printer):
     for (name, value) in zip(param_names, arguments):
         print('\t', end='')
         print_std_out_colored(ConsoleColor.FG_YELLOW, name)
-        print(': {}{}'.format(gen_spaces(max_col_size - len(name)),
-                                  escape_newline(str(value))))
+        print(': {}{}'.format(
+            gen_spaces(max_col_size - len(name)), escape_newline(str(value))))
 
     properties = test_failure.get_properties()
 

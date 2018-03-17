@@ -38,7 +38,7 @@ class TimedExecutor:
                     future = executor.submit(timed_call, func, self._timer)
                     return future.result(timeout=self._timeout_ms / 1000)
             except futures.TimeoutError:
-                raise TimeoutException
+                raise TimeoutException(self._timeout_ms)
 
     def get_timer(self):
         return self._timer

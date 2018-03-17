@@ -6,6 +6,8 @@
  * function.
  */
 
+#include <iostream>
+
 #ifdef _WINDOWS
 #include <io.h>
 #include <sys/stat.h>
@@ -16,7 +18,7 @@
 #include <unistd.h>
 #endif
 
-#include "tribool.h"
+#include "tri_bool.h"
 
 namespace platform {
 
@@ -36,6 +38,16 @@ int IsATty(int fd) {
   return _isatty(fd);
 #else
   return isatty(fd);
+#endif
+}
+
+void StdOutClearLine() {
+#ifdef _WINDOWS
+  // TODO Use WinApi to clear line
+  std::cout << '\r';
+#else
+  const char* clear_line_sequence = "\033[2K";
+  std::cout << clear_line_sequence << '\r';
 #endif
 }
 

@@ -39,7 +39,7 @@ class TimedExecutor {
       if (future.wait_for(timeout_) == std::future_status::ready) {
         return future.get();
       } else {
-        throw TimeoutException();
+        throw TimeoutException(timeout_);
       }
     }
   }

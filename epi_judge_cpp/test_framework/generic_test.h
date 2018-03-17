@@ -79,6 +79,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
       test_failure = e;
     } catch (TimeoutException& e) {
       result = TIMEOUT;
+      test_timer = e.GetTimer();
     } catch (std::runtime_error& e) {
       throw;
     } catch (std::exception& e) {
@@ -105,7 +106,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
         }
         PrintFailedTest(handler.ParamNames(), test_case, test_failure);
       }
-      if (config.stop_on_error) {
+      if (!config.run_all_tests) {
         break;
       }
     }

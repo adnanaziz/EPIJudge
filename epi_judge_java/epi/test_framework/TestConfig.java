@@ -9,7 +9,7 @@ import java.util.Map;
 public class TestConfig {
   public String testDataDir;
   public String testDataFile;
-  public boolean stopOnError;
+  public boolean runAllTests;
   public boolean verbose;
   public TriBool ttyMode;
   public TriBool colorMode;
@@ -17,7 +17,7 @@ public class TestConfig {
 
   public TestConfig(String testDataFile, long timeout) {
     this.testDataFile = testDataFile;
-    this.stopOnError = true;
+    this.runAllTests = false;
     this.verbose = true;
     this.ttyMode = TriBool.INDETERMINATE;
     this.colorMode = TriBool.INDETERMINATE;
@@ -35,7 +35,7 @@ public class TestConfig {
   private static void printUsageAndExit() {
     String usageString =
         "usage: <program name> [-h] [--test-data-dir [TEST_DATA_DIR]]\n"
-        + "                      [--no-stop-on-error] [--no-verbose]\n"
+        + "                      [--run-all-tests] [--no-verbose]\n"
         +
         "                      [--force-tty] [--no-tty] [--force-color] [--no-color]\n"
         + "\n"
@@ -44,7 +44,7 @@ public class TestConfig {
         + "  --test-data-dir [TEST_DATA_DIR]\n"
         + "                        path to test_data directory\n"
         +
-        "  --no-stop-on-error    continue execution even if one or several tests failed\n"
+        "  --run-all-tests       continue execution even if one or several tests failed\n"
         +
         "  --no-verbose          suppress failure description on test failure\n"
         +
@@ -70,8 +70,8 @@ public class TestConfig {
           config.testDataDir =
               getParam(commandlineArgs, ++i, "--test-data-dir");
           break;
-        case "--no-stop-on-error":
-          config.stopOnError = false;
+        case "--run-all-tests":
+          config.runAllTests = true;
           break;
         case "--no-verbose":
           config.verbose = false;

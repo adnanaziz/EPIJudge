@@ -79,6 +79,7 @@ public class GenericTest {
         testFailure = e;
       } catch (TimeoutException e) {
         result = TestResult.TIMEOUT;
+        testTimer = e.getTimer();
       } catch (StackOverflowError e) {
         result = TestResult.STACK_OVERFLOW;
       } catch (RuntimeException e) {
@@ -108,7 +109,7 @@ public class GenericTest {
                                            testFailure);
         }
 
-        if (config.stopOnError) {
+        if (!config.runAllTests) {
           break;
         }
       }

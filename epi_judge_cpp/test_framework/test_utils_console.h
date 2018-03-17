@@ -32,11 +32,11 @@ struct EscapeNewline {
   }
 };
 
-void ReturnCaretIfTtyOutput(std::ostream& os) {
+void ClearLineIfTty() {
   if (platform::UseTtyOutput()) {
-    os << '\r';
+    platform::StdOutClearLine();
   } else {
-    os << '\n';
+    std::cout << '\n';
   };
 }
 
@@ -65,7 +65,7 @@ void PrintTestInfo(const TestResult& test_result, int test_nr,
   static bool caret_at_line_start = true;
 
   if (!caret_at_line_start) {
-    ReturnCaretIfTtyOutput(std::cout);
+    ClearLineIfTty();
   }
 
   auto total_tests_str = std::to_string(total_tests);
@@ -105,8 +105,7 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
   for (unsigned int i = 0; i < arguments.size(); ++i) {
     std::cout << '\t';
     PrintStdOutColored(ConsoleColor::FG_YELLOW, param_names[i]);
-    std::cout << ": "
-              << GenSpaces(max_col_size - param_names[i].size())
+    std::cout << ": " << GenSpaces(max_col_size - param_names[i].size())
               << EscapeNewline{arguments[i]} << std::endl;
   }
 
@@ -115,10 +114,9 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
 
   for (auto& prop : properties) {
     std::cout << '\t';
-    PrintStdOutColored(ConsoleColor::FG_YELLOW,prop.Name());
-    std::cout << ": "
-              << GenSpaces(max_col_size -prop.Name().size())
-              << prop.Value()<< std::endl;
+    PrintStdOutColored(ConsoleColor::FG_YELLOW, prop.Name());
+    std::cout << ": " << GenSpaces(max_col_size - prop.Name().size())
+              << prop.Value() << std::endl;
   }
 }
 

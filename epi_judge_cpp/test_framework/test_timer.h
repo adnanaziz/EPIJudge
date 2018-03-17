@@ -9,6 +9,13 @@
 
 class TestTimer {
  public:
+  TestTimer() = default;
+
+  explicit TestTimer(const std::chrono::milliseconds& duration_ms) {
+    stop_ = clock_t::now();
+    start_ = stop_ - duration_ms;
+  }
+
   void Start() { start_ = clock_t::now(); }
 
   void Stop() {

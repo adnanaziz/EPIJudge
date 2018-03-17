@@ -71,8 +71,9 @@ def run_tests(handler, config, res_printer):
         except TestFailure as exc:
             result = TestResult.FAILED
             test_failure = exc
-        except TimeoutException:
+        except TimeoutException as exc:
             result = TestResult.TIMEOUT
+            test_timer = exc.get_timer()
         except RecursionError:
             result = TestResult.STACK_OVERFLOW
         except RuntimeError:
@@ -94,7 +95,7 @@ def run_tests(handler, config, res_printer):
                                                test_explanation)
                 print_failed_test(handler.param_names(), test_case,
                                   test_failure, res_printer)
-            if config.stop_on_error:
+            if not config.run_all_tests:
                 break
 
     print()

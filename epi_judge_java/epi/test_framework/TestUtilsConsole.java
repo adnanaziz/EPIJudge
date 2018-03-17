@@ -10,9 +10,9 @@ public class TestUtilsConsole {
     return s.replace("\n", "\\n").replace("\r", "\\r");
   }
 
-  public static void returnCaretIfTtyOutput() {
+  public static void clearLineIfTty() {
     if (Platform.useTtyOutput()) {
-      System.out.print('\r');
+      Platform.stdOutClearLine();
     } else {
       System.out.print('\n');
     }
@@ -46,7 +46,7 @@ public class TestUtilsConsole {
                                    int totalTests, String diagnostic,
                                    TestTimer timer) {
     if (!caretAtLineStart) {
-      returnCaretIfTtyOutput();
+      clearLineIfTty();
     }
 
     String totalTestsStr = String.valueOf(totalTests);
@@ -82,22 +82,28 @@ public class TestUtilsConsole {
       }
     }
 
-    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, "Arguments\n");
+    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                    "Arguments\n");
 
     for (int i = 0; i < arguments.size(); i++) {
       System.out.print("\t");
-      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, paramNames.get(i));
-      System.out.printf(": %s%s\n", genSpaces(maxColSize - paramNames.get(i).length()),
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                      paramNames.get(i));
+      System.out.printf(": %s%s\n",
+                        genSpaces(maxColSize - paramNames.get(i).length()),
                         escapeNewline(arguments.get(i)));
     }
 
     List<TestFailure.Property> properties = testFailure.getProperties();
 
-    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, "\nFailure info\n");
+    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                    "\nFailure info\n");
     for (TestFailure.Property prop : properties) {
       System.out.print("\t");
-      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW, prop.name());
-      System.out.printf(": %s%s\n", genSpaces(maxColSize - prop.name().length()),
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                      prop.name());
+      System.out.printf(": %s%s\n",
+                        genSpaces(maxColSize - prop.name().length()),
                         escapeNewline(String.valueOf(prop.value())));
     }
   }

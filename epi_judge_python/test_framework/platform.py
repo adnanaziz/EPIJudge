@@ -5,6 +5,14 @@ ENABLE_TTY_OUTPUT = False
 ENABLE_COLOR_OUTPUT = False
 
 
+def std_out_clear_line():
+    if running_on_win():
+        print(end='\r')
+    else:
+        clear_line_sequence = '\033[2K'
+        print(clear_line_sequence, end='\r')
+
+
 def set_output_opts(tty_mode, color_mode):
     global ENABLE_TTY_OUTPUT
     global ENABLE_COLOR_OUTPUT

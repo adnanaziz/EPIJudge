@@ -34,6 +34,9 @@ class Property:
     def id(self):
         return self._name.value
 
+    def raw_name(self):
+        return self._name
+
     def value(self):
         return self._value
 

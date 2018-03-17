@@ -8,7 +8,7 @@
 
 #include "platform.h"
 #include "test_utils.h"
-#include "tribool.h"
+#include "tri_bool.h"
 
 std::string GetParam(const std::vector<std::string>& commandline_args,
                      size_t i, const char* arg_name) {
@@ -24,7 +24,7 @@ void PrintUsageAndExit() {
   const char* usage_string =
       ""
       "usage: <program name> [-h] [--test-data-dir [TEST_DATA_DIR]]\n"
-      "                      [--no-stop-on-error] [--no-verbose]\n"
+      "                      [--run-all-tests] [--no-verbose]\n"
       "                      [--force-tty] [--no-tty] [--force-color] "
       "[--no-color]\n"
       "\n"
@@ -32,7 +32,7 @@ void PrintUsageAndExit() {
       "  -h, --help            show this help message and exit\n"
       "  --test-data-dir [TEST_DATA_DIR]\n"
       "                        path to test_data directory\n"
-      "  --no-stop-on-error    continue execution even if one or several "
+      "  --run-all-tests    continue execution even if one or several "
       "tests failed\n"
       "  --no-verbose          suppress failure description on test failure\n"
       "  --force-tty           enable tty features (like printing output on "
@@ -52,7 +52,7 @@ struct TestConfig {
   TestConfig(const std::string& test_data_file,
              const std::chrono::milliseconds& timeout)
       : test_data_file(test_data_file),
-        stop_on_error(true),
+        run_all_tests(false),
         verbose(true),
         tty_mode(TriBool::INDETERMINATE),
         color_mode(TriBool::INDETERMINATE),
@@ -67,8 +67,8 @@ struct TestConfig {
       if (commandline_args[i] == "--test-data-dir") {
         config.test_data_dir =
             GetParam(commandline_args, ++i, "--test-data-dir");
-      } else if (commandline_args[i] == "--no-stop-on-error") {
-        config.stop_on_error = false;
+      } else if (commandline_args[i] == "--run-all-tests") {
+        config.run_all_tests = true;
       } else if (commandline_args[i] == "--no-verbose") {
         config.verbose = false;
       } else if (commandline_args[i] == "--force-tty") {
@@ -106,7 +106,7 @@ struct TestConfig {
 
   std::string test_data_dir;
   std::string test_data_file;
-  bool stop_on_error;
+  bool run_all_tests;
   bool verbose;
   TriBool tty_mode;
   TriBool color_mode;

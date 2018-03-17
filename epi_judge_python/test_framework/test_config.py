@@ -4,14 +4,14 @@ import argparse
 from os import path
 
 from test_framework.test_utils import get_default_test_data_dir_path
-from test_framework.tribool import TriBool
+from test_framework.tri_bool import TriBool
 
 
 class TestConfig:
     def __init__(self, test_data_file, timeout):
         self.test_data_dir = ''
         self.test_data_file = test_data_file
-        self.stop_on_error = True
+        self.run_all_tests = False
         self.verbose = True
         self.tty_mode = TriBool.INDETERMINATE
         self.color_mode = TriBool.INDETERMINATE
@@ -30,10 +30,10 @@ class TestConfig:
             type=str,
             help='path to test_data directory')
         parser.add_argument(
-            '--no-stop-on-error',
-            dest='stop_on_error',
-            action='store_false',
-            help='continue execution even if one or several tests failed')
+            '--run-all-tests',
+            dest='run_all_tests',
+            action='store_true',
+            help='execution all tests')
         parser.add_argument(
             '--no-verbose',
             dest='verbose',
@@ -67,14 +67,14 @@ class TestConfig:
             const=TriBool.FALSE,
             help='never use colored output')
         parser.set_defaults(
-            stop_on_error=True,
+            run_all_tests=True,
             verbose=True,
             tty_mode=TriBool.INDETERMINATE,
             color_mode=TriBool.INDETERMINATE)
         args = parser.parse_args(commandline_args)
 
         config.test_data_dir = args.test_data_dir
-        config.stop_on_error = args.stop_on_error
+        config.run_all_tests = args.run_all_tests
         config.verbose = args.verbose
         config.tty_mode = args.tty_mode
         config.color_mode = args.color_mode
