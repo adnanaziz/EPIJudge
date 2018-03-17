@@ -21,7 +21,7 @@ public class AlternatingArray {
           throw new TestFailure()
               .withProperty(TestFailure.PropertyName.RESULT, A)
               .withMismatchInfo(
-                  i, "A[i - 1] <= A[i]",
+                  i, String.format("A[%d] <= A[%d]", i - 1, i),
                   String.format("%d > %d", A.get(i - 1), A.get(i)));
         }
         if (i < A.size() - 1) {
@@ -29,7 +29,7 @@ public class AlternatingArray {
             throw new TestFailure()
                 .withProperty(TestFailure.PropertyName.RESULT, A)
                 .withMismatchInfo(
-                    i, "A[i] >= A[i + 1]",
+                    i, String.format("A[%d] >= A[%d]", i, i + 1),
                     String.format("%d < %d", A.get(i), A.get(i + 1)));
           }
         }
@@ -39,7 +39,7 @@ public class AlternatingArray {
             throw new TestFailure()
                 .withProperty(TestFailure.PropertyName.RESULT, A)
                 .withMismatchInfo(
-                    i, "A[i - 1] >= A[i]",
+                    i, String.format("A[%d] >= A[%d]", i - 1, i),
                     String.format("%d < %d", A.get(i - 1), A.get(i)));
           }
         }
@@ -48,7 +48,7 @@ public class AlternatingArray {
             throw new TestFailure()
                 .withProperty(TestFailure.PropertyName.RESULT, A)
                 .withMismatchInfo(
-                    i, "A[i] <= A[i + 1]",
+                    i, String.format("A[%d] <= A[%d]", i, i + 1),
                     String.format("%d > %d", A.get(i), A.get(i + 1)));
           }
         }

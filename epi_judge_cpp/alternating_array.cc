@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 
+#include "test_framework/fmt_print.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
@@ -15,36 +16,34 @@ void CheckAnswer(const vector<int>& A) {
   for (int i = 0; i < A.size(); ++i) {
     if (i % 2) {
       if (A[i] < A[i - 1]) {
-        throw TestFailure(
-            std::to_string(i) + "th element (" + std::to_string(A[i]) +
-            ") shall be greater than or equal to " + std::to_string(i - 1) +
-            "th element (" + std::to_string(A[i - 1]) + ")");
+        throw TestFailure()
+            .WithProperty(PropertyName::RESULT, A)
+            .WithMismatchInfo(i, FmtStr("A[{}] <= A[{}]", i - 1, i),
+                              FmtStr("{} > {}", A[i - 1], A[i]));
       }
       if (i + 1 < A.size()) {
         if (A[i] < A[i + 1]) {
-          throw TestFailure(
-              std::to_string(i) + "th element (" + std::to_string(A[i]) +
-              ") shall be greater than or equal to " + std::to_string(i + 1) +
-              "th element (" + std::to_string(A[i + 1]) + ")");
+          throw TestFailure()
+              .WithProperty(PropertyName::RESULT, A)
+              .WithMismatchInfo(i, FmtStr("A[{}] >= A[{}]", i, i + 1),
+                                FmtStr("{} < {}", A[i], A[i + 1]));
         }
       }
     } else {
       if (i > 0) {
         if (A[i - 1] < A[i]) {
-          throw TestFailure(std::to_string(i - 1) + "th element (" +
-                            std::to_string(A[i - 1]) +
-                            ") shall be greater than or equal to " +
-                            std::to_string(i) + "th element (" +
-                            std::to_string(A[i]) + ")");
+          throw TestFailure()
+              .WithProperty(PropertyName::RESULT, A)
+              .WithMismatchInfo(i, FmtStr("A[{}] >= A[{}]", i - 1, i),
+                                FmtStr("{} < {}", A[i - 1], A[i]));
         }
       }
       if (i + 1 < A.size()) {
         if (A[i + 1] < A[i]) {
-          throw TestFailure(std::to_string(i + 1) + "th element (" +
-                            std::to_string(A[i + 1]) +
-                            ") shall be greater than or equal to " +
-                            std::to_string(i) + "th element (" +
-                            std::to_string(A[i]) + ")");
+          throw TestFailure()
+              .WithProperty(PropertyName::RESULT, A)
+              .WithMismatchInfo(i, FmtStr("A[{}] <= A[{}]", i, i + 1),
+                                FmtStr("{} > {}", A[i], A[i + 1]));
         }
       }
     }

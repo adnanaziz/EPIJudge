@@ -13,5 +13,5 @@ if __name__ == '__main__':
 
     exit(
         generic_test.generic_test_main(
-            timeout_seconds, 'subsequence_cover.tsv',
+            timeout_seconds, 'smallest_subarray_covering_all_values.tsv',
             find_smallest_sequentially_covering_subset_wrapper))

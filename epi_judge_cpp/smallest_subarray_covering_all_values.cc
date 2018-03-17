@@ -56,7 +56,8 @@ int main(int argc, char* argv[]) {
 
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "paragraph", "keywords"};
-  return GenericTestMain(args, timeout_seconds, "subsequence_cover.tsv",
+  return GenericTestMain(args, timeout_seconds,
+                         "smallest_subarray_covering_all_values.tsv",
                          &FindSmallestSequentiallyCoveringSubsetWrapper,
                          DefaultComparator{}, param_names);
 }
