@@ -42,13 +42,7 @@ int IsATty(int fd) {
 }
 
 void StdOutClearLine() {
-#ifdef _WINDOWS
-  // TODO Use WinApi to clear line
   std::cout << '\r';
-#else
-  const char* clear_line_sequence = "\033[2K";
-  std::cout << clear_line_sequence << '\r';
-#endif
 }
 
 void SetOutputOpts(TriBool tty_mode, TriBool color_mode) {

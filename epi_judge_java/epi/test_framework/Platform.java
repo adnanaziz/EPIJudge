@@ -9,12 +9,7 @@ public class Platform {
   private static boolean enableColorOutput = false;
 
   public static void stdOutClearLine() {
-    if (runningOnWin()) {
-      System.out.print("\r");
-    } else {
-      String clearLineSequence = "\033[2K";
-      System.out.print(clearLineSequence + "\r");
-    }
+    System.out.print("\r");
   }
 
   public static void setOutputOpts(TriBool ttyMode, TriBool colorMode) {
