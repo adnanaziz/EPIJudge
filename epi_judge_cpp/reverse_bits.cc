@@ -1,6 +1,6 @@
 #include "test_framework/generic_test.h"
 
-unsigned long ReverseBits(unsigned long x) {
+unsigned long long ReverseBits(unsigned long long x) {
   // Implement this placeholder.
   return 0;
 }

@@ -1,5 +1,5 @@
 #include "test_framework/generic_test.h"
-long SwapBits(long x, int i, int j) {
+long long SwapBits(long long x, int i, int j) {
   // Implement this placeholder.
   return 0;
 }

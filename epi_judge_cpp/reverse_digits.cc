@@ -1,6 +1,6 @@
 #include "test_framework/generic_test.h"
 
-long Reverse(int x) {
+long long Reverse(int x) {
   // Implement this placeholder.
   return 0;
 }

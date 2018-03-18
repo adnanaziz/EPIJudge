@@ -1,6 +1,6 @@
 #include "test_framework/generic_test.h"
 
-unsigned long Multiply(unsigned long x, unsigned long y) {
+unsigned long long Multiply(unsigned long long x, unsigned long long y) {
   // Implement this placeholder.
   return 0;
 }

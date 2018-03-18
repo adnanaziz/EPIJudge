@@ -1,6 +1,6 @@
 #include "test_framework/generic_test.h"
 
-unsigned long ClosestIntSameBitCount(unsigned long x) {
+unsigned long long ClosestIntSameBitCount(unsigned long long x) {
   // Implement this placeholder.
   return 0;
 }

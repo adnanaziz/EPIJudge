@@ -1,5 +1,5 @@
 #include "test_framework/generic_test.h"
-short Parity(unsigned long x) {
+short Parity(unsigned long long x) {
   // Implement this placeholder.
   return 0;
 }
