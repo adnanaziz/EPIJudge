@@ -83,12 +83,12 @@ The IntelliJ Integrated Development environments described above are best-in-cla
 
 The judge has been tested with these compilers. Let us know if you managed to compile all programs with an older version.
 
- - **GCC** 5.4.1 (on Ubuntu 16.04)
- - **Clang** 4.0 (on Ubuntu 16.04)
- - **Apple LLVM Clang** 9.0.0
- - **Visual Studio** 2017
- - **Java** 8
- - **Python** 3.5
+ 1. **GCC** 5.4.1 (on Ubuntu 16.04)
+ 1. **Clang** 4.0 (on Ubuntu 16.04)
+ 1. **Apple LLVM Clang** 9.0.0
+ 1. **Visual Studio** 2017
+ 1. **Java** 8
+ 1. **Python** 3.5
 
 - What does the UI look like?
 
