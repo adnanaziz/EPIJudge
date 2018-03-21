@@ -249,6 +249,7 @@ Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio 
 | Compute the LCA in a BST | lowest\_common\_ancestor\_in\_bst.cc | LowestCommonAncestorInBst.java | lowest\_common\_ancestor\_in\_bst.py | 
 | Reconstruct a BST from traversal data | bst\_from\_preorder.cc | BstFromPreorder.java | bst\_from\_preorder.py | 
 | Find the closest entries in three sorted arrays | minimum\_distance\_3\_sorted\_arrays.cc | MinimumDistance3SortedArrays.java | minimum\_distance\_3\_sorted\_arrays.py | 
+| Enumerate numbers of the form a + b * sqrt(2) | a\_b\_sqrt2.cc | ABSqrt2.java | a\_b\_sqrt2.py |
 | Build a minimum height BST from a sorted array | bst\_from\_sorted\_array.cc | BstFromSortedArray.java | bst\_from\_sorted\_array.py | 
 | Test if three BST nodes are totally ordered | descendant\_and\_ancestor\_in\_bst.cc | DescendantAndAncestorInBst.java | descendant\_and\_ancestor\_in\_bst.py | 
 | Add credits | adding\_credits.cc | AddingCredits.java | adding\_credits.py | 
@@ -281,9 +282,10 @@ Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio 
 | The 3-sum problem | three\_sum.cc | ThreeSum.java | three\_sum.py | 
 | Find the majority element | majority\_element.cc | MajorityElement.java | majority\_element.py | 
 | The gasup problem | refueling\_schedule.cc | RefuelingSchedule.java | refueling\_schedule.py | 
+| Compute the maximum water trapped by a pair of vertical lines | max\_trapped\_water.cc | MaxTrappedWater.java | max\_trapped\_water.py |
 | Compute the largest rectangle under the skyline | largest\_rectangle\_under\_skyline.cc | LargestRectangleUnderSkyline.java | largest\_rectangle\_under\_skyline.py | 
 | Search a maze | search\_maze.cc | SearchMaze.java | search\_maze.py | 
-| Paint a Boolean Matrix | matrix_connected_regions.cc | MatrixConnectedRegions.java | matrix_connected_regions.py | 
+| Paint a Boolean Matrix | matrix\_connected\_regions.cc | MatrixConnectedRegions.java | matrix\_connected\_regions.py | 
 | Compute enclosed regions | matrix\_enclosed\_regions.cc | MatrixEnclosedRegions.java | matrix\_enclosed\_regions.py | 
 | Deadlock detection | deadlock\_detection.cc | DeadlockDetection.java | deadlock\_detection.py | 
 | Clone a graph | graph\_clone.cc | GraphClone.java | graph\_clone.py | 
@@ -307,7 +309,7 @@ Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio 
 | Search a sorted array of unknown length | search\_unknown\_length\_array.cc | SearchUnknownLengthArray.java | search\_unknown\_length\_array.py | 
 | Search in two sorted arrays | kth\_largest\_element\_in\_two\_sorted\_arrays.cc | KthLargestElementInTwoSortedArrays.java | kth\_largest\_element\_in\_two\_sorted\_arrays.py | 
 | Find an element that appears only once | element\_appearing\_once.cc | ElementAppearingOnce.java | element\_appearing\_once.py | 
-| Find the line through the most points | line\_though\_most\_points.cc | LineThoughMostPoints.java | line\_though\_most\_points.py | 
+| Find the line through the most points | line\_through\_most\_points.cc | LineThroughMostPoints.java | line\_through\_most\_points.py | 
 | Convert a sorted doubly linked list into a BST | sorted\_list\_to\_bst.cc | SortedListToBst.java | sorted\_list\_to\_bst.py | 
 | Convert a BST to a sorted doubly linked list | bst\_to\_sorted\_list.cc | BstToSortedList.java | bst\_to\_sorted\_list.py | 
 | Merge two BSTs | bst\_merge.cc | BstMerge.java | bst\_merge.py | 
@@ -329,6 +331,5 @@ Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio 
 
 ## Acknowledgments
 
-A big shout-out to the hundreds of users who tried out the alpha release over the past couple of months. As always, we never fail to be impressed by the enthusiasm and commitment our readers have; it has served to bring out the best in us.
+A big shout-out to the hundreds of users who tried out the release over the past couple of months. As always, we never fail to be impressed by the enthusiasm and commitment our readers have; it has served to bring out the best in us.
 We all thank [Viacheslav Kroilov](https://github.com/metopa), for applying his exceptional software engineering skills to make EPI Judge a reality.
-
