@@ -86,6 +86,7 @@ The IntelliJ Integrated Development environments described above are best-in-cla
   - **Visual Studio** 2017
   - **Java** 8
   - **Python** 3.5
+
 Let us know if you managed to compile with an older version.
 
 - What does the UI look like?
