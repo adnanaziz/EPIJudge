@@ -49,11 +49,5 @@ def search_maze_wrapper(executor, maze, s, e):
 
 
 if __name__ == '__main__':
-    # The timeout is set to 30 seconds.
-    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
-    # You can extend the limit by changing the following line.
-    timeout_seconds = 30
-
     exit(
-        generic_test.generic_test_main(timeout_seconds, 'search_maze.tsv',
-                                       search_maze_wrapper))
+        generic_test.generic_test_main('search_maze.tsv', search_maze_wrapper))

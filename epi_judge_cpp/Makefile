@@ -1328,19 +1328,19 @@ levenshtein_distance_dbg: $(BUILD_DIR)/levenshtein_distance_dbg
 .PHONY: levenshtein_distance levenshtein_distance_dbg
 
 
-# line_though_most_points.cc
+# line_through_most_points.cc
 
-$(BUILD_DIR)/line_though_most_points: $(SRC_DIR)/line_though_most_points.cc | $(BUILD_DIR)
+$(BUILD_DIR)/line_through_most_points: $(SRC_DIR)/line_through_most_points.cc | $(BUILD_DIR)
 	$(CXX_COMPILER) $(CXX_FLAGS_RELEASE) -o $@ $<
-line_though_most_points: $(BUILD_DIR)/line_though_most_points
+line_through_most_points: $(BUILD_DIR)/line_through_most_points
 	$< $(PROGRAM_ARGS)
 
-$(BUILD_DIR)/line_though_most_points_dbg: $(SRC_DIR)/line_though_most_points.cc | $(BUILD_DIR)
+$(BUILD_DIR)/line_through_most_points_dbg: $(SRC_DIR)/line_through_most_points.cc | $(BUILD_DIR)
 	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
-line_though_most_points_dbg: $(BUILD_DIR)/line_though_most_points_dbg
+line_through_most_points_dbg: $(BUILD_DIR)/line_through_most_points_dbg
 	$< $(PROGRAM_ARGS)
 
-.PHONY: line_though_most_points line_though_most_points_dbg
+.PHONY: line_through_most_points line_through_most_points_dbg
 
 
 # list_cyclic_right_shift.cc
@@ -3275,7 +3275,7 @@ all: \
     $(BUILD_DIR)/largest_rectangle_under_skyline \
     $(BUILD_DIR)/left_right_justify_text \
     $(BUILD_DIR)/levenshtein_distance \
-    $(BUILD_DIR)/line_though_most_points \
+    $(BUILD_DIR)/line_through_most_points \
     $(BUILD_DIR)/list_cyclic_right_shift \
     $(BUILD_DIR)/longest_contained_interval \
     $(BUILD_DIR)/longest_increasing_subarray \

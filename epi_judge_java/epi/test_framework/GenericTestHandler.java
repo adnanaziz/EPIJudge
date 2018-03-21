@@ -137,7 +137,7 @@ public class GenericTestHandler {
    * expected, result]. Two last entries are omitted in case of the void return
    * type
    */
-  public TestTimer runTest(long timeoutMs, List<String> testArgs)
+  public TestTimer runTest(long timeoutSeconds, List<String> testArgs)
       throws Throwable {
     try {
       if (testArgs.size() !=
@@ -151,7 +151,7 @@ public class GenericTestHandler {
       }
 
       Object result;
-      TimedExecutor executor = new TimedExecutor(timeoutMs);
+      TimedExecutor executor = new TimedExecutor(timeoutSeconds);
 
       if (hasExecutorHook) {
         parsed.add(0, executor);

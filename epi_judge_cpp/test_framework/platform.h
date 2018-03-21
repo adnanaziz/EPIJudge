@@ -41,9 +41,7 @@ int IsATty(int fd) {
 #endif
 }
 
-void StdOutClearLine() {
-  std::cout << '\r';
-}
+void StdOutClearLine() { std::cout << '\r'; }
 
 void SetOutputOpts(TriBool tty_mode, TriBool color_mode) {
   ENABLE_TTY_OUTPUT =

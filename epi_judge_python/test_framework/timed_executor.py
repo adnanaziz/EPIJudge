@@ -6,21 +6,21 @@ from test_framework.timeout_exception import TimeoutException
 
 
 class TimedExecutor:
-    def __init__(self, timeout_ms):
+    def __init__(self, timeout_seconds):
         self._timer = TestTimer()
-        self._timeout_ms = timeout_ms
+        self._timeout_seconds = timeout_seconds
 
     def run(self, func):
         """
-        Invokes func with a specified timeout.
+        Invokes func with a specified timeout_seconds.
 
-        If func takes more than timeout milliseconds to run,
+        If func takes more than timeout_seconds seconds to run,
         TimeoutException is raised.
-        If timeout == 0, it simply calls the function.
+        If timeout_seconds == 0, it simply calls the function.
 
         :return: whatever func returns
         """
-        if self._timeout_ms == 0:
+        if self._timeout_seconds == 0:
             self._timer.start()
             result = func()
             self._timer.stop()
@@ -36,9 +36,9 @@ class TimedExecutor:
 
                 with futures.ThreadPoolExecutor(max_workers=1) as executor:
                     future = executor.submit(timed_call, func, self._timer)
-                    return future.result(timeout=self._timeout_ms / 1000)
+                    return future.result(timeout=self._timeout_seconds)
             except futures.TimeoutError:
-                raise TimeoutException(self._timeout_ms)
+                raise TimeoutException(self._timeout_seconds)
 
     def get_timer(self):
         return self._timer

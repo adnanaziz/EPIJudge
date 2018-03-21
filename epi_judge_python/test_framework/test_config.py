@@ -8,18 +8,18 @@ from test_framework.tri_bool import TriBool
 
 
 class TestConfig:
-    def __init__(self, test_data_file, timeout):
+    def __init__(self, test_data_file, timeout_seconds):
         self.test_data_dir = ''
         self.test_data_file = test_data_file
         self.run_all_tests = False
         self.verbose = True
         self.tty_mode = TriBool.INDETERMINATE
         self.color_mode = TriBool.INDETERMINATE
-        self.timeout = timeout
+        self.timeout_seconds = timeout_seconds
 
     @staticmethod
-    def from_command_line(test_data_file, timeout_ms, commandline_args):
-        config = TestConfig(test_data_file, timeout_ms)
+    def from_command_line(test_data_file, timeout_seconds, commandline_args):
+        config = TestConfig(test_data_file, timeout_seconds)
 
         parser = argparse.ArgumentParser()
         # TODO add help
@@ -67,7 +67,7 @@ class TestConfig:
             const=TriBool.FALSE,
             help='never use colored output')
         parser.set_defaults(
-            run_all_tests=True,
+            run_all_tests=False,
             verbose=True,
             tty_mode=TriBool.INDETERMINATE,
             color_mode=TriBool.INDETERMINATE)

@@ -238,7 +238,8 @@ struct SerializationTraits<float, void> {
   static bool Equal(serialization_type a, serialization_type b) {
     constexpr float eps = 1E-4f;
     constexpr float abs_eps = 1E-10f;
-    return std::abs(a - b) <= std::max(eps * std::max(std::abs(a), std::abs(b)), abs_eps);
+    return std::abs(a - b) <=
+           std::max(eps * std::max(std::abs(a), std::abs(b)), abs_eps);
   }
 };
 
@@ -273,7 +274,8 @@ struct SerializationTraits<double, void> {
   static bool Equal(serialization_type a, serialization_type b) {
     constexpr double eps = 1E-6;
     constexpr double abs_eps = 1E-20;
-    return std::abs(a - b) <= std::max(eps * std::max(std::abs(a), std::abs(b)), abs_eps);
+    return std::abs(a - b) <=
+           std::max(eps * std::max(std::abs(a), std::abs(b)), abs_eps);
   }
 };
 

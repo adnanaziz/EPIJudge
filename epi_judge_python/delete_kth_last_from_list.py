@@ -11,11 +11,6 @@ def remove_kth_last(L, k):
 
 
 if __name__ == '__main__':
-    # The timeout is set to 30 seconds.
-    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
-    # You can extend the limit by changing the following line.
-    timeout_seconds = 30
-
     exit(
-        generic_test.generic_test_main(
-            timeout_seconds, 'delete_kth_last_from_list.tsv', remove_kth_last))
+        generic_test.generic_test_main('delete_kth_last_from_list.tsv',
+                                       remove_kth_last))

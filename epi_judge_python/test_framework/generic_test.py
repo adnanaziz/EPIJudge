@@ -1,20 +1,19 @@
 # @library
+import json
+import os
 import sys
 
-from os import path
-
 from test_framework.generic_test_handler import GenericTestHandler
+from test_framework.platform import set_output_opts
 from test_framework.test_config import TestConfig
 from test_framework.test_failure import TestFailure, PropertyName
 from test_framework.test_result import TestResult
 from test_framework.test_utils import split_tsv_file
 from test_framework.test_utils_console import print_test_info, print_failed_test, print_post_run_stats
-from test_framework.platform import set_output_opts
 from test_framework.timeout_exception import TimeoutException
 
 
-def generic_test_main(timeous_seconds,
-                      test_data_file,
+def generic_test_main(test_data_file,
                       test_func,
                       comparator=None,
                       res_printer=None):
@@ -27,9 +26,13 @@ def generic_test_main(timeous_seconds,
     :param res_printer - function for customized printing
     """
     try:
+        with open('config.json') as config_file_data:
+            config_override = json.load(config_file_data)
+
         commandline_args = sys.argv[1:]
         config = TestConfig.from_command_line(
-            test_data_file, timeous_seconds * 1000, commandline_args)
+            test_data_file, config_override['timeoutSeconds'],
+            commandline_args)
 
         set_output_opts(config.tty_mode, config.color_mode)
 
@@ -44,7 +47,7 @@ def generic_test_main(timeous_seconds,
 
 def run_tests(handler, config, res_printer):
     test_data = split_tsv_file(
-        path.join(config.test_data_dir, config.test_data_file))
+        os.path.join(config.test_data_dir, config.test_data_file))
     handler.parse_signature(test_data[0])
 
     test_nr = 0
@@ -64,7 +67,7 @@ def run_tests(handler, config, res_printer):
         test_failure = TestFailure()
 
         try:
-            test_timer = handler.run_test(config.timeout, test_case)
+            test_timer = handler.run_test(config.timeout_seconds, test_case)
             result = TestResult.PASSED
             tests_passed += 1
             durations.append(test_timer.get_microseconds())

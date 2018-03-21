@@ -32,12 +32,6 @@ def uniform_random_wrapper(executor, lower_bound, upper_bound):
 
 
 if __name__ == '__main__':
-    # The timeout is set to 30 seconds.
-    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
-    # You can extend the limit by changing the following line.
-    timeout_seconds = 30
-
     exit(
-        generic_test.generic_test_main(timeout_seconds,
-                                       'uniform_random_number.tsv',
+        generic_test.generic_test_main('uniform_random_number.tsv',
                                        uniform_random_wrapper))

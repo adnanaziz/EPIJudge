@@ -31,11 +31,5 @@ def even_odd_wrapper(executor, A):
 
 
 if __name__ == '__main__':
-    # The timeout is set to 30 seconds.
-    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
-    # You can extend the limit by changing the following line.
-    timeout_seconds = 30
-
     exit(
-        generic_test.generic_test_main(timeout_seconds, 'even_odd_array.tsv',
-                                       even_odd_wrapper))
+        generic_test.generic_test_main('even_odd_array.tsv', even_odd_wrapper))

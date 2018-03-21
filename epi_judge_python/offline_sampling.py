@@ -41,11 +41,6 @@ def random_sampling_wrapper(executor, k, A):
 
 
 if __name__ == '__main__':
-    # The timeout is set to 30 seconds.
-    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
-    # You can extend the limit by changing the following line.
-    timeout_seconds = 30
-
     exit(
-        generic_test.generic_test_main(timeout_seconds, 'offline_sampling.tsv',
+        generic_test.generic_test_main('offline_sampling.tsv',
                                        random_sampling_wrapper))

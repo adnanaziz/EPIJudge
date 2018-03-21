@@ -63,12 +63,12 @@ class GenericTestHandler:
 
         self._ret_value_parser = get_string_parser_for_type(signature[-1])
 
-    def run_test(self, timeout_ms, test_args):
+    def run_test(self, timeout_seconds, test_args):
         """
         This method is invoked for each row in a test data file (except the header).
         It deserializes the list of arguments and calls the user function with them.
 
-        :param timeout_ms: test timeout
+        :param timeout_seconds: number of seconds to timeout
         :param test_args: serialized arguments
         :return: list, that contains [result of comparison of expected and result, expected, result].
                  Two last entries are omitted in case of the void return type
@@ -80,7 +80,7 @@ class GenericTestHandler:
                                            else len(test_args)])
         ]
 
-        executor = TimedExecutor(timeout_ms)
+        executor = TimedExecutor(timeout_seconds)
         if self._has_executor_hook:
             result = self._func(executor, *args)
         else:

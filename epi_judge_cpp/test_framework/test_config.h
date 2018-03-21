@@ -50,18 +50,19 @@ void PrintUsageAndExit() {
 
 struct TestConfig {
   TestConfig(const std::string& test_data_file,
-             const std::chrono::milliseconds& timeout)
+             const std::chrono::seconds& timeout_seconds)
       : test_data_file(test_data_file),
         run_all_tests(false),
         verbose(true),
         tty_mode(TriBool::INDETERMINATE),
         color_mode(TriBool::INDETERMINATE),
-        timeout(timeout) {}
+        timeout_seconds(timeout_seconds) {}
 
   static TestConfig FromCommandLine(
-      const std::string& test_data_file, const std::chrono::seconds& timeout,
+      const std::string& test_data_file,
+      const std::chrono::seconds& timeout_seconds,
       const std::vector<std::string>& commandline_args) {
-    TestConfig config{test_data_file, timeout};
+    TestConfig config{test_data_file, timeout_seconds};
 
     for (size_t i = 0; i < commandline_args.size(); i++) {
       if (commandline_args[i] == "--test-data-dir") {
@@ -110,5 +111,5 @@ struct TestConfig {
   bool verbose;
   TriBool tty_mode;
   TriBool color_mode;
-  std::chrono::milliseconds timeout;
+  std::chrono::seconds timeout_seconds;
 };

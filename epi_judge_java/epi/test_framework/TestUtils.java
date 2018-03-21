@@ -124,7 +124,8 @@ public class TestUtils {
   public static boolean floatComparison(Float f1, Float f2) {
     float eps = 1E-4f;
     float absEps = 1E-10f;
-    return Math.abs(f1 - f2) <= Math.max(eps * Math.max(Math.abs(f1), Math.abs(f2)), absEps);
+    return Math.abs(f1 - f2) <=
+        Math.max(eps * Math.max(Math.abs(f1), Math.abs(f2)), absEps);
   }
 
   /**
@@ -133,6 +134,7 @@ public class TestUtils {
   public static boolean doubleComparison(Double d1, Double d2) {
     double eps = 1E-6;
     double absEps = 1E-20;
-    return Math.abs(d1 - d2) <= Math.max(eps * Math.max(Math.abs(d1), Math.abs(d2)), absEps);
+    return Math.abs(d1 - d2) <=
+        Math.max(eps * Math.max(Math.abs(d1), Math.abs(d2)), absEps);
   }
 }

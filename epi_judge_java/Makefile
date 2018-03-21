@@ -688,11 +688,11 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/LevenshteinDistance.class: $(SRC_DIR)/$(MAIN_PACKAG
 LevenshteinDistance: $(BUILD_DIR)/$(MAIN_PACKAGE)/LevenshteinDistance.class
 	$(RUN_CMD) $(MAIN_PACKAGE).LevenshteinDistance $(PROGRAM_ARGS)
 
-.PHONY: LineThoughMostPoints
-$(BUILD_DIR)/$(MAIN_PACKAGE)/LineThoughMostPoints.class: $(SRC_DIR)/$(MAIN_PACKAGE)/LineThoughMostPoints.java $(TEST_FRAMEWORK)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/LineThoughMostPoints.java"
-LineThoughMostPoints: $(BUILD_DIR)/$(MAIN_PACKAGE)/LineThoughMostPoints.class
-	$(RUN_CMD) $(MAIN_PACKAGE).LineThoughMostPoints $(PROGRAM_ARGS)
+.PHONY: LineThroughMostPoints
+$(BUILD_DIR)/$(MAIN_PACKAGE)/LineThroughMostPoints.class: $(SRC_DIR)/$(MAIN_PACKAGE)/LineThroughMostPoints.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/LineThroughMostPoints.java"
+LineThroughMostPoints: $(BUILD_DIR)/$(MAIN_PACKAGE)/LineThroughMostPoints.class
+	$(RUN_CMD) $(MAIN_PACKAGE).LineThroughMostPoints $(PROGRAM_ARGS)
 
 .PHONY: ListCyclicRightShift
 $(BUILD_DIR)/$(MAIN_PACKAGE)/ListCyclicRightShift.class: $(SRC_DIR)/$(MAIN_PACKAGE)/ListCyclicRightShift.java $(TEST_FRAMEWORK)
@@ -1521,7 +1521,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/LargestRectangleUnderSkyline.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/LeftRightJustifyText.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/LevenshteinDistance.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/LineThoughMostPoints.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/LineThroughMostPoints.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/ListCyclicRightShift.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/LongestContainedInterval.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/LongestIncreasingSubarray.class \

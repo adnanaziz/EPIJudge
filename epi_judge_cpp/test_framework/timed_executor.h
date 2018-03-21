@@ -10,20 +10,20 @@
 
 class TimedExecutor {
  public:
-  explicit TimedExecutor(const std::chrono::milliseconds& timeout)
-      : timeout_(timeout) {}
+  explicit TimedExecutor(const std::chrono::seconds& timeout_seconds)
+      : timeout_seconds_(timeout_seconds) {}
 
   /**
-   * Invokes func with a specified timeout.
-   * If func takes more than timeout milliseconds to run,
+   * Invokes func with a specified timeout_seconds.
+   * If func takes more than timeout_seconds seconds to run,
    * TimeoutException is thrown.
-   * If timeout == 0, it simply calls the function.
+   * If timeout_seconds == 0, it simply calls the function.
    *
    * @return whatever func returns
    */
   template <typename Func>
   decltype(auto) Run(Func func) {
-    if (timeout_ == timeout_.zero()) {
+    if (timeout_seconds_ == timeout_seconds_.zero()) {
       // timeout is disabled
       timer_.Start();
       OnScopeExit timer_stopper(std::bind(&TestTimer::Stop, &timer_));
@@ -36,10 +36,10 @@ class TimedExecutor {
         return func();
       });
 
-      if (future.wait_for(timeout_) == std::future_status::ready) {
+      if (future.wait_for(timeout_seconds_) == std::future_status::ready) {
         return future.get();
       } else {
-        throw TimeoutException(timeout_);
+        throw TimeoutException(timeout_seconds_);
       }
     }
   }
@@ -48,7 +48,7 @@ class TimedExecutor {
 
  private:
   TestTimer timer_;
-  std::chrono::milliseconds timeout_;
+  std::chrono::seconds timeout_seconds_;
 };
 
 template <typename Func, typename... ArgsFwd>

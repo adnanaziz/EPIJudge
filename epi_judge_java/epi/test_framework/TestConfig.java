@@ -13,15 +13,15 @@ public class TestConfig {
   public boolean verbose;
   public TriBool ttyMode;
   public TriBool colorMode;
-  public long timeout;
+  public long timeoutSeconds;
 
-  public TestConfig(String testDataFile, long timeout) {
+  public TestConfig(String testDataFile, long timeoutSeconds) {
     this.testDataFile = testDataFile;
     this.runAllTests = false;
     this.verbose = true;
     this.ttyMode = TriBool.INDETERMINATE;
     this.colorMode = TriBool.INDETERMINATE;
-    this.timeout = timeout;
+    this.timeoutSeconds = timeoutSeconds;
   }
 
   private static String getParam(String[] commandlineArgs, int i,
@@ -60,9 +60,10 @@ public class TestConfig {
     System.exit(0);
   }
 
-  public static TestConfig fromCommandLine(String testDataFile, long timeoutMs,
+  public static TestConfig fromCommandLine(String testDataFile,
+                                           long timeoutSeconds,
                                            String[] commandlineArgs) {
-    TestConfig config = new TestConfig(testDataFile, timeoutMs);
+    TestConfig config = new TestConfig(testDataFile, timeoutSeconds);
 
     for (int i = 0; i < commandlineArgs.length; i++) {
       switch (commandlineArgs[i]) {

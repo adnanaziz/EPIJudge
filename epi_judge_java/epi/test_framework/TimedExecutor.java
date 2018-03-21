@@ -10,24 +10,24 @@ import java.util.concurrent.TimeUnit;
 
 public class TimedExecutor {
   private TestTimer timer;
-  private long timeoutMs;
+  private long timeoutSeconds;
 
-  public TimedExecutor(long timeoutMs) {
+  public TimedExecutor(long timeoutSeconds) {
     this.timer = new TestTimer();
-    this.timeoutMs = timeoutMs;
+    this.timeoutSeconds = timeoutSeconds;
   }
 
   /**
-   * Invokes func with a specified timeout.
-   * If func takes more than timeout milliseconds to run,
+   * Invokes func with a specified timeoutSeconds.
+   * If func takes more than timeoutSeconds seconds to run,
    * TimeoutException is thrown.
-   * If timeout == 0, it simply calls the function.
+   * If timeoutSeconds == 0, it simply calls the function.
    *
    * @return whatever func returns
    */
   public <ReturnType> ReturnType run(Callable<ReturnType> func)
       throws Exception {
-    if (timeoutMs == 0) {
+    if (timeoutSeconds == 0) {
       // timeout is disabled
       timer.start();
       ReturnType result = func.call();
@@ -46,10 +46,10 @@ public class TimedExecutor {
         // This does not cancel the already-scheduled task.
         executor.shutdown();
 
-        return future.get(timeoutMs, TimeUnit.MILLISECONDS);
+        return future.get(timeoutSeconds, TimeUnit.SECONDS);
 
       } catch (java.util.concurrent.TimeoutException e) {
-        throw new epi.test_framework.TimeoutException(timeoutMs);
+        throw new epi.test_framework.TimeoutException(timeoutSeconds);
       } catch (InterruptedException e) {
         throw new RuntimeException(e.getMessage());
       } catch (ExecutionException e) {
@@ -64,8 +64,8 @@ public class TimedExecutor {
   }
 
   /**
-   * Invokes func with a specified timeout.
-   * If func takes more than timeout milliseconds to run,
+   * Invokes func with a specified timeoutSeconds.
+   * If func takes more than timeoutSeconds seconds to run,
    * TimeoutException is thrown.
    * If timeout == 0, it simply calls the function.
    */

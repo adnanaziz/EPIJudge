@@ -2,11 +2,15 @@
 #pragma once
 
 #include <chrono>
+#include <fstream>
+#include <iostream>
 #include <stdexcept>
+#include <streambuf>
 #include <string>
 #include <vector>
 
 #include "generic_test_handler.h"
+#include "json_parser.h"
 #include "platform.h"
 #include "test_config.h"
 #include "test_timer.h"
@@ -21,7 +25,6 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
  */
 template <typename Function, typename Comparator>
 TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
-                           const std::chrono::seconds& timeout,
                            const std::string& test_data_file,
                            Function test_func, Comparator comparator,
                            const std::vector<std::string>& param_names) {
@@ -29,9 +32,16 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
   // operation.
   std::cout.setf(std::ios::unitbuf);
 
+  std::ifstream config_data("config.json");
+  const json_parser::Json config_override =
+      json_parser::Json(std::string{std::istream_iterator<char>(config_data),
+                                    std::istream_iterator<char>()});
+
   try {
-    TestConfig config = TestConfig::FromCommandLine(test_data_file, timeout,
-                                                    commandline_args);
+    TestConfig config = TestConfig::FromCommandLine(
+        test_data_file,
+        std::chrono::seconds{config_override["timeoutSeconds"].int_value()},
+        commandline_args);
 
     platform::SetOutputOpts(config.tty_mode, config.color_mode);
 
@@ -70,7 +80,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     TestFailure test_failure;
 
     try {
-      test_timer = handler.RunTest(config.timeout, test_case);
+      test_timer = handler.RunTest(config.timeout_seconds, test_case);
       result = PASSED;
       ++tests_passed;
       durations.push_back(test_timer.GetMicroseconds());

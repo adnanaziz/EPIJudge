@@ -8,9 +8,7 @@ public class Platform {
   private static boolean enableTtyOutput = false;
   private static boolean enableColorOutput = false;
 
-  public static void stdOutClearLine() {
-    System.out.print("\r");
-  }
+  public static void stdOutClearLine() { System.out.print("\r"); }
 
   public static void setOutputOpts(TriBool ttyMode, TriBool colorMode) {
     enableTtyOutput = ttyMode.getOrDefault(System.console() != null);

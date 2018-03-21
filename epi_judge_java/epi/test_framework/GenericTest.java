@@ -1,9 +1,11 @@
 // @library
 package epi.test_framework;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,6 @@ public class GenericTest {
    * #runFromAnnotations(String[], long, Class)}.
    *
    * @param commandlineArgs - command-line options
-   * @param timeoutSeconds  - execution timeout
    * @param testDataFile    - name of the file containing header and test data
    *                            without path prefix.
    * @param testFunc        - method to be tested
@@ -26,12 +27,21 @@ public class GenericTest {
    *                          match m return type
    */
   public static TestResult genericTestMain(
-      String[] commandlineArgs, long timeoutSeconds, String testDataFile,
-      Method testFunc, BiPredicate<Object, Object> comparator,
-      List<Class<?>> expectedType) {
+      String[] commandlineArgs, String testDataFile, Method testFunc,
+      BiPredicate<Object, Object> comparator, List<Class<?>> expectedType) {
+    JsonObject configOverride = null;
+    try {
+      configOverride =
+          Json.parse(new String(Files.readAllBytes(Paths.get("config.json"))))
+              .asObject();
+    } catch (IOException e) {
+      throw new RuntimeException("config.json file not found");
+    }
+
     try {
       TestConfig config = TestConfig.fromCommandLine(
-          testDataFile, timeoutSeconds * 1000, commandlineArgs);
+          testDataFile, configOverride.get("timeoutSeconds").asInt(),
+          commandlineArgs);
 
       Platform.setOutputOpts(config.ttyMode, config.colorMode);
 
@@ -70,7 +80,7 @@ public class GenericTest {
       TestFailure testFailure = new TestFailure();
 
       try {
-        testTimer = handler.runTest(config.timeout, testCase);
+        testTimer = handler.runTest(config.timeoutSeconds, testCase);
         result = TestResult.PASSED;
         testsPassed++;
         durations.add(testTimer.getMicroseconds());
@@ -135,7 +145,6 @@ public class GenericTest {
    */
   @SuppressWarnings("unchecked")
   public static TestResult runFromAnnotations(String[] commandlineArgs,
-                                              long timeoutSeconds,
                                               Class testClass) {
     BiPredicate<Object, Object> comparator =
         findCustomComparatorByAnnotation(testClass);
@@ -146,9 +155,8 @@ public class GenericTest {
     for (Method m : testClass.getMethods()) {
       EpiTest annotation = m.getAnnotation(EpiTest.class);
       if (annotation != null) {
-        result =
-            genericTestMain(commandlineArgs, timeoutSeconds,
-                            annotation.testfile(), m, comparator, expectedType);
+        result = genericTestMain(commandlineArgs, annotation.testfile(), m,
+                                 comparator, expectedType);
       }
     }
     return result;

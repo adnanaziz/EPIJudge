@@ -27,12 +27,6 @@ def deletion_from_list_wrapper(executor, head, node_to_delete_idx):
 
 
 if __name__ == '__main__':
-    # The timeout is set to 30 seconds.
-    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
-    # You can extend the limit by changing the following line.
-    timeout_seconds = 30
-
     exit(
-        generic_test.generic_test_main(timeout_seconds,
-                                       'delete_node_from_list.tsv',
+        generic_test.generic_test_main('delete_node_from_list.tsv',
                                        deletion_from_list_wrapper))

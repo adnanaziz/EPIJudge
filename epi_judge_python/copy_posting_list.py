@@ -72,12 +72,6 @@ def copy_postings_list_wrapper(executor, l):
 
 
 if __name__ == '__main__':
-    # The timeout is set to 30 seconds.
-    # If your program ends with TIMEOUT error probably it stuck in an infinity loop,
-    # You can extend the limit by changing the following line.
-    timeout_seconds = 30
-
     exit(
-        generic_test.generic_test_main(timeout_seconds,
-                                       'copy_posting_list.tsv',
+        generic_test.generic_test_main('copy_posting_list.tsv',
                                        copy_postings_list_wrapper))
