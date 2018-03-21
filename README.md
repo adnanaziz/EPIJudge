@@ -80,15 +80,13 @@ If you do have issues, e.g., with install or with buggy tests, feel free to reac
 The IntelliJ Integrated Development environments described above are best-in-class, and have free versions that will work fine for the EPI Judge. They do not include the compilers. You can get the Java development environment from [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), and the Python development environment from [Python.org](https://www.python.org/downloads/). For C++, you have multiple options. The simplest is to install [VisualStudio](https://code.visualstudio.com/download), which includes both the IDE and the compiler. Google is a good resource for installation help.
 
 - What compilers are supported?
-
-The judge has been tested with these compilers. Let us know if you managed to compile all programs with an older version.
-
- 1. **GCC** 5.4.1 (on Ubuntu 16.04)
- 1. **Clang** 4.0 (on Ubuntu 16.04)
- 1. **Apple LLVM Clang** 9.0.0
- 1. **Visual Studio** 2017
- 1. **Java** 8
- 1. **Python** 3.5
+  - **GCC** 5.4.1 (on Ubuntu 16.04)
+  - **Clang** 4.0 (on Ubuntu 16.04)
+  - **Apple LLVM Clang** 9.0.0
+  - **Visual Studio** 2017
+  - **Java** 8
+  - **Python** 3.5
+Let us know if you managed to compile with an older version.
 
 - What does the UI look like?
 
