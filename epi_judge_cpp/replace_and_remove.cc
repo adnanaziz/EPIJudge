@@ -2,7 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::vector;
@@ -12,7 +13,7 @@ int ReplaceAndRemove(int size, char s[]) {
   return 0;
 }
 
-vector<string> ReplaceAndRemoveWrapper(TestTimer& timer, int size,
+vector<string> ReplaceAndRemoveWrapper(TimedExecutor& executor, int size,
                                        const vector<string>& s) {
   std::vector<char> s_copy(s.size(), '\0');
   for (int i = 0; i < s.size(); ++i) {
@@ -21,9 +22,8 @@ vector<string> ReplaceAndRemoveWrapper(TestTimer& timer, int size,
     }
   }
 
-  timer.Start();
-  int res_size = ReplaceAndRemove(size, s_copy.data());
-  timer.Stop();
+  int res_size =
+      executor.Run([&] { return ReplaceAndRemove(size, s_copy.data()); });
 
   vector<string> result;
   for (int i = 0; i < res_size; ++i) {
@@ -32,11 +32,10 @@ vector<string> ReplaceAndRemoveWrapper(TestTimer& timer, int size,
   return result;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "size", "s"};
-  generic_test_main(argc, argv, param_names, "replace_and_remove.tsv",
-                    &ReplaceAndRemoveWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "size", "s"};
+  return GenericTestMain(args, "replace_and_remove.tsv",
+                         &ReplaceAndRemoveWrapper, DefaultComparator{},
+                         param_names);
 }

@@ -1,0 +1,9 @@
+string	int	int
+return	10	10	pass
+sleep	2	0	pass
+return	10	11	fail
+sleep	3	0	pass
+sleep	60	0	timeout
+test_failure	0	0	fail
+user_exception	0	0	fail
+runtime_exception	0	0	terminate

@@ -13,6 +13,8 @@
 #include "binary_tree_utils.h"
 #include "test_utils_meta.h"
 
+struct NoSpecializationTag {};
+
 /**
  * SerializationTraits defines a mapping between
  * possible types from a function signature and
@@ -35,15 +37,31 @@
  *  - const and reference modifiers are dropped
  */
 template <typename T, typename SFINAE = void>
-struct SerializationTraits {
-  static_assert(sizeof(T) < 0, "Unsupported type");
+struct SerializationTraits : NoSpecializationTag {
+  using serialization_type = T;
+
+  static constexpr const char* Name() { return typeid(T).name(); }
+
+  static void Parse(const std::string& str) {
+    static_assert(sizeof(T) < 0, "Unsupported type");
+  }
+
+  static void JsonParse(std::istream& in) {
+    static_assert(sizeof(T) < 0, "Unsupported type");
+  }
+
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
+    static_assert(HasEqualOp<serialization_type>::value,
+                  "Missing == operator for the type");
+    return a == b;
+  }
 };
 
 template <typename T>
-std::ostream& EpiPrint(std::ostream& out, const T& x) {
-  SerializationTraits<T>::Print(out, x);
-  return out;
-}
+using HasSerializationTraitsSpecialization = std::integral_constant<
+    bool,
+    !std::is_base_of<NoSpecializationTag, SerializationTraits<T>>::value>;
 
 /**
  * void specialization.
@@ -81,10 +99,6 @@ struct SerializationTraits<VoidPlaceholder, void> {
   static void JsonParse(std::istream& in) {
     throw std::runtime_error("Can't parse void");
   }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
-  }
 };
 
 /**
@@ -120,10 +134,6 @@ struct SerializationTraits<
   static bool Equal(serialization_type a, serialization_type b) {
     return a == b;
   }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
-  }
 };
 
 /**
@@ -158,10 +168,6 @@ struct SerializationTraits<
 
   static bool Equal(serialization_type a, serialization_type b) {
     return a == b;
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
   }
 };
 
@@ -199,10 +205,6 @@ struct SerializationTraits<
   static bool Equal(serialization_type a, serialization_type b) {
     return a == b;
   }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
-  }
 };
 
 /**
@@ -235,11 +237,9 @@ struct SerializationTraits<float, void> {
 
   static bool Equal(serialization_type a, serialization_type b) {
     constexpr float eps = 1E-4f;
-    return std::abs(a - b) <= eps * std::max(std::abs(a), std::abs(b));
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
+    constexpr float abs_eps = 1E-10f;
+    return std::abs(a - b) <=
+           std::max(eps * std::max(std::abs(a), std::abs(b)), abs_eps);
   }
 };
 
@@ -273,11 +273,9 @@ struct SerializationTraits<double, void> {
 
   static bool Equal(serialization_type a, serialization_type b) {
     constexpr double eps = 1E-6;
-    return std::abs(a - b) <= eps * std::max(std::abs(a), std::abs(b));
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
+    constexpr double abs_eps = 1E-20;
+    return std::abs(a - b) <=
+           std::max(eps * std::max(std::abs(a), std::abs(b)), abs_eps);
   }
 };
 
@@ -324,10 +322,6 @@ struct SerializationTraits<bool, void> {
 
   static bool Equal(serialization_type a, serialization_type b) {
     return a == b;
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << (x ? "true" : "false");
   }
 };
 
@@ -378,10 +372,6 @@ struct SerializationTraits<std::string, void> {
   static bool Equal(const serialization_type& a,
                     const serialization_type& b) {
     return a == b;
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
   }
 };
 
@@ -452,19 +442,6 @@ struct SerializationTraits<std::vector<Inner>, void> {
     return std::equal(std::begin(a), std::end(a), std::begin(b), std::end(b),
                       inner_traits::Equal);
   }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << "[";
-    bool first = true;
-    for (auto it = std::begin(x); it != std::end(x); ++it) {
-      if (first)
-        first = false;
-      else
-        out << ", ";
-      EpiPrint(out, *it);
-    }
-    out << "]";
-  }
 };
 
 /**
@@ -492,19 +469,6 @@ struct ArrayBasedTypeSerTraits : SerializationTraits<std::vector<Inner>> {
                     const serialization_type& b) {
     return std::equal(std::begin(a), std::end(a), std::begin(b), std::end(b),
                       SerializationTraits<Inner>::Equal);
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << "[";
-    bool first = true;
-    for (auto it = std::begin(x); it != std::end(x); ++it) {
-      if (first)
-        first = false;
-      else
-        out << ", ";
-      EpiPrint(out, *it);
-    }
-    out << "]";
   }
 };
 
@@ -543,7 +507,7 @@ struct SerializationTraits<std::unordered_set<Inner>, void>
   }
 };
 
-namespace detail {
+namespace {
 /**
  * std::tuple specialization helper class.
  */
@@ -619,22 +583,7 @@ struct TupleJsonParser
     : TupleJsonParserImpl<TupleT, Idx,
                           std::tuple_size<TupleT>::value == (Idx + 1)> {};
 
-template <size_t Idx, typename TupleT>
-struct TuplePrintHelper {
-  static void Print(std::ostream& out, const TupleT& x) {
-    if (Idx < std::tuple_size<TupleT>::value) {
-      out << ", ";
-    }
-    PrintImpl(std::get<std::tuple_size<TupleT>::value - Idx>(x));
-    TuplePrintHelper<Idx - 1, TupleT>::Print(out, x);
-  }
-};
-
-template <typename TupleT>
-struct TuplePrintHelper<0, TupleT> {
-  static void Print(std::ostream& out, const TupleT& x) {}
-};
-}  // namespace detail
+}  // namespace 
 
 /**
  * std::tuple specialization
@@ -672,20 +621,13 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
   }
 
   static serialization_type JsonParse(std::istream& in) {
-    return detail::TupleJsonParser<tuple_type, 0>::Parse(in);
+    return TupleJsonParser<tuple_type, 0>::Parse(in);
   }
 
   static bool Equal(const serialization_type& a,
                     const serialization_type& b) {
     return equalImpl(
         a, b, std::make_index_sequence<std::tuple_size<tuple_type>::value>());
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << "[";
-    detail::TuplePrintHelper<std::tuple_size<serialization_type>::value,
-                             serialization_type>::Print(out, x);
-    out << "]";
   }
 
  private:
@@ -711,13 +653,13 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
 template <bool HasParent>
 struct BinaryTreeSerializationTraitsHelper {
   template <typename Node, typename Parent>
-  static void initParent(const Node& n, const Parent& p) {}
+  static void InitParent(const Node& n, const Parent& p) {}
 };
 
 template <>
 struct BinaryTreeSerializationTraitsHelper<true> {
   template <typename Node, typename Parent>
-  static void initParent(Node& n, Parent& p) {
+  static void InitParent(Node& n, Parent& p) {
     n->parent = p;
   }
 };
@@ -750,15 +692,15 @@ struct BinaryTreeSerializationTraits<
 
   static serialization_type Parse(const std::string& str) {
     auto v = SerializationTraits<std::vector<std::string>>::Parse(str);
-    return buildTreeFromVector(v);
+    return BuildTreeFromVector(v);
   }
 
   static serialization_type JsonParse(std::istream& in) {
     auto v = SerializationTraits<std::vector<std::string>>::JsonParse(in);
-    return buildTreeFromVector(v);
+    return BuildTreeFromVector(v);
   }
 
-  static serialization_type buildTreeFromVector(
+  static serialization_type BuildTreeFromVector(
       const std::vector<std::string>& data) {
     if (data.empty()) {
       throw std::runtime_error("Tree parser: missing data");
@@ -780,7 +722,7 @@ struct BinaryTreeSerializationTraits<
         if (!candidate_children.empty()) {
           node->left = serialization_type(candidate_children.back());
           if (node->left) {
-            BinaryTreeSerializationTraitsHelper<HasParent>::initParent(
+            BinaryTreeSerializationTraitsHelper<HasParent>::InitParent(
                 node->left, node);
           }
           candidate_children.pop_back();
@@ -789,7 +731,7 @@ struct BinaryTreeSerializationTraits<
         if (!candidate_children.empty()) {
           node->right = serialization_type(candidate_children.back());
           if (node->right) {
-            BinaryTreeSerializationTraitsHelper<HasParent>::initParent(
+            BinaryTreeSerializationTraitsHelper<HasParent>::InitParent(
                 node->right, node);
           }
           candidate_children.pop_back();
@@ -806,39 +748,18 @@ struct BinaryTreeSerializationTraits<
   }
 
   static void Print(std::ostream& out, const serialization_type& x) {
-    std::queue<const serialization_type*> q;
-    q.push(&x);
-
-    bool first = true;
-    int null_nodes_pending = 0;
-
-    out << "[";
-    while (!q.empty()) {
-      auto node = q.front();
-      q.pop();
-
-      if (*node) {
-        if (first)
-          first = false;
-        else
-          out << ", ";
-
-        for (; null_nodes_pending > 0; null_nodes_pending--) {
-          out << "null, ";
-        }
-        out << '"';
-        EpiPrint(out, (*node)->data);
-        out << '"';
-
-        q.push(&(*node)->left);
-        q.push(&(*node)->right);
-      } else {
-        null_nodes_pending++;
-      }
-    }
-    out << "]";
+    out << BinaryTreeToString(x);
   }
 };
+
+#define DECLARE_BINARY_TREE_TYPE(KeyType, NodePtrType, HasParent) \
+  template <typename KeyType>                                     \
+  struct SerializationTraits<NodePtrType>                         \
+      : BinaryTreeSerializationTraits<NodePtrType, HasParent> {}; \
+  namespace {                                                     \
+  template <typename KeyType>                                     \
+  struct IsBinaryTreeImpl<NodePtrType> : std::true_type {};       \
+  }  // namespace                                                 \
 
 /**
  * A specialization for handling types with modifiers.
@@ -913,10 +834,8 @@ struct UserSerTraits : SerializationTraits<std::tuple<Members...>> {
 
   static bool Equal(const serialization_type& a,
                     const serialization_type& b) {
+    static_assert(HasEqualOp<serialization_type>::value,
+                  "Missing == operator for the type");
     return a == b;
-  }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << x;
   }
 };

@@ -1,6 +1,10 @@
+import functools
+from sys import exit
+
 from list_node import ListNode
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+from test_framework import generic_test, test_utils
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 def list_pivoting(l, x):
@@ -16,13 +20,11 @@ def linked_to_list(l):
     return v
 
 
-@enable_timer_hook
-def list_pivoting_wrapper(timer, l, x):
+@enable_executor_hook
+def list_pivoting_wrapper(executor, l, x):
     original = linked_to_list(l)
 
-    timer.start()
-    l = list_pivoting(l, x)
-    timer.stop()
+    l = executor.run(functools.partial(list_pivoting, l, x))
 
     pivoted = linked_to_list(l)
     mode = -1
@@ -34,19 +36,18 @@ def list_pivoting_wrapper(timer, l, x):
                 mode = 1
         elif mode == 0:
             if i < x:
-                raise TestFailureException('List is not pivoted')
+                raise TestFailure('List is not pivoted')
             elif i > x:
                 mode = 1
         else:
             if i <= x:
-                raise TestFailureException('List is not pivoted')
+                raise TestFailure('List is not pivoted')
 
     if sorted(original) != sorted(pivoted):
-        raise TestFailureException('Result list contains different values')
+        raise TestFailure('Result list contains different values')
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('pivot_list.tsv',
-                                              list_pivoting_wrapper)
+    exit(
+        generic_test.generic_test_main('pivot_list.tsv',
+                                       list_pivoting_wrapper))

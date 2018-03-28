@@ -2,8 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class LruCache {
   }
 
   @EpiTest(testfile = "lru_cache.tsv")
-  public static void runTest(List<Op> commands) throws TestFailureException {
+  public static void runTest(List<Op> commands) throws TestFailure {
     if (commands.isEmpty() || !commands.get(0).code.equals("LruCache")) {
       throw new RuntimeException("Expected LruCache as first command");
     }
@@ -51,9 +51,8 @@ public class LruCache {
       case "lookup":
         result = cache.lookup(op.arg1);
         if (result != op.arg2) {
-          throw new TestFailureException("Lookup: expected " +
-                                         String.valueOf(op.arg2) + ", got " +
-                                         String.valueOf(result));
+          throw new TestFailure("Lookup: expected " + String.valueOf(op.arg2) +
+                                ", got " + String.valueOf(result));
         }
         break;
       case "insert":
@@ -62,9 +61,8 @@ public class LruCache {
       case "erase":
         result = cache.erase(op.arg1) ? 1 : 0;
         if (result != op.arg2) {
-          throw new TestFailureException("Erase: expected " +
-                                         String.valueOf(op.arg2) + ", got " +
-                                         String.valueOf(result));
+          throw new TestFailure("Erase: expected " + String.valueOf(op.arg2) +
+                                ", got " + String.valueOf(result));
         }
         break;
       default:
@@ -74,7 +72,9 @@ public class LruCache {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

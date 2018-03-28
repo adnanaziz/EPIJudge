@@ -1,4 +1,5 @@
-from test_framework.binary_tree_utils import equal_binary_trees, binary_tree_to_string
+from test_framework.binary_tree_utils import (binary_tree_to_string,
+                                              equal_binary_trees)
 
 
 class BstNode:

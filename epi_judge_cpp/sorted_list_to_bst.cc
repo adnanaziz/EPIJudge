@@ -3,8 +3,9 @@
 #include <vector>
 
 #include "doubly_list_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::make_shared;
 using std::vector;
@@ -13,7 +14,7 @@ using std::vector;
 // list nodes are used as the BST nodes left and right fields, respectively.
 // The length of the list is given.
 shared_ptr<ListNode<int>> BuildBSTFromSortedDoublyList(
-    shared_ptr<ListNode<int>> L, int length) {
+    shared_ptr<ListNode<int>> l, int length) {
   // Implement this placeholder.
   return nullptr;
 }
@@ -28,47 +29,46 @@ void CompareVectorAndTree(const shared_ptr<ListNode<int>>& tree,
   CompareVectorAndTree(tree->prev, current, end);
 
   if (current == end) {
-    throw TestFailureException("Too few values in the tree");
+    throw TestFailure("Too few values in the tree");
   }
   if (*current != tree->data) {
-    throw TestFailureException("Unexpected value");
+    throw TestFailure("Unexpected value");
   }
   ++current;
 
   CompareVectorAndTree(tree->next, current, end);
 }
 
-void BuildBSTFromSortedDoublyListWrapper(TestTimer& timer,
-                                         const vector<int>& L) {
-  shared_ptr<ListNode<int>> list;
-  for (auto it = rbegin(L); it != rend(L); ++it) {
-    list = make_shared<ListNode<int>>(*it, nullptr, list);
-    if (list->next) {
-      list->next->prev = list;
+void BuildBSTFromSortedDoublyListWrapper(TimedExecutor& executor,
+                                         const vector<int>& l) {
+  shared_ptr<ListNode<int>> input_list;
+  for (auto it = rbegin(l); it != rend(l); ++it) {
+    input_list = make_shared<ListNode<int>>(*it, nullptr, input_list);
+    if (input_list->next) {
+      input_list->next->prev = input_list;
     }
   }
 
-  timer.Start();
-  list = BuildBSTFromSortedDoublyList(list, static_cast<int>(L.size()));
-  timer.Stop();
+  input_list = executor.Run([&] {
+    return BuildBSTFromSortedDoublyList(input_list, static_cast<int>(l.size()));
+  });
 
-  auto current = begin(L);
-  CompareVectorAndTree(list, current, end(L));
-  if (current != end(L)) {
-    throw TestFailureException("Too many values in the tree");
+  auto current = begin(l);
+  CompareVectorAndTree(input_list, current, end(l));
+  if (current != end(l)) {
+    throw TestFailure("Too many values in the tree");
   }
 
-  while (list) {
-    list->prev.reset();
-    list = list->next;
+  while (input_list) {
+    input_list->prev.reset();
+    input_list = input_list->next;
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "L"};
-  generic_test_main(argc, argv, param_names, "sorted_list_to_bst.tsv",
-                    &BuildBSTFromSortedDoublyListWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "l"};
+  return GenericTestMain(args, "sorted_list_to_bst.tsv",
+                         &BuildBSTFromSortedDoublyListWrapper,
+                         DefaultComparator{}, param_names);
 }

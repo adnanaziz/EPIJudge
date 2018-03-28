@@ -3,8 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::array;
 using std::stack;
@@ -17,21 +18,21 @@ vector<vector<int>> ComputeTowerHanoi(int num_rings) {
   return {};
 }
 
-void ComputeTowerHanoiWrapper(TestTimer& timer, int num_rings) {
+void ComputeTowerHanoiWrapper(TimedExecutor& executor, int num_rings) {
   array<stack<int>, kNumPegs> pegs;
   for (int i = num_rings; i >= 1; --i) {
     pegs[0].push(i);
   }
-  timer.Start();
-  vector<vector<int>> result = ComputeTowerHanoi(num_rings);
-  timer.Stop();
+
+  vector<vector<int>> result =
+      executor.Run([&] { return ComputeTowerHanoi(num_rings); });
 
   for (const vector<int>& operation : result) {
     int from_peg = operation[0], to_peg = operation[1];
     if (!pegs[to_peg].empty() && pegs[from_peg].top() >= pegs[to_peg].top()) {
-      throw TestFailureException("Illegal move from " +
-                                 std::to_string(pegs[from_peg].top()) + " to " +
-                                 std::to_string(pegs[to_peg].top()));
+      throw TestFailure("Illegal move from " +
+                        std::to_string(pegs[from_peg].top()) + " to " +
+                        std::to_string(pegs[to_peg].top()));
     }
     pegs[to_peg].push(pegs[from_peg].top());
     pegs[from_peg].pop();
@@ -44,15 +45,13 @@ void ComputeTowerHanoiWrapper(TestTimer& timer, int num_rings) {
     expected_pegs2[2].push(i);
   }
   if (pegs != expected_pegs1 && pegs != expected_pegs2) {
-    throw TestFailureException("Pegs doesn't place in the right configuration");
+    throw TestFailure("Pegs doesn't place in the right configuration");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "num_rings"};
-  generic_test_main(argc, argv, param_names, "hanoi.tsv",
-                    &ComputeTowerHanoiWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "num_rings"};
+  return GenericTestMain(args, "hanoi.tsv", &ComputeTowerHanoiWrapper,
+                         DefaultComparator{}, param_names);
 }

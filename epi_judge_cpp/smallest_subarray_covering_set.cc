@@ -2,8 +2,9 @@
 #include <unordered_set>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::unordered_set;
@@ -20,17 +21,16 @@ Subarray FindSmallestSubarrayCoveringSet(
 }
 
 int FindSmallestSubarrayCoveringSetWrapper(
-    TestTimer &timer, const vector<string> &paragraph,
+    TimedExecutor &executor, const vector<string> &paragraph,
     const unordered_set<string> &keywords) {
   unordered_set<string> copy = keywords;
 
-  timer.Start();
-  auto result = FindSmallestSubarrayCoveringSet(paragraph, keywords);
-  timer.Stop();
+  auto result = executor.Run(
+      [&] { return FindSmallestSubarrayCoveringSet(paragraph, keywords); });
 
   if (result.start < 0 || result.start >= paragraph.size() || result.end < 0 ||
       result.end >= paragraph.size() || result.start > result.end) {
-    throw TestFailureException("Index out of range");
+    throw TestFailure("Index out of range");
   }
 
   for (int i = result.start; i <= result.end; i++) {
@@ -38,18 +38,16 @@ int FindSmallestSubarrayCoveringSetWrapper(
   }
 
   if (!copy.empty()) {
-    throw TestFailureException("Not all keywords are in the range");
+    throw TestFailure("Not all keywords are in the range");
   }
 
   return result.end - result.start + 1;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char *argv[]) {
-  std::vector<std::string> param_names{"timer", "paragraph", "keywords"};
-  generic_test_main(argc, argv, param_names,
-                    "smallest_subarray_covering_set.tsv",
-                    &FindSmallestSubarrayCoveringSetWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "paragraph", "keywords"};
+  return GenericTestMain(args, "smallest_subarray_covering_set.tsv",
+                         &FindSmallestSubarrayCoveringSetWrapper,
+                         DefaultComparator{}, param_names);
 }

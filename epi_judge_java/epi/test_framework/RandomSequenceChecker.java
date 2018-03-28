@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.BooleanSupplier;
+import java.util.concurrent.Callable;
 
 public class RandomSequenceChecker {
   private static int computeDeviationMultiplier(double allowedFalseNegative,
@@ -132,15 +132,15 @@ public class RandomSequenceChecker {
     return comb;
   }
 
-  public static void runFuncWithRetries(BooleanSupplier func)
-      throws TestFailureException {
+  public static void runFuncWithRetries(Callable<Boolean> func)
+      throws Exception {
     final int NUM_RUNS = 5;
     for (int i = 0; i < NUM_RUNS; i++) {
-      if (func.getAsBoolean()) {
+      if (func.call()) {
         return;
       }
     }
-    throw new TestFailureException("Result is not a random permutation");
+    throw new TestFailure("Result is not a random permutation");
   }
 
   public static void main(String[] args) {

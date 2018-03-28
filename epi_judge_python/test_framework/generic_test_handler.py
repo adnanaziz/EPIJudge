@@ -1,11 +1,12 @@
 # @library
 import inspect
+import math
 
-from test_framework.test_output import TestOutput
-from test_framework.test_timer import TestTimer
+from test_framework.binary_tree_utils import assert_equal_binary_trees, is_object_tree_type
+from test_framework.test_failure import TestFailure, PropertyName
+from test_framework.test_utils import has_executor_hook, filter_bracket_comments
 from test_framework.test_utils_deserialization import get_string_parser_for_type
-
-from test_framework import test_utils
+from test_framework.timed_executor import TimedExecutor
 
 
 class GenericTestHandler:
@@ -23,22 +24,22 @@ class GenericTestHandler:
     in case of any error or assertion failure. This exception
     terminates testing and, consequently, the test program.
 
-    If tested function throws TestFailureException or StackOverflowError,
+    If tested function throws TestFailure or StackOverflowError,
     the current test is raise as failed and the execution goes on.
     In case of any other exception raised by the tested function,
     the test program is terminated.
     """
 
-    def __init__(self, func, comp):
+    def __init__(self, func, comparator):
         self._func = func
-        self._has_timer_hook = test_utils.has_timer_hook(func)
+        self._has_executor_hook = has_executor_hook(func)
         self._param_parsers = []
         self._param_names = [
-            p.name
-            for p in inspect.signature(self._func).parameters.values()
+            p.name for p in inspect.signature(self._func).parameters.values()
             if p.default is inspect.Parameter.empty
-        ][1 if self._has_timer_hook else 0:]
-        self._comp = comp
+        ][1 if self._has_executor_hook else 0:]
+        self._comp = comparator
+        self._ret_value_parser = None
 
     def parse_signature(self, signature):
         """
@@ -52,7 +53,7 @@ class GenericTestHandler:
         if len(signature) != len(self._param_names) + 1:
             raise RuntimeError("Signature parameter count mismatch")
 
-        signature = [test_utils.filter_bracket_comments(s) for s in signature]
+        signature = [filter_bracket_comments(s) for s in signature]
 
         for param in signature[:-1]:
             self._param_parsers.append(get_string_parser_for_type(param))
@@ -62,11 +63,12 @@ class GenericTestHandler:
 
         self._ret_value_parser = get_string_parser_for_type(signature[-1])
 
-    def run_test(self, test_args):
+    def run_test(self, timeout_seconds, test_args):
         """
         This method is invoked for each row in a test data file (except the header).
         It deserializes the list of arguments and calls the user function with them.
 
+        :param timeout_seconds: number of seconds to timeout
         :param test_args: serialized arguments
         :return: list, that contains [result of comparison of expected and result, expected, result].
                  Two last entries are omitted in case of the void return type
@@ -77,25 +79,36 @@ class GenericTestHandler:
                                  test_args[:-1 if not self.expected_is_void()
                                            else len(test_args)])
         ]
-        timer = TestTimer()
-        if self._has_timer_hook:
-            args = [timer] + args
+
+        executor = TimedExecutor(timeout_seconds)
+        if self._has_executor_hook:
+            result = self._func(executor, *args)
+        else:
+            result = executor.run(lambda: self._func(*args))
 
         if not self.expected_is_void():
             expected = self._ret_value_parser(test_args[-1])
+            self.assert_results_equal(expected, result)
 
-            timer.start()
-            result = self._func(*args)
-            timer.stop()
+        return executor.get_timer()
 
-            return TestOutput(
-                self._comp(expected, result), timer, expected, result)
+    def assert_results_equal(self, expected, result):
+        if self._comp is not None:
+            comparison_result = self._comp(expected, result)
+        elif expected is None:
+            comparison_result = result is None
+        elif isinstance(expected, float) or isinstance(result, float):
+            comparison_result = math.isclose(expected, result)
+        elif is_object_tree_type(expected) or is_object_tree_type(result):
+            assert_equal_binary_trees(expected, result)
+            return
         else:
-            timer.start()
-            self._func(*args)
-            timer.stop()
+            comparison_result = expected == result
 
-            return TestOutput(True, timer)
+        if not comparison_result:
+            raise TestFailure()\
+                .with_property(PropertyName.EXPECTED, expected)\
+                .with_property(PropertyName.RESULT, result)
 
     def expected_is_void(self):
         return self._ret_value_parser is None

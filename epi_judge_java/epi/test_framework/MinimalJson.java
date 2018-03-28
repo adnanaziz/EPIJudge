@@ -861,7 +861,6 @@ class JsonArray extends JsonValue implements Iterable<JsonValue> {
   public Iterator<JsonValue> iterator() {
     final Iterator<JsonValue> iterator = values.iterator();
     return new Iterator<JsonValue>() {
-
       public boolean hasNext() { return iterator.hasNext(); }
 
       public JsonValue next() { return iterator.next(); }
@@ -2232,7 +2231,6 @@ class JsonObject extends JsonValue implements Iterable<Member> {
     final Iterator<String> namesIterator = names.iterator();
     final Iterator<JsonValue> valuesIterator = values.iterator();
     return new Iterator<Member>() {
-
       public boolean hasNext() { return namesIterator.hasNext(); }
 
       public Member next() {
@@ -2242,7 +2240,6 @@ class JsonObject extends JsonValue implements Iterable<Member> {
       }
 
       public void remove() { throw new UnsupportedOperationException(); }
-
     };
   }
 

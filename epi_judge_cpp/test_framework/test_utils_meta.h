@@ -9,7 +9,30 @@
 #include <tuple>
 #include <type_traits>
 #include <vector>
-#include "test_timer.h"
+
+/**
+ * Some forward declarations
+ */
+class TimedExecutor;
+class TestTimer;
+
+/**
+ * Various tag types
+ */
+struct HasExecutorHookTag {};
+struct HasNoExecutorHookTag {};
+
+struct HasEqualOpTag {};
+struct HasNoEqualOpTag {};
+
+struct HasOStreamOpTag {};
+struct HasNoOStreamOpTag {};
+
+struct HasBeginEndTag {};
+struct HasNoBeginEndTag {};
+
+struct IsBinaryTreeTag {};
+struct IsNotBinaryTreeTag {};
 
 /**
  * Meta function that removes all modifiers (const, volatile, ref) from T
@@ -29,7 +52,7 @@ using is_pure_type = std::is_same<T, remove_ref_cv_t<T>>;
  * Default case for recursion.
  * @return 0
  */
-int FirstFalseArg() { return 0; }
+constexpr int FirstFalseArg() { return 0; }
 
 /**
  * This function takes a variable number of boolean arguments
@@ -38,7 +61,7 @@ int FirstFalseArg() { return 0; }
  * @return index of the first false argument or 0
  */
 template <typename... Bools>
-int FirstFalseArg(bool b, Bools... tail) {
+constexpr int FirstFalseArg(bool b, Bools... tail) {
   if (!b) {
     return 1;
   }
@@ -70,36 +93,29 @@ struct FunctionalTraits<ReturnT (*)(ArgsT...)> {
   using return_t = ReturnT;
   using arg_tuple_t = std::tuple<ArgsT...>;
 
-  static constexpr bool HasTimerHook() { return false; }
-
-  template <typename Func, typename... ArgsFwd>
-  static ReturnT InvokeWithTimer(Func& f, TestTimer& timer,
-                                 ArgsFwd&&... args) {
-    timer.Start();
-    OnScopeExit timer_stopper(std::bind(&TestTimer::Stop, &timer));
-
-    return f(std::forward<ArgsFwd>(args)...);
-  }
+  using executor_hook_tag = HasNoExecutorHookTag;
+  static constexpr bool HasExecutorHook() { return false; }
 };
 
 /**
  * Hook for function wrappers with custom timing.
  */
 template <typename ReturnT, typename... ArgsT>
-struct FunctionalTraits<ReturnT (*)(TestTimer&, ArgsT...)> {
+struct FunctionalTraits<ReturnT (*)(TimedExecutor&, ArgsT...)> {
   using return_t = ReturnT;
   using arg_tuple_t = std::tuple<ArgsT...>;
 
-  static constexpr bool HasTimerHook() { return true; }
+  using executor_hook_tag = HasExecutorHookTag;
+  static constexpr bool HasExecutorHook() { return true; }
+};
 
-  template <typename Func, typename... ArgsFwd>
-  static ReturnT InvokeWithTimer(Func& f, TestTimer& timer,
-                                 ArgsFwd&&... args) {
-    // timer must be started by f
-    OnScopeExit timer_stopper(std::bind(&TestTimer::Stop, &timer));
-
-    return f(timer, std::forward<ArgsFwd>(args)...);
-  }
+/**
+ * Hook for deprecated hook.
+ */
+template <typename ReturnT, typename... ArgsT>
+struct FunctionalTraits<ReturnT (*)(TestTimer&, ArgsT...)> {
+  static_assert(sizeof...(ArgsT) < 0,
+                "This program uses deprecated TestTimer hook");
 };
 
 /**
@@ -249,70 +265,115 @@ template <typename T>
 using escape_void_t =
     std::conditional_t<std::is_same<T, void>::value, VoidPlaceholder, T>;
 
+namespace {
+struct No {};
 /**
- * @see Print()
+ * @see HasEqualOp
  */
-template <typename T>
-void PrintImpl(const T& value);
+template <typename T, typename EqualTo>
+struct HasEqualOpImpl {
+  template <typename U, typename V>
+  static auto Test(U*) -> decltype(std::declval<U&>() == std::declval<V&>());
 
-template <typename T>
-struct PrintHelper {
-  static void Print(const T& value) { std::cout << value; }
+  template <typename, typename>
+  static auto Test(...) -> No;
+
+  using type = std::integral_constant<
+      bool, !std::is_same<decltype(Test<T, EqualTo>(0)), No>::value>;
 };
-
-template <typename T>
-struct PrintHelper<std::vector<T>> {
-  static void Print(const std::vector<T>& value) {
-    std::cout << "[";
-    if (!value.empty()) {
-      PrintImpl(value.front());
-    }
-    for (int i = 1; i < size(value); ++i) {
-      std::cout << ", ";
-      PrintImpl(value[i]);
-    }
-    std::cout << "]";
-  }
-};
-
-template <size_t Idx, typename TupleT>
-struct TuplePrintHelper {
-  static void Print(const TupleT& value) {
-    if (Idx < std::tuple_size<TupleT>::value) {
-      std::cout << ", ";
-    }
-    PrintImpl(std::get<std::tuple_size<TupleT>::value - Idx>(value));
-    TuplePrintHelper<Idx - 1, TupleT>::Print(value);
-  }
-};
-
-template <typename TupleT>
-struct TuplePrintHelper<0, TupleT> {
-  static void Print(const TupleT& value) {}
-};
-
-template <typename... Args>
-struct PrintHelper<std::tuple<Args...>> {
-  static void Print(const std::tuple<Args...>& value) {
-    std::cout << "(";
-    TuplePrintHelper<sizeof...(Args), std::tuple<Args...>>::Print(value);
-    std::cout << ")";
-  }
-};
-
-template <typename T>
-void PrintImpl(const T& value) {
-  PrintHelper<T>::Print(value);
-}
 
 /**
- * Generic print function.
- * Able to print out vectors, tuples,
- * and everything that has operator<<() overloading.
- * TODO Rename to Println
+ * @see HasLeftShiftOpImpl
+ */
+template <typename S, typename T>
+struct HasLeftShiftOpImpl {
+  template <typename U, typename V>
+  static auto Test(U*) -> decltype(std::declval<U&>() << std::declval<V&>());
+
+  template <typename, typename>
+  static auto Test(...) -> No;
+
+  using type = std::integral_constant<
+      bool, !std::is_same<decltype(Test<S, T>(0)), No>::value>;
+};
+
+// Additional namespace is introduced to escape
+// the following using declarations
+namespace std_import {
+using std::begin;
+using std::end;
+
+template <typename T>
+struct HasBeginEndImpl {
+  template <typename U>
+  static auto TestBegin(U*) -> decltype(begin(std::declval<U&>()));
+
+  template <typename U>
+  static auto TestEnd(U*) -> decltype(end(std::declval<U&>()));
+
+  template <typename>
+  static auto TestBegin(...) -> No;
+
+  template <typename>
+  static auto TestEnd(...) -> No;
+
+  using type = std::integral_constant<
+      bool, !std::is_same<decltype(TestBegin<T>(0)), No>::value &&
+                !std::is_same<decltype(TestEnd<T>(0)), No>::value>;
+};
+}  // namespace std_import
+
+using std_import::HasBeginEndImpl;
+
+template <typename T>
+struct IsBinaryTreeImpl {
+  using type = std::false_type;
+};
+}  // namespace 
+
+/**
+ * Check if operator== is defined for T and EqualTo types
+ */
+template <class T, class EqualTo = T>
+using HasEqualOp = typename HasEqualOpImpl<T, EqualTo>::type;
+template <typename T, class EqualTo = T>
+using EqualOpTag = std::conditional_t<HasEqualOp<T, EqualTo>::value,
+                                      HasEqualOpTag, HasNoEqualOpTag>;
+
+/**
+ * Check if operator<< is defined for T and U types
+ */
+template <class T, class U>
+using HasLeftShiftOp = typename HasLeftShiftOpImpl<T, U>::type;
+
+/**
+ * Check if operator<< is defined for std::ostream and T
  */
 template <typename T>
-void Print(const T& value) {
-  PrintImpl(value);
-  std::cout << std::endl;
-}
+using HasOStreamOp = HasLeftShiftOp<std::ostream, T>;
+template <typename T>
+using OStreamOpTag = std::conditional_t<HasOStreamOp<T>::value,
+                                        HasOStreamOpTag, HasNoOStreamOpTag>;
+
+/**
+ * Check if the class has begin()/end() methods
+ * (or corresponding free functions).
+ * It is assumed these methods return begin/end iterators.
+ */
+template <typename T>
+using HasBeginEnd = typename HasBeginEndImpl<T>::type;
+template <typename T>
+using BeginEndTag = std::conditional_t<HasBeginEnd<T>::value, HasBeginEndTag,
+                                       HasNoBeginEndTag>;
+
+/**
+ * Check if T is of a binary tree type
+ */
+template <typename T>
+using IsBinaryTree = typename IsBinaryTreeImpl<remove_ref_cv_t<T>>::type;
+template <typename T>
+using BinaryTreeTag = std::conditional_t<IsBinaryTree<T>::value,
+                                         IsBinaryTreeTag, IsNotBinaryTreeTag>;
+
+// Testing for the file using static assertions
+#include "test_utils_meta_test.h"

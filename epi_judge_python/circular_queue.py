@@ -1,4 +1,7 @@
-from test_framework.test_failure_exception import TestFailureException
+from sys import exit
+
+from test_framework import generic_test, test_utils
+from test_framework.test_failure import TestFailure
 
 
 class Queue:
@@ -30,19 +33,16 @@ def queue_tester(ops):
         elif op == 'dequeue':
             result = q.dequeue()
             if result != arg:
-                raise TestFailureException(
+                raise TestFailure(
                     "Dequeue: expected " + str(arg) + ", got " + str(result))
         elif op == 'size':
             result = q.size()
             if result != arg:
-                raise TestFailureException(
+                raise TestFailure(
                     "Size: expected " + str(arg) + ", got " + str(result))
         else:
             raise RuntimeError("Unsupported queue operation: " + op)
 
 
-from test_framework import test_utils_generic_main, test_utils
-
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('circular_queue.tsv',
-                                              queue_tester)
+    exit(generic_test.generic_test_main('circular_queue.tsv', queue_tester))

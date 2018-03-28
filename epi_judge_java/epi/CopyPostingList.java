@@ -2,10 +2,11 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,69 +51,90 @@ public class CopyPostingList {
   }
 
   public static void assertListsEqual(PostingListNode orig,
-                                      PostingListNode copy)
-      throws TestFailureException {
+                                      PostingListNode copy) throws TestFailure {
     Map<PostingListNode, PostingListNode> nodeMapping = new HashMap<>();
     PostingListNode oIt = orig;
     PostingListNode cIt = copy;
 
+    int idx = 0;
+
     while (oIt != null) {
       if (cIt == null) {
-        throw new TestFailureException(
-            "Copied list has fewer nodes than the original");
+        throw new TestFailure("Copied list has fewer nodes than the original")
+            .withProperty(TestFailure.PropertyName.EXPECTED, orig)
+            .withProperty(TestFailure.PropertyName.RESULT, copy)
+            .withProperty(TestFailure.PropertyName.MISSING_ITEMS, oIt);
       }
       if (oIt.order != cIt.order) {
-        throw new TestFailureException("Order value mismatch");
+        throw new TestFailure()
+            .withProperty(TestFailure.PropertyName.EXPECTED, orig)
+            .withProperty(TestFailure.PropertyName.RESULT, copy)
+            .withMismatchInfo(idx, oIt.order, cIt.order);
       }
       nodeMapping.put(oIt, cIt);
       oIt = oIt.next;
       cIt = cIt.next;
+      idx++;
     }
 
     if (cIt != null) {
-      throw new TestFailureException(
-          "Copied list has more nodes than the original");
+      throw new TestFailure("Copied list has fewer nodes than the original")
+          .withProperty(TestFailure.PropertyName.EXPECTED, orig)
+          .withProperty(TestFailure.PropertyName.RESULT, copy)
+          .withProperty(TestFailure.PropertyName.EXCESS_ITEMS, cIt);
     }
 
     oIt = orig;
     cIt = copy;
-
+    idx = 0;
     while (oIt != null) {
       if (nodeMapping.get(cIt) != null) {
-        throw new TestFailureException(
-            "Copied list contains a node from the original list");
+        throw new TestFailure(
+            "Copied list contains a node from the original list")
+            .withProperty(TestFailure.PropertyName.EXPECTED, orig)
+            .withProperty(TestFailure.PropertyName.RESULT, copy)
+            .withProperty(TestFailure.PropertyName.MISMATCH_INDEX, idx)
+            .withProperty(TestFailure.PropertyName.RESULT_ITEM,
+                          new PostingListNode(cIt.order, null, null));
       }
       if (oIt.jump != null) {
         if (nodeMapping.get(oIt.jump) != cIt.jump) {
-          throw new TestFailureException(
-              "Jump link points to a different nodes in the copied list");
+          throw new TestFailure(
+              "Jump link points to a different nodes in the copied list")
+              .withProperty(TestFailure.PropertyName.EXPECTED, orig)
+              .withProperty(TestFailure.PropertyName.RESULT, copy)
+              .withMismatchInfo(idx, oIt, cIt);
         }
       } else {
         if (cIt.jump != null) {
-          throw new TestFailureException(
-              "Jump link points to a different nodes in the copied list");
+          throw new TestFailure(
+              "Jump link points to a different nodes in the copied list")
+              .withProperty(TestFailure.PropertyName.EXPECTED, orig)
+              .withProperty(TestFailure.PropertyName.RESULT, copy)
+              .withMismatchInfo(idx, oIt, cIt);
         }
       }
       oIt = oIt.next;
       cIt = cIt.next;
+      idx++;
     }
   }
 
   @EpiTest(testfile = "copy_posting_list.tsv")
-  public static void copyPostingsListWrapper(TestTimer timer,
+  public static void copyPostingsListWrapper(TimedExecutor executor,
                                              List<SerializedNode> l)
-      throws TestFailureException {
+      throws Exception {
     PostingListNode head = createPostingList(l);
 
-    timer.start();
-    PostingListNode copy = copyPostingsList(head);
-    timer.stop();
+    PostingListNode copy = executor.run(() -> copyPostingsList(head));
 
     assertListsEqual(head, copy);
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

@@ -2,7 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::length_error;
@@ -21,16 +22,16 @@ class Queue {
 };
 
 struct QueueOp {
-  enum { CONSTRUCT, DEQUEUE, ENQUEUE } op;
+  enum { kConstruct, kDequeue, kEnqueue } op;
   int argument;
 
   QueueOp(const std::string& op_string, int arg) : argument(arg) {
     if (op_string == "Queue") {
-      op = CONSTRUCT;
+      op = kConstruct;
     } else if (op_string == "dequeue") {
-      op = DEQUEUE;
+      op = kDequeue;
     } else if (op_string == "enqueue") {
-      op = ENQUEUE;
+      op = kEnqueue;
     } else {
       throw std::runtime_error("Unsupported queue operation: " + op_string);
     }
@@ -46,31 +47,29 @@ void QueueTester(const std::vector<QueueOp>& ops) {
     Queue q;
     for (auto& x : ops) {
       switch (x.op) {
-        case QueueOp::CONSTRUCT:
+        case QueueOp::kConstruct:
           break;
-        case QueueOp::DEQUEUE: {
+        case QueueOp::kDequeue: {
           int result = q.Dequeue();
           if (result != x.argument) {
-            throw TestFailureException("Dequeue: expected " +
-                                       std::to_string(x.argument) + ", got " +
-                                       std::to_string(result));
+            throw TestFailure("Dequeue: expected " +
+                              std::to_string(x.argument) + ", got " +
+                              std::to_string(result));
           }
         } break;
-        case QueueOp::ENQUEUE:
+        case QueueOp::kEnqueue:
           q.Enqueue(x.argument);
           break;
       }
     }
   } catch (length_error&) {
-    throw TestFailureException("Unexpected length_error exception");
+    throw TestFailure("Unexpected length_error exception");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
-  generic_test_main(argc, argv, param_names, "queue_from_stacks.tsv",
-                    &QueueTester);
-  return 0;
+  return GenericTestMain(args, "queue_from_stacks.tsv", &QueueTester,
+                         DefaultComparator{}, param_names);
 }

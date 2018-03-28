@@ -1,7 +1,10 @@
 import collections
+import functools
+from sys import exit
 
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+from test_framework import generic_test, test_utils
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 class Team:
@@ -17,20 +20,20 @@ class Team:
         return True
 
 
-@enable_timer_hook
-def valid_placement_exists_wrapper(timer, team0, team1, expected_01,
-                                   expected10):
+@enable_executor_hook
+def valid_placement_exists_wrapper(executor, team0, team1, expected_01,
+                                   expected_10):
     t0, t1 = Team(team0), Team(team1)
 
-    timer.start()
-    if Team.valid_placement_exists(
-            t0, t1) != expected_01 or Team.valid_placement_exists(
-                t1, t0) != expected10:
-        raise TestFailureException("")
+    result_01 = executor.run(
+        functools.partial(Team.valid_placement_exists, t0, t1))
+    result_10 = executor.run(
+        functools.partial(Team.valid_placement_exists, t1, t0))
+    if result_01 != expected_01 or result_10 != expected_10:
+        raise TestFailure("")
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('is_array_dominated.tsv',
-                                              valid_placement_exists_wrapper)
+    exit(
+        generic_test.generic_test_main('is_array_dominated.tsv',
+                                       valid_placement_exists_wrapper))

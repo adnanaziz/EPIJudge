@@ -1,5 +1,6 @@
 #include "binary_tree_with_parent_prototype.h"
 #include "test_framework/binary_tree_utils.h"
+#include "test_framework/generic_test.h"
 
 BinaryTreeNode<int>* FindSuccessor(
     const unique_ptr<BinaryTreeNode<int>>& node) {
@@ -13,11 +14,9 @@ int FindSuccessorWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
   return result ? result->data : -1;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"tree", "node_idx"};
-  generic_test_main(argc, argv, param_names, "successor_in_tree.tsv",
-                    &FindSuccessorWrapper);
-  return 0;
+  return GenericTestMain(args, "successor_in_tree.tsv", &FindSuccessorWrapper,
+                         DefaultComparator{}, param_names);
 }

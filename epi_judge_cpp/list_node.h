@@ -1,10 +1,8 @@
-
-#pragma once
-
 #include <iostream>
 #include <memory>
-
 #include "test_framework/test_utils_serialization_traits.h"
+
+#pragma once
 
 using std::make_shared;
 using std::shared_ptr;
@@ -101,14 +99,14 @@ struct SerializationTraits<shared_ptr<ListNode<T>>> {
       if (visited.count(list)) {
         // Cycled linked list
         if (list->next != list) {
-          EpiPrint(out, list->data);
+          PrintTo(out, list->data);
           out << " -> ... -> ";
         }
-        EpiPrint(out, list->data);
+        PrintTo(out, list->data);
         out << " -> ...";
         break;
       } else {
-        EpiPrint(out, list->data);
+        PrintTo(out, list->data);
         visited.insert(list);
       }
       list = list->next;

@@ -1,12 +1,12 @@
-from test_framework.test_utils import enable_timer_hook
+import functools
+from sys import exit
+
+from test_framework import generic_test, test_utils
+from test_framework.test_utils import enable_executor_hook
 
 
 class GraphVertex:
-
-    white, gray, black = range(3)
-
     def __init__(self):
-        self.color = GraphVertex.white
         self.edges = []
 
 
@@ -15,8 +15,8 @@ def is_deadlocked(graph):
     return True
 
 
-@enable_timer_hook
-def is_deadlocked_wrapper(timer, num_nodes, edges):
+@enable_executor_hook
+def is_deadlocked_wrapper(executor, num_nodes, edges):
     if num_nodes <= 0:
         raise RuntimeError('Invalid num_nodes value')
     graph = [GraphVertex() for _ in range(num_nodes)]
@@ -26,14 +26,10 @@ def is_deadlocked_wrapper(timer, num_nodes, edges):
             raise RuntimeError('Invalid vertex index')
         graph[fr].edges.append(graph[to])
 
-    timer.start()
-    result = is_deadlocked(graph)
-    timer.stop()
-    return result
+    return executor.run(functools.partial(is_deadlocked, graph))
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('deadlock_detection.tsv',
-                                              is_deadlocked_wrapper)
+    exit(
+        generic_test.generic_test_main('deadlock_detection.tsv',
+                                       is_deadlocked_wrapper))

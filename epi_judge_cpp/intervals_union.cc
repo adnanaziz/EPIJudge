@@ -1,7 +1,8 @@
 #include <vector>
 
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
@@ -59,24 +60,21 @@ std::ostream& operator<<(std::ostream& out, const FlatInterval& i) {
 }
 
 std::vector<FlatInterval> UnionOfIntervalsWrapper(
-    TestTimer& timer, const std::vector<FlatInterval>& intervals) {
+    TimedExecutor& executor, const std::vector<FlatInterval>& intervals) {
   std::vector<Interval> casted;
   for (const FlatInterval& i : intervals) {
     casted.push_back(static_cast<Interval>(i));
   }
 
-  timer.Start();
-  std::vector<Interval> result = UnionOfIntervals(casted);
-  timer.Stop();
+  std::vector<Interval> result =
+      executor.Run([&] { return UnionOfIntervals(casted); });
 
   return {begin(result), end(result)};
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "intervals"};
-  generic_test_main(argc, argv, param_names, "intervals_union.tsv",
-                    &UnionOfIntervalsWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "intervals"};
+  return GenericTestMain(args, "intervals_union.tsv", &UnionOfIntervalsWrapper,
+                         DefaultComparator{}, param_names);
 }

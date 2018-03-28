@@ -3,10 +3,19 @@
 
 #include <algorithm>
 #include <chrono>
+#include <numeric>
 #include <string>
+#include <vector>
 
 class TestTimer {
  public:
+  TestTimer() = default;
+
+  explicit TestTimer(const std::chrono::milliseconds& duration_ms) {
+    stop_ = clock_t::now();
+    start_ = stop_ - duration_ms;
+  }
+
   void Start() { start_ = clock_t::now(); }
 
   void Stop() {
@@ -40,22 +49,35 @@ std::string LeftPaddingString(const std::string& str, int format_width) {
 }
 
 std::string DurationToString(const std::chrono::microseconds& dur) {
-  constexpr int kFormatWidth = 4;
-  constexpr int MICRO_TO_MILLI = std::chrono::microseconds::period::den /
-                                 std::chrono::milliseconds::period::den;
-  constexpr int MICRO_TO_SECOND = std::chrono::microseconds::period::den;
+  constexpr int MICRO_TO_MILLI = 1000;
+  constexpr int MICRO_TO_SECOND = MICRO_TO_MILLI * 1000;
+  constexpr int FORMAT_WIDTH = 4;
+
   if (dur == dur.zero()) {
     return "  <1 us";
   } else if (dur.count() < MICRO_TO_MILLI) {
-    return LeftPaddingString(std::to_string(dur.count()), kFormatWidth) +
+    return LeftPaddingString(std::to_string(dur.count()), FORMAT_WIDTH) +
            " us";
   } else if (dur.count() < MICRO_TO_SECOND) {
     return LeftPaddingString(std::to_string(dur.count() / MICRO_TO_MILLI),
-                             kFormatWidth) +
+                             FORMAT_WIDTH) +
            " ms";
   } else {
     return LeftPaddingString(std::to_string(dur.count() / MICRO_TO_SECOND),
-                             kFormatWidth) +
+                             FORMAT_WIDTH) +
            "  s";
   }
+}
+
+std::pair<std::chrono::microseconds, std::chrono::microseconds>
+AvgAndMedianFromDurations(std::vector<std::chrono::microseconds>& durations) {
+  std::sort(std::begin(durations), std::end(durations));
+  auto avg = std::accumulate(std::begin(durations), std::end(durations),
+                             std::chrono::microseconds::zero()) /
+             durations.size();
+  auto median = durations.size() & 1 ? durations[durations.size() / 2]
+                                     : (durations[durations.size() / 2 - 1] +
+                                        durations[durations.size() / 2]) /
+                                           2;
+  return {avg, median};
 }

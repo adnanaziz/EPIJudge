@@ -4,8 +4,9 @@
 #include <numeric>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/timed_executor.h"
 
 using std::bind;
 using std::iota;
@@ -17,12 +18,13 @@ vector<int> RandomSubset(int n, int k) {
   return {};
 }
 
-bool RandomSubsetRunner(TestTimer& timer, int n, int k) {
+bool RandomSubsetRunner(TimedExecutor& executor, int n, int k) {
   vector<vector<int>> results;
-  timer.Start();
-  std::generate_n(back_inserter(results), 100000,
-                  std::bind(RandomSubset, n, k));
-  timer.Stop();
+
+  executor.Run([&] {
+    std::generate_n(back_inserter(results), 100000,
+                    std::bind(RandomSubset, n, k));
+  });
 
   int total_possible_outcomes = BinomialCoefficient(n, k);
   vector<int> A(n);
@@ -42,15 +44,13 @@ bool RandomSubsetRunner(TestTimer& timer, int n, int k) {
                                         0.01);
 }
 
-void RandomSubsetWrapper(TestTimer& timer, int n, int k) {
-  RunFuncWithRetries(bind(RandomSubsetRunner, std::ref(timer), n, k));
+void RandomSubsetWrapper(TimedExecutor& executor, int n, int k) {
+  RunFuncWithRetries(bind(RandomSubsetRunner, std::ref(executor), n, k));
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "n", "k"};
-  generic_test_main(argc, argv, param_names, "random_subset.tsv",
-                    &RandomSubsetWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "n", "k"};
+  return GenericTestMain(args, "random_subset.tsv", &RandomSubsetWrapper,
+                         DefaultComparator{}, param_names);
 }

@@ -1,7 +1,8 @@
 #include <memory>
 
 #include "list_node.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
 
 using std::make_shared;
 using std::shared_ptr;
@@ -13,7 +14,7 @@ void InsertAfter(const shared_ptr<ListNode<int>>& node,
   return;
 }
 
-shared_ptr<ListNode<int>> InsertListWrapper(TestTimer& timer,
+shared_ptr<ListNode<int>> InsertListWrapper(TimedExecutor& executor,
                                             const shared_ptr<ListNode<int>>& l,
                                             int node_idx, int new_node_data) {
   auto node = l;
@@ -22,18 +23,16 @@ shared_ptr<ListNode<int>> InsertListWrapper(TestTimer& timer,
     --node_idx;
   }
   auto new_node = make_shared<ListNode<int>>(new_node_data, nullptr);
-  timer.Start();
-  InsertAfter(node, new_node);
-  timer.Stop();
+
+  executor.Run([&] { InsertAfter(node, new_node); });
+
   return l;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "l", "node_idx",
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "l", "node_idx",
                                        "new_node_data"};
-  generic_test_main(argc, argv, param_names, "insert_in_list.tsv",
-                    &InsertListWrapper);
-  return 0;
+  return GenericTestMain(args, "insert_in_list.tsv", &InsertListWrapper,
+                         DefaultComparator{}, param_names);
 }

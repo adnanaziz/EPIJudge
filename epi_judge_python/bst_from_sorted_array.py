@@ -1,7 +1,12 @@
+import functools
+from sys import exit
+
 from bst_node import BstNode
-from test_framework.binary_tree_utils import binary_tree_height, generate_inorder
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+from test_framework import generic_test, test_utils
+from test_framework.binary_tree_utils import (binary_tree_height,
+                                              generate_inorder)
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 def build_min_height_bst_from_sorted_array(A):
@@ -9,20 +14,18 @@ def build_min_height_bst_from_sorted_array(A):
     return None
 
 
-@enable_timer_hook
-def build_min_height_bst_from_sorted_array_wrapper(timer, A):
-    timer.start()
-    result = build_min_height_bst_from_sorted_array(A)
-    timer.stop()
+@enable_executor_hook
+def build_min_height_bst_from_sorted_array_wrapper(executor, A):
+    result = executor.run(
+        functools.partial(build_min_height_bst_from_sorted_array, A))
 
     if generate_inorder(result) != A:
-        raise TestFailureException("Result binary tree mismatches input array")
+        raise TestFailure("Result binary tree mismatches input array")
     return binary_tree_height(result)
 
 
-from test_framework import test_utils_generic_main, test_utils
-
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'bst_from_sorted_array.tsv',
-        build_min_height_bst_from_sorted_array_wrapper)
+    exit(
+        generic_test.generic_test_main(
+            'bst_from_sorted_array.tsv',
+            build_min_height_bst_from_sorted_array_wrapper))

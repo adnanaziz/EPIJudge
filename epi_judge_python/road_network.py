@@ -1,6 +1,10 @@
 import collections
+import functools
+from sys import exit
 
-from test_framework.test_utils import enable_timer_hook
+from test_framework import generic_test, test_utils
+from test_framework.test_failure import PropertyName
+from test_framework.test_utils import enable_executor_hook
 
 HighwaySection = collections.namedtuple('HighwaySection',
                                         ('x', 'y', 'distance'))
@@ -11,26 +15,27 @@ def find_best_proposals(H, P, n):
     return HighwaySection(0, 0, 0)
 
 
-@enable_timer_hook
-def find_best_proposals_wrapper(timer, H, P, n):
+@enable_executor_hook
+def find_best_proposals_wrapper(executor, H, P, n):
     H = [HighwaySection(*x) for x in H]
     P = [HighwaySection(*x) for x in P]
 
-    timer.start()
-    return find_best_proposals(H, P, n)
+    return executor.run(functools.partial(find_best_proposals, H, P, n))
 
 
-def res_printer(expected, result):
+def res_printer(prop, value):
     def fmt(x):
         return [x[0], x[1], x[2]] if x else None
 
-    return fmt(expected), fmt(result)
+    if prop in (PropertyName.EXPECTED, PropertyName.RESULT):
+        return fmt(value)
+    else:
+        return value
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'road_network.tsv',
-        find_best_proposals_wrapper,
-        res_printer=res_printer)
+    exit(
+        generic_test.generic_test_main(
+            'road_network.tsv',
+            find_best_proposals_wrapper,
+            res_printer=res_printer))

@@ -4,13 +4,15 @@ package epi.test_framework;
 import java.util.List;
 
 public class TestUtilsConsole {
+  private static boolean caretAtLineStart = true;
+
   public static String escapeNewline(String s) {
     return s.replace("\n", "\\n").replace("\r", "\\r");
   }
 
-  public static void returnCaretIfTtyOutput() {
+  public static void clearLineIfTty() {
     if (Platform.useTtyOutput()) {
-      System.out.print('\r');
+      Platform.stdOutClearLine();
     } else {
       System.out.print('\n');
     }
@@ -43,7 +45,9 @@ public class TestUtilsConsole {
   public static void printTestInfo(TestResult testResult, int testNr,
                                    int totalTests, String diagnostic,
                                    TestTimer timer) {
-    returnCaretIfTtyOutput();
+    if (!caretAtLineStart) {
+      clearLineIfTty();
+    }
 
     String totalTestsStr = String.valueOf(totalTests);
     System.out.print("Test ");
@@ -51,13 +55,15 @@ public class TestUtilsConsole {
     System.out.printf(" (%" + String.valueOf(totalTestsStr.length()) + "d/%s)",
                       testNr, totalTestsStr);
 
-    if (timer.hasValidResult()) {
+    if (timer != null) {
       System.out.printf(" [%s]",
                         TestTimer.durationToString(timer.getMicroseconds()));
     }
+    caretAtLineStart = false;
 
     if (testResult != TestResult.PASSED) {
       System.out.println(" " + diagnostic);
+      caretAtLineStart = true;
     }
   }
 
@@ -67,48 +73,56 @@ public class TestUtilsConsole {
 
   public static void printFailedTest(List<String> paramNames,
                                      List<String> arguments,
-                                     TestOutput testOutput,
-                                     String testExplanation) {
-    String expectedStr = "expected";
-    String resultStr = "result";
-    String explanationStr = "explanation";
-
-    boolean hasExpected =
-        testOutput != null && testOutput.expected != TestOutput.EMPTY_OBJECT;
-    boolean hasResult =
-        testOutput != null && testOutput.result != TestOutput.EMPTY_OBJECT;
-    boolean hasExplanation =
-        !testExplanation.equals("TODO") && !testExplanation.equals("");
-
-    int maxColSize = hasExplanation
-                         ? explanationStr.length()
-                         : hasExpected ? expectedStr.length()
-                                       : hasResult ? resultStr.length() : 0;
+                                     TestFailure testFailure) {
+    int maxColSize = testFailure.getMaxPropertyNameLength();
 
     for (String param : paramNames) {
-      if (param.length() > maxColSize) maxColSize = param.length();
+      if (param.length() > maxColSize) {
+        maxColSize = param.length();
+      }
     }
 
+    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                    "Arguments\n");
+
     for (int i = 0; i < arguments.size(); i++) {
-      System.out.printf("\t%s: %s%s\n", paramNames.get(i),
+      System.out.print("\t");
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                      paramNames.get(i));
+      System.out.printf(": %s%s\n",
                         genSpaces(maxColSize - paramNames.get(i).length()),
                         escapeNewline(arguments.get(i)));
     }
 
-    if (hasExpected) {
-      System.out.printf("\t%s: %s%s\n", expectedStr,
-                        genSpaces(maxColSize - expectedStr.length()),
-                        escapeNewline(String.valueOf(testOutput.expected)));
+    List<TestFailure.Property> properties = testFailure.getProperties();
+
+    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                    "\nFailure info\n");
+    for (TestFailure.Property prop : properties) {
+      System.out.print("\t");
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                      prop.name());
+      System.out.printf(": %s%s\n",
+                        genSpaces(maxColSize - prop.name().length()),
+                        escapeNewline(String.valueOf(prop.value())));
     }
-    if (hasResult) {
-      System.out.printf("\t%s: %s%s\n", resultStr,
-                        genSpaces(maxColSize - resultStr.length()),
-                        escapeNewline(String.valueOf(testOutput.result)));
+  }
+
+  public static void printPostRunStats(int testsPassed, int totalTests,
+                                       List<Long> durations) {
+    if (!durations.isEmpty()) {
+      long[] avgMedian = TestTimer.avgAndMedianFromDuration(durations);
+
+      System.out.printf("Average running time: %s\nMedian running time:  %s\n",
+                        TestTimer.durationToString(avgMedian[0]),
+                        TestTimer.durationToString(avgMedian[1]));
     }
-    if (hasExplanation) {
-      System.out.printf("\t%s: %s%s\n", explanationStr,
-                        genSpaces(maxColSize - explanationStr.length()),
-                        testExplanation);
+
+    if (testsPassed < totalTests) {
+      System.out.printf("*** You've passed %d/%d tests. ***\n", testsPassed,
+                        totalTests);
+    } else {
+      System.out.println("*** You've passed ALL tests. Congratulations! ***");
     }
   }
 }

@@ -1,8 +1,11 @@
 import collections
 import copy
+import functools
+from sys import exit
 
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+from test_framework import generic_test, test_utils
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 WHITE, BLACK = range(2)
 
@@ -24,32 +27,27 @@ def path_element_is_feasible(maze, prev, cur):
            cur == (prev.x, prev.y - 1)
 
 
-@enable_timer_hook
-def search_maze_wrapper(timer, maze, s, e):
+@enable_executor_hook
+def search_maze_wrapper(executor, maze, s, e):
     s = Coordinate(*s)
     e = Coordinate(*e)
     cp = copy.deepcopy(maze)
 
-    timer.start()
-    path = search_maze(cp, s, e)
-    timer.stop()
+    path = executor.run(functools.partial(search_maze, cp, s, e))
 
     if not path:
         return s == e
 
     if path[0] != s or path[-1] != e:
-        raise TestFailureException(
-            "Path doesn't lay between start and end points")
+        raise TestFailure("Path doesn't lay between start and end points")
 
     for i in range(1, len(path)):
         if not path_element_is_feasible(maze, path[i - 1], path[i]):
-            raise TestFailureException("Path contains invalid segments")
+            raise TestFailure("Path contains invalid segments")
 
     return True
 
 
-from test_framework import test_utils_generic_main, test_utils
-
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('search_maze.tsv',
-                                              search_maze_wrapper)
+    exit(
+        generic_test.generic_test_main('search_maze.tsv', search_maze_wrapper))

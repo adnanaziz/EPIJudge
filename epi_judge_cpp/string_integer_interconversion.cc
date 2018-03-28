@@ -1,6 +1,7 @@
 #include <string>
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
 
 using std::string;
 
@@ -16,19 +17,17 @@ int StringToInt(const string& s) {
 
 void Wrapper(int x, const string& s) {
   if (IntToString(x) != s) {
-    throw TestFailureException("Int to string conversion failed");
+    throw TestFailure("Int to string conversion failed");
   }
 
   if (StringToInt(s) != x) {
-    throw TestFailureException("String to int conversion failed");
+    throw TestFailure("String to int conversion failed");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x", "s"};
-  generic_test_main(argc, argv, param_names,
-                    "string_integer_interconversion.tsv", &Wrapper);
-  return 0;
+  return GenericTestMain(args, "string_integer_interconversion.tsv", &Wrapper,
+                         DefaultComparator{}, param_names);
 }

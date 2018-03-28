@@ -1,8 +1,8 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +16,18 @@ public class RotateArray {
 
   @EpiTest(testfile = "rotate_array.tsv")
   public static List<Integer>
-  rotateArrayWrapper(TestTimer timer, List<Integer> A, int rotateAmount) {
+  rotateArrayWrapper(TimedExecutor executor, List<Integer> A, int rotateAmount)
+      throws Exception {
     List<Integer> aCopy = new ArrayList<>(A);
-    timer.start();
-    rotateArray(rotateAmount, aCopy);
-    timer.stop();
+
+    executor.run(() -> rotateArray(rotateAmount, aCopy));
     return aCopy;
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

@@ -1,34 +1,12 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-public class IsArrayDominated {
-  @EpiTest(testfile = "is_array_dominated.tsv")
-  public static void
-  validPlacementExistsWrapper(TestTimer timer, List<Integer> team0,
-                              List<Integer> team1, boolean expected01,
-                              boolean expected10) throws TestFailureException {
-    Team t0 = new Team(team0);
-    Team t1 = new Team(team1);
-
-    timer.start();
-    if (Team.validPlacementExists(t0, t1) != expected01 ||
-        Team.validPlacementExists(t1, t0) != expected10) {
-      throw new TestFailureException("");
-    }
-  }
-
-  public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
-  }
-}
 
 class Team {
   private static class Player implements Comparable<Player> {
@@ -54,4 +32,27 @@ class Team {
   }
 
   private List<Player> players;
+}
+
+public class IsArrayDominated {
+  @EpiTest(testfile = "is_array_dominated.tsv")
+  public static void
+  validPlacementExistsWrapper(TimedExecutor executor, List<Integer> team0,
+                              List<Integer> team1, boolean expected01,
+                              boolean expected10) throws Exception {
+    Team t0 = new Team(team0), t1 = new Team(team1);
+
+    boolean result01 = executor.run(() -> Team.validPlacementExists(t0, t1));
+    boolean result10 = executor.run(() -> Team.validPlacementExists(t1, t0));
+    if (result01 != expected01 || result10 != expected10) {
+      throw new TestFailure("");
+    }
+  }
+
+  public static void main(String[] args) {
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
+  }
 }

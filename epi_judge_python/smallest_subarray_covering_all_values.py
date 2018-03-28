@@ -1,8 +1,11 @@
-from test_framework.test_utils import enable_timer_hook
+import functools
+from sys import exit
 
-from test_framework import test_utils_generic_main, test_utils
+from test_framework import generic_test, test_utils
+from test_framework.test_utils import enable_executor_hook
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'subsequence_cover.tsv',
-        find_smallest_sequentially_covering_subset_wrapper)
+    exit(
+        generic_test.generic_test_main(
+            'smallest_subarray_covering_all_values.tsv',
+            find_smallest_sequentially_covering_subset_wrapper))

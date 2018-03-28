@@ -1,8 +1,8 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,10 @@ public class MatrixConnectedRegions {
   }
 
   @EpiTest(testfile = "painting.tsv")
-  public static List<List<Integer>>
-  flipColorWrapper(TestTimer timer, int x, int y, List<List<Integer>> image) {
+  public static List<List<Integer>> flipColorWrapper(TimedExecutor executor,
+                                                     int x, int y,
+                                                     List<List<Integer>> image)
+      throws Exception {
     List<List<Boolean>> B = new ArrayList<>();
     for (int i = 0; i < image.size(); i++) {
       B.add(new ArrayList<>());
@@ -25,9 +27,7 @@ public class MatrixConnectedRegions {
       }
     }
 
-    timer.start();
-    flipColor(x, y, B);
-    timer.stop();
+    executor.run(() -> flipColor(x, y, B));
 
     image = new ArrayList<>();
     for (int i = 0; i < B.size(); i++) {
@@ -41,7 +41,9 @@ public class MatrixConnectedRegions {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

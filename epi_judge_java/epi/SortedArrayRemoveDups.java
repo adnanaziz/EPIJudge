@@ -1,8 +1,8 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TimedExecutor;
 
 import java.util.List;
 
@@ -14,17 +14,17 @@ public class SortedArrayRemoveDups {
   }
 
   @EpiTest(testfile = "sorted_array_remove_dups.tsv")
-  public static List<Integer> deleteDuplicatesWrapper(TestTimer timer,
-                                                      List<Integer> A) {
-    timer.start();
-    int end = deleteDuplicates(A);
-    timer.stop();
-
+  public static List<Integer> deleteDuplicatesWrapper(TimedExecutor executor,
+                                                      List<Integer> A)
+      throws Exception {
+    int end = executor.run(() -> deleteDuplicates(A));
     return A.subList(0, end);
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

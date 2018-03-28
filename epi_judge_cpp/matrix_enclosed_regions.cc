@@ -2,7 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::vector;
@@ -13,7 +14,7 @@ void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
 }
 
 vector<vector<string>> FillSurroundedRegionsWrapper(
-    TestTimer& timer, vector<vector<string>> board) {
+    TimedExecutor& executor, vector<vector<string>> board) {
   vector<vector<char>> char_vector;
   char_vector.resize(board.size());
   for (int i = 0; i < board.size(); i++) {
@@ -25,9 +26,7 @@ vector<vector<string>> FillSurroundedRegionsWrapper(
     }
   }
 
-  timer.Start();
-  FillSurroundedRegions(&char_vector);
-  timer.Stop();
+  executor.Run([&] { FillSurroundedRegions(&char_vector); });
 
   board.clear();
   board.resize(char_vector.size(), {});
@@ -40,11 +39,10 @@ vector<vector<string>> FillSurroundedRegionsWrapper(
   return board;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "board"};
-  generic_test_main(argc, argv, param_names, "matrix_enclosed_regions.tsv",
-                    &FillSurroundedRegionsWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "board"};
+  return GenericTestMain(args, "matrix_enclosed_regions.tsv",
+                         &FillSurroundedRegionsWrapper, DefaultComparator{},
+                         param_names);
 }

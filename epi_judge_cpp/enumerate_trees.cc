@@ -3,7 +3,8 @@
 #include <vector>
 
 #include "binary_tree_node.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
@@ -29,11 +30,9 @@ vector<int> SerializeStructure(const unique_ptr<BinaryTreeNode<int>>& tree) {
   return result;
 }
 
-vector<vector<int>> GenerateAllBinaryTreesWrapper(TestTimer& timer,
+vector<vector<int>> GenerateAllBinaryTreesWrapper(TimedExecutor& executor,
                                                   int num_nodes) {
-  timer.Start();
-  auto result = GenerateAllBinaryTrees(num_nodes);
-  timer.Stop();
+  auto result = executor.Run([&] { return GenerateAllBinaryTrees(num_nodes); });
 
   vector<vector<int>> serialized;
   for (auto& x : result) {
@@ -43,11 +42,10 @@ vector<vector<int>> GenerateAllBinaryTreesWrapper(TestTimer& timer,
   return serialized;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "num_nodes"};
-  generic_test_main(argc, argv, param_names, "enumerate_trees.tsv",
-                    &GenerateAllBinaryTreesWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "num_nodes"};
+  return GenericTestMain(args, "enumerate_trees.tsv",
+                         &GenerateAllBinaryTreesWrapper, DefaultComparator{},
+                         param_names);
 }

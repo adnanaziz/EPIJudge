@@ -3,10 +3,13 @@ def phone_mnemonic(phone_number):
     return []
 
 
-from test_framework import test_utils_generic_main, test_utils
+from sys import exit
+
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'phone_number_mnemonic.tsv',
-        phone_mnemonic,
-        comp=test_utils.unordered_compare)
+    exit(
+        generic_test.generic_test_main(
+            'phone_number_mnemonic.tsv',
+            phone_mnemonic,
+            comparator=test_utils.unordered_compare))

@@ -1,9 +1,16 @@
+# @library
+import statistics
 import time
 
 
 class TestTimer:
-    _start = 0
-    _stop = 0
+    def __init__(self, duration_ms=None):
+        if duration_ms is None:
+            self._start = 0
+            self._stop = 0
+        else:
+            self._stop = time.perf_counter()
+            self._start = self._stop - duration_ms / 1000
 
     def start(self):
         self._start = time.perf_counter()
@@ -19,7 +26,8 @@ class TestTimer:
         return self._stop != 0
 
     def get_microseconds(self):
-        return int((self._stop - self._start) * 1000000)
+        SECONDS_TO_MICRO = 1000000
+        return int((self._stop - self._start) * SECONDS_TO_MICRO)
 
     def has_valid_result(self):
         return self.started() and self._stop != 0
@@ -28,8 +36,9 @@ class TestTimer:
 def duration_to_string(dur):
     dur = int(dur)
     MICRO_TO_MILLI = 1000
-    MICRO_TO_SECOND = 1000000
+    MICRO_TO_SECOND = MICRO_TO_MILLI * 1000
     FORMAT = '{:>4}'
+
     if dur == 0:
         return '  <1 us'
     elif dur < MICRO_TO_MILLI:
@@ -38,3 +47,7 @@ def duration_to_string(dur):
         return str(FORMAT + ' ms').format(dur // MICRO_TO_MILLI)
     else:
         return str(FORMAT + '  s').format(dur // MICRO_TO_SECOND)
+
+
+def avg_and_median_from_durations(durations):
+    return statistics.mean(durations), statistics.median(durations)

@@ -2,8 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
 
 import java.util.List;
 
@@ -27,6 +27,12 @@ public class CircularQueue {
       // Implement this placeholder.
       return 0;
     }
+
+    @Override
+    public String toString() {
+      // Implement this placeholder.
+      return super.toString();
+    }
   }
 
   @EpiUserType(ctorParams = {String.class, int.class})
@@ -38,12 +44,17 @@ public class CircularQueue {
       this.op = op;
       this.arg = arg;
     }
+
+    @Override
+    public String toString() {
+      return op;
+    }
   }
 
   @EpiTest(testfile = "circular_queue.tsv")
-  public static void queueTest(List<QueueOp> ops) throws TestFailureException {
+  public static void queueTest(List<QueueOp> ops) throws TestFailure {
     Queue q = new Queue(1);
-
+    int opIdx = 0;
     for (QueueOp op : ops) {
       switch (op.op) {
       case "Queue":
@@ -55,25 +66,30 @@ public class CircularQueue {
       case "dequeue":
         int result = q.dequeue();
         if (result != op.arg) {
-          throw new TestFailureException("Dequeue: expected " +
-                                         String.valueOf(op.arg) + ", got " +
-                                         String.valueOf(result));
+          throw new TestFailure()
+              .withProperty(TestFailure.PropertyName.STATE, q)
+              .withProperty(TestFailure.PropertyName.COMMAND, op)
+              .withMismatchInfo(opIdx, op.arg, result);
         }
         break;
       case "size":
         int s = q.size();
         if (s != op.arg) {
-          throw new TestFailureException("Size: expected " +
-                                         String.valueOf(op.arg) + ", got " +
-                                         String.valueOf(s));
+          throw new TestFailure()
+              .withProperty(TestFailure.PropertyName.STATE, q)
+              .withProperty(TestFailure.PropertyName.COMMAND, op)
+              .withMismatchInfo(opIdx, op.arg, s);
         }
         break;
       }
+      opIdx++;
     }
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

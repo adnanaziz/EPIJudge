@@ -1,6 +1,8 @@
 #include <tuple>
 #include <vector>
 
+#include "test_framework/fmt_print.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
@@ -23,14 +25,12 @@ bool operator==(const PairedTasks& lhs, const PairedTasks& rhs) {
 }
 
 std::ostream& operator<<(std::ostream& out, const PairedTasks& t) {
-  return EpiPrint(out, std::make_tuple(t.task_1, t.task_2));
+  return PrintTo(out, std::make_tuple(t.task_1, t.task_2));
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"task_durations"};
-  generic_test_main(argc, argv, param_names, "task_pairing.tsv",
-                    &OptimumTaskAssignment);
-  return 0;
+  return GenericTestMain(args, "task_pairing.tsv", &OptimumTaskAssignment,
+                         DefaultComparator{}, param_names);
 }

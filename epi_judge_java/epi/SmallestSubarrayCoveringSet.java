@@ -1,9 +1,9 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.HashSet;
 import java.util.List;
@@ -30,30 +30,32 @@ public class SmallestSubarrayCoveringSet {
 
   @EpiTest(testfile = "smallest_subarray_covering_set.tsv")
   public static int findSmallestSubarrayCoveringSetWrapper(
-      TestTimer timer, List<String> paragraph, Set<String> keywords)
-      throws TestFailureException {
+      TimedExecutor executor, List<String> paragraph, Set<String> keywords)
+      throws Exception {
     Set<String> copy = new HashSet<>(keywords);
 
-    timer.start();
-    Subarray result = findSmallestSubarrayCoveringSet(paragraph, keywords);
-    timer.stop();
+    Subarray result = executor.run(
+        () -> findSmallestSubarrayCoveringSet(paragraph, keywords));
 
     if (result.start < 0 || result.start >= paragraph.size() ||
         result.end < 0 || result.end >= paragraph.size() ||
         result.start > result.end)
-      throw new TestFailureException("Index out of range");
+      throw new TestFailure("Index out of range");
 
-    for (int i = result.start; i <= result.end; i++)
+    for (int i = result.start; i <= result.end; i++) {
       copy.remove(paragraph.get(i));
+    }
 
-    if (!copy.isEmpty())
-      throw new TestFailureException("Not all keywords are in the range");
-
+    if (!copy.isEmpty()) {
+      throw new TestFailure("Not all keywords are in the range");
+    }
     return result.end - result.start + 1;
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

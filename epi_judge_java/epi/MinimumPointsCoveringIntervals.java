@@ -2,7 +2,7 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTestHandler;
+import epi.test_framework.GenericTest;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class MinimumPointsCoveringIntervals {
     }
   }
 
-  @EpiTest(testfile = "points_covering_intervals.tsv")
+  @EpiTest(testfile = "minimum_points_covering_intervals.tsv")
 
   public static Integer findMinimumVisits(List<Interval> intervals) {
     // Implement this placeholder.
@@ -26,7 +26,9 @@ public class MinimumPointsCoveringIntervals {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

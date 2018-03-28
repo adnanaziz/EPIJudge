@@ -2,8 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.LexicographicalListComparator;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,10 @@ public class EnumerateTrees {
 
   @EpiTest(testfile = "enumerate_trees.tsv")
   public static List<List<Integer>>
-  generateAllBinaryTreesWrapper(TestTimer timer, int numNodes) {
-    timer.start();
-    List<BinaryTreeNode<Integer>> result = generateAllBinaryTrees(numNodes);
-    timer.stop();
+  generateAllBinaryTreesWrapper(TimedExecutor executor, int numNodes)
+      throws Exception {
+    List<BinaryTreeNode<Integer>> result =
+        executor.run(() -> generateAllBinaryTrees(numNodes));
 
     List<List<Integer>> serialized = new ArrayList<>();
     for (BinaryTreeNode<Integer> x : result) {
@@ -48,7 +48,9 @@ public class EnumerateTrees {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

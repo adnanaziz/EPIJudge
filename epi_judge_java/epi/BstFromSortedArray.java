@@ -2,9 +2,10 @@ package epi;
 
 import epi.test_framework.BinaryTreeUtils;
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TestUtils;
+import epi.test_framework.TimedExecutor;
 
 import java.util.List;
 
@@ -17,23 +18,23 @@ public class BstFromSortedArray {
   }
 
   @EpiTest(testfile = "bst_from_sorted_array.tsv")
-  public static int buildMinHeightBSTFromSortedArrayWrapper(TestTimer timer,
-                                                            List<Integer> A)
-      throws TestFailureException {
-    timer.start();
-    BstNode<Integer> result = buildMinHeightBSTFromSortedArray(A);
-    timer.stop();
+  public static int
+  buildMinHeightBSTFromSortedArrayWrapper(TimedExecutor executor,
+                                          List<Integer> A) throws Exception {
+    BstNode<Integer> result =
+        executor.run(() -> buildMinHeightBSTFromSortedArray(A));
 
-    if (!BinaryTreeUtils.generateInorder(result).equals(A)) {
-      throw new TestFailureException(
-          "Result binary tree mismatches input array");
-    }
+    List<Integer> inorder = BinaryTreeUtils.generateInorder(result);
 
+    TestUtils.assertAllValuesPresent(A, inorder);
+    BinaryTreeUtils.assertTreeIsBst(result);
     return BinaryTreeUtils.binaryTreeHeight(result);
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

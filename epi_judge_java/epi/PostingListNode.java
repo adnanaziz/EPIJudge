@@ -11,4 +11,10 @@ public class PostingListNode {
     this.next = next;
     this.jump = jump;
   }
+
+  @Override
+  public String toString() {
+    return String.format("(%d)%s%s", order, next != null ? "->" : "",
+                         next != null ? next.toString() : "");
+  }
 }

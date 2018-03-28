@@ -1,5 +1,9 @@
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+import functools
+from sys import exit
+
+from test_framework import generic_test, test_utils
+from test_framework.test_failure import PropertyName, TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 def rearrange(A):
@@ -7,34 +11,41 @@ def rearrange(A):
     return
 
 
-@enable_timer_hook
-def rearrange_wrapper(timer, A):
-    timer.start()
-    rearrange(A)
-    timer.stop()
+@enable_executor_hook
+def rearrange_wrapper(executor, A):
+    def check_answer(A):
+        for i in range(len(A)):
+            if i % 2:
+                if A[i] < A[i - 1]:
+                    raise TestFailure().with_property(
+                        PropertyName.RESULT, A).with_mismatch_info(
+                            i, 'A[{}] <= A[{}]'.format(i - 1, i),
+                            '{} > {}'.format(A[i - 1], A[i]))
+                if i + 1 < len(A):
+                    if A[i] < A[i + 1]:
+                        raise TestFailure().with_property(
+                            PropertyName.RESULT, A).with_mismatch_info(
+                                i, 'A[{}] >= A[{}]'.format(i, i + 1),
+                                '{} < {}'.format(A[i], A[i + 1]))
+            else:
+                if i > 0:
+                    if A[i - 1] < A[i]:
+                        raise TestFailure().with_property(
+                            PropertyName.RESULT, A).with_mismatch_info(
+                                i, 'A[{}] >= A[{}]'.format(i - 1, i),
+                                '{} < {}'.format(A[i - 1], A[i]))
+                if i + 1 < len(A):
+                    if A[i + 1] < A[i]:
+                        raise TestFailure().with_property(
+                            PropertyName.RESULT, A).with_mismatch_info(
+                                i, 'A[{}] <= A[{}]'.format(i, i + 1),
+                                '{} > {}'.format(A[i], A[i + 1]))
 
-
-def check_answer(A):
-    for i in range(len(A)):
-        if i % 2:
-            if A[i] < A[i - 1]:
-                raise TestFailureException('')
-            if i + 1 < len(A):
-                if A[i] < A[i + 1]:
-                    raise TestFailureException('')
-                else:
-                    if i > 0:
-                        if A[i - 1] < A[i]:
-                            raise TestFailureException('')
-            if i + 1 < len(A):
-                if A[i + 1] < A[i]:
-                    raise TestFailureException('')
-
+    executor.run(functools.partial(rearrange, A))
     check_answer(A)
 
 
-from test_framework import test_utils_generic_main, test_utils
-
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('alternating_array.tsv',
-                                              rearrange_wrapper)
+    exit(
+        generic_test.generic_test_main('alternating_array.tsv',
+                                       rearrange_wrapper))

@@ -1,7 +1,8 @@
 #include <stdexcept>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
 
 using std::invalid_argument;
 using std::vector;
@@ -16,15 +17,14 @@ int FindMissingElementWrapper(const vector<int>& stream) {
   try {
     return FindMissingElement(cbegin(stream), cend(stream));
   } catch (invalid_argument&) {
-    throw TestFailureException("Unexpected no_missing_element exception");
+    throw TestFailure("Unexpected no_missing_element exception");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"stream"};
-  generic_test_main(argc, argv, param_names, "absent_value_array.tsv",
-                    &FindMissingElementWrapper);
-  return 0;
+  return GenericTestMain(args, "absent_value_array.tsv",
+                         &FindMissingElementWrapper, DefaultComparator{},
+                         param_names);
 }

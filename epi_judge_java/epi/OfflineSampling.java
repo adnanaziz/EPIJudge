@@ -2,9 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,15 +15,17 @@ public class OfflineSampling {
     return;
   }
 
-  private static boolean randomSamplingRunner(TestTimer timer, int k,
-                                              List<Integer> A) {
+  private static boolean randomSamplingRunner(TimedExecutor executor, int k,
+                                              List<Integer> A)
+      throws Exception {
     List<List<Integer>> results = new ArrayList<>();
-    timer.start();
-    for (int i = 0; i < 1000000; ++i) {
-      randomSampling(k, A);
-      results.add(new ArrayList<>(A.subList(0, k)));
-    }
-    timer.stop();
+
+    executor.run(() -> {
+      for (int i = 0; i < 1000000; ++i) {
+        randomSampling(k, A);
+        results.add(new ArrayList<>(A.subList(0, k)));
+      }
+    });
 
     int totalPossibleOutcomes =
         RandomSequenceChecker.binomialCoefficient(A.size(), k);
@@ -45,15 +46,16 @@ public class OfflineSampling {
   }
 
   @EpiTest(testfile = "offline_sampling.tsv")
-  public static void randomSamplingWrapper(TestTimer timer, int k,
-                                           List<Integer> A)
-      throws TestFailureException {
+  public static void randomSamplingWrapper(TimedExecutor executor, int k,
+                                           List<Integer> A) throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
-        () -> randomSamplingRunner(timer, k, A));
+        () -> randomSamplingRunner(executor, k, A));
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

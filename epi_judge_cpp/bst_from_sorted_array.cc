@@ -3,7 +3,9 @@
 
 #include "bst_node.h"
 #include "test_framework/binary_tree_utils.h"
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::unique_ptr;
 using std::vector;
@@ -14,23 +16,21 @@ unique_ptr<BstNode<int>> BuildMinHeightBSTFromSortedArray(
   return nullptr;
 }
 
-int BuildMinHeightBSTFromSortedArrayWrapper(TestTimer& timer,
+int BuildMinHeightBSTFromSortedArrayWrapper(TimedExecutor& executor,
                                             const vector<int>& A) {
-  timer.Start();
-  unique_ptr<BstNode<int>> result = BuildMinHeightBSTFromSortedArray(A);
-  timer.Stop();
+  unique_ptr<BstNode<int>> result =
+      executor.Run([&] { return BuildMinHeightBSTFromSortedArray(A); });
 
   if (GenerateInorder(result) != A) {
-    throw TestFailureException("Result binay tree mismatches input array");
+    throw TestFailure("Result binary tree mismatches input array");
   }
   return BinaryTreeHeight(result);
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "A"};
-  generic_test_main(argc, argv, param_names, "bst_from_sorted_array.tsv",
-                    &BuildMinHeightBSTFromSortedArrayWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "A"};
+  return GenericTestMain(args, "bst_from_sorted_array.tsv",
+                         &BuildMinHeightBSTFromSortedArrayWrapper,
+                         DefaultComparator{}, param_names);
 }

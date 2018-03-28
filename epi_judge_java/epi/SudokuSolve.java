@@ -1,9 +1,9 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,36 +19,29 @@ public class SudokuSolve {
   }
 
   @EpiTest(testfile = "sudoku_solve.tsv")
-  public static void solveSudokuWrapper(TestTimer timer,
+  public static void solveSudokuWrapper(TimedExecutor executor,
                                         List<List<Integer>> partialAssignment)
-      throws TestFailureException {
+      throws Exception {
     List<List<Integer>> solved = new ArrayList<>();
     for (List<Integer> row : partialAssignment) {
-      List<Integer> copy = new ArrayList<>();
-      copy.addAll(row);
-      solved.add(copy);
+      solved.add(new ArrayList<>(row));
     }
 
-    timer.start();
-    solveSudoku(solved);
-    timer.stop();
+    executor.run(() -> solveSudoku(solved));
 
     if (partialAssignment.size() != solved.size()) {
-      throw new TestFailureException(
-          "Initial cell assignment has been changed");
+      throw new TestFailure("Initial cell assignment has been changed");
     }
 
     for (int i = 0; i < partialAssignment.size(); i++) {
       List<Integer> br = partialAssignment.get(i);
       List<Integer> sr = solved.get(i);
       if (br.size() != sr.size()) {
-        throw new TestFailureException(
-            "Initial cell assignment has been changed");
+        throw new TestFailure("Initial cell assignment has been changed");
       }
       for (int j = 0; j < br.size(); j++)
         if (br.get(j) != 0 && !Objects.equals(br.get(j), sr.get(j)))
-          throw new TestFailureException(
-              "Initial cell assignment has been changed");
+          throw new TestFailure("Initial cell assignment has been changed");
     }
 
     int blockSize = (int)Math.sqrt(solved.size());
@@ -59,18 +52,17 @@ public class SudokuSolve {
     }
   }
 
-  private static void assertUniqueSeq(List<Integer> seq)
-      throws TestFailureException {
+  private static void assertUniqueSeq(List<Integer> seq) throws TestFailure {
     Set<Integer> seen = new HashSet<>();
     for (Integer x : seq) {
       if (x == 0) {
-        throw new TestFailureException("Cell left uninitialized");
+        throw new TestFailure("Cell left uninitialized");
       }
       if (x < 0 || x > seq.size()) {
-        throw new TestFailureException("Cell value out of range");
+        throw new TestFailure("Cell value out of range");
       }
       if (seen.contains(x)) {
-        throw new TestFailureException("Duplicate value in section");
+        throw new TestFailure("Duplicate value in section");
       }
       seen.add(x);
     }
@@ -99,7 +91,9 @@ public class SudokuSolve {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

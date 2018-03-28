@@ -4,14 +4,14 @@
 #include <functional>
 #include <iostream>
 
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
 #define NOMINMAX
 #include <Windows.h>
 #endif
 
 #include "platform.h"
 
-enum class ConsoleColor { FG_RED, FG_GREEN, FG_BLUE, FG_DEFAULT };
+enum class ConsoleColor { FG_RED, FG_GREEN, FG_BLUE, FG_YELLOW, FG_DEFAULT };
 
 short GetColorCodeWin(ConsoleColor color) {
   switch (color) {
@@ -21,7 +21,10 @@ short GetColorCodeWin(ConsoleColor color) {
       return 2 | 8;
     case ConsoleColor::FG_BLUE:
       return 1 | 8;
+    case ConsoleColor::FG_YELLOW:
+      return 6 | 8;
     case ConsoleColor::FG_DEFAULT:
+    default:
       return 7;
   }
 }
@@ -34,7 +37,10 @@ const char* GetColorCodeUnix(ConsoleColor color) {
       return "\033[32m";
     case ConsoleColor::FG_BLUE:
       return "\033[34m";
+    case ConsoleColor::FG_YELLOW:
+      return "\033[33m";
     case ConsoleColor::FG_DEFAULT:
+    default:
       return "\033[39m";
   }
 }
@@ -45,19 +51,19 @@ void PrintStdOutColored(ConsoleColor color, const T& value) {
     std::cout << value;
     return;
   }
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
   const HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
   CONSOLE_SCREEN_BUFFER_INFO buffer_info;
   GetConsoleScreenBufferInfo(stdout_handle, &buffer_info);
-  const WORD old_color_attrs = buffer_info.wAttributes;
-  fflush(stdout);
+  const WORD old_text_attr = buffer_info.wAttributes;
 
+  fflush(stdout);
   SetConsoleTextAttribute(stdout_handle, GetColorCodeWin(color));
 
   std::cout << value;
-  fflush(stdout);
 
-  SetConsoleTextAttribute(stdout_handle, old_color_attrs);
+  fflush(stdout);
+  SetConsoleTextAttribute(stdout_handle, old_text_attr);
 #else
   std::cout << GetColorCodeUnix(color) << value
             << GetColorCodeUnix(ConsoleColor::FG_DEFAULT);

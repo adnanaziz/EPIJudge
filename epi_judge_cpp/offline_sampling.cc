@@ -3,8 +3,9 @@
 #include <iterator>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/timed_executor.h"
 
 using std::bind;
 using std::vector;
@@ -14,14 +15,15 @@ void RandomSampling(int k, vector<int>* A_ptr) {
   return;
 }
 
-bool RandomSamplingRunner(TestTimer& timer, int k, vector<int> A) {
+bool RandomSamplingRunner(TimedExecutor& executor, int k, vector<int> A) {
   vector<vector<int>> results;
-  timer.Start();
-  for (int i = 0; i < 100000; ++i) {
-    RandomSampling(k, &A);
-    results.emplace_back(begin(A), begin(A) + k);
-  }
-  timer.Stop();
+
+  executor.Run([&] {
+    for (int i = 0; i < 100000; ++i) {
+      RandomSampling(k, &A);
+      results.emplace_back(begin(A), begin(A) + k);
+    }
+  });
 
   int total_possible_outcomes = BinomialCoefficient(A.size(), k);
   sort(begin(A), end(A));
@@ -40,16 +42,15 @@ bool RandomSamplingRunner(TestTimer& timer, int k, vector<int> A) {
                                         0.01);
 }
 
-void RandomSamplingWrapper(TestTimer& timer, int k, const vector<int>& A) {
+void RandomSamplingWrapper(TimedExecutor& executor, int k,
+                           const vector<int>& A) {
   RunFuncWithRetries(
-      bind(RandomSamplingRunner, std::ref(timer), k, std::cref(A)));
+      bind(RandomSamplingRunner, std::ref(executor), k, std::cref(A)));
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "k", "A"};
-  generic_test_main(argc, argv, param_names, "offline_sampling.tsv",
-                    &RandomSamplingWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "k", "A"};
+  return GenericTestMain(args, "offline_sampling.tsv", &RandomSamplingWrapper,
+                         DefaultComparator{}, param_names);
 }

@@ -3,8 +3,13 @@ def find_anagrams(dictionary):
     return []
 
 
-from test_framework import test_utils_generic_main, test_utils
+from sys import exit
+
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        "anagrams.tsv", find_anagrams, comp=test_utils.unordered_compare)
+    exit(
+        generic_test.generic_test_main(
+            "anagrams.tsv",
+            find_anagrams,
+            comparator=test_utils.unordered_compare))

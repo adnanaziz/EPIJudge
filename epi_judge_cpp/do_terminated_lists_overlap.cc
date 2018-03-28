@@ -1,8 +1,9 @@
 #include <memory>
 
 #include "list_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::shared_ptr;
 
@@ -12,7 +13,7 @@ shared_ptr<ListNode<int>> OverlappingNoCycleLists(
   return nullptr;
 }
 
-void OverlappingNoCycleListsWrapper(TestTimer& timer,
+void OverlappingNoCycleListsWrapper(TimedExecutor& executor,
                                     shared_ptr<ListNode<int>> l0,
                                     shared_ptr<ListNode<int>> l1,
                                     shared_ptr<ListNode<int>> common) {
@@ -38,20 +39,17 @@ void OverlappingNoCycleListsWrapper(TestTimer& timer,
     }
   }
 
-  timer.Start();
-  auto result = OverlappingNoCycleLists(l0, l1);
-  timer.Stop();
+  auto result = executor.Run([&] { return OverlappingNoCycleLists(l0, l1); });
 
   if (result != common) {
-    throw TestFailureException("Invalid result");
+    throw TestFailure("Invalid result");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "l0", "l1", "common"};
-  generic_test_main(argc, argv, param_names, "do_terminated_lists_overlap.tsv",
-                    &OverlappingNoCycleListsWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "l0", "l1", "common"};
+  return GenericTestMain(args, "do_terminated_lists_overlap.tsv",
+                         &OverlappingNoCycleListsWrapper, DefaultComparator{},
+                         param_names);
 }

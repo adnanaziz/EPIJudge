@@ -2,8 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,9 @@ public class MaxTeamsInPhotograph {
   }
 
   @EpiTest(testfile = "max_teams_in_photograph.tsv")
-  public static int findLargestNumberTeamsWrapper(TestTimer timer, int k,
-                                                  List<Edge> edges) {
+  public static int findLargestNumberTeamsWrapper(TimedExecutor executor, int k,
+                                                  List<Edge> edges)
+      throws Exception {
     if (k <= 0) {
       throw new RuntimeException("Invalid k value");
     }
@@ -49,14 +50,13 @@ public class MaxTeamsInPhotograph {
       graph.get(e.from).edges.add(graph.get(e.to));
     }
 
-    timer.start();
-    int result = findLargestNumberTeams(graph);
-    timer.stop();
-    return result;
+    return executor.run(() -> findLargestNumberTeams(graph));
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

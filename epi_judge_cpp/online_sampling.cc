@@ -3,8 +3,9 @@
 #include <iterator>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/timed_executor.h"
 
 using std::bind;
 using std::sort;
@@ -18,13 +19,15 @@ vector<int> OnlineRandomSample(vector<int>::const_iterator stream_begin,
   return {};
 }
 
-bool OnlineRandomSamplingRunner(TestTimer& timer, vector<int> stream, int k) {
+bool OnlineRandomSamplingRunner(TimedExecutor& executor, vector<int> stream,
+                                int k) {
   vector<vector<int>> results;
-  timer.Start();
-  std::generate_n(
-      back_inserter(results), 100000,
-      std::bind(OnlineRandomSample, cbegin(stream), cend(stream), k));
-  timer.Stop();
+
+  executor.Run([&] {
+    std::generate_n(
+        back_inserter(results), 100000,
+        std::bind(OnlineRandomSample, cbegin(stream), cend(stream), k));
+  });
 
   int total_possible_outcomes = BinomialCoefficient(stream.size(), k);
   sort(begin(stream), end(stream));
@@ -44,17 +47,16 @@ bool OnlineRandomSamplingRunner(TestTimer& timer, vector<int> stream, int k) {
                                         0.01);
 }
 
-void OnlineRandomSampleWrapper(TestTimer& timer, const vector<int>& stream,
-                               int k) {
-  RunFuncWithRetries(
-      bind(OnlineRandomSamplingRunner, std::ref(timer), std::cref(stream), k));
+void OnlineRandomSampleWrapper(TimedExecutor& executor,
+                               const vector<int>& stream, int k) {
+  RunFuncWithRetries(bind(OnlineRandomSamplingRunner, std::ref(executor),
+                          std::cref(stream), k));
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "stream", "k"};
-  generic_test_main(argc, argv, param_names, "online_sampling.tsv",
-                    &OnlineRandomSampleWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "stream", "k"};
+  return GenericTestMain(args, "online_sampling.tsv",
+                         &OnlineRandomSampleWrapper, DefaultComparator{},
+                         param_names);
 }

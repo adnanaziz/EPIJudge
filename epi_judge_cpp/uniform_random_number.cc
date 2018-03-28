@@ -2,8 +2,9 @@
 #include <random>
 #include <vector>
 
+#include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/timed_executor.h"
 
 using std::bind;
 using std::default_random_engine;
@@ -22,12 +23,13 @@ int UniformRandom(int lower_bound, int upper_bound) {
   return 0;
 }
 
-bool UniformRandomRunner(TestTimer& timer, int lower_bound, int upper_bound) {
+bool UniformRandomRunner(TimedExecutor& executor, int lower_bound,
+                         int upper_bound) {
   vector<int> result;
-  timer.Start();
-  std::generate_n(back_inserter(result), 100000,
-                  std::bind(UniformRandom, lower_bound, upper_bound));
-  timer.Stop();
+  executor.Run([&] {
+    std::generate_n(back_inserter(result), 100000,
+                    std::bind(UniformRandom, lower_bound, upper_bound));
+  });
 
   vector<int> sequence;
   std::transform(begin(result), end(result), back_inserter(sequence),
@@ -36,16 +38,17 @@ bool UniformRandomRunner(TestTimer& timer, int lower_bound, int upper_bound) {
                                         0.01);
 }
 
-void UniformRandomWrapper(TestTimer& timer, int lower_bound, int upper_bound) {
+void UniformRandomWrapper(TimedExecutor& executor, int lower_bound,
+                          int upper_bound) {
   RunFuncWithRetries(
-      bind(UniformRandomRunner, std::ref(timer), lower_bound, upper_bound));
+      bind(UniformRandomRunner, std::ref(executor), lower_bound, upper_bound));
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "lower_bound", "upper_bound"};
-  generic_test_main(argc, argv, param_names, "uniform_random_number.tsv",
-                    &UniformRandomWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "lower_bound",
+                                       "upper_bound"};
+  return GenericTestMain(args, "uniform_random_number.tsv",
+                         &UniformRandomWrapper, DefaultComparator{},
+                         param_names);
 }

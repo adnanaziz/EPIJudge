@@ -1,4 +1,5 @@
 #include <string>
+#include "test_framework/generic_test.h"
 
 using std::string;
 
@@ -7,11 +8,9 @@ bool CanFormPalindrome(const string& s) {
   return true;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"s"};
-  generic_test_main(argc, argv, param_names, "can_string_be_palindrome.tsv",
-                    &CanFormPalindrome);
-  return 0;
+  return GenericTestMain(args, "is_string_permutable_to_palindrome.tsv",
+                         &CanFormPalindrome, DefaultComparator{}, param_names);
 }

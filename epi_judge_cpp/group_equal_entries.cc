@@ -3,9 +3,10 @@
 #include <string>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::vector;
@@ -23,7 +24,7 @@ void GroupByAge(vector<Person>* people) {
 template <>
 struct SerializationTraits<Person> : UserSerTraits<Person, int, string> {};
 
-void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
+void GroupByAgeWrapper(TimedExecutor& executor, vector<Person>& people) {
   if (people.empty()) {
     return;
   }
@@ -32,18 +33,16 @@ void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
         return a.age == b.age ? a.name < b.name : a.age < b.age;
       });
 
-  timer.Start();
-  GroupByAge(&people);
-  timer.Stop();
+  executor.Run([&] { GroupByAge(&people); });
 
   if (people.empty()) {
-    throw TestFailureException("Empty result");
+    throw TestFailure("Empty result");
   }
   std::set<int> ages;
   int last_age = people[0].age;
   for (auto& x : people) {
     if (ages.count(x.age) != 0) {
-      throw TestFailureException("Entries are not grouped by age");
+      throw TestFailure("Entries are not grouped by age");
     }
     if (x.age != last_age) {
       ages.insert(last_age);
@@ -51,17 +50,15 @@ void GroupByAgeWrapper(TestTimer& timer, vector<Person>& people) {
     }
     auto it = values.find(x);
     if (it == end(values)) {
-      throw TestFailureException("Entry set changed");
+      throw TestFailure("Entry set changed");
     }
     values.erase(it);
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "people"};
-  generic_test_main(argc, argv, param_names, "group_equal_entries.tsv",
-                    &GroupByAgeWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "people"};
+  return GenericTestMain(args, "group_equal_entries.tsv", &GroupByAgeWrapper,
+                         DefaultComparator{}, param_names);
 }

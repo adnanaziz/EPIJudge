@@ -1,4 +1,5 @@
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -7,11 +8,9 @@ bool IsArbitrageExist(vector<vector<double>> graph) {
   return true;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"graph"};
-  generic_test_main(argc, argv, param_names, "arbitrage.tsv",
-                    &IsArbitrageExist);
-  return 0;
+  return GenericTestMain(args, "arbitrage.tsv", &IsArbitrageExist,
+                         DefaultComparator{}, param_names);
 }

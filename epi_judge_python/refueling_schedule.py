@@ -5,8 +5,11 @@ def find_ample_city(gallons, distances):
     return 0
 
 
-from test_framework import test_utils_generic_main, test_utils
+from sys import exit
+
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('refueling_schedule.tsv',
-                                              find_ample_city)
+    exit(
+        generic_test.generic_test_main('refueling_schedule.tsv',
+                                       find_ample_city))

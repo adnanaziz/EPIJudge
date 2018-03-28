@@ -1,12 +1,10 @@
-
-#pragma once
-
 #include <list>
 #include <memory>
 #include <random>
-
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/test_utils_serialization_traits.h"
+
+#pragma once
 
 using std::unique_ptr;
 
@@ -21,6 +19,4 @@ struct BinaryTreeNode {
       : data(data), left(std::move(left)), right(std::move(right)) {}
 };
 
-template <typename KeyT>
-struct SerializationTraits<unique_ptr<BinaryTreeNode<KeyT>>>
-    : BinaryTreeSerializationTraits<unique_ptr<BinaryTreeNode<KeyT>>, false> {};
+DECLARE_BINARY_TREE_TYPE(KeyT, std::unique_ptr<BinaryTreeNode<KeyT>>, false)

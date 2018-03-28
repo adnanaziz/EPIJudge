@@ -1,8 +1,8 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class TreeRightSibling {
   public static class BinaryTreeNode<T> {
     public T data;
     public BinaryTreeNode<T> left, right;
-    public BinaryTreeNode<T> next; // Populates this field.
+    public BinaryTreeNode<T> next = null; // Populates this field.
 
     public BinaryTreeNode(T data) { this.data = data; }
   }
@@ -23,23 +23,22 @@ public class TreeRightSibling {
 
   private static BinaryTreeNode<Integer>
   cloneTree(BinaryTree<Integer> original) {
-    if (original != null) {
-      BinaryTreeNode<Integer> cloned = new BinaryTreeNode<>(original.data);
-      cloned.left = cloneTree(original.left);
-      cloned.right = cloneTree(original.right);
-      return cloned;
-    } else
+    if (original == null) {
       return null;
+    }
+    BinaryTreeNode<Integer> cloned = new BinaryTreeNode<>(original.data);
+    cloned.left = cloneTree(original.left);
+    cloned.right = cloneTree(original.right);
+    return cloned;
   }
 
   @EpiTest(testfile = "tree_right_sibling.tsv")
   public static List<List<Integer>>
-  constructRightSiblingWrapper(TestTimer timer, BinaryTree<Integer> tree) {
+  constructRightSiblingWrapper(TimedExecutor executor, BinaryTree<Integer> tree)
+      throws Exception {
     BinaryTreeNode<Integer> cloned = cloneTree(tree);
 
-    timer.start();
-    constructRightSibling(cloned);
-    timer.stop();
+    executor.run(() -> constructRightSibling(cloned));
 
     List<List<Integer>> result = new ArrayList<>();
     BinaryTreeNode<Integer> levelStart = cloned;
@@ -57,7 +56,9 @@ public class TreeRightSibling {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

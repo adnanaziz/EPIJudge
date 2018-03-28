@@ -2,7 +2,8 @@
 
 #include "bst_node.h"
 #include "test_framework/binary_tree_utils.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
 
 using std::unique_ptr;
 
@@ -15,26 +16,23 @@ bool PairIncludesAncestorAndDescendantOfM(
 }
 
 bool PairIncludesAncestorAndDescendantOfMWrapper(
-    TestTimer& timer, const unique_ptr<BstNode<int>>& tree,
+    TimedExecutor& executor, const unique_ptr<BstNode<int>>& tree,
     int possible_anc_or_desc_0, int possible_anc_or_desc_1, int middle) {
   auto& candidate0 = MustFindNode(tree, possible_anc_or_desc_0);
   auto& candidate1 = MustFindNode(tree, possible_anc_or_desc_1);
   auto& middle_node = MustFindNode(tree, middle);
-  timer.Start();
-  bool result =
-      PairIncludesAncestorAndDescendantOfM(candidate0, candidate1, middle_node);
-  timer.Stop();
-  return result;
+  return executor.Run([&] {
+    return PairIncludesAncestorAndDescendantOfM(candidate0, candidate1,
+                                                middle_node);
+  });
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "tree",
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "tree",
                                        "possible_anc_or_desc_0",
                                        "possible_anc_or_desc_1", "middle"};
-  generic_test_main(argc, argv, param_names,
-                    "descendant_and_ancestor_in_bst.tsv",
-                    &PairIncludesAncestorAndDescendantOfMWrapper);
-  return 0;
+  return GenericTestMain(args, "descendant_and_ancestor_in_bst.tsv",
+                         &PairIncludesAncestorAndDescendantOfMWrapper,
+                         DefaultComparator{}, param_names);
 }

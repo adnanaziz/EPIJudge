@@ -1,4 +1,7 @@
 import collections
+from sys import exit
+
+from test_framework import generic_test, test_utils
 
 
 class GraphVertex:
@@ -17,7 +20,7 @@ def copy_labels(edges):
 
 
 def check_graph(node, graph):
-    from test_framework.test_failure_exception import TestFailureException
+    from test_framework.test_failure import TestFailure
     vertex_set = set()
     q = collections.deque()
     q.append(node)
@@ -25,13 +28,13 @@ def check_graph(node, graph):
     while q:
         vertex = q.popleft()
         if vertex.label >= len(graph):
-            raise TestFailureException('')
+            raise TestFailure('')
         label1 = copy_labels(vertex.edges)
         label2 = copy_labels(graph[vertex.label].edges)
         label1.sort()
         label2.sort()
         if label1 != label2:
-            raise TestFailureException('')
+            raise TestFailure('')
         for e in vertex.edges:
             if e not in vertex_set:
                 vertex_set.add(e)
@@ -52,8 +55,5 @@ def clone_graph_test(k, edges):
     check_graph(result, graph)
 
 
-from test_framework import test_utils_generic_main, test_utils
-
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('graph_clone.tsv',
-                                              clone_graph_test)
+    exit(generic_test.generic_test_main('graph_clone.tsv', clone_graph_test))

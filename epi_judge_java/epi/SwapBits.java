@@ -1,7 +1,7 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
+import epi.test_framework.GenericTest;
 
 public class SwapBits {
   @EpiTest(testfile = "swap_bits.tsv")
@@ -11,7 +11,9 @@ public class SwapBits {
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

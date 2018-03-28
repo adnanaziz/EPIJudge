@@ -1,4 +1,7 @@
+from sys import exit
+
 from list_node import ListNode
+from test_framework import generic_test, test_utils
 
 
 def is_linked_list_a_palindrome(L):
@@ -6,8 +9,7 @@ def is_linked_list_a_palindrome(L):
     return True
 
 
-from test_framework import test_utils_generic_main, test_utils
-
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('is_list_palindromic.tsv',
-                                              is_linked_list_a_palindrome)
+    exit(
+        generic_test.generic_test_main('is_list_palindromic.tsv',
+                                       is_linked_list_a_palindrome))

@@ -1,10 +1,13 @@
 def test_collatz_conjecture(n):
     # Implement this placeholder.
-    return True
+    return False
 
 
-from test_framework import test_utils_generic_main, test_utils
+from sys import exit
+
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('collatz_checker.tsv',
-                                              test_collatz_conjecture)
+    exit(
+        generic_test.generic_test_main('collatz_checker.tsv',
+                                       test_collatz_conjecture))

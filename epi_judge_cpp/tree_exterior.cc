@@ -1,8 +1,9 @@
 #include <vector>
 
 #include "binary_tree_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
@@ -15,7 +16,7 @@ vector<const unique_ptr<BinaryTreeNode<int>>*> ExteriorBinaryTree(
 vector<int> CreateOutputVector(
     const vector<const unique_ptr<BinaryTreeNode<int>>*>& L) {
   if (std::find(std::begin(L), std::end(L), nullptr) != std::end(L)) {
-    throw TestFailureException("Resulting list contains nullptr");
+    throw TestFailure("Resulting list contains nullptr");
   }
   std::vector<int> output;
   for (const auto* l : L) {
@@ -25,18 +26,15 @@ vector<int> CreateOutputVector(
 }
 
 vector<int> ExteriorBinaryTreeWrapper(
-    TestTimer& timer, const unique_ptr<BinaryTreeNode<int>>& tree) {
-  timer.Start();
-  auto result = ExteriorBinaryTree(tree);
-  timer.Stop();
+    TimedExecutor& executor, const unique_ptr<BinaryTreeNode<int>>& tree) {
+  auto result = executor.Run([&] { return ExteriorBinaryTree(tree); });
+
   return CreateOutputVector(result);
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "tree"};
-  generic_test_main(argc, argv, param_names, "tree_exterior.tsv",
-                    &ExteriorBinaryTreeWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "tree"};
+  return GenericTestMain(args, "tree_exterior.tsv", &ExteriorBinaryTreeWrapper,
+                         DefaultComparator{}, param_names);
 }

@@ -1,4 +1,8 @@
-from test_framework.test_utils import enable_timer_hook
+import functools
+from sys import exit
+
+from test_framework import generic_test, test_utils
+from test_framework.test_utils import enable_executor_hook
 
 
 class GraphVertex:
@@ -12,8 +16,8 @@ def is_any_placement_feasible(graph):
     return True
 
 
-@enable_timer_hook
-def is_any_placement_feasible_wrapper(timer, k, edges):
+@enable_executor_hook
+def is_any_placement_feasible_wrapper(executor, k, edges):
     if k <= 0:
         raise RuntimeError('Invalid k value')
     graph = [GraphVertex() for _ in range(k)]
@@ -23,14 +27,10 @@ def is_any_placement_feasible_wrapper(timer, k, edges):
             raise RuntimeError('Invalid vertex index')
         graph[fr].edges.append(graph[to])
 
-    timer.start()
-    result = is_any_placement_feasible(graph)
-    timer.stop()
-    return result
+    return executor.run(functools.partial(is_any_placement_feasible, graph))
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'is_circuit_wirable.tsv', is_any_placement_feasible_wrapper)
+    exit(
+        generic_test.generic_test_main('is_circuit_wirable.tsv',
+                                       is_any_placement_feasible_wrapper))

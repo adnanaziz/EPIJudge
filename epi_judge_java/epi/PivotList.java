@@ -1,9 +1,9 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,13 +26,13 @@ public class PivotList {
   }
 
   @EpiTest(testfile = "pivot_list.tsv")
-  public static void listPivotingWrapper(TestTimer timer, ListNode<Integer> l,
-                                         int x) throws TestFailureException {
+  public static void listPivotingWrapper(TimedExecutor executor,
+                                         ListNode<Integer> l, int x)
+      throws Exception {
     List<Integer> original = linkedToList(l);
 
-    timer.start();
-    l = listPivoting(l, x);
-    timer.stop();
+    final ListNode<Integer> finalL = l;
+    l = executor.run(() -> listPivoting(finalL, x));
 
     List<Integer> pivoted = linkedToList(l);
 
@@ -48,14 +48,14 @@ public class PivotList {
         break;
       case 0:
         if (i < x) {
-          throw new TestFailureException("List is not pivoted");
+          throw new TestFailure("List is not pivoted");
         } else if (i > x) {
           mode = 1;
         }
         break;
       case 1:
         if (i <= x) {
-          throw new TestFailureException("List is not pivoted");
+          throw new TestFailure("List is not pivoted");
         }
       }
     }
@@ -63,11 +63,13 @@ public class PivotList {
     Collections.sort(original);
     Collections.sort(pivoted);
     if (!original.equals(pivoted))
-      throw new TestFailureException("Result list contains different values");
+      throw new TestFailure("Result list contains different values");
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

@@ -1,8 +1,9 @@
 #include <memory>
 
 #include "list_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::shared_ptr;
 
@@ -11,8 +12,8 @@ shared_ptr<ListNode<int>> HasCycle(const shared_ptr<ListNode<int>>& head) {
   return nullptr;
 }
 
-void HasCycleWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& head,
-                     int cycle_idx) {
+void HasCycleWrapper(TimedExecutor& executor,
+                     const shared_ptr<ListNode<int>>& head, int cycle_idx) {
   int cycle_length = 0;
   if (cycle_idx != -1) {
     if (!head) {
@@ -35,17 +36,16 @@ void HasCycleWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& head,
     cursor->next = cycle_start;
     cycle_length++;
   }
-  timer.Start();
-  shared_ptr<ListNode<int>> result = HasCycle(head);
-  timer.Stop();
+  shared_ptr<ListNode<int>> result =
+      executor.Run([&] { return HasCycle(head); });
 
   if (cycle_idx == -1) {
     if (result != nullptr) {
-      throw TestFailureException("Found a non-existing cycle");
+      throw TestFailure("Found a non-existing cycle");
     }
   } else {
     if (result == nullptr) {
-      throw TestFailureException("Existing cycle was not found");
+      throw TestFailure("Existing cycle was not found");
     }
 
     auto cursor = result;
@@ -53,25 +53,23 @@ void HasCycleWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& head,
       cursor = cursor->next;
       cycle_length--;
       if (!cursor || cycle_length < 0) {
-        throw TestFailureException(
+        throw TestFailure(
             "Returned node does not belong to the cycle or is not the "
             "closest node to the head");
       }
     } while (cursor != result);
 
     if (cycle_length != 0) {
-      throw TestFailureException(
+      throw TestFailure(
           "Returned node does not belong to the cycle or is not the closest "
           "node to the head");
     }
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "head", "cycle_idx"};
-  generic_test_main(argc, argv, param_names, "is_list_cyclic.tsv",
-                    &HasCycleWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "head", "cycle_idx"};
+  return GenericTestMain(args, "is_list_cyclic.tsv", &HasCycleWrapper,
+                         DefaultComparator{}, param_names);
 }

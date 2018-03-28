@@ -8,8 +8,9 @@ def flip_color_wrapper(x, y, image):
     return image
 
 
-from test_framework import test_utils_generic_main, test_utils
+from sys import exit
+
+from test_framework import generic_test, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('painting.tsv',
-                                              flip_color_wrapper)
+    exit(generic_test.generic_test_main('painting.tsv', flip_color_wrapper))

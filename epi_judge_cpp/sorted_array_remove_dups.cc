@@ -1,5 +1,8 @@
 #include <vector>
 
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
+
 using std::vector;
 
 // Returns the number of valid entries after deletion.
@@ -8,17 +11,16 @@ int DeleteDuplicates(vector<int>* A_ptr) {
   return 0;
 }
 
-vector<int> DeleteDuplicatesWrapper(vector<int> A) {
-  int end = DeleteDuplicates(&A);
+vector<int> DeleteDuplicatesWrapper(TimedExecutor& executor, vector<int> A) {
+  int end = executor.Run([&] { return DeleteDuplicates(&A); });
   A.resize(end);
   return A;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"A"};
-  generic_test_main(argc, argv, param_names, "sorted_array_remove_dups.tsv",
-                    &DeleteDuplicatesWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "A"};
+  return GenericTestMain(args, "sorted_array_remove_dups.tsv",
+                         &DeleteDuplicatesWrapper, DefaultComparator{},
+                         param_names);
 }

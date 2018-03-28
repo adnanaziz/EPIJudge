@@ -2,7 +2,8 @@
 #include <vector>
 
 #include "binary_tree_node.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::vector;
@@ -14,7 +15,7 @@ unique_ptr<BinaryTreeNode<int>> ReconstructPreorder(
 }
 
 unique_ptr<BinaryTreeNode<int>> ReconstructPreorderWrapper(
-    TestTimer& timer, const vector<string>& preorder) {
+    TimedExecutor& executor, const vector<string>& preorder) {
   vector<int> values;
   vector<int*> ptrs;
   values.reserve(preorder.size());
@@ -28,17 +29,13 @@ unique_ptr<BinaryTreeNode<int>> ReconstructPreorderWrapper(
     }
   }
 
-  timer.Start();
-  auto result = ReconstructPreorder(ptrs);
-  timer.Stop();
-  return result;
+  return executor.Run([&] { return ReconstructPreorder(ptrs); });
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "preorder"};
-  generic_test_main(argc, argv, param_names, "tree_from_preorder_with_null.tsv",
-                    &ReconstructPreorderWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "preorder"};
+  return GenericTestMain(args, "tree_from_preorder_with_null.tsv",
+                         &ReconstructPreorderWrapper, DefaultComparator{},
+                         param_names);
 }

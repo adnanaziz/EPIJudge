@@ -1,9 +1,9 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,9 +18,9 @@ public class DoListsOverlap {
 
   @EpiTest(testfile = "do_lists_overlap.tsv")
   public static void
-  overlappingListsWrapper(TestTimer timer, ListNode<Integer> l0,
+  overlappingListsWrapper(TimedExecutor executor, ListNode<Integer> l0,
                           ListNode<Integer> l1, ListNode<Integer> common,
-                          int cycle0, int cycle1) throws TestFailureException {
+                          int cycle0, int cycle1) throws Exception {
     if (common != null) {
       if (l0 == null) {
         l0 = common;
@@ -80,18 +80,21 @@ public class DoListsOverlap {
       it = it.next;
     }
 
-    timer.start();
-    ListNode<Integer> result = overlappingLists(l0, l1);
-    timer.stop();
+    final ListNode<Integer> finalL0 = l0;
+    final ListNode<Integer> finalL1 = l1;
+    ListNode<Integer> result =
+        executor.run(() -> overlappingLists(finalL0, finalL1));
 
     if (!((commonNodes.isEmpty() && result == null) ||
           (result != null && commonNodes.contains(result.data)))) {
-      throw new TestFailureException("Invalid result");
+      throw new TestFailure("Invalid result");
     }
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

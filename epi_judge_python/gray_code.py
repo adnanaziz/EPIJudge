@@ -1,5 +1,9 @@
-from test_framework.test_failure_exception import TestFailureException
-from test_framework.test_utils import enable_timer_hook
+import functools
+from sys import exit
+
+from test_framework import generic_test, test_utils
+from test_framework.test_failure import TestFailure
+from test_framework.test_utils import enable_executor_hook
 
 
 def gray_code(num_bits):
@@ -7,8 +11,8 @@ def gray_code(num_bits):
     return []
 
 
-@enable_timer_hook
-def gray_code_wrapper(timer, num_bits):
+@enable_executor_hook
+def gray_code_wrapper(executor, num_bits):
     def differs_by_1_bit(a, b):
         x = a ^ b
         if x == 0:
@@ -17,31 +21,25 @@ def gray_code_wrapper(timer, num_bits):
             x >>= 1
         return x == 1
 
-    timer.start()
-    result = gray_code(num_bits)
-    timer.stop()
+    result = executor.run(functools.partial(gray_code, num_bits))
 
     expected_size = (1 << num_bits)
     if len(result) != expected_size:
-        raise TestFailureException("Length mismatch: expected " + str(
-            expected_size) + ", got " + str(len(result)))
+        raise TestFailure("Length mismatch: expected " + str(expected_size) +
+                          ", got " + str(len(result)))
     for i in range(1, len(result)):
         if not differs_by_1_bit(result[i - 1], result[i]):
             if result[i - 1] == result[i]:
-                raise TestFailureException("Two adjacent entries are equal")
+                raise TestFailure("Two adjacent entries are equal")
             else:
-                raise TestFailureException(
+                raise TestFailure(
                     "Two adjacent entries differ by more than 1 bit")
 
     uniq = set(result)
     if len(uniq) != len(result):
-        raise TestFailureException(
-            "Not all entries are distinct: found " +
-            str(len(result) - len(uniq)) + " duplicates")
+        raise TestFailure("Not all entries are distinct: found " +
+                          str(len(result) - len(uniq)) + " duplicates")
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main("gray_code.tsv",
-                                              gray_code_wrapper)
+    exit(generic_test.generic_test_main("gray_code.tsv", gray_code_wrapper))

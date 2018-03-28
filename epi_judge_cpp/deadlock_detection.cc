@@ -1,13 +1,13 @@
 #include <stdexcept>
 #include <vector>
 
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
 struct GraphVertex {
-  enum Color { white, gray, black } color = white;
   vector<GraphVertex*> edges;
 };
 
@@ -24,7 +24,7 @@ struct Edge {
 template <>
 struct SerializationTraits<Edge> : UserSerTraits<Edge, int, int> {};
 
-bool HasCycleWrapper(TestTimer& timer, int num_nodes,
+bool HasCycleWrapper(TimedExecutor& executor, int num_nodes,
                      const vector<Edge>& edges) {
   vector<GraphVertex> graph;
   if (num_nodes <= 0) {
@@ -43,17 +43,12 @@ bool HasCycleWrapper(TestTimer& timer, int num_nodes,
     graph[e.from].edges.push_back(&graph[e.to]);
   }
 
-  timer.Start();
-  bool result = IsDeadlocked(&graph);
-  timer.Stop();
-  return result;
+  return executor.Run([&] { return IsDeadlocked(&graph); });
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "num_nodes", "edges"};
-  generic_test_main(argc, argv, param_names, "deadlock_detection.tsv",
-                    &HasCycleWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "num_nodes", "edges"};
+  return GenericTestMain(args, "deadlock_detection.tsv", &HasCycleWrapper,
+                         DefaultComparator{}, param_names);
 }

@@ -1,9 +1,9 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -20,8 +20,8 @@ public class Hanoi {
   }
 
   @EpiTest(testfile = "hanoi.tsv")
-  public static void computeTowerHanoiWrapper(TestTimer timer, int numRings)
-      throws TestFailureException {
+  public static void computeTowerHanoiWrapper(TimedExecutor executor,
+                                              int numRings) throws Exception {
     List<Deque<Integer>> pegs = new ArrayList<>();
     for (int i = 0; i < NUM_PEGS; i++) {
       pegs.add(new LinkedList<>());
@@ -30,19 +30,18 @@ public class Hanoi {
       pegs.get(0).addFirst(i);
     }
 
-    timer.start();
-    List<List<Integer>> result = computeTowerHanoi(numRings);
-    timer.stop();
+    List<List<Integer>> result =
+        executor.run(() -> computeTowerHanoi(numRings));
 
     for (List<Integer> operation : result) {
       int fromPeg = operation.get(0);
       int toPeg = operation.get(1);
       if (!pegs.get(toPeg).isEmpty() &&
           pegs.get(fromPeg).getFirst() >= pegs.get(toPeg).getFirst()) {
-        throw new TestFailureException(
-            "Illegal move from " +
-            String.valueOf(pegs.get(fromPeg).getFirst()) + " to " +
-            String.valueOf(pegs.get(toPeg).getFirst()));
+        throw new TestFailure("Illegal move from " +
+                              String.valueOf(pegs.get(fromPeg).getFirst()) +
+                              " to " +
+                              String.valueOf(pegs.get(toPeg).getFirst()));
       }
       pegs.get(toPeg).addFirst(pegs.get(fromPeg).removeFirst());
     }
@@ -63,13 +62,14 @@ public class Hanoi {
       expectedPegs2.get(2).addFirst(i);
     }
     if (!pegs.equals(expectedPegs1) && !pegs.equals(expectedPegs2)) {
-      throw new TestFailureException(
-          "Pegs doesn't place in the right configuration");
+      throw new TestFailure("Pegs doesn't place in the right configuration");
     }
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

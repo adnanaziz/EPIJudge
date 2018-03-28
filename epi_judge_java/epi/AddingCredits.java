@@ -2,8 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
 
 import java.util.List;
 
@@ -34,6 +34,12 @@ public class AddingCredits {
     public String max() {
       // Implement this placeholder.
       return "";
+    }
+
+    @Override
+    public String toString() {
+      // Implement this placeholder.
+      return super.toString();
     }
   }
 
@@ -76,12 +82,18 @@ public class AddingCredits {
       result = 31 * result + iArg;
       return result;
     }
+
+    @Override
+    public String toString() {
+      return String.format("%s(%s, %d)", op, sArg, iArg);
+    }
   }
 
   @EpiTest(testfile = "adding_credits.tsv")
   public static void ClientsCreditsInfoTester(List<Operation> ops)
-      throws TestFailureException {
+      throws TestFailure {
     ClientsCreditsInfo cr = new ClientsCreditsInfo();
+    int opIdx = 0;
     for (Operation x : ops) {
       String sArg = x.sArg;
       int iArg = x.iArg;
@@ -92,7 +104,10 @@ public class AddingCredits {
       case "remove":
         result = cr.remove(sArg) ? 1 : 0;
         if (result != iArg) {
-          throw new TestFailureException("Remove: return value mismatch");
+          throw new TestFailure()
+              .withProperty(TestFailure.PropertyName.STATE, cr)
+              .withProperty(TestFailure.PropertyName.COMMAND, x)
+              .withMismatchInfo(opIdx, iArg, result);
         }
         break;
       case "insert":
@@ -104,14 +119,20 @@ public class AddingCredits {
       case "lookup":
         result = cr.lookup(sArg);
         if (result != iArg) {
-          throw new TestFailureException("Lookup: return value mismatch");
+          throw new TestFailure()
+              .withProperty(TestFailure.PropertyName.STATE, cr)
+              .withProperty(TestFailure.PropertyName.COMMAND, x)
+              .withMismatchInfo(opIdx, iArg, result);
         }
       }
+      opIdx++;
     }
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

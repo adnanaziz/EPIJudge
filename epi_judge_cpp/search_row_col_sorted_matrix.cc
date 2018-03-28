@@ -1,4 +1,5 @@
 #include <vector>
+#include "test_framework/generic_test.h"
 
 using std::vector;
 
@@ -7,11 +8,9 @@ bool MatrixSearch(const vector<vector<int>>& A, int x) {
   return true;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"A", "x"};
-  generic_test_main(argc, argv, param_names, "search_row_col_sorted_matrix.tsv",
-                    &MatrixSearch);
-  return 0;
+  return GenericTestMain(args, "search_row_col_sorted_matrix.tsv",
+                         &MatrixSearch, DefaultComparator{}, param_names);
 }

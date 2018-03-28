@@ -1,7 +1,8 @@
 #include <deque>
 #include <vector>
 
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/timed_executor.h"
 
 using std::deque;
 using std::vector;
@@ -11,7 +12,7 @@ void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   return;
 }
 
-vector<vector<int>> FlipColorWrapper(TestTimer& timer, int x, int y,
+vector<vector<int>> FlipColorWrapper(TimedExecutor& executor, int x, int y,
                                      vector<vector<int>> image) {
   vector<deque<bool>> b;
   b.reserve(image.size());
@@ -24,9 +25,7 @@ vector<vector<int>> FlipColorWrapper(TestTimer& timer, int x, int y,
     b.push_back(tmp);
   }
 
-  timer.Start();
-  FlipColor(x, y, &b);
-  timer.Stop();
+  executor.Run([&] { FlipColor(x, y, &b); });
 
   image.resize(b.size());
 
@@ -39,10 +38,9 @@ vector<vector<int>> FlipColorWrapper(TestTimer& timer, int x, int y,
   return image;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "x", "y", "image"};
-  generic_test_main(argc, argv, param_names, "painting.tsv", &FlipColorWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "x", "y", "image"};
+  return GenericTestMain(args, "painting.tsv", &FlipColorWrapper,
+                         DefaultComparator{}, param_names);
 }

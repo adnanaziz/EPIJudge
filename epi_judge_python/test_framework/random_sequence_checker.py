@@ -3,7 +3,7 @@ import collections
 import math
 import random
 
-from test_framework.test_failure_exception import TestFailureException
+from test_framework.test_failure import TestFailure
 
 
 def compute_deviation_multiplier(allowed_false_negative, num_rvs=1):
@@ -30,7 +30,7 @@ def check_frequencies(seq, n, false_negative_tolerance):
     sigma_indiv = math.sqrt(len(seq) * p * (1.0 - p))
     k_sigma_indiv = k_indiv * sigma_indiv
     # To make our testing meaningful "sufficiently large", we need to have enough testing data.
-    if not (len(seq) * p >= 50 and len(seq) * (1.0 - p) >= 50):
+    if len(seq) * p < 50 or len(seq) * (1.0 - p) < 50:
         return True  # Sample size is too small so we cannot use normal approximation
 
     indiv_freqs = collections.Counter(seq)
@@ -96,13 +96,13 @@ def compute_combination_idx(A, n, k, m):
     return comb
 
 
-# Run func several times, and early return if it succeed; otherwise, throws TestFailureException.
+# Run func several times, and early return if it succeeds; otherwise, throws TestFailure.
 def run_func_with_retries(func):
     NUM_RUNS = 5
     # If any of the run succeed, we assume the algorithm is correct.
     if any(func() for _ in range(NUM_RUNS)):
         return
-    raise TestFailureException("Result is not a random permutation")
+    raise TestFailure("Result is not a random permutation")
 
 
 if __name__ == '__main__':

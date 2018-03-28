@@ -1,14 +1,13 @@
+#include "test_framework/generic_test.h"
 
-
-unsigned long ReverseBits(unsigned long x) {
+unsigned long long ReverseBits(unsigned long long x) {
   // Implement this placeholder.
   return 0;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x"};
-  generic_test_main(argc, argv, param_names, "reverse_bits.tsv", &ReverseBits);
-  return 0;
+  return GenericTestMain(args, "reverse_bits.tsv", &ReverseBits,
+                         DefaultComparator{}, param_names);
 }

@@ -2,9 +2,9 @@ package epi;
 
 import epi.test_framework.BinaryTreeUtils;
 import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 public class LowestCommonAncestorInBst {
 
@@ -17,21 +17,23 @@ public class LowestCommonAncestorInBst {
   }
 
   @EpiTest(testfile = "lowest_common_ancestor_in_bst.tsv")
-  public static int lcaWrapper(TestTimer timer, BstNode<Integer> tree,
-                               Integer s, int b) throws TestFailureException {
-    timer.start();
-    BstNode<Integer> result =
-        findLCA(tree, BinaryTreeUtils.mustFindNode(tree, s),
-                BinaryTreeUtils.mustFindNode(tree, b));
-    timer.stop();
+  public static int lcaWrapper(TimedExecutor executor, BstNode<Integer> tree,
+                               Integer key0, Integer key1) throws Exception {
+    BstNode<Integer> node0 = BinaryTreeUtils.mustFindNode(tree, key0);
+    BstNode<Integer> node1 = BinaryTreeUtils.mustFindNode(tree, key1);
 
-    if (result == null)
-      throw new TestFailureException("Result can't be null");
+    BstNode<Integer> result = executor.run(() -> findLCA(tree, node0, node1));
+
+    if (result == null) {
+      throw new TestFailure("Result can't be null");
+    }
     return result.data;
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

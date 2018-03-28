@@ -1,19 +1,20 @@
 #include <array>
 #include <vector>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::vector;
 
-typedef enum { RED, WHITE, BLUE } Color;
+typedef enum { kRed, kWhite, kBlue } Color;
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
   // Implement this placeholder.
   return;
 }
 
-void DutchFlagPartitionWrapper(TestTimer& timer, const vector<int>& A,
+void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
                                int pivot_idx) {
   vector<Color> colors;
   colors.resize(A.size());
@@ -24,9 +25,7 @@ void DutchFlagPartitionWrapper(TestTimer& timer, const vector<int>& A,
   }
   Color pivot = colors[pivot_idx];
 
-  timer.Start();
-  DutchFlagPartition(pivot_idx, &colors);
-  timer.Stop();
+  executor.Run([&] { DutchFlagPartition(pivot_idx, &colors); });
 
   int i = 0;
   while (i < colors.size() && colors[i] < pivot) {
@@ -44,16 +43,18 @@ void DutchFlagPartitionWrapper(TestTimer& timer, const vector<int>& A,
     ++i;
   }
 
-  if (i != colors.size() || count != std::array<int, 3>{0, 0, 0}) {
-    throw TestFailureException("Invalid output");
+  if (i != colors.size()) {
+    throw TestFailure("Not partitioned after " + std::to_string(i) +
+                      "th element");
+  } else if (count != std::array<int, 3>{0, 0, 0}) {
+    throw TestFailure("Some elements are missing from original array");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "A", "pivot_idx"};
-  generic_test_main(argc, argv, param_names, "dutch_national_flag.tsv",
-                    &DutchFlagPartitionWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "A", "pivot_idx"};
+  return GenericTestMain(args, "dutch_national_flag.tsv",
+                         &DutchFlagPartitionWrapper, DefaultComparator{},
+                         param_names);
 }

@@ -1,5 +1,7 @@
 #include <tuple>
 
+#include "test_framework/fmt_print.h"
+#include "test_framework/generic_test.h"
 #include "test_framework/test_utils_serialization_traits.h"
 
 struct Rectangle {
@@ -21,14 +23,12 @@ struct SerializationTraits<Rectangle>
     : UserSerTraits<Rectangle, int, int, int, int> {};
 
 std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
-  return EpiPrint(out, std::make_tuple(r.x, r.y, r.width, r.height));
+  return PrintTo(out, std::make_tuple(r.x, r.y, r.width, r.height));
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"R1", "R2"};
-  generic_test_main(argc, argv, param_names, "rectangle_intersection.tsv",
-                    &IntersectRectangle);
-  return 0;
+  return GenericTestMain(args, "rectangle_intersection.tsv",
+                         &IntersectRectangle, DefaultComparator{}, param_names);
 }

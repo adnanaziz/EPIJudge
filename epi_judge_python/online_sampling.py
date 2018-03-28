@@ -1,9 +1,11 @@
 import functools
+from sys import exit
 
-from test_framework.random_sequence_checker import \
-    check_sequence_is_uniformly_random, binomial_coefficient, \
-    compute_combination_idx, run_func_with_retries
-from test_framework.test_utils import enable_timer_hook
+from test_framework import generic_test, test_utils
+from test_framework.random_sequence_checker import (
+    binomial_coefficient, check_sequence_is_uniformly_random,
+    compute_combination_idx, run_func_with_retries)
+from test_framework.test_utils import enable_executor_hook
 
 
 # Assumption: there are at least k elements in the stream.
@@ -12,12 +14,10 @@ def online_random_sample(stream, k):
     return []
 
 
-@enable_timer_hook
-def online_random_sample_wrapper(timer, stream, k):
-    def online_random_sample_runner(timer, stream, k):
-        timer.start()
-        result = [online_random_sample(iter(stream), k) for _ in range(100000)]
-        timer.stop()
+@enable_executor_hook
+def online_random_sample_wrapper(executor, stream, k):
+    def online_random_sample_runner(executor, stream, k):
+        result = executor.run(lambda : [online_random_sample(iter(stream), k) for _ in range(100000)])
 
         total_possible_outcomes = binomial_coefficient(len(stream), k)
         stream = sorted(stream)
@@ -30,11 +30,10 @@ def online_random_sample_wrapper(timer, stream, k):
             total_possible_outcomes, 0.01)
 
     run_func_with_retries(
-        functools.partial(online_random_sample_runner, timer, stream, k))
+        functools.partial(online_random_sample_runner, executor, stream, k))
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main("online_sampling.tsv",
-                                              online_random_sample_wrapper)
+    exit(
+        generic_test.generic_test_main("online_sampling.tsv",
+                                       online_random_sample_wrapper))

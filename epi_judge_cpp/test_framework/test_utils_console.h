@@ -6,9 +6,10 @@
 #include <string>
 
 #include "console_color.h"
+#include "fmt_print.h"
+#include "test_failure.h"
 #include "test_result.h"
 #include "test_timer.h"
-#include "test_utils_serialization_traits.h"
 
 struct EscapeNewline {
   const std::string& str;
@@ -31,11 +32,11 @@ struct EscapeNewline {
   }
 };
 
-void ReturnCaretIfTtyOutput(std::ostream& os) {
+void ClearLineIfTty() {
   if (platform::UseTtyOutput()) {
-    os << '\r';
+    platform::StdOutClearLine();
   } else {
-    os << '\n';
+    std::cout << '\n';
   };
 }
 
@@ -61,7 +62,11 @@ void PrintTestResult(const TestResult& test_result) {
 void PrintTestInfo(const TestResult& test_result, int test_nr,
                    int total_tests, const std::string& diagnostic,
                    const TestTimer& timer) {
-  ReturnCaretIfTtyOutput(std::cout);
+  static bool caret_at_line_start = true;
+
+  if (!caret_at_line_start) {
+    ClearLineIfTty();
+  }
 
   auto total_tests_str = std::to_string(total_tests);
   std::cout << "Test ";
@@ -73,31 +78,20 @@ void PrintTestInfo(const TestResult& test_result, int test_nr,
     std::cout << " [" << DurationToString(timer.GetMicroseconds()) << "]";
   }
 
+  caret_at_line_start = false;
+
   if (test_result != TestResult::PASSED) {
     std::cout << ' ' << diagnostic << '\n';
+    caret_at_line_start = true;
   }
 }
 
 std::string GenSpaces(size_t count) { return std::string(count, ' '); }
 
-template <typename TestOutputT>
 void PrintFailedTest(const std::vector<std::string>& param_names,
                      const std::vector<std::string>& arguments,
-                     const TestOutputT& test_output,
-                     const std::string& test_explanation) {
-  static const std::string expected_str = "expected";
-  static const std::string result_str = "result";
-  static const std::string explanation_str = "explanation";
-
-  const bool has_expected = (bool)test_output.expected;
-  const bool has_result = (bool)test_output.result;
-  const bool has_explanation =
-      test_explanation != "TODO" && !test_explanation.empty();
-
-  size_t max_col_size =
-      has_explanation ? explanation_str.size()
-                      : has_expected ? expected_str.size()
-                                     : has_result ? result_str.size() : 0;
+                     TestFailure& test_failure) {
+  size_t max_col_size = test_failure.GetMaxPropertyNameLength();
 
   for (auto& param : param_names) {
     if (param.size() > max_col_size) {
@@ -105,27 +99,42 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
     }
   }
 
+  PrintStdOutColored(ConsoleColor::FG_YELLOW, "Arguments");
+  std::cout << std::endl;
+
   for (unsigned int i = 0; i < arguments.size(); ++i) {
-    std::cout << '\t' << param_names[i] << ": "
-              << GenSpaces(max_col_size - param_names[i].size())
+    std::cout << '\t';
+    PrintStdOutColored(ConsoleColor::FG_YELLOW, param_names[i]);
+    std::cout << ": " << GenSpaces(max_col_size - param_names[i].size())
               << EscapeNewline{arguments[i]} << std::endl;
   }
 
-  if (has_expected) {
-    std::cout << '\t' << expected_str << ": "
-              << GenSpaces(max_col_size - expected_str.size());
-    EpiPrint(std::cout, *test_output.expected);
-    std::cout << std::endl;
+  auto properties = test_failure.GetProperties();
+  PrintStdOutColored(ConsoleColor::FG_YELLOW, "\nFailure info\n");
+
+  for (auto& prop : properties) {
+    std::cout << '\t';
+    PrintStdOutColored(ConsoleColor::FG_YELLOW, prop.Name());
+    std::cout << ": " << GenSpaces(max_col_size - prop.Name().size())
+              << prop.Value() << std::endl;
   }
-  if (has_result) {
-    std::cout << '\t' << result_str << ": "
-              << GenSpaces(max_col_size - result_str.size());
-    EpiPrint(std::cout, *test_output.result);
-    std::cout << std::endl;
+}
+
+void PrintPostRunStats(int tests_passed, int total_tests,
+                       std::vector<std::chrono::microseconds>& durations) {
+  if (!durations.empty()) {
+    auto avg_median = AvgAndMedianFromDurations(durations);
+    std::cout << "Average running time: "
+              << DurationToString(avg_median.first) << std::endl
+              << "Median running time:  "
+              << DurationToString(avg_median.second) << std::endl;
   }
-  if (has_explanation) {
-    std::cout << '\t' << explanation_str << ": "
-              << GenSpaces(max_col_size - explanation_str.size())
-              << test_explanation << std::endl;
+
+  if (tests_passed < total_tests) {
+    std::cout << "*** You've passed " << tests_passed << "/" << total_tests
+              << " tests. ***" << std::endl;
+  } else {
+    std::cout << "*** You've passed ALL tests. Congratulations! ***"
+              << std::endl;
   }
 }

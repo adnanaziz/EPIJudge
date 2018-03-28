@@ -12,7 +12,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "test_failure_exception.h"
+#include "test_failure.h"
 
 namespace {
 
@@ -148,7 +148,7 @@ std::vector<int> ComputeCombinationIdx(const std::vector<int>& A, int n,
 }
 
 // Run func several times, and early return if it succeed; otherwise, throws
-// TestFailureException.
+// TestFailure.
 void RunFuncWithRetries(const std::function<bool()>& func) {
   const int kNumRuns = 5;
   // If any of the run succeed, we assume the algorithm is correct.
@@ -157,5 +157,5 @@ void RunFuncWithRetries(const std::function<bool()>& func) {
       return;
     }
   }
-  throw TestFailureException("Result is not a random permutation");
+  throw TestFailure("Result is not a random permutation");
 }

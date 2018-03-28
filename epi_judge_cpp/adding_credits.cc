@@ -1,7 +1,8 @@
 #include <string>
 
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/fmt_print.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
 
 using std::string;
 
@@ -39,43 +40,57 @@ struct Operation {
   int i_arg;
 };
 
+std::ostream& operator<<(std::ostream& out, const Operation& op) {
+  return out << FmtStr("{}({}, {})", op.op, op.s_arg, op.i_arg);
+}
+
 template <>
 struct SerializationTraits<Operation>
     : UserSerTraits<Operation, std::string, std::string, int> {};
 
 void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
-  ClientsCreditsInfo credits;
+  ClientsCreditsInfo cr;
+  int op_idx = 0;
   for (auto& op : ops) {
     if (op.op == "ClientsCreditsInfo") {
       continue;
     } else if (op.op == "remove") {
-      bool result = credits.Remove(op.s_arg);
+      bool result = cr.Remove(op.s_arg);
       if (result != op.i_arg) {
-        throw TestFailureException("Remove: return value mismatch");
+        throw TestFailure()
+            .WithProperty(PropertyName::STATE, cr)
+            .WithProperty(PropertyName::COMMAND, op)
+            .WithMismatchInfo(op_idx, op.i_arg, result);
       }
     } else if (op.op == "max") {
-      auto result = credits.Max();
+      auto result = cr.Max();
       if (result != op.s_arg) {
-        throw TestFailureException("Max: return value mismatch");
+        throw TestFailure()
+            .WithProperty(PropertyName::STATE, cr)
+            .WithProperty(PropertyName::COMMAND, op)
+            .WithMismatchInfo(op_idx, op.i_arg, result);
       }
     } else if (op.op == "insert") {
-      credits.Insert(op.s_arg, op.i_arg);
+      cr.Insert(op.s_arg, op.i_arg);
     } else if (op.op == "add_all") {
-      credits.AddAll(op.i_arg);
+      cr.AddAll(op.i_arg);
     } else if (op.op == "lookup") {
-      auto result = credits.Lookup(op.s_arg);
+      auto result = cr.Lookup(op.s_arg);
       if (result != op.i_arg) {
-        throw TestFailureException("Lookup: return value mismatch");
+        throw TestFailure()
+            .WithProperty(PropertyName::STATE, cr)
+            .WithProperty(PropertyName::COMMAND, op)
+            .WithMismatchInfo(op_idx, op.i_arg, result);
+        ;
       }
     }
+    op_idx++;
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
-  generic_test_main(argc, argv, param_names, "adding_credits.tsv",
-                    &ClientsCreditsInfoTester);
-  return 0;
+  return GenericTestMain(args, "adding_credits.tsv", &ClientsCreditsInfoTester,
+                         DefaultComparator{}, param_names);
 }

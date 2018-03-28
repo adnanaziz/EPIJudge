@@ -2,8 +2,9 @@
 
 #include "binary_tree_with_parent_prototype.h"
 #include "test_framework/binary_tree_utils.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::unique_ptr;
 
@@ -13,23 +14,23 @@ BinaryTreeNode<int>* LCA(const unique_ptr<BinaryTreeNode<int>>& node0,
   return nullptr;
 }
 
-int LcaWrapper(TestTimer& timer, const unique_ptr<BinaryTreeNode<int>>& tree,
-               int node0, int node1) {
-  timer.Start();
-  auto result = LCA(MustFindNode(tree, node0), MustFindNode(tree, node1));
-  timer.Stop();
+int LcaWrapper(TimedExecutor& executor,
+               const unique_ptr<BinaryTreeNode<int>>& tree, int key0,
+               int key1) {
+  const unique_ptr<BinaryTreeNode<int>>& node0 = MustFindNode(tree, key0);
+  const unique_ptr<BinaryTreeNode<int>>& node1 = MustFindNode(tree, key1);
+
+  auto result = executor.Run([&] { return LCA(node0, node1); });
 
   if (!result) {
-    throw TestFailureException("Result can not be nullptr");
+    throw TestFailure("Result can not be nullptr");
   }
   return result->data;
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "tree", "node0", "node1"};
-  generic_test_main(argc, argv, param_names, "lowest_common_ancestor.tsv",
-                    &LcaWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "tree", "key0", "key1"};
+  return GenericTestMain(args, "lowest_common_ancestor.tsv", &LcaWrapper,
+                         DefaultComparator{}, param_names);
 }

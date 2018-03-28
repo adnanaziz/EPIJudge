@@ -1,6 +1,7 @@
 #include <string>
 
-#include "test_framework/test_failure_exception.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
 
 using std::string;
 
@@ -16,18 +17,16 @@ string Encoding(const string &s) {
 
 void RleTester(const string &encoded, const string &decoded) {
   if (Decoding(encoded) != decoded) {
-    throw TestFailureException("Decoding failed");
+    throw TestFailure("Decoding failed");
   }
   if (Encoding(decoded) != encoded) {
-    throw TestFailureException("Encoding failed");
+    throw TestFailure("Encoding failed");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char *argv[]) {
+  std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"encoded", "decoded"};
-  generic_test_main(argc, argv, param_names, "run_length_compression.tsv",
-                    &RleTester);
-  return 0;
+  return GenericTestMain(args, "run_length_compression.tsv", &RleTester,
+                         DefaultComparator{}, param_names);
 }

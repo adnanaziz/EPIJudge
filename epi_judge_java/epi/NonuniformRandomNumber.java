@@ -2,9 +2,9 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
-import epi.test_framework.GenericTestHandler;
-import epi.test_framework.TestFailureException;
-import epi.test_framework.TestTimer;
+import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
+import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,16 +20,17 @@ public class NonuniformRandomNumber {
     return 0;
   }
 
-  private static boolean
-  nonuniformRandomNumberGenerationRunner(TestTimer timer, List<Integer> values,
-                                         List<Double> probabilities) {
-    int n = 1000000;
-    List<Integer> results = new ArrayList<>(n);
-    timer.start();
-    for (int i = 0; i < n; ++i) {
-      results.add(nonuniformRandomNumberGeneration(values, probabilities));
-    }
-    timer.stop();
+  private static boolean nonuniformRandomNumberGenerationRunner(
+      TimedExecutor executor, List<Integer> values, List<Double> probabilities)
+      throws Exception {
+    final int N = 1000000;
+    List<Integer> results = new ArrayList<>(N);
+
+    executor.run(() -> {
+      for (int i = 0; i < N; ++i) {
+        results.add(nonuniformRandomNumberGeneration(values, probabilities));
+      }
+    });
 
     Map<Integer, Integer> counts = new HashMap<>();
     for (Integer result : results) {
@@ -38,11 +39,11 @@ public class NonuniformRandomNumber {
     for (int i = 0; i < values.size(); ++i) {
       final int v = values.get(i);
       final double p = probabilities.get(i);
-      if (n * p < 50 || n * (1.0 - p) < 50) {
+      if (N * p < 50 || N * (1.0 - p) < 50) {
         continue;
       }
-      final double sigma = Math.sqrt(n * p * (1.0 - p));
-      if (Math.abs(counts.get(v) - (p * n)) > 5 * sigma) {
+      final double sigma = Math.sqrt(N * p * (1.0 - p));
+      if (Math.abs(counts.get(v) - (p * N)) > 5 * sigma) {
         return false;
       }
     }
@@ -50,18 +51,19 @@ public class NonuniformRandomNumber {
   }
 
   @EpiTest(testfile = "nonuniform_random_number.tsv")
-  public static void
-  nonuniformRandomNumberGenerationWrapper(TestTimer timer, List<Integer> values,
-                                          List<Double> probabilities)
-      throws TestFailureException {
+  public static void nonuniformRandomNumberGenerationWrapper(
+      TimedExecutor executor, List<Integer> values, List<Double> probabilities)
+      throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
         ()
-            -> nonuniformRandomNumberGenerationRunner(timer, values,
+            -> nonuniformRandomNumberGenerationRunner(executor, values,
                                                       probabilities));
   }
 
   public static void main(String[] args) {
-    GenericTestHandler.executeTestsByAnnotation(
-        new Object() {}.getClass().getEnclosingClass(), args);
+    System.exit(GenericTest
+                    .runFromAnnotations(
+                        args, new Object() {}.getClass().getEnclosingClass())
+                    .ordinal());
   }
 }

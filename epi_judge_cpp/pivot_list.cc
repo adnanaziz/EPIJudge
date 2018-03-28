@@ -4,8 +4,9 @@
 #include <vector>
 
 #include "list_node.h"
-#include "test_framework/test_failure_exception.h"
-#include "test_framework/test_timer.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::shared_ptr;
 
@@ -25,48 +26,47 @@ std::vector<int> ListToVector(const shared_ptr<ListNode<int>>& l) {
   return v;
 }
 
-void ListPivotingWrapper(TestTimer& timer, const shared_ptr<ListNode<int>>& l,
-                         int x) {
+void ListPivotingWrapper(TimedExecutor& executor,
+                         const shared_ptr<ListNode<int>>& l, int x) {
   std::vector<int> original = ListToVector(l);
-  timer.Start();
-  std::shared_ptr<ListNode<int>> pivoted_list = ListPivoting(l, x);
-  timer.Stop();
-  vector<int> pivoted = ListToVector(pivoted_list);
-  enum { LESS, EQ, GREATER } mode = LESS;
+
+  std::shared_ptr<ListNode<int>> pivoted_list =
+      executor.Run([&] { return ListPivoting(l, x); });
+
+  std::vector<int> pivoted = ListToVector(pivoted_list);
+  enum { kLess, kEq, kGreater } mode = kLess;
   for (auto& i : pivoted) {
     switch (mode) {
-      case LESS:
+      case kLess:
         if (i == x) {
-          mode = EQ;
+          mode = kEq;
         } else if (i > x) {
-          mode = GREATER;
+          mode = kGreater;
         }
         break;
-      case EQ:
+      case kEq:
         if (i < x) {
-          throw TestFailureException("List is not pivoted");
+          throw TestFailure("List is not pivoted");
         } else if (i > x) {
-          mode = GREATER;
+          mode = kGreater;
         }
         break;
-      case GREATER:
+      case kGreater:
         if (i <= x) {
-          throw TestFailureException("List is not pivoted");
+          throw TestFailure("List is not pivoted");
         }
     }
   }
   std::sort(begin(original), end(original));
   std::sort(begin(pivoted), end(pivoted));
   if (original != pivoted) {
-    throw TestFailureException("Result list contains different values");
+    throw TestFailure("Result list contains different values");
   }
 }
 
-#include "test_framework/test_utils_generic_main.h"
-
 int main(int argc, char* argv[]) {
-  std::vector<std::string> param_names{"timer", "l", "x"};
-  generic_test_main(argc, argv, param_names, "pivot_list.tsv",
-                    &ListPivotingWrapper);
-  return 0;
+  std::vector<std::string> args{argv + 1, argv + argc};
+  std::vector<std::string> param_names{"executor", "l", "x"};
+  return GenericTestMain(args, "pivot_list.tsv", &ListPivotingWrapper,
+                         DefaultComparator{}, param_names);
 }

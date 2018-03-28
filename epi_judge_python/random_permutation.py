@@ -1,9 +1,12 @@
 import copy
 import functools
 import math
+from sys import exit
 
-from test_framework.random_sequence_checker import check_sequence_is_uniformly_random, run_func_with_retries
-from test_framework.test_utils import enable_timer_hook
+from test_framework import generic_test, test_utils
+from test_framework.random_sequence_checker import (
+    check_sequence_is_uniformly_random, run_func_with_retries)
+from test_framework.test_utils import enable_executor_hook
 
 
 def compute_random_permutation(n):
@@ -11,9 +14,9 @@ def compute_random_permutation(n):
     return []
 
 
-@enable_timer_hook
-def compute_random_permutation_wrapper(timer, n):
-    def compute_random_permutation_runner(timer, n):
+@enable_executor_hook
+def compute_random_permutation_wrapper(executor, n):
+    def compute_random_permutation_runner(executor, n):
         def permutation_index(perm):
             p = copy.deepcopy(perm)
             idx = 0
@@ -27,20 +30,18 @@ def compute_random_permutation_wrapper(timer, n):
                 n -= 1
             return idx
 
-        timer.start()
-        result = [compute_random_permutation(n) for _ in range(1000000)]
-        timer.stop()
+        result = executor.run(
+            lambda: [compute_random_permutation(n) for _ in range(1000000)])
 
         return check_sequence_is_uniformly_random(
             [permutation_index(perm) for perm in result], math.factorial(n),
             0.01)
 
     run_func_with_retries(
-        functools.partial(compute_random_permutation_runner, timer, n))
+        functools.partial(compute_random_permutation_runner, executor, n))
 
-
-from test_framework import test_utils_generic_main, test_utils
 
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main(
-        'random_permutation.tsv', compute_random_permutation_wrapper)
+    exit(
+        generic_test.generic_test_main('random_permutation.tsv',
+                                       compute_random_permutation_wrapper))

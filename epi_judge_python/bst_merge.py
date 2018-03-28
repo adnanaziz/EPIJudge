@@ -1,4 +1,7 @@
+from sys import exit
+
 from bst_node import BstNode
+from test_framework import generic_test, test_utils
 
 
 def merge_two_bsts(A, B):
@@ -6,7 +9,5 @@ def merge_two_bsts(A, B):
     return None
 
 
-from test_framework import test_utils_generic_main, test_utils
-
 if __name__ == '__main__':
-    test_utils_generic_main.generic_test_main('bst_merge.tsv', merge_two_bsts)
+    exit(generic_test.generic_test_main('bst_merge.tsv', merge_two_bsts))
