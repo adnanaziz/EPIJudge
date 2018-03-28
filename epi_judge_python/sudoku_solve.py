@@ -30,8 +30,8 @@ def gather_square_block(data, block_size, n):
     block_y = (n // block_size) * block_size
 
     return [
-        data[block_x + i][block_y + j]
-        for j in range(block_size) for i in range(block_size)
+        data[block_x + i][block_y + j] for j in range(block_size)
+        for i in range(block_size)
     ]
 
 

@@ -1,15 +1,16 @@
 // @library
 #pragma once
 
-enum class TriBool { FALSE, TRUE, INDETERMINATE };
+// MinGW defines TRUE and FALSE macros, that's why we use prefix here
+enum class TriBool { kFalse, kTrue, kIndeterminate };
 
 bool GetTriBoolOrDefault(TriBool tb, bool default_value) {
   switch (tb) {
-    case TriBool::FALSE:
+    case TriBool::kFalse:
       return false;
-    case TriBool::TRUE:
+    case TriBool::kTrue:
       return true;
-    case TriBool::INDETERMINATE:
+    case TriBool::kIndeterminate:
     default:
       return default_value;
   }

@@ -4,7 +4,7 @@
 #include <functional>
 #include <iostream>
 
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
 #define NOMINMAX
 #include <Windows.h>
 #endif
@@ -51,7 +51,7 @@ void PrintStdOutColored(ConsoleColor color, const T& value) {
     std::cout << value;
     return;
   }
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
   const HANDLE stdout_handle = GetStdHandle(STD_OUTPUT_HANDLE);
   CONSOLE_SCREEN_BUFFER_INFO buffer_info;
   GetConsoleScreenBufferInfo(stdout_handle, &buffer_info);

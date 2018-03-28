@@ -22,27 +22,19 @@ def split_tsv_file(tsv_file):
 
 def get_default_test_data_dir_path():
     MAX_SEARCH_DEPTH = 4
-    ENV_KEY = 'EPI_TEST_DATA_DIR'
-    DIR_NAME = 'test_data'
 
-    env_result = os.getenv(ENV_KEY, '')
-    if env_result:
-        if not os.path.isdir(env_result):
-            raise RuntimeError(
-                '{} environment variable is set to "{}", but it\'s not a directory'
-                .format(ENV_KEY, env_result))
-        return env_result
-
-    path = DIR_NAME
+    path = 'test_data'
     for _ in range(MAX_SEARCH_DEPTH):
         if os.path.isdir(path):
             return path
         path = os.path.join(os.path.pardir, path)
 
     raise RuntimeError(
-        'Can\'t find test data directory. Specify it with {} environment variable (you may need to restart PC) or '
-        'start the program with "--test_data_dir <path>" command-line option'.
-        format(ENV_KEY))
+        'Can\'t find test data directory. Please start the program with "--test_data_dir <path>" command-line option')
+
+
+def get_file_path_in_judge_dir(file_name):
+    return os.path.join(get_default_test_data_dir_path(), os.path.pardir, file_name)
 
 
 def filter_bracket_comments(s):

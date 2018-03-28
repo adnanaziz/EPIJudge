@@ -35,18 +35,7 @@ public class TestUtils {
 
   public static String getDefaultTestDataDirPath() {
     final int MAX_SEARCH_DEPTH = 4;
-    final String ENV_KEY = "EPI_TEST_DATA_DIR";
     final String DIR_NAME = "test_data";
-
-    String env_result = System.getenv(ENV_KEY);
-    if (env_result != null && !env_result.isEmpty()) {
-      if (!Files.isDirectory(Paths.get(env_result))) {
-        throw new RuntimeException(ENV_KEY +
-                                   " environment variable is set to \"" +
-                                   env_result + "\", but it's not a directory");
-      }
-      return env_result;
-    }
 
     Path path = Paths.get(".").toAbsolutePath();
     for (int i = 0; i < MAX_SEARCH_DEPTH; i++) {
@@ -60,8 +49,11 @@ public class TestUtils {
     }
 
     throw new RuntimeException(
-        "Can't find test data directory. Specify it with " + ENV_KEY +
-        " environment variable (you may need to restart PC) or start the program with \"--test_data_dir <path>\" command-line option");
+        "Can't find test data directory. Please start the program with \"--test_data_dir <path>\" command-line option");
+  }
+
+  public static String getFilePathInJudgeDir(String fileName) {
+    return Paths.get(getDefaultTestDataDirPath()).getParent().resolve(fileName).toAbsolutePath().toString();
   }
 
   /**

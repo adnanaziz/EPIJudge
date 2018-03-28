@@ -8,7 +8,7 @@
 #include "fmt_print_fwd.h"
 #include "test_utils_serialization_traits.h"
 
-namespace detail {
+namespace {
 template <typename T>
 void PrintToImpl(std::ostream& out, const T& x, HasOStreamOpTag) {
   out << x;
@@ -139,7 +139,7 @@ void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx,
                              "\": too many values provided");
   }
 }
-}  // namespace detail
+}  // namespace
 
 template <typename T>
 std::ostream& PrintTo(std::ostream& out, const T& x) {
@@ -150,13 +150,13 @@ std::ostream& PrintTo(std::ostream& out, const T& x) {
           std::conditional_t<IsBinaryTree<T>::value, IsBinaryTreeTag,
                              HasNoOStreamOpTag>>>;
 
-  detail::PrintToImpl(out, x, Tag());
+  PrintToImpl(out, x, Tag());
   return out;
 }
 
 template <typename... Args>
 std::string FmtStr(const std::string& fmt, const Args&... args) {
   std::stringstream ss;
-  detail::FmtStrImpl(ss, fmt, 0, args..., detail::FormatterArgsTerminator{});
+  FmtStrImpl(ss, fmt, 0, args..., FormatterArgsTerminator{});
   return ss.str();
 }

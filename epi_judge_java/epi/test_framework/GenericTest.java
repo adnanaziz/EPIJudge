@@ -31,17 +31,14 @@ public class GenericTest {
       BiPredicate<Object, Object> comparator, List<Class<?>> expectedType) {
     JsonObject configOverride = null;
     try {
-      configOverride =
-          Json.parse(new String(Files.readAllBytes(Paths.get("config.json"))))
-              .asObject();
+      configOverride = Json.parse(new String(Files.readAllBytes(Paths.get(TestUtils.getFilePathInJudgeDir("config.json"))))).asObject();
     } catch (IOException e) {
       throw new RuntimeException("config.json file not found");
     }
 
     try {
       TestConfig config = TestConfig.fromCommandLine(
-          testDataFile, configOverride.get("timeoutSeconds").asInt(),
-          commandlineArgs);
+          testDataFile, configOverride.get("timeoutSeconds").asInt(), configOverride.get("numFailedTestsBeforeStop").asInt(), commandlineArgs);
 
       Platform.setOutputOpts(config.ttyMode, config.colorMode);
 
@@ -71,7 +68,7 @@ public class GenericTest {
     for (List<String> testCase : testData.subList(1, testData.size())) {
       testNr++;
 
-      // Since the last field of test_data is test_explanation, which is not
+      // Since the last field of testData is testExplanation, which is not
       // used for running test, we extract that here.
       final String testExplanation = testCase.get(testCase.size() - 1);
       testCase = testCase.subList(0, testCase.size() - 1);
@@ -119,7 +116,8 @@ public class GenericTest {
                                            testFailure);
         }
 
-        if (!config.runAllTests) {
+        final int testsNotPassed = testNr - testsPassed;
+        if (testsNotPassed >= config.numFailedTestsBeforeStop) {
           break;
         }
       }

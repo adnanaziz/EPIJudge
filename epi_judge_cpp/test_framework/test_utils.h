@@ -45,25 +45,12 @@ std::vector<std::vector<std::string>> SplitTsvFile(
   return result;
 }
 
+static char pardir[]{'.', '.', platform::PathSep(), '\0'};
+
 std::string GetDefaultTestDataDirPath() {
-  constexpr int kMaxSearchDepth = 4;
-  static const std::string kEnvKey = "EPI_TEST_DATA_DIR";
-  static const std::string kDirName = "test_data";
-  static char pardir[]{'.', '.', platform::PathSep(), '\0'};
-  std::string path;
+  static constexpr int kMaxSearchDepth = 4;
 
-  const char* env_result = std::getenv(kEnvKey.c_str());
-  if (env_result && env_result[0] != '\0') {
-    if (!platform::IsDir(env_result)) {
-      throw std::runtime_error(kEnvKey +
-                               " environment variable is set to \"" +
-                               env_result + "\", but it's not a directory");
-    }
-    path = env_result;  // Enable RVO optimization
-    return path;
-  }
-
-  path = kDirName;
+  std::string path = "test_data";
   for (int i = 0; i < kMaxSearchDepth; i++) {
     if (platform::IsDir(path.c_str())) {
       return path;
@@ -72,9 +59,11 @@ std::string GetDefaultTestDataDirPath() {
   }
 
   throw std::runtime_error(
-      "Can't find test data directory. Specify it with " + kEnvKey +
-      " environment variable (you may need to restart PC) or start the "
-      "program with \"--test_data_dir <path>\" command-line option");
+      "Can't find test data directory. Please start the program with \"--test_data_dir <path>\" command-line option");
+}
+
+std::string GetFilePathInJudgeDir(const std::string& file_name) {
+  return GetDefaultTestDataDirPath().insert(0, pardir) + platform::PathSep() + file_name;
 }
 
 /**

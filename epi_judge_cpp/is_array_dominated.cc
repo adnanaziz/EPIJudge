@@ -41,7 +41,6 @@ void ValidPlacementExistsWrapper(TimedExecutor& executor,
       executor.Run([&] { return Team::ValidPlacementExists(t0, t1); });
   bool result_10 =
       executor.Run([&] { return Team::ValidPlacementExists(t1, t0); });
-
   if (result_01 != expected_01 || result_10 != expected_10) {
     throw TestFailure("");
   }

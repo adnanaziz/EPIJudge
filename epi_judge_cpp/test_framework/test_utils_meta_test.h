@@ -21,8 +21,7 @@ static_assert(FirstFalseArg(true, false) == 2, "");
 static_assert(FirstFalseArg(true, true, true, false) == 4, "");
 static_assert(FirstFalseArg(false, true, true, false) == 1, "");
 
-namespace detail {
-namespace test {
+namespace {
 void WithExecutorHook(TimedExecutor&, int);
 void WithoutExecutorHook(int, int);
 
@@ -33,8 +32,7 @@ static_assert(
     FunctionalTraits<decltype(&WithoutExecutorHook)>::HasExecutorHook() ==
         false,
     "");
-}  // namespace test
-}  // namespace detail
+}  // namespace
 
 static_assert(
     std::is_same<SubTuple<std::tuple<char, short, int, long>, 0, 4>::type,
@@ -63,8 +61,7 @@ static_assert(
 static_assert(std::is_same<escape_void_t<int>, int>::value, "");
 static_assert(std::is_same<escape_void_t<void>, VoidPlaceholder>::value, "");
 
-namespace detail {
-namespace test {
+namespace {
 class NoOperator {};
 class NormalOperator {};
 class WeirdOperator {};
@@ -108,5 +105,4 @@ static_assert(HasBeginEnd<std::set<int>>::value == true, "");
 static_assert(HasBeginEnd<InvalidUserCollection>::value == false, "");
 static_assert(HasBeginEnd<UserCollection1>::value == true, "");
 static_assert(HasBeginEnd<UserCollection2>::value == true, "");
-}  // namespace test
-}  // namespace detail
+}  // namespace

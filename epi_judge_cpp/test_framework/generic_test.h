@@ -32,15 +32,16 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
   // operation.
   std::cout.setf(std::ios::unitbuf);
 
-  std::ifstream config_data("config.json");
+  std::ifstream config_data(GetFilePathInJudgeDir("config.json"));
+  std::string err;
   const json_parser::Json config_override =
-      json_parser::Json(std::string{std::istream_iterator<char>(config_data),
-                                    std::istream_iterator<char>()});
+      json_parser::Json::parse(std::string{std::istream_iterator<char>(config_data), std::istream_iterator<char>()}, err);
 
   try {
     TestConfig config = TestConfig::FromCommandLine(
         test_data_file,
         std::chrono::seconds{config_override["timeoutSeconds"].int_value()},
+        config_override["numFailedTestsBeforeStop"].int_value(),
         commandline_args);
 
     platform::SetOutputOpts(config.tty_mode, config.color_mode);
@@ -116,7 +117,8 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
         }
         PrintFailedTest(handler.ParamNames(), test_case, test_failure);
       }
-      if (!config.run_all_tests) {
+      const int tests_not_passed = test_nr - tests_passed;
+      if (tests_not_passed >= config.num_failed_tests_before_stop) {
         break;
       }
     }

@@ -8,7 +8,7 @@ from test_framework.platform import set_output_opts
 from test_framework.test_config import TestConfig
 from test_framework.test_failure import TestFailure, PropertyName
 from test_framework.test_result import TestResult
-from test_framework.test_utils import split_tsv_file
+from test_framework.test_utils import get_file_path_in_judge_dir, split_tsv_file
 from test_framework.test_utils_console import print_test_info, print_failed_test, print_post_run_stats
 from test_framework.timeout_exception import TimeoutException
 
@@ -26,12 +26,12 @@ def generic_test_main(test_data_file,
     :param res_printer - function for customized printing
     """
     try:
-        with open('config.json') as config_file_data:
+        with open(get_file_path_in_judge_dir('config.json')) as config_file_data:
             config_override = json.load(config_file_data)
 
         commandline_args = sys.argv[1:]
         config = TestConfig.from_command_line(
-            test_data_file, config_override['timeoutSeconds'],
+            test_data_file, config_override['timeoutSeconds'], config_override['numFailedTestsBeforeStop'],
             commandline_args)
 
         set_output_opts(config.tty_mode, config.color_mode)
@@ -98,7 +98,8 @@ def run_tests(handler, config, res_printer):
                                                test_explanation)
                 print_failed_test(handler.param_names(), test_case,
                                   test_failure, res_printer)
-            if not config.run_all_tests:
+            tests_not_passed = test_nr - tests_passed
+            if tests_not_passed >= config.num_failed_tests_before_stop:
                 break
 
     print()

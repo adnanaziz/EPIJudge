@@ -507,7 +507,7 @@ struct SerializationTraits<std::unordered_set<Inner>, void>
   }
 };
 
-namespace detail {
+namespace {
 /**
  * std::tuple specialization helper class.
  */
@@ -583,7 +583,7 @@ struct TupleJsonParser
     : TupleJsonParserImpl<TupleT, Idx,
                           std::tuple_size<TupleT>::value == (Idx + 1)> {};
 
-}  // namespace detail
+}  // namespace 
 
 /**
  * std::tuple specialization
@@ -621,7 +621,7 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
   }
 
   static serialization_type JsonParse(std::istream& in) {
-    return detail::TupleJsonParser<tuple_type, 0>::Parse(in);
+    return TupleJsonParser<tuple_type, 0>::Parse(in);
   }
 
   static bool Equal(const serialization_type& a,
@@ -756,10 +756,10 @@ struct BinaryTreeSerializationTraits<
   template <typename KeyType>                                     \
   struct SerializationTraits<NodePtrType>                         \
       : BinaryTreeSerializationTraits<NodePtrType, HasParent> {}; \
-  namespace detail {                                              \
+  namespace {                                                     \
   template <typename KeyType>                                     \
   struct IsBinaryTreeImpl<NodePtrType> : std::true_type {};       \
-  }
+  }  // namespace                                                 \
 
 /**
  * A specialization for handling types with modifiers.

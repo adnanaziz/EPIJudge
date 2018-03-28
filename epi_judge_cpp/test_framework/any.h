@@ -9,7 +9,7 @@
 #include "test_utils_meta.h"
 #include "test_utils_serialization_traits.h"
 
-namespace detail {
+namespace {
 class AnyBase {
  public:
   virtual ~AnyBase() = default;
@@ -62,18 +62,18 @@ class AnySpecialization : public AnyBase {
  private:
   T value_;
 };
-}  // namespace detail
+}  // namespace 
 
 class Any {
-  std::shared_ptr<detail::AnyBase> ptr_;
+  std::shared_ptr<AnyBase> ptr_;
 
   template <typename T>
-  using AnySpecialization = detail::AnySpecialization<remove_ref_cv_t<T>>;
+  using AnySpecialization = AnySpecialization<remove_ref_cv_t<T>>;
 
  public:
   template <typename FwdT>
   Any(FwdT&& value)
-      : ptr_(std::static_pointer_cast<detail::AnyBase>(
+      : ptr_(std::static_pointer_cast<AnyBase>(
             std::make_shared<AnySpecialization<FwdT>>(
                 std::forward<FwdT>(value)))) {}
 

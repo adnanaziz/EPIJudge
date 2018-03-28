@@ -9,19 +9,19 @@ import java.util.Map;
 public class TestConfig {
   public String testDataDir;
   public String testDataFile;
-  public boolean runAllTests;
   public boolean verbose;
   public TriBool ttyMode;
   public TriBool colorMode;
   public long timeoutSeconds;
+  public int numFailedTestsBeforeStop;
 
-  public TestConfig(String testDataFile, long timeoutSeconds) {
+  public TestConfig(String testDataFile, long timeoutSeconds, int numFailedTestsBeforeStop) {
     this.testDataFile = testDataFile;
-    this.runAllTests = false;
     this.verbose = true;
     this.ttyMode = TriBool.INDETERMINATE;
     this.colorMode = TriBool.INDETERMINATE;
     this.timeoutSeconds = timeoutSeconds;
+    this.numFailedTestsBeforeStop = numFailedTestsBeforeStop;
   }
 
   private static String getParam(String[] commandlineArgs, int i,
@@ -62,8 +62,14 @@ public class TestConfig {
 
   public static TestConfig fromCommandLine(String testDataFile,
                                            long timeoutSeconds,
+                                           int numFailedTestsBeforeStop,
                                            String[] commandlineArgs) {
-    TestConfig config = new TestConfig(testDataFile, timeoutSeconds);
+    // Set numFailedTestsBeforeStop to 0, means users want to run as many as tests in one run.
+    if (numFailedTestsBeforeStop == 0) {
+      numFailedTestsBeforeStop = Integer.MAX_VALUE;
+    }
+
+    TestConfig config = new TestConfig(testDataFile, timeoutSeconds, numFailedTestsBeforeStop);
 
     for (int i = 0; i < commandlineArgs.length; i++) {
       switch (commandlineArgs[i]) {
@@ -72,7 +78,7 @@ public class TestConfig {
               getParam(commandlineArgs, ++i, "--test-data-dir");
           break;
         case "--run-all-tests":
-          config.runAllTests = true;
+          config.numFailedTestsBeforeStop = Integer.MAX_VALUE;
           break;
         case "--no-verbose":
           config.verbose = false;

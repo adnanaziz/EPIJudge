@@ -2,6 +2,7 @@
 #pragma once
 
 #include <chrono>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -50,36 +51,43 @@ void PrintUsageAndExit() {
 
 struct TestConfig {
   TestConfig(const std::string& test_data_file,
-             const std::chrono::seconds& timeout_seconds)
+             const std::chrono::seconds& timeout_seconds,
+             int num_failed_tests_before_stop)
       : test_data_file(test_data_file),
-        run_all_tests(false),
         verbose(true),
-        tty_mode(TriBool::INDETERMINATE),
-        color_mode(TriBool::INDETERMINATE),
-        timeout_seconds(timeout_seconds) {}
+        tty_mode(TriBool::kIndeterminate),
+        color_mode(TriBool::kIndeterminate),
+        timeout_seconds(timeout_seconds),
+        num_failed_tests_before_stop(num_failed_tests_before_stop) {}
 
   static TestConfig FromCommandLine(
       const std::string& test_data_file,
       const std::chrono::seconds& timeout_seconds,
+      int num_failed_tests_before_stop,
       const std::vector<std::string>& commandline_args) {
-    TestConfig config{test_data_file, timeout_seconds};
+    // Set num_failed_tests_before_stop to 0, means users want to run as many as tests in one run.
+    if (num_failed_tests_before_stop == 0) {
+      num_failed_tests_before_stop = std::numeric_limits<int>::max();
+    }
+
+    TestConfig config{test_data_file, timeout_seconds, num_failed_tests_before_stop};
 
     for (size_t i = 0; i < commandline_args.size(); i++) {
       if (commandline_args[i] == "--test-data-dir") {
         config.test_data_dir =
             GetParam(commandline_args, ++i, "--test-data-dir");
       } else if (commandline_args[i] == "--run-all-tests") {
-        config.run_all_tests = true;
+        config.num_failed_tests_before_stop = std::numeric_limits<int>::max();
       } else if (commandline_args[i] == "--no-verbose") {
         config.verbose = false;
       } else if (commandline_args[i] == "--force-tty") {
-        config.tty_mode = TriBool::TRUE;
+        config.tty_mode = TriBool::kTrue;
       } else if (commandline_args[i] == "--no-tty") {
-        config.tty_mode = TriBool::FALSE;
+        config.tty_mode = TriBool::kFalse;
       } else if (commandline_args[i] == "--force-color") {
-        config.color_mode = TriBool::TRUE;
+        config.color_mode = TriBool::kTrue;
       } else if (commandline_args[i] == "--no-color") {
-        config.color_mode = TriBool::FALSE;
+        config.color_mode = TriBool::kFalse;
       } else if (commandline_args[i] == "--help" ||
                  commandline_args[i] == "-h") {
         PrintUsageAndExit();
@@ -107,9 +115,9 @@ struct TestConfig {
 
   std::string test_data_dir;
   std::string test_data_file;
-  bool run_all_tests;
   bool verbose;
   TriBool tty_mode;
   TriBool color_mode;
   std::chrono::seconds timeout_seconds;
+  int num_failed_tests_before_stop;
 };

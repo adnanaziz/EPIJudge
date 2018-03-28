@@ -67,7 +67,7 @@ public class TimedExecutor {
    * Invokes func with a specified timeoutSeconds.
    * If func takes more than timeoutSeconds seconds to run,
    * TimeoutException is thrown.
-   * If timeout == 0, it simply calls the function.
+   * If timeoutSeconds == 0, it simply calls the function.
    */
   public void run(Runnable func) throws Exception {
     run(() -> {

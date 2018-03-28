@@ -3,7 +3,7 @@ project(epi_judge_cpp)
 
 set(CMAKE_CXX_STANDARD 14)
 
-if (WIN32)
+if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4018 -wd4800 -wd4805)
 else()
     link_libraries(pthread)

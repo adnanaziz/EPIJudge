@@ -6,9 +6,13 @@
  * function.
  */
 
+#if _WINDOWS || __MINGW__ || __CYGWIN__
+#define PLATFORM_WIN
+#endif
+
 #include <iostream>
 
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
 #include <io.h>
 #include <sys/stat.h>
 #include <sys/types.h>  //must precede sys/stat.h
@@ -26,7 +30,7 @@ bool ENABLE_TTY_OUTPUT = false;
 bool ENABLE_COLOR_OUTPUT = false;
 
 int StdOutFd() {
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
   return _fileno(stdout);
 #else
   return STDOUT_FILENO;
@@ -34,7 +38,7 @@ int StdOutFd() {
 }
 
 int IsATty(int fd) {
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
   return _isatty(fd);
 #else
   return isatty(fd);
@@ -54,7 +58,7 @@ bool UseTtyOutput() { return ENABLE_TTY_OUTPUT; }
 bool UseColorOutput() { return ENABLE_COLOR_OUTPUT; }
 
 bool IsDir(const char* path) {
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
   struct _stat buf {};
   _stat(path, &buf);
   return (buf.st_mode & S_IFDIR) == S_IFDIR;
@@ -66,7 +70,7 @@ bool IsDir(const char* path) {
 }
 
 char PathSep() {
-#ifdef _WINDOWS
+#ifdef PLATFORM_WIN
   return '\\';
 #else
   return '/';
