@@ -138,7 +138,7 @@ public class GenericTestHandler {
    * type
    */
   public TestTimer runTest(long timeoutSeconds, List<String> testArgs)
-      throws Throwable {
+      throws Exception, Error {
     try {
       if (testArgs.size() !=
           paramParsers.length + (retValueParser != null ? 1 : 0)) {
@@ -172,9 +172,12 @@ public class GenericTestHandler {
     } catch (InvocationTargetException e) {
       Throwable t = e.getCause();
       if (t instanceof Exception) {
-        throw t;
+        throw (Exception)t;
+      } else if (t instanceof Error) {
+        throw (Error) t;
       } else {
-        throw new RuntimeException(t.getMessage());
+        // Improbable except for intended attempts to break the code, but anyway
+        throw new RuntimeException(t);
       }
     }
   }
