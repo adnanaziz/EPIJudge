@@ -89,9 +89,9 @@ public class GenericTest {
         testTimer = e.getTimer();
       } catch (StackOverflowError e) {
         result = TestResult.STACK_OVERFLOW;
-      } catch (RuntimeException e) {
+      } catch (RuntimeException | Error e) {
         throw e;
-      } catch (Throwable e) {
+      } catch (Exception e) {
         result = TestResult.UNKNOWN_EXCEPTION;
         testFailure =
             new TestFailure(e.getClass().getName())
