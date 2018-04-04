@@ -1,0 +1,23 @@
+def justify_text(words, L):
+    curr_line_length, result, curr_line = 0, [], []
+    for word in words:
+        if curr_line_length + len(word) + len(curr_line) > L:
+            # Distribute equally between words in curr_line.
+            for i in range(L - curr_line_length):
+                curr_line[i % max(len(curr_line) - 1, 1)] += ' '
+            result.append(''.join(curr_line))
+            curr_line, curr_line_length = [], 0
+        curr_line.append(word)
+        curr_line_length += len(word)
+    # Use ljust(L) to pad the last line with the appropriate number of blanks.
+    return result + [' '.join(curr_line).ljust(L)]
+
+
+from sys import exit
+
+from test_framework import generic_test, test_utils
+
+if __name__ == '__main__':
+    exit(
+        generic_test.generic_test_main('left_right_justify_text.tsv',
+                                       justify_text))

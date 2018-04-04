@@ -7,13 +7,14 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RandomPermutation {
 
   public static List<Integer> computeRandomPermutation(int n) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   private static int factorial(int n) {

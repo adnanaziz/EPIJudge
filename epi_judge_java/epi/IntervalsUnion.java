@@ -6,6 +6,7 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class IntervalsUnion {
@@ -22,7 +23,7 @@ public class IntervalsUnion {
 
   public static List<Interval> unionOfIntervals(List<Interval> intervals) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   @EpiUserType(

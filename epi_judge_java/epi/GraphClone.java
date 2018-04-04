@@ -3,6 +3,7 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
+import epi.test_framework.TestFailure;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ public class GraphClone {
     }
   }
 
-  public static GraphVertex cloneGraph(GraphVertex g) {
+  public static GraphVertex cloneGraph(GraphVertex graph) {
     // Implement this placeholder.
-    return null;
+    return new GraphVertex(0);
   }
 
   private static List<Integer> copyLabels(List<GraphVertex> edges) {
@@ -38,20 +39,24 @@ public class GraphClone {
     return labels;
   }
 
-  private static void checkGraph(GraphVertex node, List<GraphVertex> g) {
+  private static void checkGraph(GraphVertex node, List<GraphVertex> graph)
+      throws TestFailure {
     Set<GraphVertex> vertexSet = new HashSet<>();
     Queue<GraphVertex> q = new ArrayDeque<>();
     q.add(node);
     vertexSet.add(node);
     while (!q.isEmpty()) {
       GraphVertex vertex = q.remove();
-      assert(vertex.label < g.size());
+      if (vertex.label >= graph.size()) {
+        throw new TestFailure("Invalid vertex label");
+      }
       List<Integer> label1 = copyLabels(vertex.edges),
-                    label2 = copyLabels(g.get(vertex.label).edges);
+                    label2 = copyLabels(graph.get(vertex.label).edges);
       Collections.sort(label1);
       Collections.sort(label2);
-      assert(label1.size() == label2.size());
-      assert(Arrays.equals(label1.toArray(), label2.toArray()));
+      if (!label1.equals(label2)) {
+        throw new TestFailure("Edges mismatch");
+      }
       for (GraphVertex e : vertex.edges) {
         if (!vertexSet.contains(e)) {
           vertexSet.add(e);
@@ -73,7 +78,8 @@ public class GraphClone {
   }
 
   @EpiTest(testfile = "graph_clone.tsv")
-  public static void cloneGraphTest(int k, List<Edge> edges) {
+  public static void cloneGraphTest(int k, List<Edge> edges)
+      throws TestFailure {
     if (k <= 0) {
       throw new RuntimeException("Invalid k value");
     }

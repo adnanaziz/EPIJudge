@@ -1,0 +1,117 @@
+# @library
+import inspect
+import math
+
+from test_framework.binary_tree_utils import assert_equal_binary_trees, is_object_tree_type
+from test_framework.test_failure import TestFailure, PropertyName
+from test_framework.test_utils import has_executor_hook, filter_bracket_comments
+from test_framework.test_utils_deserialization import get_string_parser_for_type
+from test_framework.timed_executor import TimedExecutor
+
+
+class GenericTestHandler:
+    """
+    The central class in generic test runner framework.
+
+    It is responsible for constructing string deserializers
+    basing on the test data header and
+    executing tests on the provided function (which includes
+    the deserialization of the provided arguments and the expected value,
+    invocation of the target function with these arguments and
+    comparison of the computed result with the expected value).
+
+    parse_signature() and run_test() raise RuntimeError
+    in case of any error or assertion failure. This exception
+    terminates testing and, consequently, the test program.
+
+    If tested function throws TestFailure or StackOverflowError,
+    the current test is raise as failed and the execution goes on.
+    In case of any other exception raised by the tested function,
+    the test program is terminated.
+    """
+
+    def __init__(self, func, comparator):
+        self._func = func
+        self._has_executor_hook = has_executor_hook(func)
+        self._param_parsers = []
+        self._param_names = [
+            p.name for p in inspect.signature(self._func).parameters.values()
+            if p.default is inspect.Parameter.empty
+        ][1 if self._has_executor_hook else 0:]
+        self._comp = comparator
+        self._ret_value_parser = None
+
+    def parse_signature(self, signature):
+        """
+        This method initializes type parsers
+        for all tested function arguments and expected value,
+        basing on test data signature (see get_string_parser_for_type()).
+
+        :param signature: the header from a test data file.
+        :type signature: List[str]
+        """
+        if len(signature) != len(self._param_names) + 1:
+            raise RuntimeError("Signature parameter count mismatch")
+
+        signature = [filter_bracket_comments(s) for s in signature]
+
+        for param in signature[:-1]:
+            self._param_parsers.append(get_string_parser_for_type(param))
+
+        if any(p is None for p in self._param_parsers):
+            raise RuntimeError("Argument can't be of type void")
+
+        self._ret_value_parser = get_string_parser_for_type(signature[-1])
+
+    def run_test(self, timeout_seconds, test_args):
+        """
+        This method is invoked for each row in a test data file (except the header).
+        It deserializes the list of arguments and calls the user function with them.
+
+        :param timeout_seconds: number of seconds to timeout
+        :param test_args: serialized arguments
+        :return: list, that contains [result of comparison of expected and result, expected, result].
+                 Two last entries are omitted in case of the void return type
+        """
+        args = [
+            parser(x)
+            for parser, x in zip(self._param_parsers,
+                                 test_args[:-1 if not self.expected_is_void()
+                                           else len(test_args)])
+        ]
+
+        executor = TimedExecutor(timeout_seconds)
+        if self._has_executor_hook:
+            result = self._func(executor, *args)
+        else:
+            result = executor.run(lambda: self._func(*args))
+
+        if not self.expected_is_void():
+            expected = self._ret_value_parser(test_args[-1])
+            self.assert_results_equal(expected, result)
+
+        return executor.get_timer()
+
+    def assert_results_equal(self, expected, result):
+        if self._comp is not None:
+            comparison_result = self._comp(expected, result)
+        elif expected is None:
+            comparison_result = result is None
+        elif isinstance(expected, float) or isinstance(result, float):
+            comparison_result = math.isclose(expected, result)
+        elif is_object_tree_type(expected) or is_object_tree_type(result):
+            assert_equal_binary_trees(expected, result)
+            return
+        else:
+            comparison_result = expected == result
+
+        if not comparison_result:
+            raise TestFailure()\
+                .with_property(PropertyName.EXPECTED, expected)\
+                .with_property(PropertyName.RESULT, result)
+
+    def expected_is_void(self):
+        return self._ret_value_parser is None
+
+    def param_names(self):
+        return self._param_names

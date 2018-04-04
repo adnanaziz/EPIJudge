@@ -39,7 +39,7 @@ public class KClosestStars {
 
   public static List<Star> findClosestKStars(Iterator<Star> stars, int k) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   @EpiTest(testfile = "k_closest_stars.tsv")

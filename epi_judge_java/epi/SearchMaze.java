@@ -6,6 +6,7 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SearchMaze {
@@ -42,7 +43,7 @@ public class SearchMaze {
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   public static boolean pathElementIsFeasible(List<List<Integer>> maze,

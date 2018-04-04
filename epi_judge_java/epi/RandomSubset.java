@@ -15,7 +15,7 @@ public class RandomSubset {
   // Returns a random k-sized subset of {0, 1, ..., n - 1}.
   public static List<Integer> randomSubset(int n, int k) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   private static boolean randomSubsetRunner(TimedExecutor executor, int n,

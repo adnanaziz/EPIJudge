@@ -1,3 +1,4 @@
+import collections
 import functools
 from sys import exit
 

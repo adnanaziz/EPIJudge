@@ -4,6 +4,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MaxOfSlidingWindow {
@@ -46,7 +47,7 @@ public class MaxOfSlidingWindow {
   public static List<TrafficElement>
   computeTrafficVolumes(List<TrafficElement> A, int w) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   public static void main(String[] args) {
