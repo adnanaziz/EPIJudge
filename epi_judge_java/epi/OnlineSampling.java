@@ -17,7 +17,7 @@ public class OnlineSampling {
   public static List<Integer> onlineRandomSample(Iterator<Integer> stream,
                                                  int k) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   private static boolean onlineRandomSampleRunner(TimedExecutor executor,

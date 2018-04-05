@@ -6,6 +6,7 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -14,7 +15,7 @@ public class EnumerateTrees {
   public static List<BinaryTreeNode<Integer>>
   generateAllBinaryTrees(int numNodes) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   public static List<Integer> serializeStructure(BinaryTreeNode<Integer> tree) {

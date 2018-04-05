@@ -6,6 +6,7 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TreeConnectLeaves {
@@ -13,7 +14,7 @@ public class TreeConnectLeaves {
   public static List<BinaryTreeNode<Integer>>
   createListOfLeaves(BinaryTreeNode<Integer> tree) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   @EpiTest(testfile = "tree_connect_leaves.tsv")

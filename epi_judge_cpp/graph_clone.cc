@@ -28,9 +28,8 @@ vector<int> CopyLabels(const vector<GraphVertex*>& edges) {
   return labels;
 }
 
-void CheckAndDeallocateGraph(GraphVertex* node,
-                             const vector<GraphVertex>& graph) {
-  if (node == &graph[0]) {
+void CheckGraph(GraphVertex* node, const vector<GraphVertex>& graph) {
+  if (!node || node == &graph[0]) {
     throw TestFailure("Graph was not copied");
   }
 
@@ -41,14 +40,15 @@ void CheckAndDeallocateGraph(GraphVertex* node,
   while (!q.empty()) {
     auto vertex = q.front();
     q.pop();
-    if (vertex->label > graph.size()) {
+    if (vertex->label >= graph.size()) {
       throw TestFailure("Invalid vertex label");
     }
     vector<int> label1 = CopyLabels(vertex->edges),
                 label2 = CopyLabels(graph[vertex->label].edges);
-    sort(begin(label1), end(label1)), sort(begin(label2), end(label2));
+    sort(begin(label1), end(label1));
+    sort(begin(label2), end(label2));
     if (label1 != label2) {
-      throw TestFailure("Invalid vertex label");
+      throw TestFailure("Edges mismatch");
     }
     for (GraphVertex* e : vertex->edges) {
       if (!vertex_set.count(e)) {
@@ -88,7 +88,7 @@ void CloneGraphTest(int k, const vector<Edge>& edges) {
     graph[e.from].edges.push_back(&graph[e.to]);
   }
   GraphVertex* result = CloneGraph(&graph[0]);
-  CheckAndDeallocateGraph(result, graph);
+  CheckGraph(result, graph);
 }
 
 int main(int argc, char* argv[]) {

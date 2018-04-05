@@ -5,6 +5,7 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,7 @@ public class GrayCode {
 
   public static List<Integer> grayCode(int numBits) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   private static boolean differsByOneBit(int x, int y) {

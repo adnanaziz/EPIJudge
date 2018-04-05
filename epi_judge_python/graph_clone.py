@@ -2,6 +2,7 @@ import collections
 from sys import exit
 
 from test_framework import generic_test, test_utils
+from test_framework.test_failure import TestFailure
 
 
 class GraphVertex:
@@ -20,7 +21,6 @@ def copy_labels(edges):
 
 
 def check_graph(node, graph):
-    from test_framework.test_failure import TestFailure
     vertex_set = set()
     q = collections.deque()
     q.append(node)
@@ -28,13 +28,11 @@ def check_graph(node, graph):
     while q:
         vertex = q.popleft()
         if vertex.label >= len(graph):
-            raise TestFailure('')
+            raise TestFailure('Invalid vertex label')
         label1 = copy_labels(vertex.edges)
         label2 = copy_labels(graph[vertex.label].edges)
-        label1.sort()
-        label2.sort()
-        if label1 != label2:
-            raise TestFailure('')
+        if sorted(label1) != sorted(label2):
+            raise TestFailure('Edges mismatch')
         for e in vertex.edges:
             if e not in vertex_set:
                 vertex_set.add(e)

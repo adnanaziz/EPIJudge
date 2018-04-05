@@ -6,6 +6,7 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.LinkedList;
@@ -16,7 +17,7 @@ public class Hanoi {
 
   public static List<List<Integer>> computeTowerHanoi(int numRings) {
     // Implement this placeholder.
-    return null;
+    return Collections.emptyList();
   }
 
   @EpiTest(testfile = "hanoi.tsv")
