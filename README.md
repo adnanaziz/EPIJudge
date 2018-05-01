@@ -83,7 +83,7 @@ The IntelliJ Integrated Development environments described above are best-in-cla
   - **GCC** 5.4.1 (on Ubuntu 16.04)
   - **Clang** 4.0 (on Ubuntu 16.04)
   - **Apple LLVM Clang** 9.0.0
-  - **Visual Studio** 2017
+  - **Visual Studio** 2017 15.7.0 Preview 5.0
   - **Java** 8
   - **Python** 3.5
 
