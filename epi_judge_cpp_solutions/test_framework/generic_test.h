@@ -91,7 +91,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     } catch (TimeoutException& e) {
       result = TIMEOUT;
       test_timer = e.GetTimer();
-    } catch (std::runtime_error& e) {
+    } catch (std::runtime_error&) {
       throw;
     } catch (std::exception& e) {
       result = UNKNOWN_EXCEPTION;
