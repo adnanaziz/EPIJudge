@@ -7,7 +7,7 @@ using std::abs;
 using std::vector;
 
 vector<int> Multiply(vector<int> num1, vector<int> num2) {
-  const int sign = num1.front() < 0 ^ num2.front() < 0 ? -1 : 1;
+  const int sign = (num1.front() < 0) ^ (num2.front() < 0) ? -1 : 1;
   num1.front() = abs(num1.front()), num2.front() = abs(num2.front());
 
   vector<int> result(size(num1) + size(num2), 0);
