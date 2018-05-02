@@ -23,7 +23,7 @@ struct ListNode {
   ~ListNode() {
     // Extra-long lists cause stack overflow with default destructor
     // implementation
-    while (next && next.unique()) {
+    while (next && (next.use_count() == 1)) {
       auto next_next = next->next;
       next->next.reset();
       next = next_next;
