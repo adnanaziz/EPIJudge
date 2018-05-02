@@ -526,6 +526,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/EvenOddListMerge.class: $(SRC_DIR)/$(MAIN_PACKAGE)/
 EvenOddListMerge: $(BUILD_DIR)/$(MAIN_PACKAGE)/EvenOddListMerge.class
 	$(RUN_CMD) $(MAIN_PACKAGE).EvenOddListMerge $(PROGRAM_ARGS)
 
+.PHONY: Fibonacci
+$(BUILD_DIR)/$(MAIN_PACKAGE)/Fibonacci.class: $(SRC_DIR)/$(MAIN_PACKAGE)/Fibonacci.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/Fibonacci.java"
+Fibonacci: $(BUILD_DIR)/$(MAIN_PACKAGE)/Fibonacci.class
+	$(RUN_CMD) $(MAIN_PACKAGE).Fibonacci $(PROGRAM_ARGS)
+
 .PHONY: FindSalaryThreshold
 $(BUILD_DIR)/$(MAIN_PACKAGE)/FindSalaryThreshold.class: $(SRC_DIR)/$(MAIN_PACKAGE)/FindSalaryThreshold.java $(TEST_FRAMEWORK)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/FindSalaryThreshold.java"
@@ -748,6 +754,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/Knapsack.class: $(SRC_DIR)/$(MAIN_PACKAGE)/Knapsack
 Knapsack: $(BUILD_DIR)/$(MAIN_PACKAGE)/Knapsack.class
 	$(RUN_CMD) $(MAIN_PACKAGE).Knapsack $(PROGRAM_ARGS)
 
+.PHONY: KthLargestElementInLongArray
+$(BUILD_DIR)/$(MAIN_PACKAGE)/KthLargestElementInLongArray.class: $(SRC_DIR)/$(MAIN_PACKAGE)/KthLargestElementInLongArray.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/KthLargestElementInLongArray.java"
+KthLargestElementInLongArray: $(BUILD_DIR)/$(MAIN_PACKAGE)/KthLargestElementInLongArray.class
+	$(RUN_CMD) $(MAIN_PACKAGE).KthLargestElementInLongArray $(PROGRAM_ARGS)
+
 .PHONY: KthLargestElementInTwoSortedArrays
 $(BUILD_DIR)/$(MAIN_PACKAGE)/KthLargestElementInTwoSortedArrays.class: $(SRC_DIR)/$(MAIN_PACKAGE)/KthLargestElementInTwoSortedArrays.java $(TEST_FRAMEWORK)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/KthLargestElementInTwoSortedArrays.java"
@@ -921,6 +933,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSubmatrix.class: $(SRC_DIR)/$(MAIN_PACKAGE)/MaxS
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/MaxSubmatrix.java"
 MaxSubmatrix: $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSubmatrix.class
 	$(RUN_CMD) $(MAIN_PACKAGE).MaxSubmatrix $(PROGRAM_ARGS)
+
+.PHONY: MaxSumSubarray
+$(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSumSubarray.class: $(SRC_DIR)/$(MAIN_PACKAGE)/MaxSumSubarray.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/MaxSumSubarray.java"
+MaxSumSubarray: $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSumSubarray.class
+	$(RUN_CMD) $(MAIN_PACKAGE).MaxSumSubarray $(PROGRAM_ARGS)
 
 .PHONY: MaxTeamsInPhotograph
 $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxTeamsInPhotograph.class: $(SRC_DIR)/$(MAIN_PACKAGE)/MaxTeamsInPhotograph.java $(TEST_FRAMEWORK)
@@ -1131,6 +1149,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/RandomSubset.class: $(SRC_DIR)/$(MAIN_PACKAGE)/Rand
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/RandomSubset.java"
 RandomSubset: $(BUILD_DIR)/$(MAIN_PACKAGE)/RandomSubset.class
 	$(RUN_CMD) $(MAIN_PACKAGE).RandomSubset $(PROGRAM_ARGS)
+
+.PHONY: RangeLookupInBst
+$(BUILD_DIR)/$(MAIN_PACKAGE)/RangeLookupInBst.class: $(SRC_DIR)/$(MAIN_PACKAGE)/RangeLookupInBst.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/RangeLookupInBst.java"
+RangeLookupInBst: $(BUILD_DIR)/$(MAIN_PACKAGE)/RangeLookupInBst.class
+	$(RUN_CMD) $(MAIN_PACKAGE).RangeLookupInBst $(PROGRAM_ARGS)
 
 .PHONY: RealSquareRoot
 $(BUILD_DIR)/$(MAIN_PACKAGE)/RealSquareRoot.class: $(SRC_DIR)/$(MAIN_PACKAGE)/RealSquareRoot.java $(TEST_FRAMEWORK)
@@ -1504,6 +1528,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/TreeWithParentInorder.class: $(SRC_DIR)/$(MAIN_PACK
 TreeWithParentInorder: $(BUILD_DIR)/$(MAIN_PACKAGE)/TreeWithParentInorder.class
 	$(RUN_CMD) $(MAIN_PACKAGE).TreeWithParentInorder $(PROGRAM_ARGS)
 
+.PHONY: TwoSortedArraysMerge
+$(BUILD_DIR)/$(MAIN_PACKAGE)/TwoSortedArraysMerge.class: $(SRC_DIR)/$(MAIN_PACKAGE)/TwoSortedArraysMerge.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/TwoSortedArraysMerge.java"
+TwoSortedArraysMerge: $(BUILD_DIR)/$(MAIN_PACKAGE)/TwoSortedArraysMerge.class
+	$(RUN_CMD) $(MAIN_PACKAGE).TwoSortedArraysMerge $(PROGRAM_ARGS)
+
 .PHONY: TwoSum
 $(BUILD_DIR)/$(MAIN_PACKAGE)/TwoSum.class: $(SRC_DIR)/$(MAIN_PACKAGE)/TwoSum.java $(TEST_FRAMEWORK)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/TwoSum.java"
@@ -1574,6 +1604,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EvaluateRpn.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EvenOddArray.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EvenOddListMerge.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/Fibonacci.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/FindSalaryThreshold.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/FirstMissingPositiveEntry.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/Gcd.class \
@@ -1611,6 +1642,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/KLargestInHeap.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/KLargestValuesInBst.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/Knapsack.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/KthLargestElementInLongArray.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/KthLargestElementInTwoSortedArrays.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/KthLargestInArray.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/KthNodeInTree.class \
@@ -1640,6 +1672,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSafeHeight.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSquareSubmatrix.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSubmatrix.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxSumSubarray.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxTeamsInPhotograph.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxTrappedWater.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MaxWaterTrappable.class \
@@ -1675,6 +1708,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/QueueWithMax.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/RandomPermutation.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/RandomSubset.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/RangeLookupInBst.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/RealSquareRoot.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/RectangleIntersection.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/RefuelingSchedule.class \
@@ -1737,6 +1771,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/TreePreorder.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/TreeRightSibling.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/TreeWithParentInorder.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/TwoSortedArraysMerge.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/TwoSum.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/UniformRandomNumber.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/ValidIpAddresses.class \

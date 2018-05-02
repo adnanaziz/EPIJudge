@@ -9,7 +9,15 @@
 ## [Beta 4] - 2018-05-??
 
 ### Added
-  - This changelog 
+  - This changelog
+  - New programs
+    - Fibonacci
+    - KthLargestElementInLongArray
+    - MaxSumSubarray
+    - QueueWithMaxUsingDeque
+    - RangeLookupInBst
+    - ReverseLinkedListIterative
+    - TwoSortedArraysMerge
   
 ### Changed
   - [IMPORTANT] Java project now requires at least Java 9 JDK
