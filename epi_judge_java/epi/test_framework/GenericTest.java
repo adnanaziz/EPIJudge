@@ -146,11 +146,7 @@ public class GenericTest {
     }
 
     String complexity = "";
-    /*if (config.analyzeComplexity) {
-      complexity = TestComplexity.minimalLeastSqMultipleParams(
-          handler.metricNames(), metrics, durations);
-    }*/
-
+    
     System.out.println();
 
     if (!durations.isEmpty() && config.verbose) {

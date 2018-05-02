@@ -13,7 +13,6 @@
 #include "generic_test_handler.h"
 #include "json_parser.h"
 #include "platform.h"
-//#include "test_complexity.h"
 #include "test_config.h"
 #include "test_timer.h"
 #include "test_utils.h"
@@ -180,18 +179,6 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
   }
 
   std::string complexity;
-  /*if (!durations.empty() && config.analyze_complexity) {
-    std::vector<long long> time;
-    std::transform(
-        durations.begin(), durations.end(), std::back_inserter(time),
-        [](const auto& d) {
-          return std::chrono::duration_cast<std::chrono::nanoseconds>(d)
-              .count();
-        });
-
-    complexity = test_complexity::MinimalLeastSqMultipleParams(
-        handler.MetricNames(), metrics, time);
-  }*/
 
   std::cout << std::endl;
   if (config.verbose) {
