@@ -51,9 +51,11 @@ struct SerializationTraits<std::unique_ptr<BinaryTreeNode<KeyT>>>
   }
 };
 
+namespace detail {
 template <typename KeyT>
-struct detail::IsBinaryTreeImpl<std::unique_ptr<BinaryTreeNode<KeyT>>>
+struct IsBinaryTreeImpl<std::unique_ptr<BinaryTreeNode<KeyT>>>
     : std::true_type {};
+}  // namespace detail
 
 int FindKthNodeBinaryTreeWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
                                  int k) {
