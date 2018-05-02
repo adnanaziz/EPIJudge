@@ -1,28 +1,26 @@
-from sys import exit
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 class ClientsCreditsInfo:
     def insert(self, client_id, c):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def remove(self, client_id):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return True
 
     def lookup(self, client_id):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return 0
 
     def add_all(self, C):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def max(self):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return ''
 
 
@@ -55,5 +53,6 @@ def client_credits_info_tester(ops):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('adding_credits.tsv',
+        generic_test.generic_test_main("adding_credits.py",
+                                       'adding_credits.tsv',
                                        client_credits_info_tester))

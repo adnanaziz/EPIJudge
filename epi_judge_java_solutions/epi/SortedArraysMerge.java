@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class SortedArraysMerge {
+
   private static class ArrayEntry {
     public Integer value;
     public Integer arrayId;
@@ -19,9 +20,11 @@ public class SortedArraysMerge {
     }
   }
 
-  @EpiTest(testfile = "sorted_arrays_merge.tsv")
+  @EpiTest(testDataFile = "sorted_arrays_merge.tsv")
+
   public static List<Integer>
   mergeSortedArrays(List<List<Integer>> sortedArrays) {
+
     List<Iterator<Integer>> iters = new ArrayList<>(sortedArrays.size());
     for (List<Integer> array : sortedArrays) {
       iters.add(array.iterator());
@@ -47,9 +50,10 @@ public class SortedArraysMerge {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SortedArraysMerge.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

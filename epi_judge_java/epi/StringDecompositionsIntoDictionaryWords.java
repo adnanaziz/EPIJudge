@@ -6,17 +6,18 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class StringDecompositionsIntoDictionaryWords {
-  @EpiTest(testfile = "string_decompositions_into_dictionary_words.tsv")
+  @EpiTest(testDataFile = "string_decompositions_into_dictionary_words.tsv")
 
   public static List<Integer> findAllSubstrings(String s, List<String> words) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   public static void main(String[] args) {
     System.exit(GenericTest
                     .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
+                        args, "StringDecompositionsIntoDictionaryWords.java",
+                        new Object() {}.getClass().getEnclosingClass())
                     .ordinal());
   }
 }

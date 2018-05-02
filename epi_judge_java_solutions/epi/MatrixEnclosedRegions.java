@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Queue;
 
 public class MatrixEnclosedRegions {
+
   public static void fillSurroundedRegions(List<List<Character>> board) {
+
     // Identifies the regions that are reachable via white path starting from
     // the first or last columns.
     for (int i = 0; i < board.size(); ++i) {
@@ -59,7 +61,7 @@ public class MatrixEnclosedRegions {
     }
   }
 
-  @EpiTest(testfile = "matrix_enclosed_regions.tsv")
+  @EpiTest(testDataFile = "matrix_enclosed_regions.tsv")
   public static List<List<Character>>
   fillSurroundedRegionsWrapper(List<List<Character>> board) {
     fillSurroundedRegions(board);
@@ -67,9 +69,10 @@ public class MatrixEnclosedRegions {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MatrixEnclosedRegions.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -76,6 +76,6 @@ vector<vector<int>> GenerateAllBinaryTreesWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "num_nodes"};
-  return GenericTestMain(args, "enumerate_trees.tsv", &GenerateAllBinaryTreesWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "enumerate_trees.cc", "enumerate_trees.tsv", &GenerateAllBinaryTreesWrapper, DefaultComparator{}, param_names);
 }
 // clang-format on

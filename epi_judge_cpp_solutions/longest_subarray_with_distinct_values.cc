@@ -12,7 +12,7 @@ int LongestSubarrayWithDistinctEntries(const vector<int>& A) {
   unordered_map<int, size_t> most_recent_occurrence;
   size_t longest_dup_free_subarray_start_idx = 0, result = 0;
   for (size_t i = 0; i < size(A); ++i) {
-    const auto & [ inserted_entry, inserted_happen ] =
+    const auto& [inserted_entry, inserted_happen] =
         most_recent_occurrence.emplace(A[i], i);
     // Defer updating dup_idx until we see a duplicate.
     if (!inserted_happen) {
@@ -33,6 +33,6 @@ int LongestSubarrayWithDistinctEntries(const vector<int>& A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"A"};
-  return GenericTestMain(args, "longest_subarray_with_distinct_values.tsv", &LongestSubarrayWithDistinctEntries, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "longest_subarray_with_distinct_values.cc", "longest_subarray_with_distinct_values.tsv", &LongestSubarrayWithDistinctEntries, DefaultComparator{}, param_names);
 }
 // clang-format on

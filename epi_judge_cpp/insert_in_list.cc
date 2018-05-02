@@ -10,7 +10,7 @@ using std::shared_ptr;
 // Insert new_node after node.
 void InsertAfter(const shared_ptr<ListNode<int>>& node,
                  const shared_ptr<ListNode<int>>& new_node) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
 
@@ -33,6 +33,6 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "l", "node_idx",
                                        "new_node_data"};
-  return GenericTestMain(args, "insert_in_list.tsv", &InsertListWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "insert_in_list.cc", "insert_in_list.tsv",
+                         &InsertListWrapper, DefaultComparator{}, param_names);
 }

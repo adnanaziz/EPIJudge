@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class Gcd {
-  @EpiTest(testfile = "gcd.tsv")
+  @EpiTest(testDataFile = "gcd.tsv")
+
   public static long GCD(long x, long y) {
+
     if (x > y) {
       return GCD(y, x);
     } else if (x == 0) {
@@ -21,9 +23,10 @@ public class Gcd {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Gcd.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

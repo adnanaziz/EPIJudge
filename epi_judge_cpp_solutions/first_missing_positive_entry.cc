@@ -31,7 +31,8 @@ int FindFirstMissingPositive(vector<int> A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"A"};
-  return GenericTestMain(args, "first_missing_positive_entry.tsv",
+  return GenericTestMain(args, "first_missing_positive_entry.cc",
+                         "first_missing_positive_entry.tsv",
                          &FindFirstMissingPositive, DefaultComparator{},
                          param_names);
 }

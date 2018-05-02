@@ -14,8 +14,6 @@
 
 #include "test_failure.h"
 
-namespace {
-
 int ComputeDeviationMultiplier(double allowed_false_negative, int num_rvs) {
   const double individual_rv_error = allowed_false_negative / num_rvs;
   std::array<double, 7> kErrorBounds = {
@@ -106,8 +104,6 @@ bool CheckBirthdaySpacings(const std::vector<int>& seq, int n) {
   return kCountTolerance * number_of_subarrays <=
          number_of_subarrays_with_repetitions;
 }
-
-}  // namespace
 
 // seq is a sequence of integers, which should be in the range [0,n-1]. We
 // assume n << std::size(seq).

@@ -7,8 +7,10 @@ import java.util.BitSet;
 import java.util.Iterator;
 
 public class AbsentValueArray {
-  @EpiTest(testfile = "absent_value_array.tsv")
+
+  @EpiTest(testDataFile = "absent_value_array.tsv")
   public static int findMissingElement(Iterable<Integer> stream) {
+
     final int NUM_BUCKET = 1 << 16;
     int[] counter = new int[NUM_BUCKET];
     Iterator<Integer> s = stream.iterator();
@@ -37,13 +39,15 @@ public class AbsentValueArray {
         }
       }
     }
+
     throw new IllegalArgumentException("no missing element");
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "AbsentValueArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

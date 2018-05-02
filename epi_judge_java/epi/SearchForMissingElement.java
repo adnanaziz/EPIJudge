@@ -48,17 +48,18 @@ public class SearchForMissingElement {
     }
   }
 
-  @EpiTest(testfile = "find_missing_and_duplicate.tsv")
+  @EpiTest(testDataFile = "find_missing_and_duplicate.tsv")
 
   public static DuplicateAndMissing findDuplicateMissing(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return new DuplicateAndMissing(0, 0);
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchForMissingElement.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

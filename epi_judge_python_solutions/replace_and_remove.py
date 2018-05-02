@@ -1,11 +1,11 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 def replace_and_remove(size, s):
+
     # Forward iteration: remove 'b's and count the number of 'a's.
     write_idx, a_count = 0, 0
     for i in range(size):
@@ -38,5 +38,6 @@ def replace_and_remove_wrapper(executor, size, s):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('replace_and_remove.tsv',
+        generic_test.generic_test_main("replace_and_remove.py",
+                                       'replace_and_remove.tsv',
                                        replace_and_remove_wrapper))

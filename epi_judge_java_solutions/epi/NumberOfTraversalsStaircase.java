@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class NumberOfTraversalsStaircase {
-  @EpiTest(testfile = "number_of_traversals_staircase.tsv")
+  @EpiTest(testDataFile = "number_of_traversals_staircase.tsv")
+
   public static int numberOfWaysToTop(int top, int maximumStep) {
+
     return computeNumberOfWaysToH(top, maximumStep, new int[top + 1]);
   }
 
@@ -24,9 +26,10 @@ public class NumberOfTraversalsStaircase {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "NumberOfTraversalsStaircase.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

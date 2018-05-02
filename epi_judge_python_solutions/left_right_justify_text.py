@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def justify_text(words, L):
+
     curr_line_length, result, curr_line = 0, [], []
     for word in words:
         if curr_line_length + len(word) + len(curr_line) > L:
@@ -13,11 +17,8 @@ def justify_text(words, L):
     return result + [' '.join(curr_line).ljust(L)]
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('left_right_justify_text.tsv',
+        generic_test.generic_test_main("left_right_justify_text.py",
+                                       'left_right_justify_text.tsv',
                                        justify_text))

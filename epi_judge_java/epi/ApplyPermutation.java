@@ -7,11 +7,11 @@ import java.util.List;
 
 public class ApplyPermutation {
   public static void applyPermutation(List<Integer> perm, List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
-  @EpiTest(testfile = "apply_permutation.tsv")
+  @EpiTest(testDataFile = "apply_permutation.tsv")
   public static List<Integer> applyPermutationWrapper(List<Integer> perm,
                                                       List<Integer> A) {
     applyPermutation(perm, A);
@@ -19,9 +19,10 @@ public class ApplyPermutation {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ApplyPermutation.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def calculate_trapping_water(heights):
+
     # Finds the index with maximum height.
     max_h = heights.index(max(heights))
 
@@ -16,11 +20,8 @@ def calculate_trapping_water(heights):
             trapping_water_till_end(reversed(heights[max_h + 1:])))
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('max_water_trappable.tsv',
+        generic_test.generic_test_main("max_water_trappable.py",
+                                       'max_water_trappable.tsv',
                                        calculate_trapping_water))

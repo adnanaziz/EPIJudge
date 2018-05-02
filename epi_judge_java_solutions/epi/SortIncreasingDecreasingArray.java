@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class SortIncreasingDecreasingArray {
-  @EpiTest(testfile = "sort_increasing_decreasing_array.tsv")
+  @EpiTest(testDataFile = "sort_increasing_decreasing_array.tsv")
+
   public static List<Integer> sortKIncreasingDecreasingArray(List<Integer> A) {
+
     // Decomposes A into a set of sorted arrays.
     List<List<Integer>> sortedSubarrays = new ArrayList<>();
     SubarrayType subarrayType = SubarrayType.INCREASING;
@@ -37,9 +39,10 @@ public class SortIncreasingDecreasingArray {
   private enum SubarrayType { INCREASING, DECREASING }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SortIncreasingDecreasingArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

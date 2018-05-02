@@ -10,7 +10,7 @@ using std::vector;
 
 unique_ptr<BinaryTreeNode<int>> ReconstructPreorder(
     const vector<int*>& preorder) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
 
@@ -35,7 +35,8 @@ unique_ptr<BinaryTreeNode<int>> ReconstructPreorderWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "preorder"};
-  return GenericTestMain(args, "tree_from_preorder_with_null.tsv",
+  return GenericTestMain(args, "tree_from_preorder_with_null.cc",
+                         "tree_from_preorder_with_null.tsv",
                          &ReconstructPreorderWrapper, DefaultComparator{},
                          param_names);
 }

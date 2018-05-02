@@ -6,12 +6,12 @@
 using std::string;
 
 string IntToString(int x) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return "";
 }
 
 int StringToInt(const string& s) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0;
 }
 
@@ -28,6 +28,7 @@ void Wrapper(int x, const string& s) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x", "s"};
-  return GenericTestMain(args, "string_integer_interconversion.tsv", &Wrapper,
+  return GenericTestMain(args, "string_integer_interconversion.cc",
+                         "string_integer_interconversion.tsv", &Wrapper,
                          DefaultComparator{}, param_names);
 }

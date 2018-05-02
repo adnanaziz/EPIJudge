@@ -1,9 +1,8 @@
 import collections
 import copy
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -13,7 +12,7 @@ Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
 
 def search_maze(maze, s, e):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return []
 
 
@@ -50,4 +49,5 @@ def search_maze_wrapper(executor, maze, s, e):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('search_maze.tsv', search_maze_wrapper))
+        generic_test.generic_test_main("search_maze.py", 'search_maze.tsv',
+                                       search_maze_wrapper))

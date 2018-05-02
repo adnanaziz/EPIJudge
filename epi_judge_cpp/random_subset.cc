@@ -14,7 +14,7 @@ using std::vector;
 
 // Returns a random k-sized subset of {0, 1, ..., n - 1}.
 vector<int> RandomSubset(int n, int k) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -51,6 +51,7 @@ void RandomSubsetWrapper(TimedExecutor& executor, int n, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "n", "k"};
-  return GenericTestMain(args, "random_subset.tsv", &RandomSubsetWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "random_subset.cc", "random_subset.tsv",
+                         &RandomSubsetWrapper, DefaultComparator{},
+                         param_names);
 }

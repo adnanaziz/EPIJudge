@@ -13,7 +13,7 @@ public class TreeExterior {
 
   public static List<BinaryTreeNode<Integer>>
   exteriorBinaryTree(BinaryTreeNode<Integer> tree) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
@@ -29,19 +29,21 @@ public class TreeExterior {
     return output;
   }
 
-  @EpiTest(testfile = "tree_exterior.tsv")
+  @EpiTest(testDataFile = "tree_exterior.tsv")
   public static List<Integer>
   exteriorBinaryTreeWrapper(TimedExecutor executor,
                             BinaryTreeNode<Integer> tree) throws Exception {
-    List<BinaryTreeNode<Integer>> l =
+    List<BinaryTreeNode<Integer>> result =
         executor.run(() -> exteriorBinaryTree(tree));
-    return createOutputList(l);
+
+    return createOutputList(result);
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeExterior.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

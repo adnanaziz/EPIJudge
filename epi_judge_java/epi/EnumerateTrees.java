@@ -14,7 +14,7 @@ public class EnumerateTrees {
 
   public static List<BinaryTreeNode<Integer>>
   generateAllBinaryTrees(int numNodes) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
@@ -33,7 +33,7 @@ public class EnumerateTrees {
     return result;
   }
 
-  @EpiTest(testfile = "enumerate_trees.tsv")
+  @EpiTest(testDataFile = "enumerate_trees.tsv")
   public static List<List<Integer>>
   generateAllBinaryTreesWrapper(TimedExecutor executor, int numNodes)
       throws Exception {
@@ -49,9 +49,10 @@ public class EnumerateTrees {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "EnumerateTrees.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

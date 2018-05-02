@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
 
 using std::unique_ptr;
@@ -17,7 +17,7 @@ struct BinaryTreeNode {
 };
 
 void ConstructRightSibling(BinaryTreeNode<int>* tree) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
 
@@ -46,7 +46,7 @@ std::vector<std::vector<int>> ConstructRightSiblingWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree"};
-  return GenericTestMain(args, "tree_right_sibling.tsv",
-                         &ConstructRightSiblingWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(
+      args, "tree_right_sibling.cc", "tree_right_sibling.tsv",
+      &ConstructRightSiblingWrapper, DefaultComparator{}, param_names);
 }

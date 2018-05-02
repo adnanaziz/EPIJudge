@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
 
 using std::vector;
@@ -12,6 +12,7 @@ bool HasCycle(GraphVertex*);
 
 struct GraphVertex {
   enum Color { kWhite, kGray, kBlack } color = kWhite;
+
   vector<GraphVertex*> edges;
 };
 
@@ -71,6 +72,7 @@ bool HasCycleWrapper(TimedExecutor& executor, int num_nodes,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "num_nodes", "edges"};
-  return GenericTestMain(args, "deadlock_detection.tsv", &HasCycleWrapper,
+  return GenericTestMain(args, "deadlock_detection.cc",
+                         "deadlock_detection.tsv", &HasCycleWrapper,
                          DefaultComparator{}, param_names);
 }

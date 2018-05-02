@@ -6,8 +6,10 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 public class DoTerminatedListsOverlap {
+
   public static ListNode<Integer>
   overlappingNoCycleLists(ListNode<Integer> l0, ListNode<Integer> l1) {
+
     int l0Length = length(l0), l1Length = length(l1);
 
     // Advances the longer list to get equal length lists.
@@ -40,7 +42,7 @@ public class DoTerminatedListsOverlap {
     return length;
   }
 
-  @EpiTest(testfile = "do_terminated_lists_overlap.tsv")
+  @EpiTest(testDataFile = "do_terminated_lists_overlap.tsv")
   public static void
   overlappingNoCycleListsWrapper(TimedExecutor executor, ListNode<Integer> l0,
                                  ListNode<Integer> l1, ListNode<Integer> common)
@@ -78,9 +80,10 @@ public class DoTerminatedListsOverlap {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DoTerminatedListsOverlap.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

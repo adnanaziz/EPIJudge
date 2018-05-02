@@ -7,8 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CollatzChecker {
-  @EpiTest(testfile = "collatz_checker.tsv")
+  @EpiTest(testDataFile = "collatz_checker.tsv")
+
   public static boolean testCollatzConjecture(int n) {
+
     // Stores odd numbers already tested to converge to 1.
     Set<Long> verifiedNumbers = new HashSet<>();
 
@@ -43,9 +45,10 @@ public class CollatzChecker {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CollatzChecker.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

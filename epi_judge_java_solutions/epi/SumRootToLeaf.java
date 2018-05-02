@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class SumRootToLeaf {
-  @EpiTest(testfile = "sum_root_to_leaf.tsv")
+  @EpiTest(testDataFile = "sum_root_to_leaf.tsv")
+
   public static int sumRootToLeaf(BinaryTreeNode<Integer> tree) {
+
     return sumRootToLeafHelper(tree, 0);
   }
 
@@ -25,9 +27,10 @@ public class SumRootToLeaf {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SumRootToLeaf.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

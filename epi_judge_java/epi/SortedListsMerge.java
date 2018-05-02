@@ -4,18 +4,19 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class SortedListsMerge {
-  @EpiTest(testfile = "sorted_lists_merge.tsv")
+  @EpiTest(testDataFile = "sorted_lists_merge.tsv")
   //@include
   public static ListNode<Integer> mergeTwoSortedLists(ListNode<Integer> L1,
                                                       ListNode<Integer> L2) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SortedListsMerge.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

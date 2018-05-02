@@ -3,7 +3,7 @@
 
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 
 using std::max;
 using std::min;
@@ -61,6 +61,6 @@ std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"buildings"};
-  return GenericTestMain(args, "drawing_skyline.tsv", &ComputeSkyline,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "drawing_skyline.cc", "drawing_skyline.tsv",
+                         &ComputeSkyline, DefaultComparator{}, param_names);
 }

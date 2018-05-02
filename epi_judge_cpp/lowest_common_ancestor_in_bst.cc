@@ -13,7 +13,7 @@ using std::unique_ptr;
 BstNode<int>* FindLCA(const unique_ptr<BstNode<int>>& tree,
                       const unique_ptr<BstNode<int>>& s,
                       const unique_ptr<BstNode<int>>& b) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
 
@@ -33,6 +33,7 @@ int LcaWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree", "key0", "key1"};
-  return GenericTestMain(args, "lowest_common_ancestor_in_bst.tsv", &LcaWrapper,
+  return GenericTestMain(args, "lowest_common_ancestor_in_bst.cc",
+                         "lowest_common_ancestor_in_bst.tsv", &LcaWrapper,
                          DefaultComparator{}, param_names);
 }

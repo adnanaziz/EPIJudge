@@ -13,22 +13,22 @@ public class StackWithMax {
   public static class Stack {
 
     public boolean empty() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return true;
     }
 
     public Integer max() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
 
     public Integer pop() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
 
     public void push(Integer x) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return;
     }
   }
@@ -44,7 +44,7 @@ public class StackWithMax {
     }
   }
 
-  @EpiTest(testfile = "stack_with_max.tsv")
+  @EpiTest(testDataFile = "stack_with_max.tsv")
   public static void stackTest(List<StackOp> ops) throws TestFailure {
     try {
       Stack s = new Stack();
@@ -88,9 +88,10 @@ public class StackWithMax {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "StackWithMax.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

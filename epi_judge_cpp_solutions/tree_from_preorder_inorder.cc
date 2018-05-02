@@ -55,6 +55,6 @@ unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorderHelper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"preorder", "inorder"};
-  return GenericTestMain(args, "tree_from_preorder_inorder.tsv", &BinaryTreeFromPreorderInorder, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "tree_from_preorder_inorder.cc", "tree_from_preorder_inorder.tsv", &BinaryTreeFromPreorderInorder, DefaultComparator{}, param_names);
 }
 // clang-format on

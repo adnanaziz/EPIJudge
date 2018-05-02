@@ -62,6 +62,7 @@ int MaxSquareSubmatrixSpaceEfficient(const vector<deque<bool>>& A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"A"};
-  return GenericTestMain(args, "max_square_submatrix.tsv", &MaxSquareSubmatrix,
+  return GenericTestMain(args, "max_square_submatrix.cc",
+                         "max_square_submatrix.tsv", &MaxSquareSubmatrix,
                          DefaultComparator{}, param_names);
 }

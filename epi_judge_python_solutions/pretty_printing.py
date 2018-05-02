@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def minimum_messiness(words, line_length):
+
     num_remaining_blanks = line_length - len(words[0])
     # min_messiness[i] is the minimum messiness when placing words[0:i + 1].
     min_messiness = ([num_remaining_blanks**2] + [float('inf')] *
@@ -19,11 +23,7 @@ def minimum_messiness(words, line_length):
     return min_messiness[-1]
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('pretty_printing.tsv',
-                                       minimum_messiness))
+        generic_test.generic_test_main(
+            "pretty_printing.py", 'pretty_printing.tsv', minimum_messiness))

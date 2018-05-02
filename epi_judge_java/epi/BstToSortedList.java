@@ -11,11 +11,11 @@ import java.util.List;
 public class BstToSortedList {
 
   public static BstNode<Integer> bstToDoublyLinkedList(BstNode<Integer> tree) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "bst_to_sorted_list.tsv")
+  @EpiTest(testDataFile = "bst_to_sorted_list.tsv")
   public static List<Integer>
   bstToDoublyLinkedListWrapper(TimedExecutor executor, BstNode<Integer> tree)
       throws Exception {
@@ -35,9 +35,10 @@ public class BstToSortedList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BstToSortedList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

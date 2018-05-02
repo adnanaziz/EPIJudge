@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def longest_matching_parentheses(s):
+
     max_length, end, left_parentheses_indices = 0, -1, []
     for i, c in enumerate(s):
         if c == '(':
@@ -32,12 +36,9 @@ def longest_matching_parentheses_constant_space(s):
     return max(parse_from_side(s, '('), parse_from_side(reversed(s), ')'))
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "longest_substring_with_matching_parentheses.py",
             'longest_substring_with_matching_parentheses.tsv',
             longest_matching_parentheses))

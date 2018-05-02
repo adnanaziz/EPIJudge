@@ -14,7 +14,7 @@ import java.util.Map;
 public class CopyPostingList {
 
   public static PostingListNode copyPostingsList(PostingListNode l) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
@@ -120,7 +120,7 @@ public class CopyPostingList {
     }
   }
 
-  @EpiTest(testfile = "copy_posting_list.tsv")
+  @EpiTest(testDataFile = "copy_posting_list.tsv")
   public static void copyPostingsListWrapper(TimedExecutor executor,
                                              List<SerializedNode> l)
       throws Exception {
@@ -132,9 +132,10 @@ public class CopyPostingList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CopyPostingList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

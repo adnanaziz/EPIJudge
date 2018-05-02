@@ -1,12 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 # Assume s is a string encoded as bytearray.
 def reverse_words(s):
+
     # First, reverse the whole string.
     s.reverse()
 
@@ -44,5 +44,5 @@ def reverse_words_wrapper(executor, s):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('reverse_words.tsv',
+        generic_test.generic_test_main("reverse_words.py", 'reverse_words.tsv',
                                        reverse_words_wrapper))

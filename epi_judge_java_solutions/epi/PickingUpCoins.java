@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class PickingUpCoins {
-  @EpiTest(testfile = "picking_up_coins.tsv")
+  @EpiTest(testDataFile = "picking_up_coins.tsv")
+
   public static int pickUpCoins(List<Integer> coins) {
+
     return computeMaximumRevenueForRange(coins, 0, coins.size() - 1,
                                          new int[coins.size()][coins.size()]);
   }
@@ -80,9 +82,10 @@ public class PickingUpCoins {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PickingUpCoins.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

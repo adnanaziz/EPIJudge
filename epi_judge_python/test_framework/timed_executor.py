@@ -21,24 +21,21 @@ class TimedExecutor:
         :return: whatever func returns
         """
         if self._timeout_seconds == 0:
-            self._timer.start()
-            result = func()
-            self._timer.stop()
-            return result
+            # Timeout is disabled.
+            return self._timed_call(func)
         else:
             try:
-
-                def timed_call(func, timer):
-                    timer.start()
-                    result = func()
-                    timer.stop()
-                    return result
-
                 with futures.ThreadPoolExecutor(max_workers=1) as executor:
-                    future = executor.submit(timed_call, func, self._timer)
+                    future = executor.submit(self._timed_call, func)
                     return future.result(timeout=self._timeout_seconds)
             except futures.TimeoutError:
                 raise TimeoutException(self._timeout_seconds)
 
     def get_timer(self):
         return self._timer
+
+    def _timed_call(self, func):
+        self._timer.start()
+        result = func()
+        self._timer.stop()
+        return result

@@ -6,6 +6,7 @@
 
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
 
 using std::string;
 using std::unordered_set;
@@ -22,19 +23,18 @@ vector<string> DecomposeIntoDictionaryWords(
     // the length of that word.
     if (dictionary.count(domain.substr(0, i + 1))) {
       last_length[i] = i + 1;
+      continue;
     }
 
-    // If last_length[i] = -1 look for j < i such that domain.substr(0, j + 1)
-    // has a valid decomposition and domain.substring(j + 1, i + 1) is a
-    // dictionary word. If so, record the length of that word in
-    // last_length[i].
-    if (last_length[i] == -1) {
-      for (int j = 0; j < i; ++j) {
-        if (last_length[j] != -1 &&
-            dictionary.count(domain.substr(j + 1, i - j))) {
-          last_length[i] = i - j;
-          break;
-        }
+    // If domain.substr(0, i + 1) is not a dictionary word, we look for j < i
+    // such that domain.substr(0, j + 1) has a valid decomposition and
+    // domain.substring(j + 1, i + 1) is a dictionary word. If so, record the
+    // length of that word in last_length[i].
+    for (int j = 0; j < i; ++j) {
+      if (last_length[j] != -1 &&
+          dictionary.count(domain.substr(j + 1, i - j))) {
+        last_length[i] = i - j;
+        break;
       }
     }
   }
@@ -82,6 +82,6 @@ void DecomposeIntoDictionaryWordsWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "domain", "dictionary", "decomposable"};
-  return GenericTestMain(args, "is_string_decomposable_into_words.tsv", &DecomposeIntoDictionaryWordsWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "is_string_decomposable_into_words.cc", "is_string_decomposable_into_words.tsv", &DecomposeIntoDictionaryWordsWrapper, DefaultComparator{}, param_names);
 }
 // clang-format on

@@ -24,120 +24,184 @@ last: $(notdir $(basename $(LAST_MODIFIED_JAVA_FILE)))
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-JSON_CLASSES := \
-    test_framework/JsonNumber.class \
-    test_framework/JsonArray$$1.class \
-    test_framework/Member.class \
-    test_framework/JsonWriter.class \
-    test_framework/JsonObject$$1.class \
-    test_framework/WriterConfig.class \
-    test_framework/JsonObject.class \
-    test_framework/JsonValue.class \
-    test_framework/Json.class \
-    test_framework/Json$$DefaultHandler.class \
-    test_framework/PrettyPrint$$PrettyPrintWriter.class \
-    test_framework/JsonHandler.class \
-    test_framework/JsonParser.class \
-    test_framework/ParseException.class \
-    test_framework/Location.class \
-    test_framework/JsonString.class \
-    test_framework/JsonObject$$HashIndexTable.class \
-    test_framework/WriterConfig$$1.class \
-    test_framework/JsonLiteral.class \
-    test_framework/PrettyPrint$$1.class \
-    test_framework/JsonArray.class \
-    test_framework/PrettyPrint.class \
-    test_framework/WritingBuffer.class
-
-JSON_CLASSES := $(addprefix $(BUILD_DIR)/$(MAIN_PACKAGE)/, $(JSON_CLASSES))
-JSON_CLASSES_RULE := $(subst .class,%class,$(JSON_CLASSES))
-
-$(JSON_CLASSES_RULE) : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/MinimalJson.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/MinimalJson.java"
-
-$(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTree.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTree.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTree.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTree.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTree.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/BstNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BstNode.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/BstNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/BstNode.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/BstNode.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/DoublyListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/DoublyListNode.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/DoublyListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/DoublyListNode.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/DoublyListNode.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/ListNode.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/ListNode.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/ListNode.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiUserType.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTest.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/GenericTestHandler.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.java $(JSON_CLASSES) | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.java"
-
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimedExecutor.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimedExecutor.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimedExecutor.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimedExecutor.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimedExecutor.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TriBool.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TriBool.java $(JSON_CLASSES) | $(BUILD_DIR)
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TriBool.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TriBool.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TriBool.java"
 
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Json.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Json.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Json.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonArray.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonArray.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonArray.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonHandler.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonHandler.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonHandler.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonLiteral.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonLiteral.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonLiteral.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonNumber.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonNumber.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonNumber.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonObject.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonObject.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonObject.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonParser.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonParser.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonParser.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonString.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonString.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonString.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonValue.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonValue.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonValue.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonWriter.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonWriter.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonWriter.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Location.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Location.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Location.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Member.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Member.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Member.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/ParseException.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/ParseException.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/ParseException.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/PrettyPrint.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/PrettyPrint.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/PrettyPrint.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WriterConfig.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WriterConfig.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WriterConfig.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.java"
+
 TEST_FRAMEWORK := \
-    $(JSON_CLASSES) \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTree.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTreeNode.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/BstNode.class \
@@ -155,16 +219,48 @@ TEST_FRAMEWORK := \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestTimer.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtils.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsConsole.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestUtilsDeserialization.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimedExecutor.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TimeoutException.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TriBool.class
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TriBool.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Json.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonArray.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonHandler.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonLiteral.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonNumber.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonObject.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonParser.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonString.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonValue.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/JsonWriter.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Location.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/Member.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/ParseException.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/PrettyPrint.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WriterConfig.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.class
 
 .PHONY: ABSqrt2
 $(BUILD_DIR)/$(MAIN_PACKAGE)/ABSqrt2.class: $(SRC_DIR)/$(MAIN_PACKAGE)/ABSqrt2.java $(TEST_FRAMEWORK)

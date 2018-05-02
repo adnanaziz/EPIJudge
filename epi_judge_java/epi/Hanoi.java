@@ -16,11 +16,11 @@ public class Hanoi {
   private static final int NUM_PEGS = 3;
 
   public static List<List<Integer>> computeTowerHanoi(int numRings) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
-  @EpiTest(testfile = "hanoi.tsv")
+  @EpiTest(testDataFile = "hanoi.tsv")
   public static void computeTowerHanoiWrapper(TimedExecutor executor,
                                               int numRings) throws Exception {
     List<Deque<Integer>> pegs = new ArrayList<>();
@@ -68,9 +68,10 @@ public class Hanoi {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Hanoi.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

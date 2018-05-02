@@ -1,13 +1,13 @@
 import functools
-from sys import exit
 
 from list_node import ListNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 # Insert new_node after node.
 def insert_after(node, new_node):
+
     new_node.next = node.next
     node.next = new_node
 
@@ -26,5 +26,5 @@ def insert_list_wrapper(executor, l, node_idx, new_node_data):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('insert_in_list.tsv',
-                                       insert_list_wrapper))
+        generic_test.generic_test_main(
+            "insert_in_list.py", 'insert_in_list.tsv', insert_list_wrapper))

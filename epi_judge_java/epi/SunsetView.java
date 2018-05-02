@@ -10,20 +10,21 @@ public class SunsetView {
 
   public static List<Integer>
   examineBuildingsWithSunset(Iterator<Integer> sequence) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "sunset_view.tsv")
+  @EpiTest(testDataFile = "sunset_view.tsv")
   public static List<Integer>
   examineBuildingsWithSunsetWrapper(List<Integer> sequence) {
     return examineBuildingsWithSunset(sequence.iterator());
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SunsetView.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

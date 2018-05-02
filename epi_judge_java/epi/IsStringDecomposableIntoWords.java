@@ -13,11 +13,11 @@ public class IsStringDecomposableIntoWords {
 
   public static List<String>
   decomposeIntoDictionaryWords(String domain, Set<String> dictionary) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
-  @EpiTest(testfile = "is_string_decomposable_into_words.tsv")
+  @EpiTest(testDataFile = "is_string_decomposable_into_words.tsv")
   public static void decomposeIntoDictionaryWordsWrapper(TimedExecutor executor,
                                                          String domain,
                                                          Set<String> dictionary,
@@ -43,9 +43,10 @@ public class IsStringDecomposableIntoWords {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsStringDecomposableIntoWords.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

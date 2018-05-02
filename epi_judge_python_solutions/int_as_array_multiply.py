@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def multiply(num1, num2):
+
     sign = -1 if (num1[0] < 0) ^ (num2[0] < 0) else 1
     num1[0], num2[0] = abs(num1[0]), abs(num2[0])
 
@@ -15,9 +19,7 @@ def multiply(num1, num2):
     return [sign * result[0]] + result[1:]
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('int_as_array_multiply.tsv', multiply))
+    exit(
+        generic_test.generic_test_main("int_as_array_multiply.py",
+                                       'int_as_array_multiply.tsv', multiply))

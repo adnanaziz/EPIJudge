@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def minimum_total_waiting_time(service_times):
+
     # Sort the service times in increasing order.
     service_times.sort()
     total_waiting_time = 0
@@ -14,11 +18,8 @@ def minimum_total_waiting_time_pythonic(service_times):
         for remaining_queries, time in enumerate(sorted(service_times)[::-1]))
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('minimum_waiting_time.tsv',
+        generic_test.generic_test_main("minimum_waiting_time.py",
+                                       'minimum_waiting_time.tsv',
                                        minimum_total_waiting_time))

@@ -16,7 +16,7 @@ public class IsCircuitWirable {
   }
 
   public static boolean isAnyPlacementFeasible(List<GraphVertex> graph) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return true;
   }
 
@@ -31,7 +31,7 @@ public class IsCircuitWirable {
     }
   }
 
-  @EpiTest(testfile = "is_circuit_wirable.tsv")
+  @EpiTest(testDataFile = "is_circuit_wirable.tsv")
   public static boolean isAnyPlacementFeasibleWrapper(TimedExecutor executor,
                                                       int k, List<Edge> edges)
       throws Exception {
@@ -50,9 +50,10 @@ public class IsCircuitWirable {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsCircuitWirable.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

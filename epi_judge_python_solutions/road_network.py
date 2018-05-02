@@ -1,17 +1,17 @@
 import collections
 import functools
 import itertools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import PropertyName
 from test_framework.test_utils import enable_executor_hook
 
-HighwaySection = collections.namedtuple('HighwaySection',
-                                        ('x', 'y', 'distance'))
+HighwaySection = collections.namedtuple('HighwaySection', ('x', 'y',
+                                                           'distance'))
 
 
 def find_best_proposals(H, P, n):
+
     # graph stores the shortest path distances between all pairs of vertices.
     graph = [[float('inf')] * i + [0] + [float('inf')] * (n - i - 1)
              for i in range(n)]
@@ -64,6 +64,7 @@ def res_printer(prop, value):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "road_network.py",
             'road_network.tsv',
             find_best_proposals_wrapper,
             res_printer=res_printer))

@@ -11,6 +11,8 @@
 
 #include "platform.h"
 
+namespace console_color {
+
 enum class ConsoleColor { FG_RED, FG_GREEN, FG_BLUE, FG_YELLOW, FG_DEFAULT };
 
 short GetColorCodeWin(ConsoleColor color) {
@@ -69,3 +71,5 @@ void PrintStdOutColored(ConsoleColor color, const T& value) {
             << GetColorCodeUnix(ConsoleColor::FG_DEFAULT);
 #endif
 }
+
+}  // namespace console_color

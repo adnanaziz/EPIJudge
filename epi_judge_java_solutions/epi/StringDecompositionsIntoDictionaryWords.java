@@ -11,8 +11,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class StringDecompositionsIntoDictionaryWords {
-  @EpiTest(testfile = "string_decompositions_into_dictionary_words.tsv")
+  @EpiTest(testDataFile = "string_decompositions_into_dictionary_words.tsv")
+
   public static List<Integer> findAllSubstrings(String s, List<String> words) {
+
     Map<String, Long> wordToFreq = words.stream().collect(
         Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
@@ -51,7 +53,8 @@ public class StringDecompositionsIntoDictionaryWords {
   public static void main(String[] args) {
     System.exit(GenericTest
                     .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
+                        args, "StringDecompositionsIntoDictionaryWords.java",
+                        new Object() {}.getClass().getEnclosingClass())
                     .ordinal());
   }
 }

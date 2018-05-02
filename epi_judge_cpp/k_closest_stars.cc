@@ -3,8 +3,8 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_utils.h"
-#include "test_framework/test_utils_serialization_traits.h"
 
 using std::vector;
 
@@ -21,7 +21,7 @@ struct Star {
 vector<Star> FindClosestKStars(vector<Star>::const_iterator stars_begin,
                                const vector<Star>::const_iterator& stars_end,
                                int k) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -55,6 +55,6 @@ vector<Star> FindClosestKStarsWrapper(const vector<Star>& stars, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"stars", "k"};
-  return GenericTestMain(args, "k_closest_stars.tsv", &FindClosestKStarsWrapper,
-                         &Comp, param_names);
+  return GenericTestMain(args, "k_closest_stars.cc", "k_closest_stars.tsv",
+                         &FindClosestKStarsWrapper, &Comp, param_names);
 }

@@ -6,8 +6,10 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class BuyAndSellStock {
-  @EpiTest(testfile = "buy_and_sell_stock.tsv")
+
+  @EpiTest(testDataFile = "buy_and_sell_stock.tsv")
   public static double computeMaxProfit(List<Double> prices) {
+
     double minPrice = Double.MAX_VALUE, maxProfit = 0.0;
     for (Double price : prices) {
       maxProfit = Math.max(maxProfit, price - minPrice);
@@ -17,9 +19,10 @@ public class BuyAndSellStock {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BuyAndSellStock.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

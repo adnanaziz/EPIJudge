@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class SwapBits {
-  @EpiTest(testfile = "swap_bits.tsv")
+
+  @EpiTest(testDataFile = "swap_bits.tsv")
   public static long swapBits(long x, int i, int j) {
+
     // Extract the i-th and j-th bits, and see if they differ.
     if (((x >>> i) & 1) != ((x >>> j) & 1)) {
       // i-th and j-th bits differ. We will swap them by flipping their values.
@@ -18,9 +20,10 @@ public class SwapBits {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SwapBits.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

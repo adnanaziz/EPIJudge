@@ -3,20 +3,20 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-#include "test_framework/test_utils_serialization_traits.h"
 
 using std::length_error;
 
 class Queue {
  public:
   void Enqueue(int x) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
   int Dequeue() {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 };
@@ -70,6 +70,6 @@ void QueueTester(const std::vector<QueueOp>& ops) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "queue_from_stacks.tsv", &QueueTester,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "queue_from_stacks.cc", "queue_from_stacks.tsv",
+                         &QueueTester, DefaultComparator{}, param_names);
 }

@@ -7,8 +7,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class SmallestNonconstructibleValue {
-  @EpiTest(testfile = "smallest_nonconstructible_value.tsv")
+  @EpiTest(testDataFile = "smallest_nonconstructible_value.tsv")
+
   public static int smallestNonconstructibleValue(List<Integer> A) {
+
     Collections.sort(A);
     int maxConstructibleValue = 0;
     for (int a : A) {
@@ -21,9 +23,10 @@ public class SmallestNonconstructibleValue {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SmallestNonconstructibleValue.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

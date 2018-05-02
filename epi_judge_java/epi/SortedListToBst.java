@@ -15,7 +15,7 @@ public class SortedListToBst {
   // The length of the list is given.
   public static DoublyListNode<Integer>
   buildBSTFromSortedList(DoublyListNode<Integer> l, int length) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
@@ -38,7 +38,7 @@ public class SortedListToBst {
     compareVectorAndTree(tree.next, it);
   }
 
-  @EpiTest(testfile = "sorted_list_to_bst.tsv")
+  @EpiTest(testDataFile = "sorted_list_to_bst.tsv")
   public static void buildBSTFromSortedListWrapper(TimedExecutor executor,
                                                    List<Integer> l)
       throws Exception {
@@ -61,9 +61,10 @@ public class SortedListToBst {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SortedListToBst.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

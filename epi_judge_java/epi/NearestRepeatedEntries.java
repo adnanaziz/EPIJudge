@@ -6,17 +6,18 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class NearestRepeatedEntries {
-  @EpiTest(testfile = "nearest_repeated_entries.tsv")
+  @EpiTest(testDataFile = "nearest_repeated_entries.tsv")
 
   public static int findNearestRepetition(List<String> paragraph) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "NearestRepeatedEntries.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

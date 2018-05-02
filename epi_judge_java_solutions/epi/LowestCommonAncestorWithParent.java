@@ -7,8 +7,10 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 public class LowestCommonAncestorWithParent {
+
   public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
+
     int depth0 = getDepth(node0), depth1 = getDepth(node1);
     // Makes node0 as the deeper node in order to simplify the code.
     if (depth1 > depth0) {
@@ -39,7 +41,7 @@ public class LowestCommonAncestorWithParent {
     return depth;
   }
 
-  @EpiTest(testfile = "lowest_common_ancestor.tsv")
+  @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
   public static int lcaWrapper(TimedExecutor executor, BinaryTree<Integer> tree,
                                Integer key0, Integer key1) throws Exception {
     BinaryTree<Integer> node0 = BinaryTreeUtils.mustFindNode(tree, key0);
@@ -54,9 +56,10 @@ public class LowestCommonAncestorWithParent {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LowestCommonAncestorWithParent.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

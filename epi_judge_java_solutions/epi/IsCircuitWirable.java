@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.Queue;
 
 public class IsCircuitWirable {
+
   public static class GraphVertex {
     public int d = -1;
     public List<GraphVertex> edges = new ArrayList<>();
   }
 
   public static boolean isAnyPlacementFeasible(List<GraphVertex> graph) {
+
     return graph.stream().allMatch(v -> v.d != -1 || bfs(v));
   }
 
@@ -50,7 +52,7 @@ public class IsCircuitWirable {
     }
   }
 
-  @EpiTest(testfile = "is_circuit_wirable.tsv")
+  @EpiTest(testDataFile = "is_circuit_wirable.tsv")
   public static boolean isAnyPlacementFeasibleWrapper(TimedExecutor executor,
                                                       int k, List<Edge> edges)
       throws Exception {
@@ -69,9 +71,10 @@ public class IsCircuitWirable {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsCircuitWirable.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

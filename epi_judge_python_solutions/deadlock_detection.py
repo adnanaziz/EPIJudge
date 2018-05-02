@@ -1,7 +1,6 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -10,7 +9,9 @@ class GraphVertex:
     WHITE, GRAY, BLACK = range(3)
 
     def __init__(self):
+
         self.color = GraphVertex.WHITE
+
         self.edges = []
 
 
@@ -48,5 +49,6 @@ def is_deadlocked_wrapper(executor, num_nodes, edges):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('deadlock_detection.tsv',
+        generic_test.generic_test_main("deadlock_detection.py",
+                                       'deadlock_detection.tsv',
                                        is_deadlocked_wrapper))

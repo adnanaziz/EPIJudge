@@ -1,16 +1,14 @@
-from sys import exit
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 def int_to_string(x):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return ''
 
 
 def string_to_int(s):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return 0
 
 
@@ -23,5 +21,6 @@ def wrapper(x, s):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('string_integer_interconversion.tsv',
+        generic_test.generic_test_main("string_integer_interconversion.py",
+                                       'string_integer_interconversion.tsv',
                                        wrapper))

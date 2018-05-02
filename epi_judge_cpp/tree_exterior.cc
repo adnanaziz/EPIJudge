@@ -9,7 +9,7 @@ using std::vector;
 
 vector<const unique_ptr<BinaryTreeNode<int>>*> ExteriorBinaryTree(
     const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -35,6 +35,7 @@ vector<int> ExteriorBinaryTreeWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree"};
-  return GenericTestMain(args, "tree_exterior.tsv", &ExteriorBinaryTreeWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "tree_exterior.cc", "tree_exterior.tsv",
+                         &ExteriorBinaryTreeWrapper, DefaultComparator{},
+                         param_names);
 }

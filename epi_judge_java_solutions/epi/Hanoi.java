@@ -7,7 +7,6 @@ import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
@@ -16,9 +15,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Hanoi {
+
   private static final int NUM_PEGS = 3;
 
   public static List<List<Integer>> computeTowerHanoi(int numRings) {
+
     List<Deque<Integer>> pegs = IntStream.range(0, NUM_PEGS)
                                     .mapToObj(i -> new ArrayDeque<Integer>())
                                     .collect(Collectors.toList());
@@ -39,13 +40,13 @@ public class Hanoi {
       computeTowerHanoiSteps(numRingsToMove - 1, pegs, fromPeg, usePeg, toPeg,
                              result);
       pegs.get(toPeg).addFirst(pegs.get(fromPeg).removeFirst());
-      result.add(Arrays.asList(fromPeg, toPeg));
+      result.add(List.of(fromPeg, toPeg));
       computeTowerHanoiSteps(numRingsToMove - 1, pegs, usePeg, toPeg, fromPeg,
                              result);
     }
   }
 
-  @EpiTest(testfile = "hanoi.tsv")
+  @EpiTest(testDataFile = "hanoi.tsv")
   public static void computeTowerHanoiWrapper(TimedExecutor executor,
                                               int numRings) throws Exception {
     List<Deque<Integer>> pegs = new ArrayList<>();
@@ -93,9 +94,10 @@ public class Hanoi {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Hanoi.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

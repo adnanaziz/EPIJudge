@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class PhoneNumberMnemonic {
-  @EpiTest(testfile = "phone_number_mnemonic.tsv")
+  @EpiTest(testDataFile = "phone_number_mnemonic.tsv")
 
   public static List<String> phoneMnemonic(String phoneNumber) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
@@ -28,9 +28,10 @@ public class PhoneNumberMnemonic {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PhoneNumberMnemonic.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

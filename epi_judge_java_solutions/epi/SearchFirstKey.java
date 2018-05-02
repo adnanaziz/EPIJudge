@@ -6,8 +6,10 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class SearchFirstKey {
-  @EpiTest(testfile = "search_first_key.tsv")
+  @EpiTest(testDataFile = "search_first_key.tsv")
+
   public static int searchFirstOfK(List<Integer> A, int k) {
+
     int left = 0, right = A.size() - 1, result = -1;
     // A.subList(left, right + 1) is the candidate set.
     while (left <= right) {
@@ -26,9 +28,10 @@ public class SearchFirstKey {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchFirstKey.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

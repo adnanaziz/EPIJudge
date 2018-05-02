@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OfflineSampling {
   public static void randomSampling(int k, List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
@@ -45,7 +45,7 @@ public class OfflineSampling {
         sequence, totalPossibleOutcomes, 0.01);
   }
 
-  @EpiTest(testfile = "offline_sampling.tsv")
+  @EpiTest(testDataFile = "offline_sampling.tsv")
   public static void randomSamplingWrapper(TimedExecutor executor, int k,
                                            List<Integer> A) throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
@@ -53,9 +53,10 @@ public class OfflineSampling {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "OfflineSampling.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

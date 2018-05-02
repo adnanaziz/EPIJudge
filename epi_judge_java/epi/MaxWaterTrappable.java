@@ -6,17 +6,18 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class MaxWaterTrappable {
-  @EpiTest(testfile = "max_water_trappable.tsv")
+  @EpiTest(testDataFile = "max_water_trappable.tsv")
 
   public static int calculateTrappingWater(List<Integer> heights) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxWaterTrappable.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

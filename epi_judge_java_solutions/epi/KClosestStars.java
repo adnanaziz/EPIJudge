@@ -6,7 +6,6 @@ import epi.test_framework.EpiTestExpectedType;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.stream.Stream;
 
 public class KClosestStars {
   @EpiUserType(ctorParams = {double.class, double.class, double.class})
+
   public static class Star implements Comparable<Star> {
     private double x, y, z;
 
@@ -32,6 +32,7 @@ public class KClosestStars {
     public int compareTo(Star that) {
       return Double.compare(this.distance(), that.distance());
     }
+
     @Override
     public String toString() {
       return String.valueOf(distance());
@@ -39,6 +40,7 @@ public class KClosestStars {
   }
 
   public static List<Star> findClosestKStars(Iterator<Star> stars, int k) {
+
     // maxHeap to store the closest k stars seen so far.
     PriorityQueue<Star> maxHeap =
         new PriorityQueue<>(k, Collections.reverseOrder());
@@ -59,14 +61,12 @@ public class KClosestStars {
         .collect(Collectors.toList());
   }
 
-  @EpiTest(testfile = "k_closest_stars.tsv")
+  @EpiTest(testDataFile = "k_closest_stars.tsv")
   public static List<Star> findClosestKStarsWrapper(List<Star> stars, int k) {
     return findClosestKStars(stars.iterator(), k);
   }
 
-  @EpiTestExpectedType
-  public static List<Class<?>> expectedType =
-      Arrays.asList(List.class, Double.class);
+  @EpiTestExpectedType public static List<Double> expectedType;
 
   @EpiTestComparator
   public static BiPredicate<List<Double>, List<Star>> comp =
@@ -84,9 +84,10 @@ public class KClosestStars {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "KClosestStars.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

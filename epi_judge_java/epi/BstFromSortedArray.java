@@ -13,11 +13,11 @@ public class BstFromSortedArray {
 
   public static BstNode<Integer>
   buildMinHeightBSTFromSortedArray(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "bst_from_sorted_array.tsv")
+  @EpiTest(testDataFile = "bst_from_sorted_array.tsv")
   public static int
   buildMinHeightBSTFromSortedArrayWrapper(TimedExecutor executor,
                                           List<Integer> A) throws Exception {
@@ -32,9 +32,10 @@ public class BstFromSortedArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BstFromSortedArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

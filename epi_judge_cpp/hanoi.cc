@@ -14,7 +14,7 @@ using std::vector;
 const int kNumPegs = 3;
 
 vector<vector<int>> ComputeTowerHanoi(int num_rings) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -52,6 +52,7 @@ void ComputeTowerHanoiWrapper(TimedExecutor& executor, int num_rings) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "num_rings"};
-  return GenericTestMain(args, "hanoi.tsv", &ComputeTowerHanoiWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "hanoi.cc", "hanoi.tsv",
+                         &ComputeTowerHanoiWrapper, DefaultComparator{},
+                         param_names);
 }

@@ -7,8 +7,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class MaxWaterTrappable {
-  @EpiTest(testfile = "max_water_trappable.tsv")
+  @EpiTest(testDataFile = "max_water_trappable.tsv")
+
   public static int calculateTrappingWater(List<Integer> heights) {
+
     // Finds the index with maximum height.
     int maxH = heights.indexOf(Collections.max(heights));
     return trappingWaterTillEnd(heights, 0, maxH, 1) +
@@ -30,9 +32,10 @@ public class MaxWaterTrappable {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxWaterTrappable.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

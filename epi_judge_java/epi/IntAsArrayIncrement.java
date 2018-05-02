@@ -6,16 +6,17 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class IntAsArrayIncrement {
-  @EpiTest(testfile = "int_as_array_increment.tsv")
+  @EpiTest(testDataFile = "int_as_array_increment.tsv")
   public static List<Integer> plusOne(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IntAsArrayIncrement.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

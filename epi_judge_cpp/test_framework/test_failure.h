@@ -29,7 +29,7 @@ enum class PropertyName {
 
 class Property {
  public:
-  Property(PropertyName name, const Any& value)
+  Property(PropertyName name, const any::Any& value)
       : name_(name), value_(value) {}
 
   const std::string& Name() const {
@@ -42,11 +42,11 @@ class Property {
 
   int Id() const { return static_cast<int>(name_); }
 
-  Any& Value() { return value_; }
+  any::Any& Value() { return value_; }
 
  private:
   PropertyName name_;
-  Any value_;
+  any::Any value_;
 };
 
 /**
@@ -58,13 +58,13 @@ class TestFailure {
   explicit TestFailure(std::string description = {})
       : description_(std::move(description)) {}
 
-  TestFailure& WithProperty(PropertyName name, Any value) {
+  TestFailure& WithProperty(PropertyName name, any::Any value) {
     properties_.emplace_back(name, std::move(value));
     return *this;
   }
 
-  TestFailure& WithMismatchInfo(Any mismatch_index, Any expected_item,
-                                Any result_item) {
+  TestFailure& WithMismatchInfo(any::Any mismatch_index, any::Any expected_item,
+                                any::Any result_item) {
     return WithProperty(PropertyName::MISMATCH_INDEX,
                         std::move(mismatch_index))
         .WithProperty(PropertyName::EXPECTED_ITEM, std::move(expected_item))

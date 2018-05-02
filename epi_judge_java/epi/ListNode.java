@@ -87,4 +87,17 @@ public class ListNode<T> {
     }
     return a == null && b == null;
   }
+
+  public int size() {
+    int result = 0;
+    Set<ListNode<T>> visited = new HashSet<ListNode<T>>();
+    ListNode<T> node = this;
+
+    while (node != null && !visited.contains(node)) {
+      result++;
+      visited.add(node);
+      node = node.next;
+    }
+    return result;
+  }
 }

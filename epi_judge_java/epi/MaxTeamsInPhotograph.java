@@ -17,7 +17,7 @@ public class MaxTeamsInPhotograph {
   }
 
   public static int findLargestNumberTeams(List<GraphVertex> graph) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
@@ -32,7 +32,7 @@ public class MaxTeamsInPhotograph {
     }
   }
 
-  @EpiTest(testfile = "max_teams_in_photograph.tsv")
+  @EpiTest(testDataFile = "max_teams_in_photograph.tsv")
   public static int findLargestNumberTeamsWrapper(TimedExecutor executor, int k,
                                                   List<Edge> edges)
       throws Exception {
@@ -54,9 +54,10 @@ public class MaxTeamsInPhotograph {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxTeamsInPhotograph.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

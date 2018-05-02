@@ -10,7 +10,7 @@ using std::vector;
 vector<string> SearchFrequentItems(
     int k, vector<string>::const_iterator stream_begin,
     const vector<string>::const_iterator stream_end) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"k", "stream"};
   return GenericTestMain(
-      args, "search_frequent_items.tsv", &SearchFrequentItemsWrapper,
+      args, "search_frequent_items.cc", "search_frequent_items.tsv",
+      &SearchFrequentItemsWrapper,
       &UnorderedComparator<std::vector<std::string>>, param_names);
 }

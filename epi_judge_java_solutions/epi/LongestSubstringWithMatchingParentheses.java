@@ -7,8 +7,10 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class LongestSubstringWithMatchingParentheses {
-  @EpiTest(testfile = "longest_substring_with_matching_parentheses.tsv")
+  @EpiTest(testDataFile = "longest_substring_with_matching_parentheses.tsv")
+
   public static int longestMatchingParentheses(String s) {
+
     int maxLength = 0, end = -1;
     Deque<Integer> leftParenthesesIndices = new ArrayDeque<>();
     for (int i = 0; i < s.length(); ++i) {
@@ -57,7 +59,8 @@ public class LongestSubstringWithMatchingParentheses {
   public static void main(String[] args) {
     System.exit(GenericTest
                     .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
+                        args, "LongestSubstringWithMatchingParentheses.java",
+                        new Object() {}.getClass().getEnclosingClass())
                     .ordinal());
   }
 }

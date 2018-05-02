@@ -1,3 +1,6 @@
+from test_framework import generic_test
+
+
 def palindrome_decompositions(input):
     def directed_palindrome_decompositions(offset, partial_partition):
         if offset == len(input):
@@ -17,8 +20,7 @@ def palindrome_decompositions(input):
 
 # Pythonic solution uses bottom-up construction.
 def palindrome_decompositions_pythonic(text):
-    return ([[text[:i]] + right for i in range(1,
-                                               len(text) + 1)
+    return ([[text[:i]] + right for i in range(1, len(text) + 1)
              if text[:i] == text[:i][::-1]
              for right in palindrome_decompositions_pythonic(text[i:])]
             or [[]])
@@ -28,12 +30,9 @@ def comp(a, b):
     return sorted(a) == sorted(b)
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "enumerate_palindromic_decompositions.py",
             'enumerate_palindromic_decompositions.tsv',
             palindrome_decompositions, comp))

@@ -13,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SmallestSubarrayCoveringSet {
+
   // Represent subarray by starting and ending indices, inclusive.
   private static class Subarray {
     public Integer start;
@@ -26,6 +27,7 @@ public class SmallestSubarrayCoveringSet {
 
   public static Subarray findSmallestSubarrayCoveringSet(List<String> paragraph,
                                                          Set<String> keywords) {
+
     Map<String, Long> keywordsToCover = keywords.stream().collect(
         Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
@@ -59,7 +61,7 @@ public class SmallestSubarrayCoveringSet {
     return result;
   }
 
-  @EpiTest(testfile = "smallest_subarray_covering_set.tsv")
+  @EpiTest(testDataFile = "smallest_subarray_covering_set.tsv")
   public static int findSmallestSubarrayCoveringSetWrapper(
       TimedExecutor executor, List<String> paragraph, Set<String> keywords)
       throws Exception {
@@ -84,9 +86,10 @@ public class SmallestSubarrayCoveringSet {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SmallestSubarrayCoveringSet.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

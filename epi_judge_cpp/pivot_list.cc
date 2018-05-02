@@ -12,7 +12,7 @@ using std::shared_ptr;
 
 shared_ptr<ListNode<int>> ListPivoting(const shared_ptr<ListNode<int>>& l,
                                        int x) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
 
@@ -67,6 +67,7 @@ void ListPivotingWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "l", "x"};
-  return GenericTestMain(args, "pivot_list.tsv", &ListPivotingWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "pivot_list.cc", "pivot_list.tsv",
+                         &ListPivotingWrapper, DefaultComparator{},
+                         param_names);
 }

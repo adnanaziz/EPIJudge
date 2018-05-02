@@ -12,9 +12,11 @@ import java.util.Objects;
 import java.util.Set;
 
 public class SudokuSolve {
+
   private static final int EMPTY_ENTRY = 0;
 
   public static boolean solveSudoku(List<List<Integer>> partialAssignment) {
+
     return solvePartialSudoku(0, 0, partialAssignment);
   }
 
@@ -76,7 +78,7 @@ public class SudokuSolve {
     return true;
   }
 
-  @EpiTest(testfile = "sudoku_solve.tsv")
+  @EpiTest(testDataFile = "sudoku_solve.tsv")
   public static void solveSudokuWrapper(TimedExecutor executor,
                                         List<List<Integer>> partialAssignment)
       throws Exception {
@@ -149,9 +151,10 @@ public class SudokuSolve {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SudokuSolve.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

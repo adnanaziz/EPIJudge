@@ -26,18 +26,19 @@ public class MinimumDistance3SortedArrays {
     }
   }
 
-  @EpiTest(testfile = "minimum_distance_3_sorted_arrays.tsv")
+  @EpiTest(testDataFile = "minimum_distance_3_sorted_arrays.tsv")
 
   public static int
   findMinDistanceSortedArrays(List<List<Integer>> sortedArrays) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MinimumDistance3SortedArrays.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

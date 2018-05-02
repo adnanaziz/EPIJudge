@@ -5,16 +5,17 @@ import epi.test_framework.GenericTest;
 
 public class ReverseBits {
 
-  @EpiTest(testfile = "reverse_bits.tsv")
+  @EpiTest(testDataFile = "reverse_bits.tsv")
   public static long reverseBits(long x) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ReverseBits.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

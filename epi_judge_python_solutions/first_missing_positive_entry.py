@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def find_first_missing_positive(A):
+
     # Record which values are present by writing A[i] to index A[i] - 1 if
     # A[i] is between 1 and len(A), inclusive. We save the value at index A[i]
     # - 1 by swapping it with the entry at i. If A[i] is negative or greater
@@ -13,11 +17,8 @@ def find_first_missing_positive(A):
     return next((i + 1 for i, a in enumerate(A) if a != i + 1), len(A) + 1)
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('first_missing_positive_entry.tsv',
+        generic_test.generic_test_main("first_missing_positive_entry.py",
+                                       'first_missing_positive_entry.tsv',
                                        find_first_missing_positive))

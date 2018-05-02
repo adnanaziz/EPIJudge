@@ -6,17 +6,18 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class CountInversions {
-  @EpiTest(testfile = "count_inversions.tsv")
+  @EpiTest(testDataFile = "count_inversions.tsv")
 
   public static int countInversions(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CountInversions.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

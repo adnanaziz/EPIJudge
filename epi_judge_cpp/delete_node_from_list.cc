@@ -4,7 +4,7 @@
 
 // Assumes node_to_delete is not tail.
 void DeletionFromList(const shared_ptr<ListNode<int>>& node_to_delete) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
 
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "head",
                                        "node_to_delete_idx"};
-  return GenericTestMain(args, "delete_node_from_list.tsv",
-                         &DeletionFromListWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "delete_node_from_list.cc",
+                         "delete_node_from_list.tsv", &DeletionFromListWrapper,
+                         DefaultComparator{}, param_names);
 }

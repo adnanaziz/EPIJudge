@@ -23,11 +23,11 @@ public class SmallestSubarrayCoveringAllValues {
   public static Subarray
   findSmallestSequentiallyCoveringSubset(List<String> paragraph,
                                          List<String> keywords) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return new Subarray(0, 0);
   }
 
-  @EpiTest(testfile = "smallest_subarray_covering_all_values.tsv")
+  @EpiTest(testDataFile = "smallest_subarray_covering_all_values.tsv")
   public static int findSmallestSequentiallyCoveringSubsetWrapper(
       TimedExecutor executor, List<String> paragraph, List<String> keywords)
       throws Exception {
@@ -56,9 +56,10 @@ public class SmallestSubarrayCoveringAllValues {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SmallestSubarrayCoveringAllValues.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

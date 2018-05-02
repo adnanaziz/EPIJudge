@@ -6,19 +6,21 @@ import sys
 from test_framework.generic_test_handler import GenericTestHandler
 from test_framework.platform import set_output_opts
 from test_framework.test_config import TestConfig
-from test_framework.test_failure import TestFailure, PropertyName
+from test_framework.test_failure import PropertyName, TestFailure
 from test_framework.test_result import TestResult
 from test_framework.test_utils import get_file_path_in_judge_dir, split_tsv_file
-from test_framework.test_utils_console import print_test_info, print_failed_test, print_post_run_stats
+from test_framework.test_utils_console import print_failed_test, print_post_run_stats, print_test_info
 from test_framework.timeout_exception import TimeoutException
 
 
-def generic_test_main(test_data_file,
+def generic_test_main(test_file,
+                      test_data_file,
                       test_func,
                       comparator=None,
                       res_printer=None):
     """
     The main test starter.
+    :param test_file - name of the test file
     :param test_data_file - file with test data
     :param test_func - function to be tested
     :param comparator - custom comparator. A function that accepts
@@ -26,13 +28,14 @@ def generic_test_main(test_data_file,
     :param res_printer - function for customized printing
     """
     try:
-        with open(get_file_path_in_judge_dir('config.json')) as config_file_data:
+        with open(
+                get_file_path_in_judge_dir('config.json')) as config_file_data:
             config_override = json.load(config_file_data)
 
         commandline_args = sys.argv[1:]
         config = TestConfig.from_command_line(
-            test_data_file, config_override['timeoutSeconds'], config_override['numFailedTestsBeforeStop'],
-            commandline_args)
+            test_file, test_data_file, config_override['timeoutSeconds'],
+            config_override['numFailedTestsBeforeStop'], commandline_args)
 
         set_output_opts(config.tty_mode, config.color_mode)
 
@@ -83,8 +86,8 @@ def run_tests(handler, config, res_printer):
             raise
         except Exception as exc:
             result = TestResult.UNKNOWN_EXCEPTION
-            test_failure = TestFailure(exc.__class__.__name__)\
-                .with_property(PropertyName.EXCEPTION_MESSAGE, str(exc))
+            test_failure = TestFailure(exc.__class__.__name__).with_property(
+                PropertyName.EXCEPTION_MESSAGE, str(exc))
 
         print_test_info(result, test_nr, total_tests,
                         test_failure.get_description(), test_timer)
@@ -93,7 +96,7 @@ def run_tests(handler, config, res_printer):
             if config.verbose:
                 if not handler.expected_is_void():
                     test_case.pop()
-                if test_explanation not in {'', 'TODO'}:
+                if test_explanation not in ('', 'TODO'):
                     test_failure.with_property(PropertyName.EXPLANATION,
                                                test_explanation)
                 print_failed_test(handler.param_names(), test_case,
@@ -101,6 +104,36 @@ def run_tests(handler, config, res_printer):
             tests_not_passed = test_nr - tests_passed
             if tests_not_passed >= config.num_failed_tests_before_stop:
                 break
+
+    def update_test_passed(test_file, tests_passed):
+        problem_mapping_file_path = get_file_path_in_judge_dir(
+            'problem_mapping.js')
+        JS_BEGIN_PATTERN, JS_END_PATTERN = 'run(', ');'
+        with open(problem_mapping_file_path) as problem_mapping_file:
+            chapter_to_problem_to_language_solution_mapping = json.loads(
+                problem_mapping_file.read().replace(JS_BEGIN_PATTERN,
+                                                    '').replace(
+                                                        JS_END_PATTERN, ''))
+
+        test_file = 'Python: ' + test_file
+        for chapter in chapter_to_problem_to_language_solution_mapping.values(
+        ):
+            for _, language_solution_mapping in chapter.items():
+                if test_file in language_solution_mapping:
+                    language_solution_mapping[test_file][
+                        'passed'] = tests_passed
+                    with open(problem_mapping_file_path,
+                              'w') as problem_mapping_file:
+                        problem_mapping_file.write(JS_BEGIN_PATTERN)
+                        json.dump(
+                            chapter_to_problem_to_language_solution_mapping,
+                            problem_mapping_file,
+                            indent=4)
+                        problem_mapping_file.write(JS_END_PATTERN)
+                    return
+
+    if config.update_js:
+        update_test_passed(config.test_file, tests_passed)
 
     print()
 

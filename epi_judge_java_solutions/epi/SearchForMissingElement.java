@@ -8,6 +8,7 @@ import java.util.List;
 
 public class SearchForMissingElement {
   @EpiUserType(ctorParams = {Integer.class, Integer.class})
+
   public static class DuplicateAndMissing {
     public Integer duplicate;
     public Integer missing;
@@ -16,6 +17,7 @@ public class SearchForMissingElement {
       this.duplicate = duplicate;
       this.missing = missing;
     }
+
     @Override
     public boolean equals(Object o) {
       if (this == o) {
@@ -46,8 +48,10 @@ public class SearchForMissingElement {
     }
   }
 
-  @EpiTest(testfile = "find_missing_and_duplicate.tsv")
+  @EpiTest(testDataFile = "find_missing_and_duplicate.tsv")
+
   public static DuplicateAndMissing findDuplicateMissing(List<Integer> A) {
+
     // Compute the XOR of all numbers from 0 to |A| - 1 and all entries in A.
     int missXORDup = 0;
     for (int i = 0; i < A.size(); ++i) {
@@ -81,9 +85,10 @@ public class SearchForMissingElement {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchForMissingElement.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

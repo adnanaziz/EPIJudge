@@ -5,12 +5,12 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class IntervalsUnion {
+
   public static class Interval {
     public Endpoint left = new Endpoint();
     public Endpoint right = new Endpoint();
@@ -22,9 +22,10 @@ public class IntervalsUnion {
   }
 
   public static List<Interval> unionOfIntervals(List<Interval> intervals) {
+
     // Empty input.
     if (intervals.isEmpty()) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     // Sort intervals according to left endpoints of intervals.
@@ -39,7 +40,7 @@ public class IntervalsUnion {
       }
       return !a.left.isClosed && b.left.isClosed ? 1 : 0;
     });
-    List<Interval> result = new ArrayList<>(Arrays.asList(intervals.get(0)));
+    List<Interval> result = new ArrayList<>(List.of(intervals.get(0)));
     for (Interval i : intervals) {
       if (!result.isEmpty() &&
           (i.left.val < result.get(result.size() - 1).right.val ||
@@ -131,7 +132,7 @@ public class IntervalsUnion {
     }
   }
 
-  @EpiTest(testfile = "intervals_union.tsv")
+  @EpiTest(testDataFile = "intervals_union.tsv")
   public static List<FlatInterval>
   unionIntervalWrapper(TimedExecutor executor, List<FlatInterval> intervals)
       throws Exception {
@@ -150,9 +151,10 @@ public class IntervalsUnion {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IntervalsUnion.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

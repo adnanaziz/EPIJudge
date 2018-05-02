@@ -28,17 +28,18 @@ public class CalendarRendering {
     }
   }
 
-  @EpiTest(testfile = "calendar_rendering.tsv")
+  @EpiTest(testDataFile = "calendar_rendering.tsv")
 
   public static int findMaxSimultaneousEvents(List<Event> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CalendarRendering.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

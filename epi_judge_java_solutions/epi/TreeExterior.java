@@ -10,50 +10,64 @@ import java.util.Collections;
 import java.util.List;
 
 public class TreeExterior {
+
   public static List<BinaryTreeNode<Integer>>
   exteriorBinaryTree(BinaryTreeNode<Integer> tree) {
-    List<BinaryTreeNode<Integer>> exterior = new ArrayList<>();
-    if (tree != null) {
-      exterior.add(tree);
-      leftBoundaryAndLeaves(tree.left, true, exterior);
-      rightBoundaryAndLeaves(tree.right, true, exterior);
+
+    if (tree == null) {
+      return Collections.emptyList();
     }
+
+    List<BinaryTreeNode<Integer>> exterior = new ArrayList<>() {
+      { add(tree); }
+    };
+    leftBoundary(tree.left, exterior);
+    leaves(tree.left, exterior);
+    leaves(tree.right, exterior);
+    rightBoundary(tree.right, exterior);
     return exterior;
   }
 
-  // Computes the nodes from the root to the leftmost leaf followed by all the
-  // leaves in subtreeRoot.
-  private static void
-  leftBoundaryAndLeaves(BinaryTreeNode<Integer> subtreeRoot, boolean isBoundary,
-                        List<BinaryTreeNode<Integer>> exterior) {
-    if (subtreeRoot != null) {
-      if (isBoundary || isLeaf(subtreeRoot)) {
-        exterior.add(subtreeRoot);
-      }
-      leftBoundaryAndLeaves(subtreeRoot.left, isBoundary, exterior);
-      leftBoundaryAndLeaves(subtreeRoot.right,
-                            isBoundary && subtreeRoot.left == null, exterior);
+  // Computes the nodes from the root to the leftmost leaf.
+  private static void leftBoundary(BinaryTreeNode<Integer> subtree,
+                                   List<BinaryTreeNode<Integer>> exterior) {
+    if (subtree == null || (subtree.left == null && subtree.right == null)) {
+      return;
+    }
+    exterior.add(subtree);
+    if (subtree.left != null) {
+      leftBoundary(subtree.left, exterior);
+    } else {
+      leftBoundary(subtree.right, exterior);
     }
   }
 
-  // Computes the leaves in left-to-right order followed by the rightmost leaf
-  // to the root path in subtreeRoot.
-  private static void
-  rightBoundaryAndLeaves(BinaryTreeNode<Integer> subtreeRoot,
-                         boolean isBoundary,
-                         List<BinaryTreeNode<Integer>> exterior) {
-    if (subtreeRoot != null) {
-      rightBoundaryAndLeaves(subtreeRoot.left,
-                             isBoundary && subtreeRoot.right == null, exterior);
-      rightBoundaryAndLeaves(subtreeRoot.right, isBoundary, exterior);
-      if (isBoundary || isLeaf(subtreeRoot)) {
-        exterior.add(subtreeRoot);
-      }
+  // Computes the nodes from the rightmost leaf to the root.
+  private static void rightBoundary(BinaryTreeNode<Integer> subtree,
+                                    List<BinaryTreeNode<Integer>> exterior) {
+    if (subtree == null || (subtree.left == null && subtree.right == null)) {
+      return;
     }
+    if (subtree.right != null) {
+      rightBoundary(subtree.right, exterior);
+    } else {
+      rightBoundary(subtree.left, exterior);
+    }
+    exterior.add(subtree);
   }
 
-  private static boolean isLeaf(BinaryTreeNode<Integer> node) {
-    return node.left == null && node.right == null;
+  // Compute the leaves in left-to-right order.
+  private static void leaves(BinaryTreeNode<Integer> subtree,
+                             List<BinaryTreeNode<Integer>> exterior) {
+    if (subtree == null) {
+      return;
+    }
+    if (subtree.left == null && subtree.right == null) {
+      exterior.add(subtree);
+      return;
+    }
+    leaves(subtree.left, exterior);
+    leaves(subtree.right, exterior);
   }
 
   private static List<Integer> createOutputList(List<BinaryTreeNode<Integer>> L)
@@ -68,19 +82,21 @@ public class TreeExterior {
     return output;
   }
 
-  @EpiTest(testfile = "tree_exterior.tsv")
+  @EpiTest(testDataFile = "tree_exterior.tsv")
   public static List<Integer>
   exteriorBinaryTreeWrapper(TimedExecutor executor,
                             BinaryTreeNode<Integer> tree) throws Exception {
-    List<BinaryTreeNode<Integer>> l =
+    List<BinaryTreeNode<Integer>> result =
         executor.run(() -> exteriorBinaryTree(tree));
-    return createOutputList(l);
+
+    return createOutputList(result);
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeExterior.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

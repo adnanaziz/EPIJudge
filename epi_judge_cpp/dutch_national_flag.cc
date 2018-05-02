@@ -10,7 +10,7 @@ using std::vector;
 typedef enum { kRed, kWhite, kBlue } Color;
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
 
@@ -54,7 +54,7 @@ void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "A", "pivot_idx"};
-  return GenericTestMain(args, "dutch_national_flag.tsv",
-                         &DutchFlagPartitionWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "dutch_national_flag.cc",
+                         "dutch_national_flag.tsv", &DutchFlagPartitionWrapper,
+                         DefaultComparator{}, param_names);
 }

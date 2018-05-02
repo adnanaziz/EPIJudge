@@ -1,12 +1,12 @@
 import collections
 import math
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 # Check if a partially filled matrix has any conflicts.
 def is_valid_sudoku(partial_assignment):
+
     # Return True if subarray
     # partial_assignment[start_row:end_row][start_col:end_col] contains any
     # duplicates in {1, 2, ..., len(partial_assignment)}; otherwise return
@@ -36,8 +36,10 @@ def is_valid_sudoku(partial_assignment):
 def is_valid_sudoku_pythonic(partial_assignment):
     region_size = int(math.sqrt(len(partial_assignment)))
     return max(
-        collections.Counter(k for i, row in enumerate(partial_assignment)
-                            for j, c in enumerate(row) if c != 0
+        collections.Counter(k
+                            for i, row in enumerate(partial_assignment)
+                            for j, c in enumerate(row)
+                            if c != 0
                             for k in ((i, str(c)), (str(c), j),
                                       (i / region_size, j / region_size,
                                        str(c)))).values(),
@@ -46,4 +48,5 @@ def is_valid_sudoku_pythonic(partial_assignment):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("is_valid_sudoku.tsv", is_valid_sudoku))
+        generic_test.generic_test_main("is_valid_sudoku.py",
+                                       "is_valid_sudoku.tsv", is_valid_sudoku))

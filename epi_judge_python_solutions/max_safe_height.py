@@ -1,3 +1,6 @@
+from test_framework import generic_test
+
+
 def get_height(cases, drops):
     def get_height_helper(cases, drops):
         if cases == 0 or drops == 0:
@@ -13,9 +16,7 @@ def get_height(cases, drops):
     return get_height_helper(cases, drops)
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('max_safe_height.tsv', get_height))
+    exit(
+        generic_test.generic_test_main("max_safe_height.py",
+                                       'max_safe_height.tsv', get_height))

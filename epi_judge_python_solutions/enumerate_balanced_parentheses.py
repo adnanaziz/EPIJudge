@@ -1,3 +1,6 @@
+from test_framework import generic_test, test_utils
+
+
 def generate_balanced_parentheses(num_pairs):
     def directed_generate_balanced_parentheses(num_left_parens_needed,
                                                num_right_parens_needed,
@@ -24,25 +27,25 @@ def generate_balanced_parentheses_pythonic(num_pairs, num_left_open=0):
         return [')' * num_left_open]
     if not num_left_open:
         return [
-            '(' + p for p in generate_balanced_parentheses_pythonic(
+            '(' + p
+            for p in generate_balanced_parentheses_pythonic(
                 num_pairs - 1, num_left_open + 1)
         ]
     else:
         return ([
-            '(' + p for p in generate_balanced_parentheses_pythonic(
+            '(' + p
+            for p in generate_balanced_parentheses_pythonic(
                 num_pairs - 1, num_left_open + 1)
         ] + [
-            ')' + p for p in generate_balanced_parentheses_pythonic(
+            ')' + p
+            for p in generate_balanced_parentheses_pythonic(
                 num_pairs - 1, num_left_open - 1)
         ])
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('enumerate_balanced_parentheses.tsv',
+        generic_test.generic_test_main("enumerate_balanced_parentheses.py",
+                                       'enumerate_balanced_parentheses.tsv',
                                        generate_balanced_parentheses,
                                        test_utils.unordered_compare))

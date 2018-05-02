@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class MaxSquareSubmatrix {
+
   public static class MaxHW {
     public int h, w;
 
@@ -17,8 +18,10 @@ public class MaxSquareSubmatrix {
     }
   }
 
-  @EpiTest(testfile = "max_square_submatrix.tsv")
+  @EpiTest(testDataFile = "max_square_submatrix.tsv")
+
   public static int maxSquareSubmatrix(List<List<Boolean>> A) {
+
     // DP table stores (h, w) for each (i, j).
     List<List<MaxHW>> table = new ArrayList<>(A.size());
     for (List<Boolean> a : A) {
@@ -84,9 +87,10 @@ public class MaxSquareSubmatrix {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxSquareSubmatrix.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

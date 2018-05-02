@@ -11,7 +11,7 @@ bool PairIncludesAncestorAndDescendantOfM(
     const unique_ptr<BstNode<int>>& possible_anc_or_desc_0,
     const unique_ptr<BstNode<int>>& possible_anc_or_desc_1,
     const unique_ptr<BstNode<int>>& middle) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return true;
 }
 
@@ -32,7 +32,8 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> param_names{"executor", "tree",
                                        "possible_anc_or_desc_0",
                                        "possible_anc_or_desc_1", "middle"};
-  return GenericTestMain(args, "descendant_and_ancestor_in_bst.tsv",
+  return GenericTestMain(args, "descendant_and_ancestor_in_bst.cc",
+                         "descendant_and_ancestor_in_bst.tsv",
                          &PairIncludesAncestorAndDescendantOfMWrapper,
                          DefaultComparator{}, param_names);
 }

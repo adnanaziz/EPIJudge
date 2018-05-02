@@ -9,19 +9,20 @@ import java.util.List;
 public class OnlineMedian {
 
   public static List<Double> onlineMedian(Iterator<Integer> sequence) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "online_median.tsv")
+  @EpiTest(testDataFile = "online_median.tsv")
   public static List<Double> onlineMedianWrapper(List<Integer> sequence) {
     return onlineMedian(sequence.iterator());
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "OnlineMedian.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

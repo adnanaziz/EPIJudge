@@ -1,10 +1,10 @@
 import collections
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def examine_buildings_with_sunset(sequence):
+
     BuildingWithHeight = collections.namedtuple('BuildingWithHeight',
                                                 ('id', 'height'))
     candidates = []
@@ -21,5 +21,5 @@ def examine_buildings_with_sunset_wrapper(sequence):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('sunset_view.tsv',
+        generic_test.generic_test_main("sunset_view.py", 'sunset_view.tsv',
                                        examine_buildings_with_sunset))

@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def gcd(x, y):
+
     if x > y:
         return gcd(y, x)
     elif x == 0:
@@ -12,9 +16,5 @@ def gcd(x, y):
     return gcd(x, y - x)  # Both x and y are odd.
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('gcd.tsv', gcd))
+    exit(generic_test.generic_test_main("gcd.py", 'gcd.tsv', gcd))

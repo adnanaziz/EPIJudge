@@ -38,18 +38,19 @@ public class TaskPairing {
     }
   }
 
-  @EpiTest(testfile = "task_pairing.tsv")
+  @EpiTest(testDataFile = "task_pairing.tsv")
 
   public static List<PairedTasks>
   optimumTaskAssignment(List<Integer> taskDurations) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TaskPairing.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

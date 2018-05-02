@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def find_element_appears_once(A):
+
     counts = [0] * 32
     for x in A:
         for i in range(32):
@@ -39,11 +43,8 @@ def find_element_appears_once_alternative(A):
     return ones
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('element_appearing_once.tsv',
+        generic_test.generic_test_main("element_appearing_once.py",
+                                       'element_appearing_once.tsv',
                                        find_element_appears_once))

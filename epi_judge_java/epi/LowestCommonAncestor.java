@@ -11,11 +11,11 @@ public class LowestCommonAncestor {
   public static BinaryTreeNode<Integer> LCA(BinaryTreeNode<Integer> tree,
                                             BinaryTreeNode<Integer> node0,
                                             BinaryTreeNode<Integer> node1) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "lowest_common_ancestor.tsv")
+  @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
   public static int lcaWrapper(TimedExecutor executor,
                                BinaryTreeNode<Integer> tree, Integer key0,
                                Integer key1) throws Exception {
@@ -32,9 +32,10 @@ public class LowestCommonAncestor {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LowestCommonAncestor.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

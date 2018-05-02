@@ -7,8 +7,10 @@ from test_framework.tri_bool import TriBool
 
 
 class TestConfig:
-    def __init__(self, test_data_file, timeout_seconds, num_failed_tests_before_stop):
+    def __init__(self, test_file, test_data_file, timeout_seconds,
+                 num_failed_tests_before_stop):
         self.test_data_dir = ''
+        self.test_file = test_file
         self.test_data_file = test_data_file
         self.verbose = True
         self.tty_mode = TriBool.INDETERMINATE
@@ -17,12 +19,14 @@ class TestConfig:
         self.num_failed_tests_before_stop = num_failed_tests_before_stop
 
     @staticmethod
-    def from_command_line(test_data_file, timeout_seconds, num_failed_tests_before_stop, commandline_args):
+    def from_command_line(test_file, test_data_file, timeout_seconds,
+                          num_failed_tests_before_stop, commandline_args):
         # Set num_failed_tests_before_stop to 0, means users want to run as many as tests in one run.
         if num_failed_tests_before_stop == 0:
             num_failed_tests_before_stop = float('inf')
 
-        config = TestConfig(test_data_file, timeout_seconds, num_failed_tests_before_stop)
+        config = TestConfig(test_file, test_data_file, timeout_seconds,
+                            num_failed_tests_before_stop)
 
         parser = argparse.ArgumentParser()
         parser.add_argument(
@@ -31,12 +35,6 @@ class TestConfig:
             const=True,
             type=str,
             help='path to test_data directory')
-        parser.add_argument(
-            '--run-all-tests',
-            dest='run_all_tests',
-            default=False,
-            action='store_true',
-            help='execution all tests')
         parser.add_argument(
             '--no-verbose',
             dest='verbose',
@@ -72,14 +70,19 @@ class TestConfig:
             action='store_const',
             const=TriBool.FALSE,
             help='never use colored output')
+        parser.add_argument(
+            '--no-update-js',
+            dest='update_js',
+            default=False,
+            action='store_false',
+            help='No update problem_mapping.js')
         args = parser.parse_args(commandline_args)
 
         config.test_data_dir = args.test_data_dir
         config.verbose = args.verbose
         config.tty_mode = args.tty_mode
         config.color_mode = args.color_mode
-        if args.run_all_tests:
-            config.num_failed_tests_before_stop = float('inf')
+        config.update_js = args.update_js
 
         if config.test_data_dir:
             if not os.path.isdir(config.test_data_dir):

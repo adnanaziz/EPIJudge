@@ -1,4 +1,5 @@
 #include "test_framework/generic_test.h"
+
 long long SwapBits(long long x, int i, int j) {
   // Extract the i-th and j-th bits, and see if they differ.
   if (((x >> i) & 1) != ((x >> j) & 1)) {
@@ -14,6 +15,6 @@ long long SwapBits(long long x, int i, int j) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x", "i", "j"};
-  return GenericTestMain(args, "swap_bits.tsv", &SwapBits, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "swap_bits.cc", "swap_bits.tsv", &SwapBits,
+                         DefaultComparator{}, param_names);
 }

@@ -12,7 +12,7 @@ using std::vector;
 
 unique_ptr<BstNode<int>> BuildMinHeightBSTFromSortedArray(
     const vector<int>& A) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
 
@@ -30,7 +30,8 @@ int BuildMinHeightBSTFromSortedArrayWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "A"};
-  return GenericTestMain(args, "bst_from_sorted_array.tsv",
+  return GenericTestMain(args, "bst_from_sorted_array.cc",
+                         "bst_from_sorted_array.tsv",
                          &BuildMinHeightBSTFromSortedArrayWrapper,
                          DefaultComparator{}, param_names);
 }

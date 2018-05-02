@@ -1,13 +1,13 @@
+from test_framework import generic_test, test_utils
+
+
 def permutations(A):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return []
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('permutations.tsv', permutations,
+        generic_test.generic_test_main("permutations.py", 'permutations.tsv',
+                                       permutations,
                                        test_utils.unordered_compare))

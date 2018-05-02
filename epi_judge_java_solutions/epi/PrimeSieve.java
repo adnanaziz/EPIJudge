@@ -8,11 +8,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class PrimeSieve {
-  @EpiTest(testfile = "prime_sieve.tsv")
+
+  @EpiTest(testDataFile = "prime_sieve.tsv")
   // Given n, return all primes up to and including n.
   public static List<Integer> generatePrimes(int n) {
+
     if (n < 2) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
     final int size = (int)Math.floor(0.5 * (n - 3)) + 1;
     List<Integer> primes = new ArrayList<>();
@@ -38,9 +40,10 @@ public class PrimeSieve {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PrimeSieve.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

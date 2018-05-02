@@ -15,7 +15,7 @@ using std::vector;
 // The length of the list is given.
 shared_ptr<ListNode<int>> BuildBSTFromSortedDoublyList(
     shared_ptr<ListNode<int>> l, int length) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
 
@@ -68,7 +68,7 @@ void BuildBSTFromSortedDoublyListWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "l"};
-  return GenericTestMain(args, "sorted_list_to_bst.tsv",
-                         &BuildBSTFromSortedDoublyListWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(
+      args, "sorted_list_to_bst.cc", "sorted_list_to_bst.tsv",
+      &BuildBSTFromSortedDoublyListWrapper, DefaultComparator{}, param_names);
 }

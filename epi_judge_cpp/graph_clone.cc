@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-#include "test_framework/test_utils_serialization_traits.h"
 
 using std::queue;
 using std::unordered_set;
@@ -17,8 +17,8 @@ struct GraphVertex {
 };
 
 GraphVertex* CloneGraph(GraphVertex* graph) {
-  // Implement this placeholder.
-  return nullptr;
+  // TODO - you fill in here.
+  return new GraphVertex{0};
 }
 
 vector<int> CopyLabels(const vector<GraphVertex*>& edges) {
@@ -94,6 +94,6 @@ void CloneGraphTest(int k, const vector<Edge>& edges) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"k", "edges"};
-  return GenericTestMain(args, "graph_clone.tsv", &CloneGraphTest,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "graph_clone.cc", "graph_clone.tsv",
+                         &CloneGraphTest, DefaultComparator{}, param_names);
 }

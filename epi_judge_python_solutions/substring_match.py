@@ -1,10 +1,10 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def rabin_karp(t, s):
+
     if len(s) > len(t):
         return -1  # s is not a substring of t.
 
@@ -31,4 +31,6 @@ def rabin_karp(t, s):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('substring_match.tsv', rabin_karp))
+    exit(
+        generic_test.generic_test_main("substring_match.py",
+                                       'substring_match.tsv', rabin_karp))

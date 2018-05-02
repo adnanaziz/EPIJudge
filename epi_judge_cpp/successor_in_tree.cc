@@ -4,7 +4,7 @@
 
 BinaryTreeNode<int>* FindSuccessor(
     const unique_ptr<BinaryTreeNode<int>>& node) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
 
@@ -17,6 +17,7 @@ int FindSuccessorWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"tree", "node_idx"};
-  return GenericTestMain(args, "successor_in_tree.tsv", &FindSuccessorWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "successor_in_tree.cc", "successor_in_tree.tsv",
+                         &FindSuccessorWrapper, DefaultComparator{},
+                         param_names);
 }

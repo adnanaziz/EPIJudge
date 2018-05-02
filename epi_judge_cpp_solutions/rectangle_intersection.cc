@@ -3,7 +3,7 @@
 
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 
 using std::max;
 using std::min;
@@ -36,7 +36,17 @@ bool operator==(const Rectangle& r1, const Rectangle& r2) {
 
 template <>
 struct SerializationTraits<Rectangle>
-    : UserSerTraits<Rectangle, int, int, int, int> {};
+    : UserSerTraits<Rectangle, int, int, int, int> {
+  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+    return {FmtStr("area({})", arg_name), FmtStr("perimeter({})", arg_name),
+            FmtStr("max(w, h)({})", arg_name)};
+  }
+
+  static std::vector<int> GetMetrics(const Rectangle& x) {
+    return {x.height * x.width, 2 * (x.height + x.width),
+            std::max(x.height, x.width)};
+  }
+};
 
 std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
   return PrintTo(out, std::make_tuple(r.x, r.y, r.width, r.height));
@@ -45,6 +55,7 @@ std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"R1", "R2"};
-  return GenericTestMain(args, "rectangle_intersection.tsv",
-                         &IntersectRectangle, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "rectangle_intersection.cc",
+                         "rectangle_intersection.tsv", &IntersectRectangle,
+                         DefaultComparator{}, param_names);
 }

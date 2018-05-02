@@ -1,5 +1,6 @@
 #include <memory>
 #include "list_node.h"
+
 #pragma once
 
 using std::shared_ptr;

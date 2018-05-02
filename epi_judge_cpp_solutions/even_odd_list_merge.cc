@@ -27,6 +27,7 @@ shared_ptr<ListNode<int>> EvenOddMerge(const shared_ptr<ListNode<int>>& L) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"L"};
-  return GenericTestMain(args, "even_odd_list_merge.tsv", &EvenOddMerge,
+  return GenericTestMain(args, "even_odd_list_merge.cc",
+                         "even_odd_list_merge.tsv", &EvenOddMerge,
                          DefaultComparator{}, param_names);
 }

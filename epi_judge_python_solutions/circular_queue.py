@@ -1,17 +1,18 @@
-from sys import exit
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 class Queue:
+
     SCALE_FACTOR = 2
 
     def __init__(self, capacity):
+
         self._entries = [None] * capacity
         self._head = self._tail = self._num_queue_elements = 0
 
     def enqueue(self, x):
+
         if self._num_queue_elements == len(self._entries):  # Needs to resize.
             # Makes the queue elements appear consecutively.
             self._entries = (
@@ -26,6 +27,7 @@ class Queue:
         self._num_queue_elements += 1
 
     def dequeue(self):
+
         if not self._num_queue_elements:
             raise IndexError('empty queue')
         self._num_queue_elements -= 1
@@ -34,6 +36,7 @@ class Queue:
         return result
 
     def size(self):
+
         return self._num_queue_elements
 
 
@@ -48,16 +51,18 @@ def queue_tester(ops):
         elif op == 'dequeue':
             result = q.dequeue()
             if result != arg:
-                raise TestFailure(
-                    "Dequeue: expected " + str(arg) + ", got " + str(result))
+                raise TestFailure("Dequeue: expected " + str(arg) + ", got " +
+                                  str(result))
         elif op == 'size':
             result = q.size()
             if result != arg:
-                raise TestFailure(
-                    "Size: expected " + str(arg) + ", got " + str(result))
+                raise TestFailure("Size: expected " + str(arg) + ", got " +
+                                  str(result))
         else:
             raise RuntimeError("Unsupported queue operation: " + op)
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('circular_queue.tsv', queue_tester))
+    exit(
+        generic_test.generic_test_main("circular_queue.py",
+                                       'circular_queue.tsv', queue_tester))

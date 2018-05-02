@@ -1,15 +1,14 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 Subarray = collections.namedtuple('Subarray', ('start', 'end'))
 
 
 def find_smallest_sequentially_covering_subset(paragraph, keywords):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return Subarray(0, 0)
 
 
@@ -40,5 +39,6 @@ def find_smallest_sequentially_covering_subset_wrapper(executor, paragraph,
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "smallest_subarray_covering_all_values.py",
             'smallest_subarray_covering_all_values.tsv',
             find_smallest_sequentially_covering_subset_wrapper))

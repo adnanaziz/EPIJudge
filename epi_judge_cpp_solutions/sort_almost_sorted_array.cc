@@ -47,6 +47,6 @@ vector<int> SortApproximatelySortedDataWrapper(const vector<int>& sequence,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"sequence", "k"};
-  return GenericTestMain(args, "sort_almost_sorted_array.tsv", &SortApproximatelySortedDataWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "sort_almost_sorted_array.cc", "sort_almost_sorted_array.tsv", &SortApproximatelySortedDataWrapper, DefaultComparator{}, param_names);
 }
 // clang-format on

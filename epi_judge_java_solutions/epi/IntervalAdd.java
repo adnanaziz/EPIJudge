@@ -9,6 +9,7 @@ import java.util.List;
 
 public class IntervalAdd {
   @EpiUserType(ctorParams = {int.class, int.class})
+
   public static class Interval {
     public int left, right;
 
@@ -40,9 +41,11 @@ public class IntervalAdd {
     }
   }
 
-  @EpiTest(testfile = "interval_add.tsv")
+  @EpiTest(testDataFile = "interval_add.tsv")
+
   public static List<Interval> addInterval(List<Interval> disjointIntervals,
                                            Interval newInterval) {
+
     int i = 0;
     List<Interval> result = new ArrayList<>();
     // Processes intervals in disjointIntervals which come before newInterval.
@@ -68,9 +71,10 @@ public class IntervalAdd {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IntervalAdd.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

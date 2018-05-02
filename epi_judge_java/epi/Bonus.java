@@ -17,17 +17,18 @@ public class Bonus {
     }
   }
 
-  @EpiTest(testfile = "bonus.tsv")
+  @EpiTest(testDataFile = "bonus.tsv")
 
   public static Integer calculateBonus(List<Integer> productivity) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Bonus.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

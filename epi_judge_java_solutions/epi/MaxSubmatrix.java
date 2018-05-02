@@ -6,6 +6,7 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class MaxSubmatrix {
+
   private static class MaxHW {
     public int h, w;
 
@@ -15,8 +16,10 @@ public class MaxSubmatrix {
     }
   }
 
-  @EpiTest(testfile = "max_submatrix.tsv")
+  @EpiTest(testDataFile = "max_submatrix.tsv")
+
   public static int maxRectangleSubmatrix(List<List<Boolean>> A) {
+
     // DP table stores (h, w) for each (i, j).
     MaxHW[][] table = new MaxHW[A.size()][A.get(0).size()];
 
@@ -51,9 +54,10 @@ public class MaxSubmatrix {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxSubmatrix.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

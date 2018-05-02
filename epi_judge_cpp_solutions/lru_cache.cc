@@ -5,8 +5,8 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-#include "test_framework/test_utils_serialization_traits.h"
 
 using std::list;
 using std::pair;
@@ -15,6 +15,7 @@ using std::unordered_map;
 class LruCache {
  public:
   LruCache(size_t capacity) {}
+
   explicit LruCache(int capacity) : capacity_(capacity) {}
 
   int Lookup(int isbn) {
@@ -110,6 +111,6 @@ void RunTest(const std::vector<Op>& commands) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"commands"};
-  return GenericTestMain(args, "lru_cache.tsv", &RunTest, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "lru_cache.cc", "lru_cache.tsv", &RunTest,
+                         DefaultComparator{}, param_names);
 }

@@ -5,7 +5,9 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
 public class RunLengthCompression {
+
   public static String decoding(String s) {
+
     int count = 0;
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < s.length(); i++) {
@@ -23,6 +25,7 @@ public class RunLengthCompression {
   }
 
   public static String encoding(String s) {
+
     int count = 1;
     StringBuilder ss = new StringBuilder();
     for (int i = 1; i <= s.length(); ++i) {
@@ -37,7 +40,7 @@ public class RunLengthCompression {
     return ss.toString();
   }
 
-  @EpiTest(testfile = "run_length_compression.tsv")
+  @EpiTest(testDataFile = "run_length_compression.tsv")
   public static void rleTester(String encoded, String decoded)
       throws TestFailure {
     if (!decoding(encoded).equals(decoded)) {
@@ -49,9 +52,10 @@ public class RunLengthCompression {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RunLengthCompression.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

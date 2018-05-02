@@ -1,8 +1,7 @@
 import functools
-from sys import exit
 
 from doubly_list_node import DoublyListNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -11,6 +10,7 @@ from test_framework.test_utils import enable_executor_hook
 # list nodes are used as the BST nodes left and right fields, respectively.
 # The length of the list is given.
 def build_bst_from_sorted_doubly_list(l, n):
+
     # Builds a BST from the (start + 1)-th to the end-th node, inclusive, in l,
     # and returns the root.
     def build_bst_from_sorted_doubly_list_helper(start, end):
@@ -54,8 +54,8 @@ def build_bst_from_sorted_doubly_list_wrapper(executor, l):
             input_list.next.prev = input_list
 
     input_list = executor.run(
-        functools.partial(build_bst_from_sorted_doubly_list, input_list,
-                          len(l)))
+        functools.partial(build_bst_from_sorted_doubly_list, input_list, len(
+            l)))
 
     it = iter(l)
     compare_vector_and_tree(input_list, it)
@@ -66,5 +66,5 @@ def build_bst_from_sorted_doubly_list_wrapper(executor, l):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "sorted_list_to_bst.tsv",
+            "sorted_list_to_bst.py", "sorted_list_to_bst.tsv",
             build_bst_from_sorted_doubly_list_wrapper))

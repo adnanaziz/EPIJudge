@@ -33,7 +33,7 @@ vector<int> ApplyPermutationWrapper(vector<int> perm, vector<int> A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"perm", "A"};
-  return GenericTestMain(args, "apply_permutation.tsv",
+  return GenericTestMain(args, "apply_permutation.cc", "apply_permutation.tsv",
                          &ApplyPermutationWrapper, DefaultComparator{},
                          param_names);
 }

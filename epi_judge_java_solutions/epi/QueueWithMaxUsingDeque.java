@@ -1,3 +1,4 @@
+
 package epi;
 
 import epi.test_framework.EpiTest;
@@ -12,6 +13,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class QueueWithMaxUsingDeque {
+
   public static class QueueWithMax<T extends Comparable<T>> {
     private Queue<T> entries = new ArrayDeque<>();
     private Deque<T> candidatesForMax = new ArrayDeque<>();
@@ -58,7 +60,7 @@ public class QueueWithMaxUsingDeque {
     }
   }
 
-  @EpiTest(testfile = "queue_with_max.tsv")
+  @EpiTest(testDataFile = "queue_with_max.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     try {
       QueueWithMax<Integer> q = new QueueWithMax<>();
@@ -94,9 +96,10 @@ public class QueueWithMaxUsingDeque {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "QueueWithMaxUsingDeque.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

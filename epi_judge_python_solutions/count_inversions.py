@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def count_inversions(A):
+
     # Return the number of inversions in A[start:finish].
     def count_subarray_inversions(start, finish):
         # Merge two sorted subarrays A[start:mid] and A[mid:finish] into
@@ -27,19 +31,15 @@ def count_inversions(A):
         if finish - start <= 1:
             return 0
         mid = (start + finish) // 2
-        return (count_subarray_inversions(start, mid) +
-                count_subarray_inversions(mid, finish) +
+        return (count_subarray_inversions(
+            start, mid) + count_subarray_inversions(mid, finish) +
                 merge_sort_and_count_inversions_across_subarrays(
                     start, mid, finish))
 
     return count_subarray_inversions(0, len(A))
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('count_inversions.tsv',
-                                       count_inversions))
+        generic_test.generic_test_main(
+            "count_inversions.py", 'count_inversions.tsv', count_inversions))

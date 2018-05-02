@@ -1,7 +1,6 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -81,5 +80,5 @@ def has_cycle_wrapper(executor, head, cycle_idx):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('is_list_cyclic.tsv',
-                                       has_cycle_wrapper))
+        generic_test.generic_test_main(
+            "is_list_cyclic.py", 'is_list_cyclic.tsv', has_cycle_wrapper))

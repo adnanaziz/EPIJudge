@@ -17,7 +17,7 @@ class Team {
 
   // Checks if team0 can be placed in front of team1.
   static bool ValidPlacementExists(const Team& team0, const Team& team1) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return true;
   }
 
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "team0", "team1",
                                        "expected_01", "expected_10"};
-  return GenericTestMain(args, "is_array_dominated.tsv",
-                         &ValidPlacementExistsWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "is_array_dominated.cc",
+                         "is_array_dominated.tsv", &ValidPlacementExistsWrapper,
+                         DefaultComparator{}, param_names);
 }

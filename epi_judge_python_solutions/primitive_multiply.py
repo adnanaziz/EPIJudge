@@ -1,3 +1,6 @@
+from test_framework import generic_test
+
+
 def multiply(x, y):
     def add(a, b):
         while b:
@@ -13,9 +16,7 @@ def multiply(x, y):
     return running_sum
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('primitive_multiply.tsv', multiply))
+    exit(
+        generic_test.generic_test_main("primitive_multiply.py",
+                                       'primitive_multiply.tsv', multiply))

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <memory>
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 
 #pragma once
 
@@ -25,7 +25,7 @@ struct ListNode {
   ~ListNode() {
     // Extra-long lists cause stack overflow with default destructor
     // implementation
-    while (next && next.unique()) {
+    while (next && (next.use_count() == 1)) {
       auto next_next = next->next;
       next->next.reset();
       next = next_next;
@@ -61,14 +61,62 @@ std::shared_ptr<ListNode<T>> ConvertArrayToLinkedList(const std::vector<T>& v) {
 }
 
 template <typename T>
+std::ostream& operator<<(std::ostream& out, shared_ptr<ListNode<T>> list) {
+  std::set<shared_ptr<ListNode<T>>> visited;
+  bool first = true;
+
+  while (list) {
+    if (first) {
+      first = false;
+    } else {
+      out << " -> ";
+    }
+
+    if (visited.count(list)) {
+      // Cycled linked list
+      if (list->next != list) {
+        PrintTo(out, list->data);
+        out << " -> ... -> ";
+      }
+      PrintTo(out, list->data);
+      out << " -> ...";
+      break;
+    } else {
+      PrintTo(out, list->data);
+      visited.insert(list);
+    }
+    list = list->next;
+  }
+
+  return out;
+}
+
+template <typename T>
+int ListSize(shared_ptr<ListNode<T>> list) {
+  std::set<shared_ptr<ListNode<T>>> visited;
+  int size = 0;
+
+  while (list) {
+    if (visited.count(list)) {
+      // Cycled linked list
+      break;
+    }
+    size++;
+    list = list->next;
+  }
+
+  return size;
+}
+
+template <typename T>
 struct SerializationTraits<shared_ptr<ListNode<T>>> {
   using serialization_type =
       shared_ptr<ListNode<typename SerializationTraits<T>::serialization_type>>;
 
   static const char* Name() {
-    static std::string cached =
-        std::string("linked_list(") + SerializationTraits<T>::Name() + ")";
-    return cached.c_str();
+    static std::string s =
+        FmtStr("linked_list({})", SerializationTraits<T>::Name());
+    return s.c_str();
   }
 
   static serialization_type Parse(const std::string& str) {
@@ -81,35 +129,15 @@ struct SerializationTraits<shared_ptr<ListNode<T>>> {
     return ConvertArrayToLinkedList(v);
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
-    return EqualList(a, b);
+  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+    return {FmtStr("size({})", arg_name)};
   }
 
-  static void Print(std::ostream& out, serialization_type list) {
-    std::set<serialization_type> visited;
-    bool first = true;
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(ListSize(x))};
+  }
 
-    while (list) {
-      if (first) {
-        first = false;
-      } else {
-        out << " -> ";
-      }
-
-      if (visited.count(list)) {
-        // Cycled linked list
-        if (list->next != list) {
-          PrintTo(out, list->data);
-          out << " -> ... -> ";
-        }
-        PrintTo(out, list->data);
-        out << " -> ...";
-        break;
-      } else {
-        PrintTo(out, list->data);
-        visited.insert(list);
-      }
-      list = list->next;
-    }
+  static bool Equal(const serialization_type& a, const serialization_type& b) {
+    return EqualList(a, b);
   }
 };

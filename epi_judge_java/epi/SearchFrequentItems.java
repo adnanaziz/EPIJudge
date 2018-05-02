@@ -13,11 +13,11 @@ public class SearchFrequentItems {
 
   public static List<String> searchFrequentItems(int k,
                                                  Iterable<String> stream) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "search_frequent_items.tsv")
+  @EpiTest(testDataFile = "search_frequent_items.tsv")
   public static List<String> searchFrequentItemsWrapper(int k,
                                                         List<String> stream) {
     return searchFrequentItems(k, stream);
@@ -35,9 +35,10 @@ public class SearchFrequentItems {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchFrequentItems.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

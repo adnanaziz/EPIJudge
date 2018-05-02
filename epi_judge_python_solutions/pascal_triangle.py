@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def generate_pascal_triangle(n):
+
     result = [[1] * (i + 1) for i in range(n)]
     for i in range(n):
         for j in range(1, i):
@@ -7,11 +11,8 @@ def generate_pascal_triangle(n):
     return result
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('pascal_triangle.tsv',
+        generic_test.generic_test_main("pascal_triangle.py",
+                                       'pascal_triangle.tsv',
                                        generate_pascal_triangle))

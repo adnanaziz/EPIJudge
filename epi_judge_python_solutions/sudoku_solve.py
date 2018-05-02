@@ -2,9 +2,8 @@ import copy
 import functools
 import itertools
 import math
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -74,8 +73,8 @@ def gather_square_block(data, block_size, n):
     block_y = (n // block_size) * block_size
 
     return [
-        data[block_x + i][block_y + j] for j in range(block_size)
-        for i in range(block_size)
+        data[block_x + i][block_y + j]
+        for j in range(block_size) for i in range(block_size)
     ]
 
 
@@ -105,5 +104,5 @@ def solve_sudoku_wrapper(executor, partial_assignment):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('sudoku_solve.tsv',
+        generic_test.generic_test_main("sudoku_solve.py", 'sudoku_solve.tsv',
                                        solve_sudoku_wrapper))

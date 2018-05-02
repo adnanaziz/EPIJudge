@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class EnumeratePalindromicDecompositions {
-  @EpiTest(testfile = "enumerate_palindromic_decompositions.tsv")
+  @EpiTest(testDataFile = "enumerate_palindromic_decompositions.tsv")
 
   public static List<List<String>> palindromeDecompositions(String input) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   @EpiTestComparator
-      public static BiPredicate < List<List<String>>,
-      List < List<String>>> comp = (expected, result) -> {
+  public static BiPredicate<List<List<String>>, List<List<String>>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }
@@ -28,9 +28,10 @@ public class EnumeratePalindromicDecompositions {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "EnumeratePalindromicDecompositions.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

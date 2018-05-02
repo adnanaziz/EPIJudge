@@ -42,7 +42,7 @@ public class SearchMaze {
 
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
@@ -58,7 +58,7 @@ public class SearchMaze {
         cur.x == prev.x && cur.y == prev.y - 1;
   }
 
-  @EpiTest(testfile = "search_maze.tsv")
+  @EpiTest(testDataFile = "search_maze.tsv")
   public static boolean searchMazeWrapper(List<List<Integer>> maze,
                                           Coordinate s, Coordinate e)
       throws TestFailure {
@@ -89,9 +89,10 @@ public class SearchMaze {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchMaze.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

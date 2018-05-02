@@ -24,17 +24,18 @@ public class HuffmanCoding {
     }
   }
 
-  @EpiTest(testfile = "huffman_coding.tsv")
+  @EpiTest(testDataFile = "huffman_coding.tsv")
 
   public static Double huffmanEncoding(List<CharWithFrequency> symbols) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0.0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "HuffmanCoding.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

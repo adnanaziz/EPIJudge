@@ -1,5 +1,4 @@
 import itertools
-from sys import exit
 
 from test_framework import generic_test, test_utils
 
@@ -47,7 +46,8 @@ def phone_mnemonic_pythonic_another(phone_number):
         '9': 'WXYZ'
     }
     return [
-        a + b for a in TABLE.get(phone_number[:1], '')
+        a + b
+        for a in TABLE.get(phone_number[:1], '')
         for b in phone_mnemonic_pythonic_another(phone_number[1:]) or ['']
     ]
 
@@ -55,6 +55,7 @@ def phone_mnemonic_pythonic_another(phone_number):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "phone_number_mnemonic.py",
             'phone_number_mnemonic.tsv',
             phone_mnemonic,
             comparator=test_utils.unordered_compare))

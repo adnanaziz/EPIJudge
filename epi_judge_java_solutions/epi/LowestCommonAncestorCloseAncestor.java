@@ -10,8 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LowestCommonAncestorCloseAncestor {
+
   public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
+
     Set<BinaryTree<Integer>> hash = new HashSet<>();
     while (node0 != null || node1 != null) {
       // Ascend tree in tandem from these two nodes.
@@ -32,7 +34,7 @@ public class LowestCommonAncestorCloseAncestor {
         "node0 and node1 are not in the same tree");
   }
 
-  @EpiTest(testfile = "lowest_common_ancestor.tsv")
+  @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
   public static int lcaWrapper(TimedExecutor executor, BinaryTree<Integer> tree,
                                Integer key0, Integer key1) throws Exception {
     BinaryTree<Integer> node0 = BinaryTreeUtils.mustFindNode(tree, key0);
@@ -47,9 +49,10 @@ public class LowestCommonAncestorCloseAncestor {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LowestCommonAncestorCloseAncestor.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

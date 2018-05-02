@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 
 using std::string;
 using std::vector;
@@ -19,7 +19,7 @@ struct Name {
 };
 
 void EliminateDuplicate(vector<Name>* names) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
 
@@ -47,6 +47,6 @@ bool Comp(vector<std::string> expected, vector<Name> result) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"names"};
-  return GenericTestMain(args, "remove_duplicates.tsv",
+  return GenericTestMain(args, "remove_duplicates.cc", "remove_duplicates.tsv",
                          &EliminateDuplicateWrapper, &Comp, param_names);
 }

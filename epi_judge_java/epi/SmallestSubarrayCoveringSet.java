@@ -24,11 +24,11 @@ public class SmallestSubarrayCoveringSet {
 
   public static Subarray findSmallestSubarrayCoveringSet(List<String> paragraph,
                                                          Set<String> keywords) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return new Subarray(0, 0);
   }
 
-  @EpiTest(testfile = "smallest_subarray_covering_set.tsv")
+  @EpiTest(testDataFile = "smallest_subarray_covering_set.tsv")
   public static int findSmallestSubarrayCoveringSetWrapper(
       TimedExecutor executor, List<String> paragraph, Set<String> keywords)
       throws Exception {
@@ -53,9 +53,10 @@ public class SmallestSubarrayCoveringSet {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SmallestSubarrayCoveringSet.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,3 +1,6 @@
+from test_framework import generic_test
+
+
 def levenshtein_distance(A, B):
     def compute_distance_between_prefixes(A_idx, B_idx):
         if A_idx < 0:
@@ -24,11 +27,8 @@ def levenshtein_distance(A, B):
     return compute_distance_between_prefixes(len(A) - 1, len(B) - 1)
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("levenshtein_distance.tsv",
+        generic_test.generic_test_main("levenshtein_distance.py",
+                                       "levenshtein_distance.tsv",
                                        levenshtein_distance))

@@ -16,7 +16,7 @@ public class OnlineSampling {
   // Assumption: there are at least k elements in the stream.
   public static List<Integer> onlineRandomSample(Iterator<Integer> stream,
                                                  int k) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
@@ -49,7 +49,7 @@ public class OnlineSampling {
         sequence, totalPossibleOutcomes, 0.01);
   }
 
-  @EpiTest(testfile = "online_sampling.tsv")
+  @EpiTest(testDataFile = "online_sampling.tsv")
   public static void onlineRandomSampleWrapper(TimedExecutor executor,
                                                List<Integer> stream, int k)
       throws Exception {
@@ -58,9 +58,10 @@ public class OnlineSampling {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "OnlineSampling.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

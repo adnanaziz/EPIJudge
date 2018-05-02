@@ -1,22 +1,28 @@
 // @library
 package epi.test_framework;
 
+import epi.test_framework.serialization_traits.SerializationTraits;
+import epi.test_framework.serialization_traits.TraitsFactory;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
-import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The central class in generic test runner framework.
  * It is responsible for constructing string deserializers
  * based on the argument types of the tested method (obtained with reflexions)
- * (see {@link #GenericTestHandler(Method, BiPredicate, List)},
+ * (see {@link #GenericTestHandler(Method, BiPredicate, Field)},
  * asserting that the method signature matches the one from the test file header
  * (see {@link #parseSignature(List)} and
  * executing tests on the provided method (which includes
@@ -37,9 +43,9 @@ public class GenericTestHandler {
   private Method func;
   private List<Type> paramTypes;
   private boolean hasExecutorHook;
-  private Function<String, Object>[] paramParsers;
+  private List<SerializationTraits> paramTraits;
   private List<String> paramNames;
-  private Function<String, Object> retValueParser;
+  private SerializationTraits retValueTraits;
   private BiPredicate<Object, Object> comparator;
   private boolean customExpectedType;
 
@@ -47,20 +53,19 @@ public class GenericTestHandler {
    * This constructor initializes type parsers for all arguments and return type
    * of func.
    *
-   * @param func            - a method to test.
+   * @param func         - a method to test.
    * @param comparator   - an optional comparator for result. If comparator is
    *                     null, values are compared with equals().
    * @param expectedType - can be used with a custom comparator that has
    *                     different types for expected and result arguments.
    */
   public GenericTestHandler(Method func, BiPredicate<Object, Object> comparator,
-                            List<Class<?>> expectedType) {
+                            Field expectedType) {
     this.func = func;
     this.comparator = comparator;
-
     hasExecutorHook = false;
+    paramTypes = List.of(func.getGenericParameterTypes());
 
-    paramTypes = Arrays.asList(func.getGenericParameterTypes());
     if (paramTypes.size() >= 1 &&
         paramTypes.get(0).equals(TimedExecutor.class)) {
       hasExecutorHook = true;
@@ -71,15 +76,9 @@ public class GenericTestHandler {
       throw new RuntimeException("This program uses deprecated TestTimer hook");
     }
 
-    @SuppressWarnings("unchecked")
-    Function<String, Object>[] A = new Function[paramTypes.size()];
-    paramParsers = A;
-
-    for (int i = 0; i < paramTypes.size(); i++) {
-      paramParsers[i] = TestUtilsDeserialization.getTypeParser(
-          TestUtilsDeserialization.linearizeType(paramTypes.get(i)));
-    }
-
+    paramTraits = paramTypes.stream()
+                      .map(TraitsFactory::getTraits)
+                      .collect(Collectors.toList());
     paramNames = Arrays.stream(func.getParameters())
                      .map(Parameter::getName)
                      .collect(Collectors.toList());
@@ -88,10 +87,9 @@ public class GenericTestHandler {
     }
 
     if (expectedType == null) {
-      retValueParser = TestUtilsDeserialization.getTypeParser(
-          TestUtilsDeserialization.linearizeType(func.getGenericReturnType()));
+      retValueTraits = TraitsFactory.getTraits(func.getGenericReturnType());
     } else {
-      retValueParser = TestUtilsDeserialization.getTypeParser(expectedType);
+      retValueTraits = TraitsFactory.getTraits(expectedType.getGenericType());
     }
 
     customExpectedType = expectedType != null;
@@ -109,21 +107,22 @@ public class GenericTestHandler {
     }
 
     for (int i = 0; i < paramTypes.size(); i++) {
-      if (!TestUtilsDeserialization.matchArgumentType(
-              paramTypes.get(i),
-              TestUtils.filterBracketComments(signature.get(i)))) {
-        throw new RuntimeException(Integer.toString(i) +
-                                   "th argument type mismatch");
-      }
+      matchTypeNames(paramTraits.get(i).name(), signature.get(i),
+                     String.format("%d argument", i));
     }
 
     if (!customExpectedType) {
-      if (!TestUtilsDeserialization.matchArgumentType(
-              this.func.getGenericReturnType(),
-              TestUtils.filterBracketComments(
-                  signature.get(signature.size() - 1)))) {
-        throw new RuntimeException("Return type mismatch");
-      }
+      matchTypeNames(retValueTraits.name(), signature.get(signature.size() - 1),
+                     "Return value");
+    }
+  }
+
+  private void matchTypeNames(String expected, String fromTestData,
+                              String sourceName) {
+    if (!expected.equals(TestUtils.filterBracketComments(fromTestData))) {
+      throw new RuntimeException(
+          String.format("%s type mismatch: expected %s, got %s", sourceName,
+                        expected, fromTestData));
     }
   }
 
@@ -132,23 +131,27 @@ public class GenericTestHandler {
    * header). It deserializes the list of arguments and calls the user method
    * with them.
    *
+   * @param timeoutSeconds - number of seconds to timeout.
    * @param testArgs - serialized arguments.
    * @return array, that contains [result of comparison of expected and result,
    * expected, result]. Two last entries are omitted in case of the void return
    * type
    */
-  public TestTimer runTest(long timeoutSeconds, List<String> testArgs)
+  public TestOutput runTest(long timeoutSeconds, List<String> testArgs)
       throws Exception, Error {
     try {
-      if (testArgs.size() !=
-          paramParsers.length + (retValueParser != null ? 1 : 0)) {
-        throw new RuntimeException("Invalid argument count");
+      int expectedParamCount = paramTraits.size() + (expectedIsVoid() ? 0 : 1);
+      if (testArgs.size() != expectedParamCount) {
+        throw new RuntimeException(
+            String.format("Invalid argument count: expected %d, actual: %d",
+                          expectedParamCount, testArgs.size()));
       }
 
       List<Object> parsed = new ArrayList<>();
-      for (int i = 0; i < paramParsers.length; i++) {
-        parsed.add(paramParsers[i].apply(testArgs.get(i)));
+      for (int i = 0; i < paramTraits.size(); i++) {
+        parsed.add(paramTraits.get(i).parse(testArgs.get(i)));
       }
+      List<Integer> metrics = calculateMetrics(parsed);
 
       Object result;
       TimedExecutor executor = new TimedExecutor(timeoutSeconds);
@@ -162,19 +165,19 @@ public class GenericTestHandler {
 
       if (!expectedIsVoid()) {
         Object expected =
-            retValueParser.apply(testArgs.get(testArgs.size() - 1));
+            retValueTraits.parse(testArgs.get(testArgs.size() - 1));
         assertResultsEqual(expected, result);
       }
 
-      return executor.getTimer();
+      return new TestOutput(executor.getTimer(), metrics);
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e.getMessage());
     } catch (InvocationTargetException e) {
       Throwable t = e.getCause();
       if (t instanceof Exception) {
-        throw (Exception)t;
+        throw(Exception) t;
       } else if (t instanceof Error) {
-        throw (Error) t;
+        throw(Error) t;
       } else {
         // Improbable except for intended attempts to break the code, but anyway
         throw new RuntimeException(t);
@@ -209,7 +212,21 @@ public class GenericTestHandler {
     }
   }
 
-  public boolean expectedIsVoid() { return retValueParser == null; }
+  public List<String> metricNames() {
+    return IntStream.range(0, Math.min(paramTraits.size(), paramNames.size()))
+        .mapToObj(i -> paramTraits.get(i).getMetricNames(paramNames.get(i)))
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
+  }
+
+  private List<Integer> calculateMetrics(List<Object> params) {
+    return IntStream.range(0, Math.min(paramTraits.size(), params.size()))
+        .mapToObj(i -> paramTraits.get(i).getMetrics(params.get(i)))
+        .flatMap(Collection::stream)
+        .collect(Collectors.toList());
+  }
+
+  public boolean expectedIsVoid() { return retValueTraits.isVoid(); }
 
   public List<String> paramNames() { return paramNames; }
 }

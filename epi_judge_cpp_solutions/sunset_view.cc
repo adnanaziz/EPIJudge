@@ -37,7 +37,7 @@ vector<int> ExamineBuildingsWithSunsetWrapper(const vector<int>& sequence) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"sequence"};
-  return GenericTestMain(args, "sunset_view.tsv",
+  return GenericTestMain(args, "sunset_view.cc", "sunset_view.tsv",
                          &ExamineBuildingsWithSunsetWrapper,
                          DefaultComparator{}, param_names);
 }

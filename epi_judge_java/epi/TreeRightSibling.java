@@ -17,7 +17,7 @@ public class TreeRightSibling {
   }
 
   public static void constructRightSibling(BinaryTreeNode<Integer> tree) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
@@ -32,7 +32,7 @@ public class TreeRightSibling {
     return cloned;
   }
 
-  @EpiTest(testfile = "tree_right_sibling.tsv")
+  @EpiTest(testDataFile = "tree_right_sibling.tsv")
   public static List<List<Integer>>
   constructRightSiblingWrapper(TimedExecutor executor, BinaryTree<Integer> tree)
       throws Exception {
@@ -56,9 +56,10 @@ public class TreeRightSibling {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeRightSibling.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

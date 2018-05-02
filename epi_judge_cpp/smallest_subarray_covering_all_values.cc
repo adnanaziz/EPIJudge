@@ -15,7 +15,7 @@ struct Subarray {
 
 Subarray FindSmallestSequentiallyCoveringSubset(
     const vector<string>& paragraph, const vector<string>& keywords) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {0, 0};
 }
 
@@ -50,7 +50,8 @@ int FindSmallestSequentiallyCoveringSubsetWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "paragraph", "keywords"};
-  return GenericTestMain(args, "smallest_subarray_covering_all_values.tsv",
+  return GenericTestMain(args, "smallest_subarray_covering_all_values.cc",
+                         "smallest_subarray_covering_all_values.tsv",
                          &FindSmallestSequentiallyCoveringSubsetWrapper,
                          DefaultComparator{}, param_names);
 }

@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class LineThroughMostPoints {
   @EpiUserType(ctorParams = {int.class, int.class})
+
   public static class Point {
     public int x, y;
 
@@ -22,8 +23,10 @@ public class LineThroughMostPoints {
     }
   }
 
-  @EpiTest(testfile = "line_through_most_points.tsv")
+  @EpiTest(testDataFile = "line_through_most_points.tsv")
+
   public static int findLineWithMostPoints(List<Point> points) {
+
     int result = 0;
     for (int i = 0; i < points.size(); ++i) {
       Map<Integer, Map<Integer, Integer>> slopeTable = new HashMap<>();
@@ -69,9 +72,10 @@ public class LineThroughMostPoints {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LineThroughMostPoints.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

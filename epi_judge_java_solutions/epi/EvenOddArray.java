@@ -10,7 +10,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class EvenOddArray {
+
   public static void evenOdd(List<Integer> A) {
+
     int nextEven = 0, nextOdd = A.size() - 1;
     while (nextEven < nextOdd) {
       if (A.get(nextEven) % 2 == 0) {
@@ -21,7 +23,7 @@ public class EvenOddArray {
     }
   }
 
-  @EpiTest(testfile = "even_odd_array.tsv")
+  @EpiTest(testDataFile = "even_odd_array.tsv")
   public static void evenOddWrapper(TimedExecutor executor, List<Integer> A)
       throws Exception {
     List<Integer> before = new ArrayList<>(A);
@@ -46,9 +48,10 @@ public class EvenOddArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "EvenOddArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

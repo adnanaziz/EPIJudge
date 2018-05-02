@@ -2,7 +2,8 @@
 #include <memory>
 #include <random>
 #include "test_framework/binary_tree_utils.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
+
 #pragma once
 
 using std::unique_ptr;
@@ -11,6 +12,7 @@ template <typename T>
 struct BinaryTreeNode {
   T data;
   unique_ptr<BinaryTreeNode<T>> left, right;
+
   explicit BinaryTreeNode(const T& data) : data(data) {}
   BinaryTreeNode(T data, unique_ptr<BinaryTreeNode<T>> left,
                  unique_ptr<BinaryTreeNode<T>> right)

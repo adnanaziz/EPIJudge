@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReplaceAndRemove {
+
   public static int replaceAndRemove(int size, char[] s) {
+
     // Forward iteration: remove "b"s and count the number of "a"s.
     int writeIdx = 0, aCount = 0;
     for (int i = 0; i < size; ++i) {
@@ -36,7 +38,7 @@ public class ReplaceAndRemove {
     return finalSize;
   }
 
-  @EpiTest(testfile = "replace_and_remove.tsv")
+  @EpiTest(testDataFile = "replace_and_remove.tsv")
   public static List<String>
   replaceAndRemoveWrapper(TimedExecutor executor, Integer size, List<String> s)
       throws Exception {
@@ -57,9 +59,10 @@ public class ReplaceAndRemove {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ReplaceAndRemove.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

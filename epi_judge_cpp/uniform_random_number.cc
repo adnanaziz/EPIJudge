@@ -19,7 +19,7 @@ int ZeroOneRandom() {
 }
 
 int UniformRandom(int lower_bound, int upper_bound) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0;
 }
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "lower_bound",
                                        "upper_bound"};
-  return GenericTestMain(args, "uniform_random_number.tsv",
-                         &UniformRandomWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "uniform_random_number.cc",
+                         "uniform_random_number.tsv", &UniformRandomWrapper,
+                         DefaultComparator{}, param_names);
 }

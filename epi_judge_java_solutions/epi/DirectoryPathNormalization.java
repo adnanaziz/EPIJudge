@@ -8,8 +8,10 @@ import java.util.Deque;
 import java.util.Iterator;
 
 public class DirectoryPathNormalization {
-  @EpiTest(testfile = "directory_path_normalization.tsv")
+  @EpiTest(testDataFile = "directory_path_normalization.tsv")
+
   public static String shortestEquivalentPath(String path) {
+
     if (path.equals("")) {
       throw new IllegalArgumentException("Empty string is not a legal path.");
     }
@@ -53,9 +55,10 @@ public class DirectoryPathNormalization {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DirectoryPathNormalization.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

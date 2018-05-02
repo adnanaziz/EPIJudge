@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MaxTeamsInPhotograph {
+
   public static class GraphVertex {
     public List<GraphVertex> edges = new ArrayList<>();
     // Set maxDistance = 0 to indicate unvisited vertex.
@@ -16,6 +17,7 @@ public class MaxTeamsInPhotograph {
   }
 
   public static int findLargestNumberTeams(List<GraphVertex> graph) {
+
     int maxLevel = 0;
     for (GraphVertex g : graph) {
       if (g.maxDistance == 0) {
@@ -46,7 +48,7 @@ public class MaxTeamsInPhotograph {
     }
   }
 
-  @EpiTest(testfile = "max_teams_in_photograph.tsv")
+  @EpiTest(testDataFile = "max_teams_in_photograph.tsv")
   public static int findLargestNumberTeamsWrapper(TimedExecutor executor, int k,
                                                   List<Edge> edges)
       throws Exception {
@@ -68,9 +70,10 @@ public class MaxTeamsInPhotograph {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxTeamsInPhotograph.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

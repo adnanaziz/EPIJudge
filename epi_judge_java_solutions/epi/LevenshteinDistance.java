@@ -6,8 +6,10 @@ import epi.test_framework.GenericTest;
 import java.util.Arrays;
 
 public class LevenshteinDistance {
-  @EpiTest(testfile = "levenshtein_distance.tsv")
+  @EpiTest(testDataFile = "levenshtein_distance.tsv")
+
   public static int levenshteinDistance(String A, String B) {
+
     int[][] distanceBetweenPrefixes = new int[A.length()][B.length()];
     for (int[] row : distanceBetweenPrefixes) {
       Arrays.fill(row, -1);
@@ -45,9 +47,10 @@ public class LevenshteinDistance {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LevenshteinDistance.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

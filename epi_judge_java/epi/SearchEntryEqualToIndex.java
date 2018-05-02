@@ -10,11 +10,11 @@ import java.util.List;
 public class SearchEntryEqualToIndex {
 
   public static int searchEntryEqualToItsIndex(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
-  @EpiTest(testfile = "search_entry_equal_to_index.tsv")
+  @EpiTest(testDataFile = "search_entry_equal_to_index.tsv")
   public static void searchEntryEqualToItsIndexWrapper(TimedExecutor executor,
                                                        List<Integer> A)
       throws Exception {
@@ -34,9 +34,10 @@ public class SearchEntryEqualToIndex {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchEntryEqualToIndex.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

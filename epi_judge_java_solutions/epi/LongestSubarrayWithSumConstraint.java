@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LongestSubarrayWithSumConstraint {
-  @EpiTest(testfile = "longest_subarray_with_sum_constraint.tsv")
+  @EpiTest(testDataFile = "longest_subarray_with_sum_constraint.tsv")
+
   public static int findLongestSubarrayLessEqualK(List<Integer> A, int k) {
+
     // Build the prefix sum according to A.
     List<Integer> prefixSum = new ArrayList<>();
     int sum = 0;
@@ -47,9 +49,10 @@ public class LongestSubarrayWithSumConstraint {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LongestSubarrayWithSumConstraint.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

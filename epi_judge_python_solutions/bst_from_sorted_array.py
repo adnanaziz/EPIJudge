@@ -1,8 +1,7 @@
 import functools
-from sys import exit
 
 from bst_node import BstNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.binary_tree_utils import (binary_tree_height,
                                               generate_inorder)
 from test_framework.test_failure import TestFailure
@@ -34,5 +33,5 @@ def build_min_height_bst_from_sorted_array_wrapper(executor, A):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            'bst_from_sorted_array.tsv',
+            "bst_from_sorted_array.py", 'bst_from_sorted_array.tsv',
             build_min_height_bst_from_sorted_array_wrapper))

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AlternatingArray {
   public static void rearrange(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
@@ -57,7 +57,7 @@ public class AlternatingArray {
     }
   }
 
-  @EpiTest(testfile = "alternating_array.tsv")
+  @EpiTest(testDataFile = "alternating_array.tsv")
   public static void rearrangeWrapper(TimedExecutor executor, List<Integer> A)
       throws Exception {
     List<Integer> result = new ArrayList<>(A);
@@ -68,9 +68,10 @@ public class AlternatingArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "AlternatingArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

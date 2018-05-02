@@ -9,11 +9,11 @@ public class DoTerminatedListsOverlap {
 
   public static ListNode<Integer>
   overlappingNoCycleLists(ListNode<Integer> l0, ListNode<Integer> l1) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "do_terminated_lists_overlap.tsv")
+  @EpiTest(testDataFile = "do_terminated_lists_overlap.tsv")
   public static void
   overlappingNoCycleListsWrapper(TimedExecutor executor, ListNode<Integer> l0,
                                  ListNode<Integer> l1, ListNode<Integer> common)
@@ -51,9 +51,10 @@ public class DoTerminatedListsOverlap {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DoTerminatedListsOverlap.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

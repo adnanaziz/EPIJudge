@@ -1,15 +1,14 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 Rectangle = collections.namedtuple('Rectangle', ('left', 'right', 'height'))
 
 
 def compute_skyline(buildings):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return []
 
 
@@ -24,5 +23,6 @@ def compute_skyline_wrapper(executor, buildings):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('drawing_skyline.tsv',
+        generic_test.generic_test_main("drawing_skyline.py",
+                                       'drawing_skyline.tsv',
                                        compute_skyline_wrapper))

@@ -14,13 +14,16 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class AddingCredits {
+
   public static class ClientsCreditsInfo {
+
     private int offset = 0;
     private Map<String, Integer> clientToCredit = new HashMap<>();
     private NavigableMap<Integer, Set<String>> creditToClients =
         new TreeMap<>();
 
     public void insert(String clientID, int c) {
+
       remove(clientID);
       clientToCredit.put(clientID, c - offset);
       creditToClients.putIfAbsent(c - offset, new HashSet<>());
@@ -29,6 +32,7 @@ public class AddingCredits {
     }
 
     public boolean remove(String clientID) {
+
       Integer clientCredit = clientToCredit.get(clientID);
       if (clientCredit != null) {
         creditToClients.get(clientCredit).remove(clientID);
@@ -42,6 +46,7 @@ public class AddingCredits {
     }
 
     public int lookup(String clientID) {
+
       Integer clientCredit = clientToCredit.get(clientID);
       return clientCredit == null ? -1 : clientCredit + offset;
     }
@@ -49,6 +54,7 @@ public class AddingCredits {
     public void addAll(int C) { offset += C; }
 
     public String max() {
+
       return creditToClients.isEmpty()
           ? ""
           : creditToClients.lastEntry().getValue().iterator().next();
@@ -56,6 +62,7 @@ public class AddingCredits {
 
     @Override
     public String toString() {
+
       return "{clientToCredit=" + clientToCredit + '}';
     }
   }
@@ -106,7 +113,7 @@ public class AddingCredits {
     }
   }
 
-  @EpiTest(testfile = "adding_credits.tsv")
+  @EpiTest(testDataFile = "adding_credits.tsv")
   public static void ClientsCreditsInfoTester(List<Operation> ops)
       throws TestFailure {
     ClientsCreditsInfo cr = new ClientsCreditsInfo();
@@ -147,9 +154,10 @@ public class AddingCredits {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "AddingCredits.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

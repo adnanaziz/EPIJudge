@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 
 using std::make_unique;
 using std::priority_queue;
@@ -17,6 +17,7 @@ using std::unordered_map;
 using std::vector;
 
 // namespace is used in order to escape BinaryTreeNode symbol
+
 namespace huffman {
 
 struct BinaryTree;
@@ -87,6 +88,7 @@ void AssignHuffmanCode(const shared_ptr<BinaryTree>& tree,
     }
   }
 }
+
 }  // namespace huffman
 
 template <>
@@ -110,6 +112,7 @@ double HuffmanEncodingWrapper(vector<huffman::CharWithFrequency> symbols) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"symbols"};
-  return GenericTestMain(args, "huffman_coding.tsv", &HuffmanEncodingWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "huffman_coding.cc", "huffman_coding.tsv",
+                         &HuffmanEncodingWrapper, DefaultComparator{},
+                         param_names);
 }

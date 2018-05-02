@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def apply_permutation(perm, A):
+
     for i in range(len(A)):
         # Check if the element at index i has not been moved by checking if
         # perm[i] is nonnegative.
@@ -19,11 +23,8 @@ def apply_permutation_wrapper(perm, A):
     return A
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("apply_permutation.tsv",
+        generic_test.generic_test_main("apply_permutation.py",
+                                       "apply_permutation.tsv",
                                        apply_permutation_wrapper))

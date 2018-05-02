@@ -1,7 +1,6 @@
 import collections
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def find_all_substrings(s, words):
@@ -29,5 +28,6 @@ def find_all_substrings(s, words):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "string_decompositions_into_dictionary_words.py",
             'string_decompositions_into_dictionary_words.tsv',
             find_all_substrings))

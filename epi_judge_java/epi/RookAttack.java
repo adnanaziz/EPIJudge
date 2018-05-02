@@ -9,11 +9,11 @@ import java.util.List;
 public class RookAttack {
 
   public static void rookAttack(List<List<Integer>> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
-  @EpiTest(testfile = "rook_attack.tsv")
+  @EpiTest(testDataFile = "rook_attack.tsv")
   public static List<List<Integer>> rookAttackWrapper(List<List<Integer>> A) {
     List<List<Integer>> aCopy = new ArrayList<>(A);
     rookAttack(aCopy);
@@ -21,9 +21,10 @@ public class RookAttack {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RookAttack.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

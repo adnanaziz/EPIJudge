@@ -10,16 +10,16 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class Permutations {
-  @EpiTest(testfile = "permutations.tsv")
+  @EpiTest(testDataFile = "permutations.tsv")
 
   public static List<List<Integer>> permutations(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   @EpiTestComparator
-      public static BiPredicate < List<List<Integer>>,
-      List < List<Integer>>> comp = (expected, result) -> {
+  public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }
@@ -35,9 +35,10 @@ public class Permutations {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Permutations.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

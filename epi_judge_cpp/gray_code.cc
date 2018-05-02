@@ -9,7 +9,7 @@
 using std::vector;
 
 vector<int> GrayCode(int num_bits) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -48,6 +48,6 @@ void GrayCodeWrapper(TimedExecutor& executor, int num_bits) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "num_bits"};
-  return GenericTestMain(args, "gray_code.tsv", &GrayCodeWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "gray_code.cc", "gray_code.tsv",
+                         &GrayCodeWrapper, DefaultComparator{}, param_names);
 }

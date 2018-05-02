@@ -11,7 +11,7 @@ using std::bind;
 using std::vector;
 
 void RandomSampling(int k, vector<int>* A_ptr) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
 
@@ -51,6 +51,7 @@ void RandomSamplingWrapper(TimedExecutor& executor, int k,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "k", "A"};
-  return GenericTestMain(args, "offline_sampling.tsv", &RandomSamplingWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "offline_sampling.cc", "offline_sampling.tsv",
+                         &RandomSamplingWrapper, DefaultComparator{},
+                         param_names);
 }

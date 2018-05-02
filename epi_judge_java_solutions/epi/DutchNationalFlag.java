@@ -10,9 +10,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class DutchNationalFlag {
+
   public enum Color { RED, WHITE, BLUE }
 
   public static void dutchFlagPartition(int pivotIndex, List<Color> A) {
+
     Color pivot = A.get(pivotIndex);
     /**
      * Keep the following invariants during partitioning:
@@ -35,7 +37,7 @@ public class DutchNationalFlag {
     }
   }
 
-  @EpiTest(testfile = "dutch_national_flag.tsv")
+  @EpiTest(testDataFile = "dutch_national_flag.tsv")
   public static void dutchFlagPartitionWrapper(TimedExecutor executor,
                                                List<Integer> A, int pivotIdx)
       throws Exception {
@@ -76,9 +78,10 @@ public class DutchNationalFlag {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DutchNationalFlag.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

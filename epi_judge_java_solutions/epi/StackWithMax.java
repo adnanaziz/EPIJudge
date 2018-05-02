@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class StackWithMax {
+
   private static class ElementWithCachedMax {
     public Integer element;
     public Integer max;
@@ -22,6 +23,7 @@ public class StackWithMax {
   }
 
   public static class Stack {
+
     // Stores (element, cached maximum) pair.
     private Deque<ElementWithCachedMax> elementWithCachedMax =
         new ArrayDeque<>();
@@ -29,6 +31,7 @@ public class StackWithMax {
     public boolean empty() { return elementWithCachedMax.isEmpty(); }
 
     public Integer max() {
+
       if (empty()) {
         throw new IllegalStateException("max(): empty stack");
       }
@@ -36,6 +39,7 @@ public class StackWithMax {
     }
 
     public Integer pop() {
+
       if (empty()) {
         throw new IllegalStateException("pop(): empty stack");
       }
@@ -43,6 +47,7 @@ public class StackWithMax {
     }
 
     public void push(Integer x) {
+
       elementWithCachedMax.addFirst(
           new ElementWithCachedMax(x, Math.max(x, empty() ? x : max())));
     }
@@ -59,7 +64,7 @@ public class StackWithMax {
     }
   }
 
-  @EpiTest(testfile = "stack_with_max.tsv")
+  @EpiTest(testDataFile = "stack_with_max.tsv")
   public static void stackTest(List<StackOp> ops) throws TestFailure {
     try {
       Stack s = new Stack();
@@ -103,9 +108,10 @@ public class StackWithMax {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "StackWithMax.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

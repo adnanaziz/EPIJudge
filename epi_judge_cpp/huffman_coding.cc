@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 
 using std::string;
 using std::vector;
@@ -15,7 +15,7 @@ struct CharWithFrequency {
 };
 
 double HuffmanEncoding(vector<CharWithFrequency>* symbols) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0.0;
 }
 
@@ -42,6 +42,7 @@ double HuffmanEncodingWrapper(vector<huffman::CharWithFrequency> symbols) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"symbols"};
-  return GenericTestMain(args, "huffman_coding.tsv", &HuffmanEncodingWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "huffman_coding.cc", "huffman_coding.tsv",
+                         &HuffmanEncodingWrapper, DefaultComparator{},
+                         param_names);
 }

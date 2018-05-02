@@ -9,7 +9,7 @@
 using std::vector;
 
 vector<unique_ptr<BinaryTreeNode<int>>> GenerateAllBinaryTrees(int num_nodes) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -45,7 +45,7 @@ vector<vector<int>> GenerateAllBinaryTreesWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "num_nodes"};
-  return GenericTestMain(args, "enumerate_trees.tsv",
+  return GenericTestMain(args, "enumerate_trees.cc", "enumerate_trees.tsv",
                          &GenerateAllBinaryTreesWrapper, DefaultComparator{},
                          param_names);
 }

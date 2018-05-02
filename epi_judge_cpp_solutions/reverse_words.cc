@@ -31,6 +31,7 @@ string ReverseWordsWrapper(TimedExecutor& executor, string s) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "s"};
-  return GenericTestMain(args, "reverse_words.tsv", &ReverseWordsWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "reverse_words.cc", "reverse_words.tsv",
+                         &ReverseWordsWrapper, DefaultComparator{},
+                         param_names);
 }

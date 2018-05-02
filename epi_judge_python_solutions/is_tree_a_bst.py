@@ -1,10 +1,8 @@
-from sys import exit
-
-from binary_tree_node import BinaryTreeNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def is_binary_tree_bst(tree, low_range=float('-inf'), high_range=float('inf')):
+
     if not tree:
         return True
     elif not low_range <= tree.data <= high_range:
@@ -30,5 +28,5 @@ def is_binary_tree_bst_alternative(tree):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('is_tree_a_bst.tsv',
+        generic_test.generic_test_main("is_tree_a_bst.py", 'is_tree_a_bst.tsv',
                                        is_binary_tree_bst))

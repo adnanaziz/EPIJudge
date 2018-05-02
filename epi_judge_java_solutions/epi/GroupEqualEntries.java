@@ -15,6 +15,7 @@ import java.util.Set;
 
 public class GroupEqualEntries {
   @EpiUserType(ctorParams = {Integer.class, String.class})
+
   public static class Person {
     public Integer age;
     public String name;
@@ -23,6 +24,7 @@ public class GroupEqualEntries {
       age = k;
       name = n;
     }
+
     @Override
     public boolean equals(Object o) {
       if (this == o)
@@ -46,6 +48,7 @@ public class GroupEqualEntries {
   }
 
   public static void groupByAge(List<Person> people) {
+
     Map<Integer, Integer> ageToCount = new HashMap<>();
     for (Person p : people) {
       ageToCount.put(p.age, ageToCount.getOrDefault(p.age, 0) + 1);
@@ -82,7 +85,7 @@ public class GroupEqualEntries {
     return m;
   }
 
-  @EpiTest(testfile = "group_equal_entries.tsv")
+  @EpiTest(testDataFile = "group_equal_entries.tsv")
   public static void groupByAgeWrapper(TimedExecutor executor,
                                        List<Person> people) throws Exception {
     if (people.isEmpty()) {
@@ -111,9 +114,10 @@ public class GroupEqualEntries {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "GroupEqualEntries.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

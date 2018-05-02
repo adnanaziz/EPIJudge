@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class Bonus {
+
   private static class EmployeeData {
     public Integer productivity;
     public Integer index;
@@ -21,8 +22,10 @@ public class Bonus {
 
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
 
-  @EpiTest(testfile = "bonus.tsv")
+  @EpiTest(testDataFile = "bonus.tsv")
+
   public static Integer calculateBonus(List<Integer> productivity) {
+
     PriorityQueue<EmployeeData> minHeap = new PriorityQueue<>(
         DEFAULT_INITIAL_CAPACITY,
         (o1, o2) -> Integer.compare(o1.productivity, o2.productivity));
@@ -54,9 +57,10 @@ public class Bonus {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Bonus.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

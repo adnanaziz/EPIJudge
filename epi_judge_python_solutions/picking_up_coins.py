@@ -1,7 +1,6 @@
 import itertools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def maximum_revenue(coins):
@@ -33,12 +32,13 @@ def maximum_revenue_alternative(coins):
 
         if maximum_revenue_for_range[a][b] == -1:
             maximum_revenue_for_range[a][b] = max(
-                coins[a] + prefix_sum[b] - (prefix_sum[a]
-                                            if a + 1 > 0 else 0) -
-                maximum_revenue_alternative_helper(a + 1, b),
-                coins[b] + prefix_sum[b - 1] - (prefix_sum[a - 1]
-                                                if a > 0 else 0) -
-                maximum_revenue_alternative_helper(a, b - 1))
+                coins[a] + prefix_sum[b] -
+                (prefix_sum[a]
+                 if a + 1 > 0 else 0) - maximum_revenue_alternative_helper(
+                     a + 1, b), coins[b] + prefix_sum[b - 1] -
+                (prefix_sum[a - 1]
+                 if a > 0 else 0) - maximum_revenue_alternative_helper(
+                     a, b - 1))
         return maximum_revenue_for_range[a][b]
 
     prefix_sum = list(itertools.accumulate(coins))
@@ -48,5 +48,5 @@ def maximum_revenue_alternative(coins):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('picking_up_coins.tsv',
-                                       maximum_revenue))
+        generic_test.generic_test_main(
+            "picking_up_coins.py", 'picking_up_coins.tsv', maximum_revenue))

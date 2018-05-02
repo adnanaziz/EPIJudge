@@ -1,20 +1,18 @@
-from sys import exit
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 class QueueWithMax:
     def enqueue(self, x):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def dequeue(self):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return 0
 
     def max(self):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return 0
 
 
@@ -36,8 +34,8 @@ def queue_tester(ops):
             elif op == 'max':
                 result = q.max()
                 if result != arg:
-                    raise TestFailure(
-                        "Max: expected " + str(arg) + ", got " + str(result))
+                    raise TestFailure("Max: expected " + str(arg) + ", got " +
+                                      str(result))
             else:
                 raise RuntimeError("Unsupported queue operation: " + op)
     except IndexError:
@@ -45,4 +43,6 @@ def queue_tester(ops):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('queue_with_max.tsv', queue_tester))
+    exit(
+        generic_test.generic_test_main("queue_with_max.py",
+                                       'queue_with_max.tsv', queue_tester))

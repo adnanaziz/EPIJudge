@@ -7,13 +7,14 @@ using std::unordered_set;
 
 // Uses BFS to find the least steps of transformation.
 int TransformString(unordered_set<string> D, const string& s, const string& t) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0;
 }
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"D", "s", "t"};
-  return GenericTestMain(args, "string_transformability.tsv", &TransformString,
+  return GenericTestMain(args, "string_transformability.cc",
+                         "string_transformability.tsv", &TransformString,
                          DefaultComparator{}, param_names);
 }

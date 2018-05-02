@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class EnumerateBalancedParentheses {
-  @EpiTest(testfile = "enumerate_balanced_parentheses.tsv")
+  @EpiTest(testDataFile = "enumerate_balanced_parentheses.tsv")
 
   public static List<String> generateBalancedParentheses(int numPairs) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
@@ -28,9 +28,10 @@ public class EnumerateBalancedParentheses {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "EnumerateBalancedParentheses.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

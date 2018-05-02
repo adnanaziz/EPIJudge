@@ -11,7 +11,7 @@ using std::vector;
 
 vector<const unique_ptr<BinaryTreeNode<int>>*> CreateListOfLeaves(
     const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
 
@@ -36,7 +36,7 @@ vector<int> CreateListOfLeavesWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree"};
-  return GenericTestMain(args, "tree_connect_leaves.tsv",
-                         &CreateListOfLeavesWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "tree_connect_leaves.cc",
+                         "tree_connect_leaves.tsv", &CreateListOfLeavesWrapper,
+                         DefaultComparator{}, param_names);
 }

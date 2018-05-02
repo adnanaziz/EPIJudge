@@ -11,17 +11,17 @@ import java.util.NoSuchElementException;
 public class QueueWithMax {
 
   public void enqueue(Integer x) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
   public Integer dequeue() {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public Integer max() {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
@@ -36,7 +36,7 @@ public class QueueWithMax {
     }
   }
 
-  @EpiTest(testfile = "queue_with_max.tsv")
+  @EpiTest(testDataFile = "queue_with_max.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     try {
       QueueWithMax q = new QueueWithMax();
@@ -72,9 +72,10 @@ public class QueueWithMax {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "QueueWithMax.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

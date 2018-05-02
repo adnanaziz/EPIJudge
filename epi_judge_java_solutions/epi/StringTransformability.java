@@ -9,6 +9,7 @@ import java.util.Queue;
 import java.util.Set;
 
 public class StringTransformability {
+
   private static class StringWithDistance {
     public String candidateString;
     public Integer distance;
@@ -19,9 +20,11 @@ public class StringTransformability {
     }
   }
 
-  @EpiTest(testfile = "string_transformability.tsv")
+  @EpiTest(testDataFile = "string_transformability.tsv")
+
   // Uses BFS to find the least steps of transformation.
   public static int transformString(Set<String> D, String s, String t) {
+
     Set<String> visited = new HashSet<String>(D);
     Queue<StringWithDistance> q = new ArrayDeque<>();
     visited.remove(s); // Marks s as visited by erasing it.
@@ -53,9 +56,10 @@ public class StringTransformability {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "StringTransformability.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

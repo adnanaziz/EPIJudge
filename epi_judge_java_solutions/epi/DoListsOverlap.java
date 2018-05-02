@@ -9,8 +9,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DoListsOverlap {
+
   public static ListNode<Integer> overlappingLists(ListNode<Integer> l0,
                                                    ListNode<Integer> l1) {
+
     // Store the start of cycle if any.
     ListNode<Integer> root0 = IsListCyclic.hasCycle(l0);
     ListNode<Integer> root1 = IsListCyclic.hasCycle(l1);
@@ -65,7 +67,7 @@ public class DoListsOverlap {
     return dis;
   }
 
-  @EpiTest(testfile = "do_lists_overlap.tsv")
+  @EpiTest(testDataFile = "do_lists_overlap.tsv")
   public static void
   overlappingListsWrapper(TimedExecutor executor, ListNode<Integer> l0,
                           ListNode<Integer> l1, ListNode<Integer> common,
@@ -141,9 +143,10 @@ public class DoListsOverlap {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DoListsOverlap.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

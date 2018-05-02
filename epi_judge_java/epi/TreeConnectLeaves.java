@@ -13,11 +13,11 @@ public class TreeConnectLeaves {
 
   public static List<BinaryTreeNode<Integer>>
   createListOfLeaves(BinaryTreeNode<Integer> tree) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
-  @EpiTest(testfile = "tree_connect_leaves.tsv")
+  @EpiTest(testDataFile = "tree_connect_leaves.tsv")
   public static List<Integer>
   createListOfLeavesWrapper(TimedExecutor executor,
                             BinaryTreeNode<Integer> tree) throws Exception {
@@ -36,9 +36,10 @@ public class TreeConnectLeaves {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeConnectLeaves.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

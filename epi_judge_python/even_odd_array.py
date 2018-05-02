@@ -1,14 +1,13 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def even_odd(A):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return
 
 
@@ -32,4 +31,5 @@ def even_odd_wrapper(executor, A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('even_odd_array.tsv', even_odd_wrapper))
+        generic_test.generic_test_main("even_odd_array.py",
+                                       'even_odd_array.tsv', even_odd_wrapper))

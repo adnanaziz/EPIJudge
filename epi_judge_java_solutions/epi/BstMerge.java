@@ -4,6 +4,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class BstMerge {
+
   private static BstNode<Integer> head;
 
   private static BstNode<Integer>
@@ -76,9 +77,11 @@ public class BstMerge {
     return length;
   }
 
-  @EpiTest(testfile = "bst_merge.tsv")
+  @EpiTest(testDataFile = "bst_merge.tsv")
+
   public static BstNode<Integer> mergeTwoBsts(BstNode<Integer> A,
                                               BstNode<Integer> B) {
+
     A = bstToDoublyLinkedList(A);
     B = bstToDoublyLinkedList(B);
     A.left.right = null;
@@ -120,9 +123,10 @@ public class BstMerge {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BstMerge.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

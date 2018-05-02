@@ -18,7 +18,7 @@ public class DeadlockDetection {
   }
 
   public static boolean isDeadlocked(List<GraphVertex> graph) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return true;
   }
 
@@ -33,7 +33,7 @@ public class DeadlockDetection {
     }
   }
 
-  @EpiTest(testfile = "deadlock_detection.tsv")
+  @EpiTest(testDataFile = "deadlock_detection.tsv")
   public static boolean isDeadlockedWrapper(TimedExecutor executor,
                                             int numNodes, List<Edge> edges)
       throws Exception {
@@ -55,9 +55,10 @@ public class DeadlockDetection {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DeadlockDetection.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

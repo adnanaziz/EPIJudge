@@ -10,9 +10,11 @@ import java.util.Deque;
 import java.util.List;
 
 public class TreePostorder {
-  @EpiTest(testfile = "tree_postorder.tsv")
+  @EpiTest(testDataFile = "tree_postorder.tsv")
+
   // We use stack and previous node pointer to simulate postorder traversal.
   public static List<Integer> postorderTraversal(BinaryTreeNode<Integer> tree) {
+
     if (tree == null) { // Empty tree.
       return Collections.emptyList();
     }
@@ -52,9 +54,10 @@ public class TreePostorder {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreePostorder.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

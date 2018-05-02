@@ -48,6 +48,6 @@ int BuildMinHeightBSTFromSortedArrayWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "A"};
-  return GenericTestMain(args, "bst_from_sorted_array.tsv", &BuildMinHeightBSTFromSortedArrayWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "bst_from_sorted_array.cc", "bst_from_sorted_array.tsv", &BuildMinHeightBSTFromSortedArrayWrapper, DefaultComparator{}, param_names);
 }
 // clang-format on

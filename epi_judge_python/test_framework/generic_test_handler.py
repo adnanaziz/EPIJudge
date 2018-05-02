@@ -3,8 +3,8 @@ import inspect
 import math
 
 from test_framework.binary_tree_utils import assert_equal_binary_trees, is_object_tree_type
-from test_framework.test_failure import TestFailure, PropertyName
-from test_framework.test_utils import has_executor_hook, filter_bracket_comments
+from test_framework.test_failure import PropertyName, TestFailure
+from test_framework.test_utils import filter_bracket_comments, has_executor_hook
 from test_framework.test_utils_deserialization import get_string_parser_for_type
 from test_framework.timed_executor import TimedExecutor
 

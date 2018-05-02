@@ -1,7 +1,6 @@
 import collections
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
@@ -12,8 +11,8 @@ class GraphVertex:
 
 
 def clone_graph(graph):
-    # Implement this placeholder.
-    return None
+    # TODO - you fill in here.
+    return GraphVertex(0)
 
 
 def copy_labels(edges):
@@ -21,6 +20,9 @@ def copy_labels(edges):
 
 
 def check_graph(node, graph):
+    if node is None:
+        raise TestFailure('Graph was not copied')
+
     vertex_set = set()
     q = collections.deque()
     q.append(node)
@@ -54,4 +56,6 @@ def clone_graph_test(k, edges):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('graph_clone.tsv', clone_graph_test))
+    exit(
+        generic_test.generic_test_main("graph_clone.py", 'graph_clone.tsv',
+                                       clone_graph_test))

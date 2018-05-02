@@ -57,6 +57,6 @@ bool BellmanFord(const vector<vector<double>>& graph, int source) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"graph"};
-  return GenericTestMain(args, "arbitrage.tsv", &IsArbitrageExist,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "arbitrage.cc", "arbitrage.tsv",
+                         &IsArbitrageExist, DefaultComparator{}, param_names);
 }

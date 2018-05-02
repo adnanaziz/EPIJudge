@@ -1,13 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 # Delete the node past this one. Assume node is not a tail.
 def delete_after(node):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return
 
 
@@ -30,5 +29,6 @@ def delete_from_list_wrapper(executor, head, node_idx):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('delete_from_list.tsv',
+        generic_test.generic_test_main("delete_from_list.py",
+                                       'delete_from_list.tsv',
                                        delete_from_list_wrapper))

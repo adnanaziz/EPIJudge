@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class ReverseDigits {
-  @EpiTest(testfile = "reverse_digits.tsv")
+
+  @EpiTest(testDataFile = "reverse_digits.tsv")
   public static long reverse(int x) {
+
     long result = 0;
     long xRemaining = Math.abs(x);
     while (xRemaining != 0) {
@@ -16,9 +18,10 @@ public class ReverseDigits {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ReverseDigits.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

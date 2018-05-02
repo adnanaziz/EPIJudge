@@ -1,7 +1,6 @@
 import math
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def is_arbitrage_exist(graph):
@@ -28,9 +27,11 @@ def is_arbitrage_exist(graph):
                    for i, row in enumerate(graph) for j, g in enumerate(row))
 
     # Uses Bellman-ford to find negative weight cycle.
-    return bellman_ford(
-        [[-math.log10(edge) for edge in edge_list] for edge_list in graph], 0)
+    return bellman_ford([[-math.log10(edge) for edge in edge_list]
+                         for edge_list in graph], 0)
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main("arbitrage.tsv", is_arbitrage_exist))
+    exit(
+        generic_test.generic_test_main("arbitrage.py", "arbitrage.tsv",
+                                       is_arbitrage_exist))

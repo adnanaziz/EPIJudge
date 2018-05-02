@@ -7,7 +7,7 @@
 
 BinaryTreeNode<int>* LCA(const unique_ptr<BinaryTreeNode<int>>& node0,
                          const unique_ptr<BinaryTreeNode<int>>& node1) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
 
@@ -28,6 +28,7 @@ int LcaWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree", "key0", "key1"};
-  return GenericTestMain(args, "lowest_common_ancestor.tsv", &LcaWrapper,
+  return GenericTestMain(args, "lowest_common_ancestor_with_parent.cc",
+                         "lowest_common_ancestor.tsv", &LcaWrapper,
                          DefaultComparator{}, param_names);
 }

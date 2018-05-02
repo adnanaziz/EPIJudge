@@ -4,17 +4,18 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class RemoveDuplicatesFromSortedList {
-  @EpiTest(testfile = "remove_duplicates_from_sorted_list.tsv")
+  @EpiTest(testDataFile = "remove_duplicates_from_sorted_list.tsv")
 
   public static ListNode<Integer> removeDuplicates(ListNode<Integer> L) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RemoveDuplicatesFromSortedList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

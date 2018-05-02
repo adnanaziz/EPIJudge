@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SmallestSubarrayCoveringAllValues {
+
   public static class Subarray {
     // Represent subarray by starting and ending indices, inclusive.
     public Integer start;
@@ -25,6 +26,7 @@ public class SmallestSubarrayCoveringAllValues {
   public static Subarray
   findSmallestSequentiallyCoveringSubset(List<String> paragraph,
                                          List<String> keywords) {
+
     // Maps each keyword to its index in the keywords array.
     Map<String, Integer> keywordToIdx = new HashMap<>();
 
@@ -77,7 +79,7 @@ public class SmallestSubarrayCoveringAllValues {
     return result;
   }
 
-  @EpiTest(testfile = "smallest_subarray_covering_all_values.tsv")
+  @EpiTest(testDataFile = "smallest_subarray_covering_all_values.tsv")
   public static int findSmallestSequentiallyCoveringSubsetWrapper(
       TimedExecutor executor, List<String> paragraph, List<String> keywords)
       throws Exception {
@@ -106,9 +108,10 @@ public class SmallestSubarrayCoveringAllValues {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SmallestSubarrayCoveringAllValues.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

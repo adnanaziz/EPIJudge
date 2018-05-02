@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-#include "test_framework/test_utils_serialization_traits.h"
 
 using std::length_error;
 using std::rotate;
@@ -14,6 +14,7 @@ using std::vector;
 class Queue {
  public:
   Queue(size_t capacity) {}
+
   explicit Queue(int capacity) : entries_(capacity) {}
 
   void Enqueue(int x) {
@@ -106,6 +107,6 @@ void QueueTester(const std::vector<QueueOp>& ops) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "circular_queue.tsv", &QueueTester,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "circular_queue.cc", "circular_queue.tsv",
+                         &QueueTester, DefaultComparator{}, param_names);
 }

@@ -51,6 +51,7 @@ int LcaWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree", "key0", "key1"};
-  return GenericTestMain(args, "lowest_common_ancestor.tsv", &LcaWrapper,
+  return GenericTestMain(args, "lowest_common_ancestor_close_ancestor.cc",
+                         "lowest_common_ancestor.tsv", &LcaWrapper,
                          DefaultComparator{}, param_names);
 }

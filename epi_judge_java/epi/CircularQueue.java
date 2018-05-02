@@ -14,23 +14,23 @@ public class CircularQueue {
     public Queue(int capacity) {}
 
     public void enqueue(Integer x) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return;
     }
 
     public Integer dequeue() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
 
     public int size() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
 
     @Override
     public String toString() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return super.toString();
     }
   }
@@ -51,7 +51,7 @@ public class CircularQueue {
     }
   }
 
-  @EpiTest(testfile = "circular_queue.tsv")
+  @EpiTest(testDataFile = "circular_queue.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     Queue q = new Queue(1);
     int opIdx = 0;
@@ -87,9 +87,10 @@ public class CircularQueue {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CircularQueue.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

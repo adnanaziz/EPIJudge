@@ -47,7 +47,7 @@ public class GroupEqualEntries {
   }
 
   public static void groupByAge(List<Person> people) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
 
@@ -59,7 +59,7 @@ public class GroupEqualEntries {
     return m;
   }
 
-  @EpiTest(testfile = "group_equal_entries.tsv")
+  @EpiTest(testDataFile = "group_equal_entries.tsv")
   public static void groupByAgeWrapper(TimedExecutor executor,
                                        List<Person> people) throws Exception {
     if (people.isEmpty()) {
@@ -88,9 +88,10 @@ public class GroupEqualEntries {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "GroupEqualEntries.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

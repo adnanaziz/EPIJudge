@@ -44,7 +44,7 @@ void MarkBoundaryRegion(int i, int j, vector<vector<char>>* board_ptr) {
   vector<vector<char>>& board = *board_ptr;
   // Uses BFS to traverse this region.
   while (!empty(q)) {
-    const auto[x, y] = q.front();
+    const auto [x, y] = q.front();
     q.pop();
     if (x >= 0 && x < size(board) && y >= 0 && y < size(board[x]) &&
         board[x][y] == 'W') {
@@ -86,7 +86,7 @@ vector<vector<string>> FillSurroundedRegionsWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "board"};
-  return GenericTestMain(args, "matrix_enclosed_regions.tsv",
-                         &FillSurroundedRegionsWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(
+      args, "matrix_enclosed_regions.cc", "matrix_enclosed_regions.tsv",
+      &FillSurroundedRegionsWrapper, DefaultComparator{}, param_names);
 }

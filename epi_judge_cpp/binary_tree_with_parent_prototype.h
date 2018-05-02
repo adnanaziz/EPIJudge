@@ -1,6 +1,6 @@
 #include <memory>
 #include "test_framework/binary_tree_utils.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 
 #pragma once
 

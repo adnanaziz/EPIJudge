@@ -9,6 +9,7 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 public class MinimumDistance3SortedArrays {
+
   public static class ArrayData implements Comparable<ArrayData> {
     public int val;
     public int idx;
@@ -28,9 +29,11 @@ public class MinimumDistance3SortedArrays {
     }
   }
 
-  @EpiTest(testfile = "minimum_distance_3_sorted_arrays.tsv")
+  @EpiTest(testDataFile = "minimum_distance_3_sorted_arrays.tsv")
+
   public static int
   findMinDistanceSortedArrays(List<List<Integer>> sortedArrays) {
+
     // Indices into each of the arrays.
     List<Integer> heads = new ArrayList<>(sortedArrays.size());
     for (List<Integer> arr : sortedArrays) {
@@ -60,9 +63,10 @@ public class MinimumDistance3SortedArrays {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MinimumDistance3SortedArrays.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

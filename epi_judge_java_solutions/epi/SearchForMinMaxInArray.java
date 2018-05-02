@@ -8,6 +8,7 @@ import java.util.List;
 
 public class SearchForMinMaxInArray {
   @EpiUserType(ctorParams = {Integer.class, Integer.class})
+
   public static class MinMax {
     public Integer smallest;
     public Integer largest;
@@ -20,6 +21,7 @@ public class SearchForMinMaxInArray {
     private static MinMax minMax(Integer a, Integer b) {
       return Integer.compare(b, a) < 0 ? new MinMax(b, a) : new MinMax(a, b);
     }
+
     @Override
     public boolean equals(Object o) {
       if (this == o) {
@@ -43,8 +45,10 @@ public class SearchForMinMaxInArray {
     }
   }
 
-  @EpiTest(testfile = "search_for_min_max_in_array.tsv")
+  @EpiTest(testDataFile = "search_for_min_max_in_array.tsv")
+
   public static MinMax findMinMax(List<Integer> A) {
+
     if (A.size() <= 1) {
       return new MinMax(A.get(0), A.get(0));
     }
@@ -68,9 +72,10 @@ public class SearchForMinMaxInArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchForMinMaxInArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

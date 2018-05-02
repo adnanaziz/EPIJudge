@@ -6,10 +6,12 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 public class DescendantAndAncestorInBst {
+
   public static boolean
   pairIncludesAncestorAndDescendantOfM(BstNode<Integer> possibleAncOrDesc0,
                                        BstNode<Integer> possibleAncOrDesc1,
                                        BstNode<Integer> middle) {
+
     BstNode<Integer> search0 = possibleAncOrDesc0, search1 = possibleAncOrDesc1;
 
     // Perform interleaved searching from possibleAncOrDesc0 and
@@ -49,7 +51,7 @@ public class DescendantAndAncestorInBst {
     return from == target;
   }
 
-  @EpiTest(testfile = "descendant_and_ancestor_in_bst.tsv")
+  @EpiTest(testDataFile = "descendant_and_ancestor_in_bst.tsv")
   public static boolean pairIncludesAncestorAndDescendantOfMWrapper(
       TimedExecutor executor, BstNode<Integer> tree, int possibleAncOrDesc0,
       int possibleAncOrDesc1, int middle) throws Exception {
@@ -66,9 +68,10 @@ public class DescendantAndAncestorInBst {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DescendantAndAncestorInBst.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

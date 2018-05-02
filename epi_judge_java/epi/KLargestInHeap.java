@@ -11,10 +11,10 @@ import java.util.function.BiPredicate;
 
 public class KLargestInHeap {
 
-  @EpiTest(testfile = "k_largest_in_heap.tsv")
+  @EpiTest(testDataFile = "k_largest_in_heap.tsv")
 
   public static List<Integer> kLargestInBinaryHeap(List<Integer> A, int k) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
@@ -30,9 +30,10 @@ public class KLargestInHeap {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "KLargestInHeap.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

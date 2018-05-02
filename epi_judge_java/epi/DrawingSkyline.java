@@ -44,17 +44,18 @@ public class DrawingSkyline {
     }
   }
 
-  @EpiTest(testfile = "drawing_skyline.tsv")
+  @EpiTest(testDataFile = "drawing_skyline.tsv")
 
   public static List<Rectangle> drawingSkylines(List<Rectangle> buildings) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DrawingSkyline.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -8,11 +8,11 @@ import epi.test_framework.TimedExecutor;
 public class IsListCyclic {
 
   public static ListNode<Integer> hasCycle(ListNode<Integer> head) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
-  @EpiTest(testfile = "is_list_cyclic.tsv")
+  @EpiTest(testDataFile = "is_list_cyclic.tsv")
   public static void HasCycleWrapper(TimedExecutor executor,
                                      ListNode<Integer> head, int cycleIdx)
       throws Exception {
@@ -70,9 +70,10 @@ public class IsListCyclic {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsListCyclic.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

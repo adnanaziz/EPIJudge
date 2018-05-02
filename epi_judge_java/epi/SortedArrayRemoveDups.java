@@ -9,11 +9,11 @@ import java.util.List;
 public class SortedArrayRemoveDups {
   // Returns the number of valid entries after deletion.
   public static int deleteDuplicates(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
-  @EpiTest(testfile = "sorted_array_remove_dups.tsv")
+  @EpiTest(testDataFile = "sorted_array_remove_dups.tsv")
   public static List<Integer> deleteDuplicatesWrapper(TimedExecutor executor,
                                                       List<Integer> A)
       throws Exception {
@@ -22,9 +22,10 @@ public class SortedArrayRemoveDups {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SortedArrayRemoveDups.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

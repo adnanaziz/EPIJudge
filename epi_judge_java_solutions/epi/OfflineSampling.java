@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Random;
 
 public class OfflineSampling {
+
   public static void randomSampling(int k, List<Integer> A) {
+
     Random gen = new Random();
     for (int i = 0; i < k; ++i) {
       // Generate a random int in [i, A.size() - 1].
@@ -49,7 +51,7 @@ public class OfflineSampling {
         sequence, totalPossibleOutcomes, 0.01);
   }
 
-  @EpiTest(testfile = "offline_sampling.tsv")
+  @EpiTest(testDataFile = "offline_sampling.tsv")
   public static void randomSamplingWrapper(TimedExecutor executor, int k,
                                            List<Integer> A) throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
@@ -57,9 +59,10 @@ public class OfflineSampling {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "OfflineSampling.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -9,7 +9,7 @@ using std::string;
 using std::vector;
 
 void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
 
@@ -42,7 +42,7 @@ vector<vector<string>> FillSurroundedRegionsWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "board"};
-  return GenericTestMain(args, "matrix_enclosed_regions.tsv",
-                         &FillSurroundedRegionsWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(
+      args, "matrix_enclosed_regions.cc", "matrix_enclosed_regions.tsv",
+      &FillSurroundedRegionsWrapper, DefaultComparator{}, param_names);
 }

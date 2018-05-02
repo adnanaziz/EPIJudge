@@ -1,8 +1,5 @@
-from sys import exit
-
 import bintrees
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
@@ -13,12 +10,14 @@ class ClientsCreditsInfo:
         self._credit_to_clients = bintrees.RBTree()
 
     def insert(self, client_id, c):
+
         self.remove(client_id)
         self._client_to_credit[client_id] = c - self._offset
         self._credit_to_clients.setdefault(c - self._offset,
                                            set()).add(client_id)
 
     def remove(self, client_id):
+
         credit = self._client_to_credit.get(client_id)
         if credit is not None:
             self._credit_to_clients[credit].remove(client_id)
@@ -29,13 +28,16 @@ class ClientsCreditsInfo:
         return False
 
     def lookup(self, client_id):
+
         credit = self._client_to_credit.get(client_id)
         return -1 if credit is None else credit + self._offset
 
     def add_all(self, C):
+
         self._offset += C
 
     def max(self):
+
         if not self._credit_to_clients:
             return ''
         clients = self._credit_to_clients.max_item()[1]
@@ -71,5 +73,6 @@ def client_credits_info_tester(ops):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('adding_credits.tsv',
+        generic_test.generic_test_main("adding_credits.py",
+                                       'adding_credits.tsv',
                                        client_credits_info_tester))

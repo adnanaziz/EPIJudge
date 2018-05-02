@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "fmt_print_fwd.h"
-#include "test_utils_serialization_traits.h"
+#include "serialization_traits.h"
 
 template <typename Node, typename T>
 void TreeGenerateHelper(const Node& tree, std::vector<T>* result, int order) {
@@ -146,6 +146,14 @@ int BinaryTreeHeight(const Node& tree) {
   }
   return 1 + std::max(BinaryTreeHeight(tree->left),
                       BinaryTreeHeight(tree->right));
+}
+
+template <typename Node>
+int BinaryTreeSize(const Node& tree) {
+  if (!tree) {
+    return 0;
+  }
+  return 1 + BinaryTreeSize(tree->left) + BinaryTreeSize(tree->right);
 }
 
 // C++ framework specific functions

@@ -4,17 +4,18 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class IsTreeABst {
-  @EpiTest(testfile = "is_tree_a_bst.tsv")
+  @EpiTest(testDataFile = "is_tree_a_bst.tsv")
 
   public static boolean isBinaryTreeBST(BinaryTreeNode<Integer> tree) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return true;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsTreeABst.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

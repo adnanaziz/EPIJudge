@@ -22,7 +22,7 @@ public class IntervalsUnion {
   }
 
   public static List<Interval> unionOfIntervals(List<Interval> intervals) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
@@ -99,7 +99,7 @@ public class IntervalsUnion {
     }
   }
 
-  @EpiTest(testfile = "intervals_union.tsv")
+  @EpiTest(testDataFile = "intervals_union.tsv")
   public static List<FlatInterval>
   unionIntervalWrapper(TimedExecutor executor, List<FlatInterval> intervals)
       throws Exception {
@@ -118,9 +118,10 @@ public class IntervalsUnion {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IntervalsUnion.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

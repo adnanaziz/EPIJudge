@@ -1,3 +1,6 @@
+from test_framework import generic_test
+
+
 def is_pattern_contained_in_grid(grid, S):
     def is_pattern_suffix_contained_starting_at_xy(x, y, offset):
         if len(S) == offset:
@@ -25,11 +28,8 @@ def is_pattern_contained_in_grid(grid, S):
         for i in range(len(grid)) for j in range(len(grid[i])))
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('is_string_in_matrix.tsv',
+        generic_test.generic_test_main("is_string_in_matrix.py",
+                                       'is_string_in_matrix.tsv',
                                        is_pattern_contained_in_grid))

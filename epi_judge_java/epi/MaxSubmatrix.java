@@ -7,17 +7,18 @@ import java.util.List;
 
 public class MaxSubmatrix {
 
-  @EpiTest(testfile = "max_submatrix.tsv")
+  @EpiTest(testDataFile = "max_submatrix.tsv")
 
   public static int maxRectangleSubmatrix(List<List<Boolean>> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxSubmatrix.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

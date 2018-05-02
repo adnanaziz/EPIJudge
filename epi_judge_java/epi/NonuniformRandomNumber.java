@@ -16,7 +16,7 @@ public class NonuniformRandomNumber {
   public static int
   nonuniformRandomNumberGeneration(List<Integer> values,
                                    List<Double> probabilities) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
@@ -50,7 +50,7 @@ public class NonuniformRandomNumber {
     return true;
   }
 
-  @EpiTest(testfile = "nonuniform_random_number.tsv")
+  @EpiTest(testDataFile = "nonuniform_random_number.tsv")
   public static void nonuniformRandomNumberGenerationWrapper(
       TimedExecutor executor, List<Integer> values, List<Double> probabilities)
       throws Exception {
@@ -61,9 +61,10 @@ public class NonuniformRandomNumber {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "NonuniformRandomNumber.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,8 +1,7 @@
 import functools
 import math
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -28,7 +27,7 @@ class Star:
 
 
 def find_closest_k_stars(stars, k):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return []
 
 
@@ -49,5 +48,6 @@ def find_closest_k_stars_wrapper(executor, stars, k):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("k_closest_stars.tsv",
+        generic_test.generic_test_main("k_closest_stars.py",
+                                       "k_closest_stars.tsv",
                                        find_closest_k_stars_wrapper, comp))

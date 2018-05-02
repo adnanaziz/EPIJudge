@@ -1,20 +1,19 @@
+import functools
+
+from test_framework import generic_test
+
+
 def minimum_path_weight(triangle):
+
     min_weight_to_curr_row = [0]
     for row in triangle:
         min_weight_to_curr_row = [
-            row[j] +
-            min(min_weight_to_curr_row[max(j - 1, 0)],
-                min_weight_to_curr_row[min(j,
-                                           len(min_weight_to_curr_row) - 1)])
+            row[j] + min(min_weight_to_curr_row[max(j - 1, 0)],
+                         min_weight_to_curr_row[min(
+                             j, len(min_weight_to_curr_row) - 1)])
             for j in range(len(row))
         ]
     return min(min_weight_to_curr_row)
-
-
-import functools
-from sys import exit
-
-from test_framework import generic_test, test_utils
 
 
 def minimum_path_weight_pythonic(triangle):
@@ -23,5 +22,6 @@ def minimum_path_weight_pythonic(triangle):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('minimum_weight_path_in_a_triangle.tsv',
+        generic_test.generic_test_main("minimum_weight_path_in_a_triangle.py",
+                                       'minimum_weight_path_in_a_triangle.tsv',
                                        minimum_path_weight))

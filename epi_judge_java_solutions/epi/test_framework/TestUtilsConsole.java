@@ -109,10 +109,14 @@ public class TestUtilsConsole {
   }
 
   public static void printPostRunStats(int testsPassed, int totalTests,
+                                       String complexity,
                                        List<Long> durations) {
     if (!durations.isEmpty()) {
-      long[] avgMedian = TestTimer.avgAndMedianFromDuration(durations);
+      if (!complexity.isEmpty()) {
+        System.out.printf("Time complexity: %s\n", complexity);
+      }
 
+      long[] avgMedian = TestTimer.avgAndMedianFromDuration(durations);
       System.out.printf("Average running time: %s\nMedian running time:  %s\n",
                         TestTimer.durationToString(avgMedian[0]),
                         TestTimer.durationToString(avgMedian[1]));

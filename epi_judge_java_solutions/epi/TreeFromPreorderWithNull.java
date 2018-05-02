@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeFromPreorderWithNull {
+
   // Global variable, tracks current subtree.
   private static Integer subtreeIdx;
 
   public static BinaryTreeNode<Integer>
   reconstructPreorder(List<Integer> preorder) {
+
     subtreeIdx = 0;
     return reconstructPreorderSubtree(preorder);
   }
@@ -32,7 +34,7 @@ public class TreeFromPreorderWithNull {
     return new BinaryTreeNode<>(subtreeKey, leftSubtree, rightSubtree);
   }
 
-  @EpiTest(testfile = "tree_from_preorder_with_null.tsv")
+  @EpiTest(testDataFile = "tree_from_preorder_with_null.tsv")
   public static BinaryTreeNode<Integer>
   reconstructPreorderWrapper(TimedExecutor executor, List<String> strings)
       throws Exception {
@@ -49,9 +51,10 @@ public class TreeFromPreorderWithNull {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeFromPreorderWithNull.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

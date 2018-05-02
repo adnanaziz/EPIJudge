@@ -30,6 +30,6 @@ int GetHeightHelper(int cases, int drops, vector<vector<int>>* F) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"cases", "drops"};
-  return GenericTestMain(args, "max_safe_height.tsv", &GetHeight,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "max_safe_height.cc", "max_safe_height.tsv",
+                         &GetHeight, DefaultComparator{}, param_names);
 }

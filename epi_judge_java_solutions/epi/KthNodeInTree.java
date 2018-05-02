@@ -22,6 +22,7 @@ public class KthNodeInTree {
 
   public static BinaryTreeNode<Integer>
   findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
+
     BinaryTreeNode<Integer> iter = tree;
     while (iter != null) {
       int leftSize = iter.left != null ? iter.left.size : 0;
@@ -49,7 +50,7 @@ public class KthNodeInTree {
     return new BinaryTreeNode<>(original.data, left, right, 1 + lSize + rSize);
   }
 
-  @EpiTest(testfile = "kth_node_in_tree.tsv")
+  @EpiTest(testDataFile = "kth_node_in_tree.tsv")
   public static int findKthNodeBinaryTreeWrapper(TimedExecutor executor,
                                                  BinaryTree<Integer> tree,
                                                  int k) throws Exception {
@@ -65,9 +66,10 @@ public class KthNodeInTree {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "KthNodeInTree.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

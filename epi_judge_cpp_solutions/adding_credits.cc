@@ -119,6 +119,7 @@ void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "adding_credits.tsv", &ClientsCreditsInfoTester,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "adding_credits.cc", "adding_credits.tsv",
+                         &ClientsCreditsInfoTester, DefaultComparator{},
+                         param_names);
 }

@@ -1,12 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import PropertyName, TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def rearrange(A):
+
     for i in range(len(A)):
         A[i:i + 2] = sorted(A[i:i + 2], reverse=i % 2)
 
@@ -47,5 +47,6 @@ def rearrange_wrapper(executor, A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('alternating_array.tsv',
+        generic_test.generic_test_main("alternating_array.py",
+                                       'alternating_array.tsv',
                                        rearrange_wrapper))

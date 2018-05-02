@@ -7,11 +7,11 @@ import epi.test_framework.TestFailure;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Arrays;
 import java.util.List;
 
 public class SearchMaze {
   @EpiUserType(ctorParams = {int.class, int.class})
+
   public static class Coordinate {
     public int x, y;
 
@@ -42,6 +42,7 @@ public class SearchMaze {
 
   public static List<Coordinate> searchMaze(List<List<Color>> maze,
                                             Coordinate s, Coordinate e) {
+
     List<Coordinate> path = new ArrayList<>();
     searchMazeHelper(maze, s, e, path);
     return path;
@@ -63,10 +64,10 @@ public class SearchMaze {
       return true;
     }
 
-    for (Coordinate nextMove : Arrays.asList(
-             new Coordinate(cur.x, cur.y + 1), new Coordinate(cur.x, cur.y - 1),
-             new Coordinate(cur.x + 1, cur.y),
-             new Coordinate(cur.x - 1, cur.y))) {
+    for (Coordinate nextMove : List.of(new Coordinate(cur.x, cur.y + 1),
+                                       new Coordinate(cur.x, cur.y - 1),
+                                       new Coordinate(cur.x + 1, cur.y),
+                                       new Coordinate(cur.x - 1, cur.y))) {
       if (searchMazeHelper(maze, nextMove, e, path)) {
         return true;
       }
@@ -88,7 +89,7 @@ public class SearchMaze {
         cur.x == prev.x && cur.y == prev.y - 1;
   }
 
-  @EpiTest(testfile = "search_maze.tsv")
+  @EpiTest(testDataFile = "search_maze.tsv")
   public static boolean searchMazeWrapper(List<List<Integer>> maze,
                                           Coordinate s, Coordinate e)
       throws TestFailure {
@@ -119,9 +120,10 @@ public class SearchMaze {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchMaze.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

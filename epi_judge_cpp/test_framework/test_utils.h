@@ -20,7 +20,7 @@
 #include "test_failure.h"
 #include "test_utils_console.h"
 #include "test_utils_meta.h"
-#include "test_utils_serialization_traits.h"
+#include "serialization_traits.h"
 #include "timeout_exception.h"
 
 std::vector<std::vector<std::string>> SplitTsvFile(
@@ -59,11 +59,13 @@ std::string GetDefaultTestDataDirPath() {
   }
 
   throw std::runtime_error(
-      "Can't find test data directory. Please start the program with \"--test_data_dir <path>\" command-line option");
+      "Can't find test data directory. Please start the program with "
+      "\"--test_data_dir <path>\" command-line option");
 }
 
 std::string GetFilePathInJudgeDir(const std::string& file_name) {
-  return GetDefaultTestDataDirPath() + platform::PathSep() + std::string(pardir) + file_name;
+  return GetDefaultTestDataDirPath() + platform::PathSep() +
+         std::string(pardir) + file_name;
 }
 
 /**

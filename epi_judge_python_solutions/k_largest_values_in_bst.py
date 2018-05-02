@@ -1,3 +1,6 @@
+from test_framework import generic_test, test_utils
+
+
 def find_k_largest_in_bst(tree, k):
     def find_k_largest_in_bst_helper(tree):
         # Perform reverse inorder traversal.
@@ -12,12 +15,8 @@ def find_k_largest_in_bst(tree, k):
     return k_largest_elements
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('k_largest_values_in_bst.tsv',
-                                       find_k_largest_in_bst,
-                                       test_utils.unordered_compare))
+        generic_test.generic_test_main(
+            "k_largest_values_in_bst.py", 'k_largest_values_in_bst.tsv',
+            find_k_largest_in_bst, test_utils.unordered_compare))

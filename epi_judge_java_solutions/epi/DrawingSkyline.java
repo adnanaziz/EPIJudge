@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DrawingSkyline {
   @EpiUserType(ctorParams = {int.class, int.class, int.class})
+
   public static class Rectangle {
     public int left, right, height;
 
@@ -18,6 +19,7 @@ public class DrawingSkyline {
       this.right = right;
       this.height = height;
     }
+
     @Override
     public boolean equals(Object o) {
       if (this == o) {
@@ -44,8 +46,10 @@ public class DrawingSkyline {
     }
   }
 
-  @EpiTest(testfile = "drawing_skyline.tsv")
+  @EpiTest(testDataFile = "drawing_skyline.tsv")
+
   public static List<Rectangle> drawingSkylines(List<Rectangle> buildings) {
+
     int minLeft = Integer.MAX_VALUE, maxRight = Integer.MIN_VALUE;
     for (Rectangle building : buildings) {
       minLeft = Math.min(minLeft, building.left);
@@ -76,9 +80,10 @@ public class DrawingSkyline {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DrawingSkyline.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

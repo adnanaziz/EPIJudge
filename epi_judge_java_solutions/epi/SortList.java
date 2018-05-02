@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class SortList {
-  @EpiTest(testfile = "sort_list.tsv")
+  @EpiTest(testDataFile = "sort_list.tsv")
+
   public static ListNode<Integer> stableSortList(ListNode<Integer> L) {
+
     // Base cases: L is empty or a single node, nothing to do.
     if (L == null || L.next == null) {
       return L;
@@ -26,9 +28,10 @@ public class SortList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SortList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,12 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def decompose_into_dictionary_words(domain, dictionary):
+
     # When the algorithm finishes, last_length[i] != -1 indicates domain[:i +
     # 1] has a valid decomposition, and the length of the last string in the
     # decomposition is last_length[i].
@@ -16,15 +16,16 @@ def decompose_into_dictionary_words(domain, dictionary):
         # length of that word.
         if domain[:i + 1] in dictionary:
             last_length[i] = i + 1
+            continue
 
-        # If last_length[i] = -1 look for j < i such that domain[: j + 1] has a
-        # valid decomposition and domain[j + 1:i + 1] is a dictionary word. If
-        # so, record the length of that word in last_length[i].
-        if last_length[i] == -1:
-            for j in range(i):
-                if last_length[j] != -1 and domain[j + 1:i + 1] in dictionary:
-                    last_length[i] = i - j
-                    break
+        # If domain[:i + 1] is not a dictionary word, we look for j < i such
+        # that domain[: j + 1] has a valid decomposition and domain[j + 1:i + 1]
+        # is a dictionary word. If so, record the length of that word in
+        # last_length[i].
+        for j in range(i):
+            if last_length[j] != -1 and domain[j + 1:i + 1] in dictionary:
+                last_length[i] = i - j
+                break
 
     decompositions = []
     if last_length[-1] != -1:
@@ -58,5 +59,6 @@ def decompose_into_dictionary_words_wrapper(executor, domain, dictionary,
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "is_string_decomposable_into_words.py",
             'is_string_decomposable_into_words.tsv',
             decompose_into_dictionary_words_wrapper))

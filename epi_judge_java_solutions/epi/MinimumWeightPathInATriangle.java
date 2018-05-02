@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class MinimumWeightPathInATriangle {
-  @EpiTest(testfile = "minimum_weight_path_in_a_triangle.tsv")
+  @EpiTest(testDataFile = "minimum_weight_path_in_a_triangle.tsv")
+
   public static int minimumPathTotal(List<List<Integer>> triangle) {
+
     if (triangle.isEmpty()) {
       return 0;
     }
@@ -36,9 +38,10 @@ public class MinimumWeightPathInATriangle {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MinimumWeightPathInATriangle.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

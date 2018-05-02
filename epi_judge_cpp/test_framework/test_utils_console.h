@@ -1,12 +1,12 @@
 // @library
 #pragma once
 
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
 #include <string>
 
 #include "console_color.h"
-#include "fmt_print.h"
 #include "test_failure.h"
 #include "test_result.h"
 #include "test_timer.h"
@@ -43,16 +43,16 @@ void ClearLineIfTty() {
 void PrintTestResult(const TestResult& test_result) {
   switch (test_result) {
     case PASSED:
-      PrintStdOutColored(ConsoleColor::FG_GREEN, "PASSED");
+      PrintStdOutColored(console_color::ConsoleColor::FG_GREEN, "PASSED");
       break;
     case FAILED:
-      PrintStdOutColored(ConsoleColor::FG_RED, "FAILED");
+      PrintStdOutColored(console_color::ConsoleColor::FG_RED, "FAILED");
       break;
     case TIMEOUT:
-      PrintStdOutColored(ConsoleColor::FG_BLUE, "TIMEOUT");
+      PrintStdOutColored(console_color::ConsoleColor::FG_BLUE, "TIMEOUT");
       break;
     case UNKNOWN_EXCEPTION:
-      PrintStdOutColored(ConsoleColor::FG_RED, "UNHANDLED EXCEPTION");
+      PrintStdOutColored(console_color::ConsoleColor::FG_RED, "UNHANDLED EXCEPTION");
       break;
     default:
       throw std::runtime_error("Unknown TestResult");
@@ -99,30 +99,35 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
     }
   }
 
-  PrintStdOutColored(ConsoleColor::FG_YELLOW, "Arguments");
+  PrintStdOutColored(console_color::ConsoleColor::FG_YELLOW, "Arguments");
   std::cout << std::endl;
 
   for (unsigned int i = 0; i < arguments.size(); ++i) {
     std::cout << '\t';
-    PrintStdOutColored(ConsoleColor::FG_YELLOW, param_names[i]);
+    PrintStdOutColored(console_color::ConsoleColor::FG_YELLOW, param_names[i]);
     std::cout << ": " << GenSpaces(max_col_size - param_names[i].size())
               << EscapeNewline{arguments[i]} << std::endl;
   }
 
   auto properties = test_failure.GetProperties();
-  PrintStdOutColored(ConsoleColor::FG_YELLOW, "\nFailure info\n");
+  PrintStdOutColored(console_color::ConsoleColor::FG_YELLOW, "\nFailure info\n");
 
   for (auto& prop : properties) {
     std::cout << '\t';
-    PrintStdOutColored(ConsoleColor::FG_YELLOW, prop.Name());
+    PrintStdOutColored(console_color::ConsoleColor::FG_YELLOW, prop.Name());
     std::cout << ": " << GenSpaces(max_col_size - prop.Name().size())
               << prop.Value() << std::endl;
   }
 }
 
-void PrintPostRunStats(int tests_passed, int total_tests,
-                       std::vector<std::chrono::microseconds>& durations) {
+void PrintPostRunStats(
+    int tests_passed, int total_tests, const std::string& complexity,
+    const std::vector<std::chrono::microseconds>& durations) {
   if (!durations.empty()) {
+    if (!complexity.empty()) {
+      std::cout << "Time complexity:      " << complexity << std::endl;
+    }
+
     auto avg_median = AvgAndMedianFromDurations(durations);
     std::cout << "Average running time: "
               << DurationToString(avg_median.first) << std::endl

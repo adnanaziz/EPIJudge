@@ -6,7 +6,6 @@ import epi.test_framework.EpiTestExpectedType;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -51,6 +50,7 @@ public class RemoveDuplicates {
   }
 
   public static void eliminateDuplicate(List<Name> names) {
+
     Collections.sort(names); // Makes identical elements become neighbors.
     int writeIdx = 0;
     for (int i = 1; i < names.size(); i++) {
@@ -62,7 +62,7 @@ public class RemoveDuplicates {
     names.subList(++writeIdx, names.size()).clear();
   }
 
-  @EpiTest(testfile = "remove_duplicates.tsv")
+  @EpiTest(testDataFile = "remove_duplicates.tsv")
   public static List<Name> eliminateDuplicateWrapper(List<Name> names) {
     eliminateDuplicate(names);
     return names;
@@ -87,14 +87,13 @@ public class RemoveDuplicates {
     return true;
   };
 
-  @EpiTestExpectedType
-  public static List<Class<?>> expectedType =
-      Arrays.asList(List.class, String.class);
+  @EpiTestExpectedType public static List<String> expectedType;
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RemoveDuplicates.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }
