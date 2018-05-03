@@ -43,15 +43,15 @@ def run_test(commands):
         if cmd[0] == 'lookup':
             result = cache.lookup(cmd[1])
             if result != cmd[2]:
-                raise TestFailure('Lookup: expected ' + str(cmd[2]) + ', got '
-                                  + str(result))
+                raise TestFailure(
+                    'Lookup: expected ' + str(cmd[2]) + ', got ' + str(result))
         elif cmd[0] == 'insert':
             cache.insert(cmd[1], cmd[2])
         elif cmd[0] == 'erase':
             result = 1 if cache.erase(cmd[1]) else 0
             if result != cmd[2]:
-                raise TestFailure('Erase: expected ' + str(cmd[2]) + ', got ' +
-                                  str(result))
+                raise TestFailure(
+                    'Erase: expected ' + str(cmd[2]) + ', got ' + str(result))
         else:
             raise RuntimeError('Unexpected command ' + cmd[0])
 

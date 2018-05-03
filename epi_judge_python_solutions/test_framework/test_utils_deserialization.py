@@ -1,4 +1,3 @@
-# @library
 import json
 import re
 

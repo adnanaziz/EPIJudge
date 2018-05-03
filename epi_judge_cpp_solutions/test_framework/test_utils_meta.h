@@ -1,6 +1,3 @@
-// @library
-#pragma once
-
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -9,6 +6,8 @@
 #include <tuple>
 #include <type_traits>
 #include <vector>
+
+#pragma once
 
 /**
  * Some forward declarations
@@ -151,9 +150,7 @@ struct BiPredicateTraits<ReturnT (*)(Arg1T, Arg2T)>
  * Default case for recursion.
  * @return empty string
  */
-std::string ConcatenateImpl(const std::string& delim, bool first) {
-  return {};
-}
+std::string ConcatenateImpl(const std::string& delim, bool first) { return {}; }
 
 /**
  * @see Concatenate()
@@ -312,8 +309,9 @@ struct HasLeftShiftOpImpl {
   template <typename, typename>
   static auto Test(...) -> No;
 
-  using type = std::integral_constant<
-      bool, !std::is_same<decltype(Test<S, T>(0)), No>::value>;
+  using type =
+      std::integral_constant<bool,
+                             !std::is_same<decltype(Test<S, T>(0)), No>::value>;
 };
 
 // Additional namespace is introduced to escape
@@ -371,8 +369,8 @@ using HasLeftShiftOp = typename detail::HasLeftShiftOpImpl<T, U>::type;
 template <typename T>
 using HasOStreamOp = HasLeftShiftOp<std::ostream, T>;
 template <typename T>
-using OStreamOpTag = std::conditional_t<HasOStreamOp<T>::value,
-                                        HasOStreamOpTag, HasNoOStreamOpTag>;
+using OStreamOpTag = std::conditional_t<HasOStreamOp<T>::value, HasOStreamOpTag,
+                                        HasNoOStreamOpTag>;
 
 /**
  * Check if the class has begin()/end() methods
@@ -382,8 +380,8 @@ using OStreamOpTag = std::conditional_t<HasOStreamOp<T>::value,
 template <typename T>
 using HasBeginEnd = typename detail::HasBeginEndImpl<T>::type;
 template <typename T>
-using BeginEndTag = std::conditional_t<HasBeginEnd<T>::value, HasBeginEndTag,
-                                       HasNoBeginEndTag>;
+using BeginEndTag =
+    std::conditional_t<HasBeginEnd<T>::value, HasBeginEndTag, HasNoBeginEndTag>;
 
 /**
  * Check if T is of a binary tree type
@@ -394,6 +392,3 @@ using IsBinaryTree =
 template <typename T>
 using BinaryTreeTag = std::conditional_t<IsBinaryTree<T>::value,
                                          IsBinaryTreeTag, IsNotBinaryTreeTag>;
-
-// Testing for the file using static assertions
-#include "test_utils_meta_test.h"

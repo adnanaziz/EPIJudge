@@ -1,21 +1,18 @@
-// @library
-#pragma once
-
 #include <algorithm>
 #include <iomanip>
 #include <iostream>
 #include <string>
-
 #include "console_color.h"
 #include "test_failure.h"
 #include "test_result.h"
 #include "test_timer.h"
 
+#pragma once
+
 struct EscapeNewline {
   const std::string& str;
 
-  friend std::ostream& operator<<(std::ostream& out,
-                                  const EscapeNewline& it) {
+  friend std::ostream& operator<<(std::ostream& out, const EscapeNewline& it) {
     for (auto& c : it.str) {
       switch (c) {
         case '\n':
@@ -52,16 +49,16 @@ void PrintTestResult(const TestResult& test_result) {
       PrintStdOutColored(console_color::ConsoleColor::FG_BLUE, "TIMEOUT");
       break;
     case UNKNOWN_EXCEPTION:
-      PrintStdOutColored(console_color::ConsoleColor::FG_RED, "UNHANDLED EXCEPTION");
+      PrintStdOutColored(console_color::ConsoleColor::FG_RED,
+                         "UNHANDLED EXCEPTION");
       break;
     default:
       throw std::runtime_error("Unknown TestResult");
   }
 }
 
-void PrintTestInfo(const TestResult& test_result, int test_nr,
-                   int total_tests, const std::string& diagnostic,
-                   const TestTimer& timer) {
+void PrintTestInfo(const TestResult& test_result, int test_nr, int total_tests,
+                   const std::string& diagnostic, const TestTimer& timer) {
   static bool caret_at_line_start = true;
 
   if (!caret_at_line_start) {
@@ -110,7 +107,8 @@ void PrintFailedTest(const std::vector<std::string>& param_names,
   }
 
   auto properties = test_failure.GetProperties();
-  PrintStdOutColored(console_color::ConsoleColor::FG_YELLOW, "\nFailure info\n");
+  PrintStdOutColored(console_color::ConsoleColor::FG_YELLOW,
+                     "\nFailure info\n");
 
   for (auto& prop : properties) {
     std::cout << '\t';
@@ -129,10 +127,10 @@ void PrintPostRunStats(
     }
 
     auto avg_median = AvgAndMedianFromDurations(durations);
-    std::cout << "Average running time: "
-              << DurationToString(avg_median.first) << std::endl
-              << "Median running time:  "
-              << DurationToString(avg_median.second) << std::endl;
+    std::cout << "Average running time: " << DurationToString(avg_median.first)
+              << std::endl
+              << "Median running time:  " << DurationToString(avg_median.second)
+              << std::endl;
   }
 
   if (tests_passed < total_tests) {

@@ -1,15 +1,13 @@
-// @library
-#pragma once
-
 #include <functional>
 #include <iostream>
-
-#ifdef PLATFORM_WIN
 #define NOMINMAX
 #include <Windows.h>
-#endif
-
 #include "platform.h"
+
+#pragma once
+
+#ifdef PLATFORM_WIN
+#endif
 
 namespace console_color {
 

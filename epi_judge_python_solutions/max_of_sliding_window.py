@@ -27,7 +27,8 @@ def calculate_traffic_volumes(A, w):
         while traffic_info.time - sliding_window.head().time > w:
             sliding_window.dequeue()
         maximum_volumes.append(
-            TrafficElement(traffic_info.time, sliding_window.max().volume))
+            TrafficElement(traffic_info.time,
+                           sliding_window.max().volume))
     return maximum_volumes
 
 

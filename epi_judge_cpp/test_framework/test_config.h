@@ -1,21 +1,18 @@
-// @library
-#pragma once
-
 #include <chrono>
 #include <limits>
 #include <stdexcept>
 #include <string>
 #include <vector>
-
 #include "platform.h"
 #include "test_utils.h"
 #include "tri_bool.h"
 
-std::string GetParam(const std::vector<std::string>& commandline_args,
-                     size_t i, const char* arg_name) {
+#pragma once
+
+std::string GetParam(const std::vector<std::string>& commandline_args, size_t i,
+                     const char* arg_name) {
   if (i >= commandline_args.size()) {
-    throw std::runtime_error(
-        FmtStr("CL: Missing parameter for {}", arg_name));
+    throw std::runtime_error(FmtStr("CL: Missing parameter for {}", arg_name));
   }
 
   return commandline_args[i];

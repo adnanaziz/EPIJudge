@@ -32,18 +32,18 @@ def stack_tester(ops):
             elif op == 'pop':
                 result = s.pop()
                 if result != arg:
-                    raise TestFailure("Pop: expected " + str(arg) + ", got " +
-                                      str(result))
+                    raise TestFailure(
+                        "Pop: expected " + str(arg) + ", got " + str(result))
             elif op == 'max':
                 result = s.max()
                 if result != arg:
-                    raise TestFailure("Max: expected " + str(arg) + ", got " +
-                                      str(result))
+                    raise TestFailure(
+                        "Max: expected " + str(arg) + ", got " + str(result))
             elif op == 'empty':
                 result = int(s.empty())
                 if result != arg:
-                    raise TestFailure("Empty: expected " + str(arg) + ", got "
-                                      + str(result))
+                    raise TestFailure(
+                        "Empty: expected " + str(arg) + ", got " + str(result))
             else:
                 raise RuntimeError("Unsupported stack operation: " + op)
     except IndexError:

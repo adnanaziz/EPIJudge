@@ -1,6 +1,3 @@
-// @library
-#pragma once
-
 #include <algorithm>
 #include <cctype>
 #include <fstream>
@@ -14,14 +11,15 @@
 #include <string>
 #include <utility>
 #include <vector>
-
 #include "json_parser.h"
 #include "platform.h"
+#include "serialization_traits.h"
 #include "test_failure.h"
 #include "test_utils_console.h"
 #include "test_utils_meta.h"
-#include "serialization_traits.h"
 #include "timeout_exception.h"
+
+#pragma once
 
 std::vector<std::vector<std::string>> SplitTsvFile(
     const std::string& tsv_file) {
@@ -92,9 +90,8 @@ std::string FilterBracketComments(const std::string& type) {
  * iterator.
  */
 template <typename ArgTuple, size_t... I>
-void MatchFunctionSignatureImpl(
-    std::vector<std::string>::const_iterator begin,
-    std::index_sequence<I...> /*unused*/) {
+void MatchFunctionSignatureImpl(std::vector<std::string>::const_iterator begin,
+                                std::index_sequence<I...> /*unused*/) {
   int mismatch_idx = FirstFalseArg(
       FilterBracketComments(*(begin + I)) ==
       SerializationTraits<std::tuple_element_t<I, ArgTuple>>::Name()...);

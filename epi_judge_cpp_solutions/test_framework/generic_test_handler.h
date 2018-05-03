@@ -1,18 +1,16 @@
-// @library
-#pragma once
-
 #include <iterator>
 #include <numeric>
 #include <regex>
 #include <string>
 #include <tuple>
 #include <vector>
-
+#include "serialization_traits.h"
 #include "test_output.h"
 #include "test_utils.h"
 #include "test_utils_meta.h"
-#include "serialization_traits.h"
 #include "timed_executor.h"
+
+#pragma once
 
 /**
  * The central class in generic test runner framework.
@@ -66,8 +64,7 @@ class GenericTestHandler {
                      const std::vector<std::string>& param_names)
       : func_(func), comp_(comp), param_names_(param_names) {
     if (func_traits::HasExecutorHook()) {
-      param_names_.erase(
-          param_names_.begin());  // Remove "executor" parameter
+      param_names_.erase(param_names_.begin());  // Remove "executor" parameter
     }
   }
 
@@ -202,8 +199,8 @@ class GenericTestHandler {
   template <typename ArgTuple, std::size_t... I>
   decltype(auto) Invoke(TimedExecutor& executor, ArgTuple& args,
                         std::index_sequence<I...> /*unused*/) const {
-    return InvokeWithExecutor(typename func_traits::executor_hook_tag(),
-                              func_, executor, std::get<I>(args)...);
+    return InvokeWithExecutor(typename func_traits::executor_hook_tag(), func_,
+                              executor, std::get<I>(args)...);
   };
 
   template <typename T, typename U>

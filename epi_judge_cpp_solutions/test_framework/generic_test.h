@@ -1,6 +1,3 @@
-// @library
-#pragma once
-
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -8,7 +5,6 @@
 #include <streambuf>
 #include <string>
 #include <vector>
-
 #include "fmt_print.h"
 #include "generic_test_handler.h"
 #include "json_parser.h"
@@ -16,6 +12,8 @@
 #include "test_config.h"
 #include "test_timer.h"
 #include "test_utils.h"
+
+#pragma once
 
 template <typename Function, typename Comparator>
 TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
@@ -50,8 +48,8 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
 
     platform::SetOutputOpts(config.tty_mode, config.color_mode);
 
-    GenericTestHandler<Function, Comparator> test_handler(
-        test_func, comparator, param_names);
+    GenericTestHandler<Function, Comparator> test_handler(test_func, comparator,
+                                                          param_names);
     return RunTests(test_handler, config);
   } catch (std::runtime_error& e) {
     std::cerr << std::endl << "Critical error: " << e.what() << std::endl;
@@ -68,8 +66,8 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
   std::string err;
   std::string js_file_str = buffer.str();
   const std::string kJsBeginPattern = "run(";
-  js_file_str.replace(js_file_str.find(kJsBeginPattern),
-                      kJsBeginPattern.size(), "");
+  js_file_str.replace(js_file_str.find(kJsBeginPattern), kJsBeginPattern.size(),
+                      "");
   const std::string kJsEndPattern = ");";
   js_file_str.replace(js_file_str.find(kJsEndPattern), kJsEndPattern.size(),
                       "");
@@ -85,16 +83,15 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
       for (const auto& language : problem.second.object_items()) {
         if (test_file == language.first) {
           const std::string format = "\"{}\": {{\"passed\": {},";
-          const std::string pattern = FmtStr(
-              format, test_file, language.second["passed"].int_value());
+          const std::string pattern =
+              FmtStr(format, test_file, language.second["passed"].int_value());
           const std::string replacement =
               FmtStr(format, test_file, tests_passed);
           serialized_problem_mapping.replace(
               serialized_problem_mapping.find(pattern), pattern.size(),
               replacement);
           std::ofstream ofs(problem_mapping_file_path);
-          ofs << kJsBeginPattern << serialized_problem_mapping
-              << kJsEndPattern;
+          ofs << kJsBeginPattern << serialized_problem_mapping << kJsEndPattern;
           ofs.close();
           return;
         }

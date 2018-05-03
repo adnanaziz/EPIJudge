@@ -1,4 +1,3 @@
-# @library
 import collections
 import sys
 

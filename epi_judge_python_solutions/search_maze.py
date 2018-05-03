@@ -26,8 +26,8 @@ def search_maze(maze, s, e):
 
         if any(
                 map(search_maze_helper,
-                    map(Coordinate, (cur.x - 1, cur.x + 1, cur.x, cur.x), (
-                        cur.y, cur.y, cur.y - 1, cur.y + 1)))):
+                    map(Coordinate, (cur.x - 1, cur.x + 1, cur.x, cur.x),
+                        (cur.y, cur.y, cur.y - 1, cur.y + 1)))):
             return True
         # Cannot find a path, remove the entry added in path.append(cur).
         del path[-1]

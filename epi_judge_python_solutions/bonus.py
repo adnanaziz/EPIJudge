@@ -8,8 +8,8 @@ def calculate_bonus(productivity):
 
     # Stores (productivity, index)-pair in min_heap where ordered by
     # productivity.
-    EmployeeData = collections.namedtuple('EmployeeData', ('productivity',
-                                                           'index'))
+    EmployeeData = collections.namedtuple('EmployeeData',
+                                          ('productivity', 'index'))
     min_heap = [EmployeeData(p, i) for i, p in enumerate(productivity)]
     heapq.heapify(min_heap)
 

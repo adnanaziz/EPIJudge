@@ -1,6 +1,3 @@
-// @library
-#pragma once
-
 #include <cassert>
 #include <cinttypes>
 #include <cmath>
@@ -13,15 +10,17 @@
 #include <memory>
 #include <string>
 #include <vector>
+#define noexcept throw()
+#define snprintf _snprintf_s
+
+#pragma once
 
 #ifdef _MSC_VER
 #if _MSC_VER <= 1800  // VS 2013
 #ifndef noexcept
-#define noexcept throw()
 #endif
 
 #ifndef snprintf
-#define snprintf _snprintf_s
 #endif
 #endif
 #endif
@@ -426,8 +425,7 @@ Json::Json(bool value) : m_ptr(value ? statics().t : statics().f) {}
 Json::Json(const string &value) : m_ptr(make_shared<JsonString>(value)) {}
 Json::Json(string &&value) : m_ptr(make_shared<JsonString>(move(value))) {}
 Json::Json(const char *value) : m_ptr(make_shared<JsonString>(value)) {}
-Json::Json(const Json::array &values)
-    : m_ptr(make_shared<JsonArray>(values)) {}
+Json::Json(const Json::array &values) : m_ptr(make_shared<JsonArray>(values)) {}
 Json::Json(Json::array &&values)
     : m_ptr(make_shared<JsonArray>(move(values))) {}
 Json::Json(const Json::object &values)
@@ -449,16 +447,12 @@ const map<string, Json> &Json::object_items() const {
   return m_ptr->object_items();
 }
 const Json &Json::operator[](size_t i) const { return (*m_ptr)[i]; }
-const Json &Json::operator[](const string &key) const {
-  return (*m_ptr)[key];
-}
+const Json &Json::operator[](const string &key) const { return (*m_ptr)[key]; }
 
 double JsonValue::number_value() const { return 0; }
 int64_t JsonValue::int_value() const { return 0; }
 bool JsonValue::bool_value() const { return false; }
-const string &JsonValue::string_value() const {
-  return statics().empty_string;
-}
+const string &JsonValue::string_value() const { return statics().empty_string; }
 const vector<Json> &JsonValue::array_items() const {
   return statics().empty_vector;
 }
@@ -553,8 +547,7 @@ struct JsonParser final {
    * Advance until the current character is non-whitespace.
    */
   void consume_whitespace() {
-    while (str[i] == ' ' || str[i] == '\r' || str[i] == '\n' ||
-           str[i] == '\t')
+    while (str[i] == ' ' || str[i] == '\r' || str[i] == '\n' || str[i] == '\t')
       i++;
   }
 
@@ -657,8 +650,7 @@ struct JsonParser final {
     string out;
     long last_escaped_codepoint = -1;
     while (true) {
-      if (i == str.size())
-        return fail("unexpected end of input in string", "");
+      if (i == str.size()) return fail("unexpected end of input in string", "");
 
       char ch = str[i++];
 
@@ -679,8 +671,7 @@ struct JsonParser final {
       }
 
       // Handle escapes
-      if (i == str.size())
-        return fail("unexpected end of input in string", "");
+      if (i == str.size()) return fail("unexpected end of input in string", "");
 
       ch = str[i++];
 

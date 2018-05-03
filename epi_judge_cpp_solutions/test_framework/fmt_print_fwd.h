@@ -1,7 +1,6 @@
-// @library
-#pragma once
-
 #include <iosfwd>
+
+#pragma once
 
 template <typename T>
 std::ostream& PrintTo(std::ostream& out, const T& x);

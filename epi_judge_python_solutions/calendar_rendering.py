@@ -16,9 +16,8 @@ def find_max_simultaneous_events(A):
 
     # Builds an array of all endpoints.
     E = [
-        p
-        for event in A
-        for p in (Endpoint(event.start, True), Endpoint(event.finish, False))
+        p for event in A for p in (Endpoint(event.start, True),
+                                   Endpoint(event.finish, False))
     ]
     # Sorts the endpoint array according to the time, breaking ties by putting
     # start times before end times.

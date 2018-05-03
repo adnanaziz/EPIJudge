@@ -1,4 +1,5 @@
 import bintrees
+
 from test_framework import generic_test
 
 

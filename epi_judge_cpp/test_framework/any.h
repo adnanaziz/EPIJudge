@@ -1,13 +1,11 @@
-// @library
-#pragma once
-
 #include <memory>
 #include <typeindex>
 #include <utility>
-
 #include "fmt_print.h"
-#include "test_utils_meta.h"
 #include "serialization_traits.h"
+#include "test_utils_meta.h"
+
+#pragma once
 
 namespace any {
 class AnyBase {
@@ -31,7 +29,8 @@ class AnyBase {
   const T& Cast() const {
     const T* ptr = TryCast<T>();
     if (!ptr) {
-      throw std::runtime_error(FmtStr("Any: expected type {}, got {}", TypeName(), typeid(T).name()));
+      throw std::runtime_error(FmtStr("Any: expected type {}, got {}",
+                                      TypeName(), typeid(T).name()));
     }
     return *ptr;
   }
@@ -47,9 +46,7 @@ class AnySpecialization : public AnyBase {
   explicit AnySpecialization(FwdT&& value)
       : value_(std::forward<FwdT>(value)) {}
 
-  std::type_index Typeid() const override {
-    return std::type_index(typeid(T));
-  }
+  std::type_index Typeid() const override { return std::type_index(typeid(T)); }
 
   std::string TypeName() const override { return typeid(T).name(); }
 

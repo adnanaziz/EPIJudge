@@ -6,8 +6,8 @@ from test_framework import generic_test
 from test_framework.test_failure import PropertyName
 from test_framework.test_utils import enable_executor_hook
 
-HighwaySection = collections.namedtuple('HighwaySection', ('x', 'y',
-                                                           'distance'))
+HighwaySection = collections.namedtuple('HighwaySection',
+                                        ('x', 'y', 'distance'))
 
 
 def find_best_proposals(H, P, n):

@@ -11,8 +11,8 @@ DuplicateAndMissing = collections.namedtuple('DuplicateAndMissing',
 def find_duplicate_missing(A):
 
     # Compute the XOR of all numbers from 0 to |A| - 1 and all entries in A.
-    miss_XOR_dup = functools.reduce(lambda v, i: v ^ i[0] ^ i[1],
-                                    enumerate(A), 0)
+    miss_XOR_dup = functools.reduce(lambda v, i: v ^ i[0] ^ i[1], enumerate(A),
+                                    0)
 
     # We need to find a bit that's set to 1 in miss_XOR_dup. Such a bit must
     # exist if there is a single missing number and a single duplicated number

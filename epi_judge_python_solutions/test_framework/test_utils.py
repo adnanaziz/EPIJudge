@@ -1,4 +1,3 @@
-# @library
 import collections
 import os
 import re

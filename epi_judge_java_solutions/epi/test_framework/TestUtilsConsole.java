@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 import java.util.List;
@@ -20,25 +20,25 @@ public class TestUtilsConsole {
 
   public static void printTestResult(TestResult testResult) {
     switch (testResult) {
-      case PASSED:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_GREEN, "PASSED");
-        break;
-      case FAILED:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED, "FAILED");
-        break;
-      case TIMEOUT:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_BLUE, "TIMEOUT");
-        break;
-      case UNKNOWN_EXCEPTION:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
-                                        "UNHANDLED EXCEPTION");
-        break;
-      case STACK_OVERFLOW:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
-                                        "STACK OVERFLOW");
-        break;
-      default:
-        throw new RuntimeException("Unknown TestResult");
+    case PASSED:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_GREEN, "PASSED");
+      break;
+    case FAILED:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED, "FAILED");
+      break;
+    case TIMEOUT:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_BLUE, "TIMEOUT");
+      break;
+    case UNKNOWN_EXCEPTION:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
+                                      "UNHANDLED EXCEPTION");
+      break;
+    case STACK_OVERFLOW:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
+                                      "STACK OVERFLOW");
+      break;
+    default:
+      throw new RuntimeException("Unknown TestResult");
     }
   }
 

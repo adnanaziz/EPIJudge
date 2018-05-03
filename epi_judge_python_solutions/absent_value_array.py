@@ -15,8 +15,8 @@ def find_missing_element(stream):
 
     # Look for a bucket that contains less than (1 << 16) elements.
     BUCKET_CAPACITY = 1 << 16
-    candidate_bucket = next(i for i, c in enumerate(counter)
-                            if c < BUCKET_CAPACITY)
+    candidate_bucket = next(
+        i for i, c in enumerate(counter) if c < BUCKET_CAPACITY)
 
     # Finds all IP addresses in the stream whose first 16 bits are equal to
     # candidate_bucket.

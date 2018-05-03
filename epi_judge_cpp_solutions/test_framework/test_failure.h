@@ -1,10 +1,8 @@
-// @library
-#pragma once
-
 #include <numeric>
 #include <string>
-
 #include "any.h"
+
+#pragma once
 
 enum class PropertyName {
   EXCEPTION_MESSAGE,  // message of unhandled exception
@@ -65,8 +63,7 @@ class TestFailure {
 
   TestFailure& WithMismatchInfo(any::Any mismatch_index, any::Any expected_item,
                                 any::Any result_item) {
-    return WithProperty(PropertyName::MISMATCH_INDEX,
-                        std::move(mismatch_index))
+    return WithProperty(PropertyName::MISMATCH_INDEX, std::move(mismatch_index))
         .WithProperty(PropertyName::EXPECTED_ITEM, std::move(expected_item))
         .WithProperty(PropertyName::RESULT_ITEM, std::move(result_item));
   }

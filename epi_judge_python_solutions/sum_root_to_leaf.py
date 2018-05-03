@@ -10,8 +10,8 @@ def sum_root_to_leaf(tree, partial_path_sum=0):
     if not tree.left and not tree.right:  # Leaf.
         return partial_path_sum
     # Non-leaf.
-    return (sum_root_to_leaf(tree.left, partial_path_sum) + sum_root_to_leaf(
-        tree.right, partial_path_sum))
+    return (sum_root_to_leaf(tree.left, partial_path_sum) +
+            sum_root_to_leaf(tree.right, partial_path_sum))
 
 
 if __name__ == '__main__':

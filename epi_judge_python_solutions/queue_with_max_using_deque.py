@@ -50,8 +50,8 @@ def queue_tester(ops):
             elif op == 'max':
                 result = q.max()
                 if result != arg:
-                    raise TestFailure("Max: expected " + str(arg) + ", got " +
-                                      str(result))
+                    raise TestFailure(
+                        "Max: expected " + str(arg) + ", got " + str(result))
             else:
                 raise RuntimeError("Unsupported queue operation: " + op)
     except IndexError:

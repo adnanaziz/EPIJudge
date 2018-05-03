@@ -20,16 +20,16 @@ def compute_tower_hanoi(num_rings):
 
     # Initialize pegs.
     result = []
-    pegs = [list(reversed(range(1, num_rings + 1)))
-            ] + [[] for _ in range(1, NUM_PEGS)]
+    pegs = [list(reversed(range(1, num_rings + 1)))] + [[] for _ in range(
+        1, NUM_PEGS)]
     compute_tower_hanoi_steps(num_rings, 0, 1, 2)
     return result
 
 
 @enable_executor_hook
 def compute_tower_hanoi_wrapper(executor, num_rings):
-    pegs = [list(reversed(range(1, num_rings + 1)))
-            ] + [[] for _ in range(1, NUM_PEGS)]
+    pegs = [list(reversed(range(1, num_rings + 1)))] + [[] for _ in range(
+        1, NUM_PEGS)]
 
     result = executor.run(functools.partial(compute_tower_hanoi, num_rings))
 

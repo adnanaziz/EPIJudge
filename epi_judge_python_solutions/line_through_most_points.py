@@ -1,6 +1,6 @@
 import collections
-import fractions
 import functools
+import math
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
@@ -22,8 +22,10 @@ def find_line_with_most_points(points):
                 slope_table[(0, 1)] += 1
             else:
                 x_diff, y_diff = p1.x - p2.x, p1.y - p2.y
-                gcd = fractions.gcd(x_diff, y_diff)
+                gcd = math.gcd(x_diff, y_diff)
                 x_diff, y_diff = x_diff / gcd, y_diff / gcd
+                if x_diff < 0:
+                    x_diff, y_diff = -x_diff, -y_diff
                 slope_table[(x_diff, y_diff)] += 1
         result = max(result,
                      overlap_points + max(slope_table.values(), default=0))

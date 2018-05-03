@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 public class Platform {
@@ -31,16 +31,16 @@ public class Platform {
     if (is64Bit == null) {
       String bits = System.getProperty("sun.arch.data.model", "?");
       switch (bits) {
-        case "64":
-          is64Bit = true;
-          break;
-        case "?":
-          is64Bit =
-              System.getProperty("java.vm.name").toLowerCase().contains("64");
-          break;
-        default:
-          is64Bit = false;
-          break;
+      case "64":
+        is64Bit = true;
+        break;
+      case "?":
+        is64Bit =
+            System.getProperty("java.vm.name").toLowerCase().contains("64");
+        break;
+      default:
+        is64Bit = false;
+        break;
       }
     }
     return is64Bit;

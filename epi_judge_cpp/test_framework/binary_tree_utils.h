@@ -1,15 +1,14 @@
-// @library
-#pragma once
-
 #include <algorithm>
 #include <memory>
 #include <queue>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 #include <unordered_set>
 #include <vector>
-
 #include "fmt_print_fwd.h"
-#include "serialization_traits.h"
+
+#pragma once
 
 template <typename Node, typename T>
 void TreeGenerateHelper(const Node& tree, std::vector<T>* result, int order) {
@@ -144,8 +143,8 @@ int BinaryTreeHeight(const Node& tree) {
   if (!tree) {
     return -1;
   }
-  return 1 + std::max(BinaryTreeHeight(tree->left),
-                      BinaryTreeHeight(tree->right));
+  return 1 +
+         std::max(BinaryTreeHeight(tree->left), BinaryTreeHeight(tree->right));
 }
 
 template <typename Node>

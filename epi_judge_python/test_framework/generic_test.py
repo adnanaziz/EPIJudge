@@ -1,4 +1,3 @@
-# @library
 import json
 import os
 import sys
@@ -8,8 +7,10 @@ from test_framework.platform import set_output_opts
 from test_framework.test_config import TestConfig
 from test_framework.test_failure import PropertyName, TestFailure
 from test_framework.test_result import TestResult
-from test_framework.test_utils import get_file_path_in_judge_dir, split_tsv_file
-from test_framework.test_utils_console import print_failed_test, print_post_run_stats, print_test_info
+from test_framework.test_utils import (get_file_path_in_judge_dir,
+                                       split_tsv_file)
+from test_framework.test_utils_console import (
+    print_failed_test, print_post_run_stats, print_test_info)
 from test_framework.timeout_exception import TimeoutException
 
 
@@ -111,9 +112,8 @@ def run_tests(handler, config, res_printer):
         JS_BEGIN_PATTERN, JS_END_PATTERN = 'run(', ');'
         with open(problem_mapping_file_path) as problem_mapping_file:
             chapter_to_problem_to_language_solution_mapping = json.loads(
-                problem_mapping_file.read().replace(JS_BEGIN_PATTERN,
-                                                    '').replace(
-                                                        JS_END_PATTERN, ''))
+                problem_mapping_file.read().replace(JS_BEGIN_PATTERN, '')
+                .replace(JS_END_PATTERN, ''))
 
         test_file = 'Python: ' + test_file
         for chapter in chapter_to_problem_to_language_solution_mapping.values(
