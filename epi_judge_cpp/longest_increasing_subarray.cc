@@ -1,6 +1,5 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
 
 struct Subarray {
@@ -11,7 +10,6 @@ Subarray FindLongestIncreasingSubarray(const vector<int>& A) {
   // TODO - you fill in here.
   return {};
 }
-
 int FindLongestIncreasingSubarrayWrapper(const vector<int>& A) {
   Subarray result = FindLongestIncreasingSubarray(A);
   return result.end - result.start + 1;

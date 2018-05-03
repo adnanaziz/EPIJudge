@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class IsValidParenthesization {
   @EpiTest(testDataFile = "is_valid_parenthesization.tsv")
 

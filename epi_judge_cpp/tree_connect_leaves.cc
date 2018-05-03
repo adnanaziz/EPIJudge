@@ -1,11 +1,9 @@
 #include <memory>
 #include <vector>
-
 #include "binary_tree_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::unique_ptr;
 using std::vector;
 
@@ -14,7 +12,6 @@ vector<const unique_ptr<BinaryTreeNode<int>>*> CreateListOfLeaves(
   // TODO - you fill in here.
   return {};
 }
-
 vector<int> CreateListOfLeavesWrapper(
     TimedExecutor& executor, const unique_ptr<BinaryTreeNode<int>>& tree) {
   auto result = executor.Run([&] { return CreateListOfLeaves(tree); });

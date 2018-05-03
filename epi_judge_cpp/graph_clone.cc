@@ -2,11 +2,9 @@
 #include <queue>
 #include <unordered_set>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-
 using std::queue;
 using std::unordered_set;
 using std::vector;
@@ -20,7 +18,6 @@ GraphVertex* CloneGraph(GraphVertex* graph) {
   // TODO - you fill in here.
   return new GraphVertex{0};
 }
-
 vector<int> CopyLabels(const vector<GraphVertex*>& edges) {
   vector<int> labels;
   transform(begin(edges), end(edges), back_inserter(labels),

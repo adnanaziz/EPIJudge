@@ -1,6 +1,5 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
 
 // The numbering starts from one, i.e., if A = [3, 1, -1, 2] then
@@ -10,7 +9,6 @@ int FindKthLargest(int k, vector<int>* A_ptr) {
   // TODO - you fill in here.
   return 0;
 }
-
 int FindKthLargestWrapper(int k, vector<int>& A) {
   return FindKthLargest(k, &A);
 }

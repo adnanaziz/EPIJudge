@@ -1,14 +1,11 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 public class SmallestSubarrayCoveringSet {
 
   // Represent subarray by starting and ending indices, inclusive.
@@ -27,7 +24,6 @@ public class SmallestSubarrayCoveringSet {
     // TODO - you fill in here.
     return new Subarray(0, 0);
   }
-
   @EpiTest(testDataFile = "smallest_subarray_covering_set.tsv")
   public static int findSmallestSubarrayCoveringSetWrapper(
       TimedExecutor executor, List<String> paragraph, Set<String> keywords)

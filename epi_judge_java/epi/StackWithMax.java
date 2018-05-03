@@ -1,38 +1,30 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
 import java.util.NoSuchElementException;
-
 public class StackWithMax {
 
   public static class Stack {
-
     public boolean empty() {
       // TODO - you fill in here.
       return true;
     }
-
     public Integer max() {
       // TODO - you fill in here.
       return 0;
     }
-
     public Integer pop() {
       // TODO - you fill in here.
       return 0;
     }
-
     public void push(Integer x) {
       // TODO - you fill in here.
       return;
     }
   }
-
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class StackOp {
     public String op;

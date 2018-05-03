@@ -1,13 +1,10 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class DutchNationalFlag {
   public enum Color { RED, WHITE, BLUE }
 
@@ -15,7 +12,6 @@ public class DutchNationalFlag {
     // TODO - you fill in here.
     return;
   }
-
   @EpiTest(testDataFile = "dutch_national_flag.tsv")
   public static void dutchFlagPartitionWrapper(TimedExecutor executor,
                                                List<Integer> A, int pivotIdx)

@@ -1,12 +1,10 @@
 #include <iterator>
 #include <memory>
 #include <vector>
-
 #include "doubly_list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::make_shared;
 using std::vector;
 
@@ -18,7 +16,6 @@ shared_ptr<ListNode<int>> BuildBSTFromSortedDoublyList(
   // TODO - you fill in here.
   return nullptr;
 }
-
 void CompareVectorAndTree(const shared_ptr<ListNode<int>>& tree,
                           vector<int>::const_iterator& current,
                           const vector<int>::const_iterator& end) {

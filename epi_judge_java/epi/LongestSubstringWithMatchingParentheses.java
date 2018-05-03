@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class LongestSubstringWithMatchingParentheses {
   @EpiTest(testDataFile = "longest_substring_with_matching_parentheses.tsv")
 

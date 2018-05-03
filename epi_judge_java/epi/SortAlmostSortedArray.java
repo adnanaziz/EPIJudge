@@ -1,11 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.Iterator;
 import java.util.List;
-
 public class SortAlmostSortedArray {
 
   public static List<Integer>
@@ -13,7 +10,6 @@ public class SortAlmostSortedArray {
     // TODO - you fill in here.
     return null;
   }
-
   @EpiTest(testDataFile = "sort_almost_sorted_array.tsv")
   public static List<Integer>
   sortApproximatelySortedDataWrapper(List<Integer> sequence, int k) {

@@ -1,15 +1,12 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 void RotateArray(int rotate_amount, vector<int>* A) {
   // TODO - you fill in here.
   return;
 }
-
 vector<int> RotateArrayWrapper(TimedExecutor& executor, vector<int> A,
                                int rotate_amount) {
   executor.Run([&] { RotateArray(rotate_amount, &A); });

@@ -1,11 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.List;
 import java.util.Iterator;
-
 public class KthLargestElementInLongArray {
 
   public static int findKthLargestUnknownLength(Iterator<Integer> stream,
@@ -13,7 +10,6 @@ public class KthLargestElementInLongArray {
     // TODO - you fill in here.
     return 0;
   }
-
   @EpiTest(testDataFile = "kth_largest_element_in_long_array.tsv")
   public static int findKthLargestUnknownLengthWrapper(List<Integer> stream,
                                                        int k) {

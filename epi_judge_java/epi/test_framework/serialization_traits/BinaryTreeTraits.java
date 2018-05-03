@@ -114,13 +114,11 @@ public class BinaryTreeTraits extends SerializationTraits {
       if (node != null) {
         if (!candidateChildren.isEmpty()) {
           node.left = candidateChildren.removeFirst();
-          if (node.left != null)
-            node.left.parent = node;
+          if (node.left != null) node.left.parent = node;
         }
         if (!candidateChildren.isEmpty()) {
           node.right = candidateChildren.removeFirst();
-          if (node.right != null)
-            node.right.parent = node;
+          if (node.right != null) node.right.parent = node;
         }
       }
     }

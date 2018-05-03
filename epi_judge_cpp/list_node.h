@@ -1,11 +1,14 @@
-#include <iostream>
-#include <memory>
-#include "test_framework/serialization_traits.h"
 
 #pragma once
 
+#include <iostream>
+#include <memory>
+
+#include "test_framework/serialization_traits.h"
+
 using std::make_shared;
 using std::shared_ptr;
+
 
 template <typename T>
 struct ListNode {
@@ -18,7 +21,7 @@ struct ListNode {
   //       ^     |
   //       |_____|
   shared_ptr<ListNode<T>> next;
-
+  
   ListNode(T data = {}, shared_ptr<ListNode<T>> next = nullptr)
       : data(data), next(next) {}
 
@@ -44,7 +47,9 @@ struct ListNode {
     }
     return a == nullptr && b == nullptr;
   }
+  
 };
+
 
 template <typename T>
 bool EqualList(shared_ptr<ListNode<T>> a, shared_ptr<ListNode<T>> b) {
@@ -52,7 +57,8 @@ bool EqualList(shared_ptr<ListNode<T>> a, shared_ptr<ListNode<T>> b) {
 }
 
 template <typename T>
-std::shared_ptr<ListNode<T>> ConvertArrayToLinkedList(const std::vector<T>& v) {
+std::shared_ptr<ListNode<T>> ConvertArrayToLinkedList(
+    const std::vector<T>& v) {
   std::shared_ptr<ListNode<T>> head;
   for (auto it = rbegin(v); it != rend(v); ++it) {
     head = std::make_shared<ListNode<T>>(*it, head);
@@ -110,8 +116,8 @@ int ListSize(shared_ptr<ListNode<T>> list) {
 
 template <typename T>
 struct SerializationTraits<shared_ptr<ListNode<T>>> {
-  using serialization_type =
-      shared_ptr<ListNode<typename SerializationTraits<T>::serialization_type>>;
+  using serialization_type = shared_ptr<
+      ListNode<typename SerializationTraits<T>::serialization_type>>;
 
   static const char* Name() {
     static std::string s =
@@ -129,7 +135,8 @@ struct SerializationTraits<shared_ptr<ListNode<T>>> {
     return ConvertArrayToLinkedList(v);
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {FmtStr("size({})", arg_name)};
   }
 
@@ -137,7 +144,8 @@ struct SerializationTraits<shared_ptr<ListNode<T>>> {
     return {static_cast<int>(ListSize(x))};
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return EqualList(a, b);
   }
 };

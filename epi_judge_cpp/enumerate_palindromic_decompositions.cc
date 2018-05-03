@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::string;
 using std::vector;
 
@@ -11,7 +10,6 @@ vector<vector<string>> PalindromeDecompositions(const string& input) {
   // TODO - you fill in here.
   return {};
 }
-
 bool Comp(vector<vector<string>> expected, vector<vector<string>> result) {
   std::sort(begin(expected), end(expected));
   std::sort(begin(result), end(result));

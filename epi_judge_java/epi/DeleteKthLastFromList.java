@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class DeleteKthLastFromList {
   @EpiTest(testDataFile = "delete_kth_last_from_list.tsv")
 

@@ -1,20 +1,16 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class OfflineSampling {
   public static void randomSampling(int k, List<Integer> A) {
     // TODO - you fill in here.
     return;
   }
-
   private static boolean randomSamplingRunner(TimedExecutor executor, int k,
                                               List<Integer> A)
       throws Exception {

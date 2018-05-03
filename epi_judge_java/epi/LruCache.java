@@ -1,31 +1,24 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
 
 public class LruCache {
-
   LruCache(final int capacity) {}
-
   public Integer lookup(Integer key) {
     // TODO - you fill in here.
     return 0;
   }
-
   public void insert(Integer key, Integer value) {
     // TODO - you fill in here.
     return;
   }
-
   public Boolean erase(Object key) {
     // TODO - you fill in here.
     return true;
   }
-
   @EpiUserType(ctorParams = {String.class, int.class, int.class})
   public static class Op {
     String code;

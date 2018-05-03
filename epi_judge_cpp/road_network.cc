@@ -1,9 +1,7 @@
 #include <vector>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::vector;
 
 struct HighwaySection {
@@ -15,7 +13,6 @@ HighwaySection FindBestProposals(const vector<HighwaySection>& H,
   // TODO - you fill in here.
   return {0, 0, 0};
 }
-
 template <>
 struct SerializationTraits<HighwaySection>
     : UserSerTraits<HighwaySection, int, int, int> {};

@@ -1,10 +1,11 @@
+
+#pragma once
+
 #include <algorithm>
 #include <chrono>
 #include <numeric>
 #include <string>
 #include <vector>
-
-#pragma once
 
 class TestTimer {
  public:
@@ -55,7 +56,8 @@ std::string DurationToString(const std::chrono::microseconds& dur) {
   if (dur == dur.zero()) {
     return "  <1 us";
   } else if (dur.count() < MICRO_TO_MILLI) {
-    return LeftPaddingString(std::to_string(dur.count()), FORMAT_WIDTH) + " us";
+    return LeftPaddingString(std::to_string(dur.count()), FORMAT_WIDTH) +
+           " us";
   } else if (dur.count() < MICRO_TO_SECOND) {
     return LeftPaddingString(std::to_string(dur.count() / MICRO_TO_MILLI),
                              FORMAT_WIDTH) +

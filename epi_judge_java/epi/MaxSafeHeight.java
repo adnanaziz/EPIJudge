@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class MaxSafeHeight {
   @EpiTest(testDataFile = "max_safe_height.tsv")
 

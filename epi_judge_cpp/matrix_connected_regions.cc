@@ -1,9 +1,7 @@
 #include <deque>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::deque;
 using std::vector;
 
@@ -11,7 +9,6 @@ void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   // TODO - you fill in here.
   return;
 }
-
 vector<vector<int>> FlipColorWrapper(TimedExecutor& executor, int x, int y,
                                      vector<vector<int>> image) {
   vector<deque<bool>> b;

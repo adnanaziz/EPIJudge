@@ -59,7 +59,7 @@ import java.util.List;
  * This class is <strong>not supposed to be extended</strong> by clients.
  * </p>
  */
-@SuppressWarnings("serial") // use default serial UID
+@SuppressWarnings("serial")  // use default serial UID
 public class JsonObject extends JsonValue implements Iterable<Member> {
   private final List<String> names;
   private final List<JsonValue> values;
@@ -905,7 +905,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
   }
 
   static class HashIndexTable {
-    private final byte[] hashTable = new byte[32]; // must be a power of two
+    private final byte[] hashTable = new byte[32];  // must be a power of two
 
     public HashIndexTable() {}
 

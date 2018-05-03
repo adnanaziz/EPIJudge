@@ -1,9 +1,7 @@
 #include <vector>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::vector;
 
 struct Rectangle {
@@ -15,7 +13,6 @@ Skyline ComputeSkyline(const vector<Rectangle>& buildings) {
   // TODO - you fill in here.
   return {};
 }
-
 bool operator==(const Rectangle& a, const Rectangle& b) {
   return a.left == b.left && a.right == b.right && a.height == b.height;
 }

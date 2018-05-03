@@ -75,34 +75,35 @@ public class TestConfig {
 
     for (int i = 0; i < commandlineArgs.length; i++) {
       switch (commandlineArgs[i]) {
-      case "--test-data-dir":
-        config.testDataDir = getParam(commandlineArgs, ++i, "--test-data-dir");
-        break;
-      case "--no-verbose":
-        config.verbose = false;
-        break;
-      case "--force-tty":
-        config.ttyMode = TriBool.TRUE;
-        break;
-      case "--no-tty":
-        config.ttyMode = TriBool.FALSE;
-        break;
-      case "--force-color":
-        config.colorMode = TriBool.TRUE;
-        break;
-      case "--no-color":
-        config.colorMode = TriBool.FALSE;
-        break;
-      case "--no-update-js":
-        config.updateJs = false;
-        break;
-      case "--help":
-      case "-h":
-        printUsageAndExit();
-        break;
-      default:
-        throw new RuntimeException("CL: Unrecognized argument: " +
-                                   commandlineArgs[i]);
+        case "--test-data-dir":
+          config.testDataDir =
+              getParam(commandlineArgs, ++i, "--test-data-dir");
+          break;
+        case "--no-verbose":
+          config.verbose = false;
+          break;
+        case "--force-tty":
+          config.ttyMode = TriBool.TRUE;
+          break;
+        case "--no-tty":
+          config.ttyMode = TriBool.FALSE;
+          break;
+        case "--force-color":
+          config.colorMode = TriBool.TRUE;
+          break;
+        case "--no-color":
+          config.colorMode = TriBool.FALSE;
+          break;
+        case "--no-update-js":
+          config.updateJs = false;
+          break;
+        case "--help":
+        case "-h":
+          printUsageAndExit();
+          break;
+        default:
+          throw new RuntimeException("CL: Unrecognized argument: " +
+                                     commandlineArgs[i]);
       }
     }
 

@@ -1,9 +1,7 @@
 #include <stdexcept>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
-
 using std::invalid_argument;
 using std::vector;
 
@@ -12,7 +10,6 @@ int FindMissingElement(vector<int>::const_iterator stream_begin,
   // TODO - you fill in here.
   return 0;
 }
-
 int FindMissingElementWrapper(const vector<int>& stream) {
   try {
     return FindMissingElement(cbegin(stream), cend(stream));

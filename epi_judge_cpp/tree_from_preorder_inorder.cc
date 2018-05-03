@@ -1,9 +1,7 @@
 #include <vector>
-
 #include "binary_tree_node.h"
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
-
 using std::vector;
 
 unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorder(

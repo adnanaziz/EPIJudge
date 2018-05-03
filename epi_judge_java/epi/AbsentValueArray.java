@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class AbsentValueArray {
 
   @EpiTest(testDataFile = "absent_value_array.tsv")

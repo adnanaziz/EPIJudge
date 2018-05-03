@@ -1,13 +1,10 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 void RotateMatrix(vector<vector<int>>* square_matrix_ptr) {
   // TODO - you fill in here.
   return;
 }
-
 vector<vector<int>> RotateMatrixWrapper(vector<vector<int>> square_matrix) {
   RotateMatrix(&square_matrix);
   return square_matrix;

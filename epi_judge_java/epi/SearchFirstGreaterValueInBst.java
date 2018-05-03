@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class SearchFirstGreaterValueInBst {
 
   public static BstNode<Integer> findFirstGreaterThanK(BstNode<Integer> tree,
@@ -10,7 +8,6 @@ public class SearchFirstGreaterValueInBst {
     // TODO - you fill in here.
     return null;
   }
-
   @EpiTest(testDataFile = "search_first_greater_value_in_bst.tsv")
   public static int findFirstGreaterThanKWrapper(BstNode<Integer> tree,
                                                  Integer k) {

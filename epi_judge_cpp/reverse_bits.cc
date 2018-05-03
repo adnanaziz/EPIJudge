@@ -1,5 +1,4 @@
 #include "test_framework/generic_test.h"
-
 unsigned long long ReverseBits(unsigned long long x) {
   // TODO - you fill in here.
   return 0;

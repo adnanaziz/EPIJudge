@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class IsAnonymousLetterConstructible {
   @EpiTest(testDataFile = "is_anonymous_letter_constructible.tsv")
 

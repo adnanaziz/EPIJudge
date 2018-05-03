@@ -1,8 +1,6 @@
 #include <string>
 #include "test_framework/generic_test.h"
-
 using std::string;
-
 string ShortestEquivalentPath(const string& path) {
   // TODO - you fill in here.
   return "";

@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class CountBits {
   @EpiTest(testDataFile = "count_bits.tsv")
 

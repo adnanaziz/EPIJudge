@@ -1,11 +1,3 @@
-#define PLATFORM_WIN
-#include <io.h>
-#include <sys/stat.h>
-#include <sys/types.h>  //must precede sys/stat.h
-#include <unistd.h>
-#include <cstdio>
-#include <iostream>
-#include "tri_bool.h"
 
 #pragma once
 
@@ -15,11 +7,22 @@
  */
 
 #if _WINDOWS || __MINGW__ || __CYGWIN__
+#define PLATFORM_WIN
 #endif
 
+#include <iostream>
+
 #ifdef PLATFORM_WIN
+#include <io.h>
+#include <sys/stat.h>
+#include <sys/types.h>  //must precede sys/stat.h
+#include <cstdio>
 #else  // UNIX
+#include <sys/stat.h>
+#include <unistd.h>
 #endif
+
+#include "tri_bool.h"
 
 namespace platform {
 

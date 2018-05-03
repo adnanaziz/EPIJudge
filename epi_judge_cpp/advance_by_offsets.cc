@@ -1,8 +1,6 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 bool CanReachEnd(const vector<int>& max_advance_steps) {
   // TODO - you fill in here.
   return true;

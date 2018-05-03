@@ -1,16 +1,13 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 public class OnlineSampling {
 
   // Assumption: there are at least k elements in the stream.
@@ -19,7 +16,6 @@ public class OnlineSampling {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   private static boolean onlineRandomSampleRunner(TimedExecutor executor,
                                                   List<Integer> A, int k)
       throws Exception {

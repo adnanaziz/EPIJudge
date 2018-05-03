@@ -1,22 +1,18 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class RandomPermutation {
 
   public static List<Integer> computeRandomPermutation(int n) {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   private static int factorial(int n) {
     return n <= 1 ? 1 : n * factorial(n - 1);
   }

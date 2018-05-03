@@ -1,10 +1,12 @@
+
+#pragma once
+
 #include <chrono>
 #include <future>
+
 #include "test_timer.h"
 #include "test_utils_meta.h"
 #include "timeout_exception.h"
-
-#pragma once
 
 class TimedExecutor {
  public:
@@ -52,12 +54,14 @@ class TimedExecutor {
 
 template <typename Func, typename... ArgsFwd>
 decltype(auto) InvokeWithExecutor(HasNoExecutorHookTag, Func& f,
-                                  TimedExecutor& executor, ArgsFwd&&... args) {
+                                  TimedExecutor& executor,
+                                  ArgsFwd&&... args) {
   return executor.Run([&] { return f(std::forward<ArgsFwd>(args)...); });
 }
 
 template <typename Func, typename... ArgsFwd>
 decltype(auto) InvokeWithExecutor(HasExecutorHookTag, Func& f,
-                                  TimedExecutor& executor, ArgsFwd&&... args) {
+                                  TimedExecutor& executor,
+                                  ArgsFwd&&... args) {
   return f(executor, std::forward<ArgsFwd>(args)...);
 }

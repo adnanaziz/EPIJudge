@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class IsListPalindromic {
   @EpiTest(testDataFile = "is_list_palindromic.tsv")
 

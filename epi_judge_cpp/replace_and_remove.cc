@@ -1,10 +1,8 @@
 #include <iterator>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::string;
 using std::vector;
 
@@ -12,7 +10,6 @@ int ReplaceAndRemove(int size, char s[]) {
   // TODO - you fill in here.
   return 0;
 }
-
 vector<string> ReplaceAndRemoveWrapper(TimedExecutor& executor, int size,
                                        const vector<string>& s) {
   std::vector<char> s_copy(s.size(), '\0');

@@ -37,8 +37,8 @@ public class RandomSequenceChecker {
     // To make our testing meaningful "sufficiently large", we need to have
     // enough testing data.
     if (seq.size() * p < 50 || seq.size() * (1 - p) < 50) {
-      return true; // Sample size is too small so we cannot use normal
-                   // approximation
+      return true;  // Sample size is too small so we cannot use normal
+                    // approximation
     }
 
     Map<Integer, Integer> indivFreqs = new HashMap<>();
@@ -62,9 +62,8 @@ public class RandomSequenceChecker {
     return checkFrequencies(seqPairs, n * n, falseNegativeTolerance);
   }
 
-  private static boolean
-  checkTriplesFrequencies(List<Integer> seq, int n,
-                          double falseNegativeTolerance) {
+  private static boolean checkTriplesFrequencies(
+      List<Integer> seq, int n, double falseNegativeTolerance) {
     List<Integer> seqTriples = new ArrayList<>();
     for (int i = 2; i < seq.size(); ++i) {
       seqTriples.add(seq.get(i - 2) * n * n + seq.get(i - 1) * n + seq.get(i));
@@ -79,7 +78,7 @@ public class RandomSequenceChecker {
     final int numberOfSubarrays = seq.size() - expectedAvgRepetitionLength + 1;
     final int MIN_NUMBER_SUBARRAYS = 1000;
     if (numberOfSubarrays < MIN_NUMBER_SUBARRAYS) {
-      return true; // Not enough subarrays for birthday spacing check
+      return true;  // Not enough subarrays for birthday spacing check
     }
 
     int numberOfSubarraysWithRepetitions = 0;
@@ -97,9 +96,8 @@ public class RandomSequenceChecker {
 
   // seq is a sequence of integers, which should be in the range [0,n-1]. We
   // assume n << seq.size().
-  public static boolean
-  checkSequenceIsUniformlyRandom(List<Integer> seq, int n,
-                                 double falseNegativeTolerance) {
+  public static boolean checkSequenceIsUniformlyRandom(
+      List<Integer> seq, int n, double falseNegativeTolerance) {
     return checkFrequencies(seq, n, falseNegativeTolerance) &&
         checkPairsFrequencies(seq, n, falseNegativeTolerance) &&
         checkTriplesFrequencies(seq, n, falseNegativeTolerance) &&

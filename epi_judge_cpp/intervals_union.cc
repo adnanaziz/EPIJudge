@@ -1,9 +1,7 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 struct Interval {
@@ -19,7 +17,6 @@ vector<Interval> UnionOfIntervals(vector<Interval> intervals) {
   // TODO - you fill in here.
   return {};
 }
-
 struct FlatInterval {
   int left_val;
   bool left_is_closed;

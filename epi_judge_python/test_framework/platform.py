@@ -1,3 +1,4 @@
+
 import sys
 
 ENABLE_TTY_OUTPUT = False
@@ -39,7 +40,7 @@ if running_on_win():
         ENABLE_COLOR_OUTPUT = False
 
     else:
-        from ctypes import POINTER, Structure, byref
+        from ctypes import byref, Structure, c_char, POINTER
 
         COORD = wintypes._COORD
 
@@ -78,7 +79,7 @@ if running_on_win():
 
         def get_console_screen_buffer_info():
             csbi = ConsoleScreenBufferInfo()
-            _GetConsoleScreenBufferInfo(stdout_handle, byref(csbi))
+            success = _GetConsoleScreenBufferInfo(stdout_handle, byref(csbi))
             return csbi
 
         def set_console_text_attribute(attrs):

@@ -1,12 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.List;
-
 public class SortedArraysMerge {
-
   @EpiTest(testDataFile = "sorted_arrays_merge.tsv")
 
   public static List<Integer>

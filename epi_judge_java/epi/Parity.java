@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class Parity {
   @EpiTest(testDataFile = "parity.tsv")
   public static short parity(long x) {

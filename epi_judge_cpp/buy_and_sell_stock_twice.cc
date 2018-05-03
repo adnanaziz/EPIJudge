@@ -1,8 +1,6 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 double BuyAndSellStockTwice(const vector<double>& prices) {
   // TODO - you fill in here.
   return 0.0;

@@ -1,15 +1,12 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
 import epi.test_framework.EpiTestExpectedType;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
-
 public class RemoveDuplicates {
   @EpiUserType(ctorParams = {String.class, String.class})
   //@include
@@ -48,12 +45,10 @@ public class RemoveDuplicates {
       return lastName.compareTo(name.lastName);
     }
   }
-
   public static void eliminateDuplicate(List<Name> names) {
     // TODO - you fill in here.
     return;
   }
-
   @EpiTest(testDataFile = "remove_duplicates.tsv")
   public static List<Name> eliminateDuplicateWrapper(List<Name> names) {
     eliminateDuplicate(names);

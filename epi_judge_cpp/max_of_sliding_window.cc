@@ -1,25 +1,20 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::vector;
 
 struct TrafficElement {
   bool operator==(const TrafficElement& that) const {
     return time == that.time && volume == that.volume;
   }
-
   int time;
   double volume;
 };
-
 vector<TrafficElement> CalculateTrafficVolumes(const vector<TrafficElement>& A,
                                                int w) {
   // TODO - you fill in here.
   return {};
 }
-
 template <>
 struct SerializationTraits<TrafficElement>
     : UserSerTraits<TrafficElement, int, double> {};

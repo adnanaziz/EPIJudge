@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class SortedListsMerge {
   @EpiTest(testDataFile = "sorted_lists_merge.tsv")
   //@include

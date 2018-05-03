@@ -1,9 +1,7 @@
 #include <tuple>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 struct Rectangle {
   int x, y, width, height;
 };
@@ -12,7 +10,6 @@ Rectangle IntersectRectangle(const Rectangle& R1, const Rectangle& R2) {
   // TODO - you fill in here.
   return {0, 0, 0, 0};
 }
-
 bool operator==(const Rectangle& r1, const Rectangle& r2) {
   return std::tie(r1.x, r1.y, r1.width, r1.height) ==
          std::tie(r2.x, r2.y, r2.width, r2.height);

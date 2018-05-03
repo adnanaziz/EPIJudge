@@ -1,7 +1,6 @@
 #include <string>
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::string;
 using std::vector;
 
@@ -10,7 +9,6 @@ string MajoritySearch(vector<string>::const_iterator stream_begin,
   // TODO - you fill in here.
   return "";
 }
-
 string MajoritySearchWrapper(const vector<string>& stream) {
   return MajoritySearch(cbegin(stream), cend(stream));
 }

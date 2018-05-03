@@ -1,6 +1,5 @@
 #include "list_node.h"
 #include "test_framework/generic_test.h"
-
 shared_ptr<ListNode<int>> MergeTwoSortedLists(shared_ptr<ListNode<int>> L1,
                                               shared_ptr<ListNode<int>> L2) {
   // TODO - you fill in here.

@@ -35,10 +35,10 @@ public class GenericTest {
    * @param expectedType    - optional custom expected value type if it doesn't
    *                          match m return type
    */
-  private static TestResult
-  genericTestMain(String[] commandlineArgs, String testFile,
-                  String testDataFile, Method testFunc,
-                  BiPredicate<Object, Object> comparator, Field expectedType) {
+  private static TestResult genericTestMain(
+      String[] commandlineArgs, String testFile, String testDataFile,
+      Method testFunc, BiPredicate<Object, Object> comparator,
+      Field expectedType) {
     JsonObject configOverride = null;
     try {
       configOverride =
@@ -146,7 +146,7 @@ public class GenericTest {
     }
 
     String complexity = "";
-
+    
     System.out.println();
 
     if (!durations.isEmpty() && config.verbose) {
@@ -227,8 +227,8 @@ public class GenericTest {
   }
 
   @SuppressWarnings("unchecked")
-  private static BiPredicate<Object, Object>
-  findCustomComparatorByAnnotation(Class testClass) {
+  private static BiPredicate<Object, Object> findCustomComparatorByAnnotation(
+      Class testClass) {
     for (Field f : testClass.getFields()) {
       Annotation annotation = f.getAnnotation(EpiTestComparator.class);
       if (annotation != null) {

@@ -1,11 +1,9 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::string;
 using std::unordered_set;
 using std::vector;
@@ -19,7 +17,6 @@ Subarray FindSmallestSubarrayCoveringSet(
   // TODO - you fill in here.
   return {0, 0};
 }
-
 int FindSmallestSubarrayCoveringSetWrapper(
     TimedExecutor &executor, const vector<string> &paragraph,
     const unordered_set<string> &keywords) {

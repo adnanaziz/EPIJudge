@@ -1,8 +1,6 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 // Check if a partially filled matrix has any conflicts.
 bool IsValidSudoku(const vector<vector<int>>& partial_assignment) {
   // TODO - you fill in here.

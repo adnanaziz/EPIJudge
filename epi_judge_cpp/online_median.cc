@@ -1,6 +1,5 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
 
 vector<double> OnlineMedian(vector<int>::const_iterator sequence_begin,
@@ -8,7 +7,6 @@ vector<double> OnlineMedian(vector<int>::const_iterator sequence_begin,
   // TODO - you fill in here.
   return {};
 }
-
 vector<double> OnlineMedianWrapper(const vector<int>& sequence) {
   return OnlineMedian(cbegin(sequence), cend(sequence));
 }

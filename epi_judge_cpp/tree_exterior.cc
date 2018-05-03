@@ -1,10 +1,8 @@
 #include <vector>
-
 #include "binary_tree_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 vector<const unique_ptr<BinaryTreeNode<int>>*> ExteriorBinaryTree(
@@ -12,7 +10,6 @@ vector<const unique_ptr<BinaryTreeNode<int>>*> ExteriorBinaryTree(
   // TODO - you fill in here.
   return {};
 }
-
 vector<int> CreateOutputVector(
     const vector<const unique_ptr<BinaryTreeNode<int>>*>& L) {
   if (std::find(std::begin(L), std::end(L), nullptr) != std::end(L)) {

@@ -1,9 +1,7 @@
 #include <vector>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::vector;
 
 struct Interval {
@@ -15,7 +13,6 @@ vector<Interval> AddInterval(const vector<Interval>& disjoint_intervals,
   // TODO - you fill in here.
   return {};
 }
-
 template <>
 struct SerializationTraits<Interval> : UserSerTraits<Interval, int, int> {
   static std::vector<std::string> GetMetricNames(const std::string& arg_name) {

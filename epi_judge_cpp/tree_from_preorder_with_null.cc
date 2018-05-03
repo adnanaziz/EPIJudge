@@ -1,10 +1,8 @@
 #include <string>
 #include <vector>
-
 #include "binary_tree_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::string;
 using std::vector;
 
@@ -13,7 +11,6 @@ unique_ptr<BinaryTreeNode<int>> ReconstructPreorder(
   // TODO - you fill in here.
   return nullptr;
 }
-
 unique_ptr<BinaryTreeNode<int>> ReconstructPreorderWrapper(
     TimedExecutor& executor, const vector<string>& preorder) {
   vector<int> values;

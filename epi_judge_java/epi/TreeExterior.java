@@ -1,14 +1,11 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class TreeExterior {
 
   public static List<BinaryTreeNode<Integer>>
@@ -16,7 +13,6 @@ public class TreeExterior {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   private static List<Integer> createOutputList(List<BinaryTreeNode<Integer>> L)
       throws TestFailure {
     if (L.contains(null)) {

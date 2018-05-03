@@ -1,6 +1,5 @@
 #include <set>
 #include <stdexcept>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
@@ -11,7 +10,6 @@ shared_ptr<ListNode<int>> OverlappingLists(shared_ptr<ListNode<int>> l0,
   // TODO - you fill in here.
   return nullptr;
 }
-
 void OverlappingListsWrapper(TimedExecutor& executor,
                              shared_ptr<ListNode<int>> l0,
                              shared_ptr<ListNode<int>> l1,

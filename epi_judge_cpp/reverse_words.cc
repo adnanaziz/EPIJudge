@@ -1,15 +1,12 @@
 #include <string>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::string;
 
 void ReverseWords(string* s) {
   // TODO - you fill in here.
   return;
 }
-
 string ReverseWordsWrapper(TimedExecutor& executor, string s) {
   string s_copy = s;
 

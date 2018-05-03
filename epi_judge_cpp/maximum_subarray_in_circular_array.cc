@@ -1,6 +1,5 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
 
 int MaxSubarraySumInCircular(const vector<int>& A) {

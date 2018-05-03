@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include <deque>
 #include <iterator>
 #include <queue>
@@ -6,12 +9,10 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+
 #include "binary_tree_utils.h"
 #include "json_parser.h"
 #include "test_utils_meta.h"
-#define DECLARE_BINARY_TREE_TYPE(KeyType, NodePtrType, HasParent)
-
-#pragma once
 
 struct NoSpecializationTag {};
 
@@ -50,7 +51,8 @@ struct SerializationTraits : NoSpecializationTag {
     static_assert(sizeof(T) < 0, "Unsupported type");
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     static_assert(sizeof(T) < 0, "Unsupported type");
     return {};
   }
@@ -60,7 +62,8 @@ struct SerializationTraits : NoSpecializationTag {
     return {};
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     static_assert(HasEqualOp<serialization_type>::value,
                   "Missing == operator for the type");
     return a == b;
@@ -69,7 +72,8 @@ struct SerializationTraits : NoSpecializationTag {
 
 template <typename T>
 using HasSerializationTraitsSpecialization = std::integral_constant<
-    bool, !std::is_base_of<NoSpecializationTag, SerializationTraits<T>>::value>;
+    bool,
+    !std::is_base_of<NoSpecializationTag, SerializationTraits<T>>::value>;
 
 /**
  * void specialization.
@@ -89,7 +93,8 @@ struct SerializationTraits<void, void> {
     throw std::runtime_error("Can't parse void");
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     throw std::runtime_error("Can't process void");
   }
 
@@ -137,7 +142,8 @@ struct SerializationTraits<
     }
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {arg_name};
   }
 
@@ -179,7 +185,8 @@ struct SerializationTraits<
     }
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {arg_name};
   }
 
@@ -198,8 +205,9 @@ struct SerializationTraits<
  */
 template <typename T>
 struct SerializationTraits<
-    T, std::enable_if_t<std::is_integral<T>::value && sizeof(T) == 8 &&
-                        !std::is_signed<T>::value && is_pure_type<T>::value>> {
+    T,
+    std::enable_if_t<std::is_integral<T>::value && sizeof(T) == 8 &&
+                     !std::is_signed<T>::value && is_pure_type<T>::value>> {
   using serialization_type = uint64_t;
 
   static constexpr const char* Name() { return "long"; }
@@ -222,7 +230,8 @@ struct SerializationTraits<
     }
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {arg_name};
   }
 
@@ -251,7 +260,8 @@ struct SerializationTraits<float, void> {
     } catch (std::invalid_argument&) {
       throw std::runtime_error("Float parser: conversion error");
     } catch (std::out_of_range&) {
-      throw std::runtime_error("Float parser: conversion error: out of range");
+      throw std::runtime_error(
+          "Float parser: conversion error: out of range");
     }
   }
 
@@ -263,7 +273,8 @@ struct SerializationTraits<float, void> {
     }
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {arg_name};
   }
 
@@ -295,7 +306,8 @@ struct SerializationTraits<double, void> {
     } catch (std::invalid_argument&) {
       throw std::runtime_error("Double parser: conversion error");
     } catch (std::out_of_range&) {
-      throw std::runtime_error("Double parser: conversion error: out of range");
+      throw std::runtime_error(
+          "Double parser: conversion error: out of range");
     }
   }
 
@@ -307,7 +319,8 @@ struct SerializationTraits<double, void> {
     }
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {arg_name};
   }
 
@@ -351,12 +364,15 @@ struct SerializationTraits<bool, void> {
     }
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     // TODO Should we generate any metric for booleans at all?
     return {};
   }
 
-  static std::vector<int> GetMetrics(const serialization_type& x) { return {}; }
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {};
+  }
 
   static bool Equal(serialization_type a, serialization_type b) {
     return a == b;
@@ -382,7 +398,8 @@ struct SerializationTraits<std::string, void> {
     }
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {FmtStr("size({})", arg_name)};
   }
 
@@ -390,7 +407,8 @@ struct SerializationTraits<std::string, void> {
     return {static_cast<int>(x.size())};
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return a == b;
   }
 };
@@ -434,7 +452,8 @@ struct SerializationTraits<std::vector<Inner>, void> {
     return result;
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {FmtStr("size({})", arg_name)};
   }
 
@@ -442,7 +461,8 @@ struct SerializationTraits<std::vector<Inner>, void> {
     return {static_cast<int>(x.size())};
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return std::equal(std::begin(a), std::end(a), std::begin(b), std::end(b),
                       inner_traits::Equal);
   }
@@ -469,7 +489,8 @@ struct ArrayBasedTypeSerTraits : SerializationTraits<std::vector<Inner>> {
     return {std::begin(v), std::end(v)};
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {FmtStr("size({})", arg_name)};
   }
 
@@ -477,7 +498,8 @@ struct ArrayBasedTypeSerTraits : SerializationTraits<std::vector<Inner>> {
     return {static_cast<int>(x.size())};
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return std::equal(std::begin(a), std::end(a), std::begin(b), std::end(b),
                       SerializationTraits<Inner>::Equal);
   }
@@ -573,7 +595,8 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
     return JsonArrayToTuple(arr, index_sequence());
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return GetMetricNamesImpl(arg_name, index_sequence());
   }
 
@@ -581,7 +604,8 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
     return GetMetricsImpl(x, index_sequence());
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return EqualImpl(a, b, index_sequence());
   }
 
@@ -593,13 +617,13 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
   template <size_t... I>
   static std::vector<std::string> GetMetricNamesImpl(
       const std::string& arg_name, std::index_sequence<I...> /*unused*/) {
-    return FlattenVector<std::string>(
-        {ith_item_trait<I>::GetMetricNames(FmtStr("{}[{}]", arg_name, I))...});
+    return FlattenVector<std::string>({ith_item_trait<I>::GetMetricNames(
+        FmtStr("{}[{}]", arg_name, I))...});
   }
 
   template <size_t... I>
-  static std::vector<int> GetMetricsImpl(const serialization_type& x,
-                                         std::index_sequence<I...> /*unused*/) {
+  static std::vector<int> GetMetricsImpl(
+      const serialization_type& x, std::index_sequence<I...> /*unused*/) {
     return FlattenVector<int>(
         {ith_item_trait<I>::GetMetrics(std::get<I>(x))...});
   }
@@ -651,8 +675,8 @@ struct BinaryTreeSerializationTraits;
 template <template <typename...> class SmartPtrT,
           template <typename...> class NodeT, typename KeyT, bool HasParent,
           typename... MsvcWorkaround>
-struct BinaryTreeSerializationTraits<SmartPtrT<NodeT<KeyT>, MsvcWorkaround...>,
-                                     HasParent> {
+struct BinaryTreeSerializationTraits<
+    SmartPtrT<NodeT<KeyT>, MsvcWorkaround...>, HasParent> {
   using key_traits = SerializationTraits<KeyT>;
   using node_type = NodeT<typename key_traits::serialization_type>;
   using serialization_type = SmartPtrT<node_type>;
@@ -673,7 +697,8 @@ struct BinaryTreeSerializationTraits<SmartPtrT<NodeT<KeyT>, MsvcWorkaround...>,
     return BuildTreeFromVector(v);
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     return {FmtStr("size({})", arg_name), FmtStr("height({})", arg_name)};
   }
 
@@ -725,18 +750,20 @@ struct BinaryTreeSerializationTraits<SmartPtrT<NodeT<KeyT>, MsvcWorkaround...>,
     return root;
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return EqualBinaryTrees(a, b);
   }
 };
 
-template <typename KeyType>
-struct SerializationTraits<NodePtrType>
-    : BinaryTreeSerializationTraits<NodePtrType, HasParent> {};
-namespace detail {
-template <typename KeyType>
-struct IsBinaryTreeImpl<NodePtrType> : std::true_type {};
-}  // namespace detail
+#define DECLARE_BINARY_TREE_TYPE(KeyType, NodePtrType, HasParent) \
+  template <typename KeyType>                                     \
+  struct SerializationTraits<NodePtrType>                         \
+      : BinaryTreeSerializationTraits<NodePtrType, HasParent> {}; \
+  namespace detail {                                              \
+  template <typename KeyType>                                     \
+  struct IsBinaryTreeImpl<NodePtrType> : std::true_type {};       \
+  }  // namespace
 
 /**
  * A specialization for handling types with modifiers.
@@ -799,7 +826,8 @@ struct UserSerTraits : SerializationTraits<std::tuple<Members...>> {
     return SerializationTraits<UserType>::FromTuple(t);
   }
 
-  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
     static_assert(sizeof(UserType) < 0, "Must be overriden for user types");
     return {};
   }
@@ -810,8 +838,8 @@ struct UserSerTraits : SerializationTraits<std::tuple<Members...>> {
   }
 
   static serialization_type FromTuple(const std::tuple<Members...>& values) {
-    return FromTupleDefaultImpl(values,
-                                std::make_index_sequence<sizeof...(Members)>());
+    return FromTupleDefaultImpl(
+        values, std::make_index_sequence<sizeof...(Members)>());
   }
 
   template <size_t... I>
@@ -820,7 +848,8 @@ struct UserSerTraits : SerializationTraits<std::tuple<Members...>> {
     return {std::get<I>(values)...};
   }
 
-  static bool Equal(const serialization_type& a, const serialization_type& b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     static_assert(HasEqualOp<serialization_type>::value,
                   "Missing == operator for the type");
     return a == b;

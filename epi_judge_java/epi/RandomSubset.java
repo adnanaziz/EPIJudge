@@ -1,15 +1,12 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class RandomSubset {
 
   // Returns a random k-sized subset of {0, 1, ..., n - 1}.
@@ -17,7 +14,6 @@ public class RandomSubset {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   private static boolean randomSubsetRunner(TimedExecutor executor, int n,
                                             int k) throws Exception {
     List<List<Integer>> results = new ArrayList<>();

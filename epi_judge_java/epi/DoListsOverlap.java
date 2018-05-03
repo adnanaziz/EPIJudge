@@ -1,13 +1,10 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.HashSet;
 import java.util.Set;
-
 public class DoListsOverlap {
 
   public static ListNode<Integer> overlappingLists(ListNode<Integer> l0,
@@ -15,7 +12,6 @@ public class DoListsOverlap {
     // TODO - you fill in here.
     return null;
   }
-
   @EpiTest(testDataFile = "do_lists_overlap.tsv")
   public static void
   overlappingListsWrapper(TimedExecutor executor, ListNode<Integer> l0,

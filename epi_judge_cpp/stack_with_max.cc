@@ -1,9 +1,7 @@
 #include <stdexcept>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-
 using std::length_error;
 
 class Stack {
@@ -12,23 +10,19 @@ class Stack {
     // TODO - you fill in here.
     return true;
   }
-
   int Max() const {
     // TODO - you fill in here.
     return 0;
   }
-
   int Pop() {
     // TODO - you fill in here.
     return 0;
   }
-
   void Push(int x) {
     // TODO - you fill in here.
     return;
   }
 };
-
 struct StackOp {
   std::string op;
   int argument;

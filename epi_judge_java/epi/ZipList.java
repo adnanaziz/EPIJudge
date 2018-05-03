@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class ZipList {
   @EpiTest(testDataFile = "zip_list.tsv")
 

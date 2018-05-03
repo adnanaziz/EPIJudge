@@ -1,10 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-
 public class GraphClone {
 
   public static class GraphVertex {
@@ -30,7 +27,6 @@ public class GraphClone {
     // TODO - you fill in here.
     return new GraphVertex(0);
   }
-
   private static List<Integer> copyLabels(List<GraphVertex> edges) {
     List<Integer> labels = new ArrayList<>();
     for (GraphVertex e : edges) {

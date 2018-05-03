@@ -1,10 +1,12 @@
+
+#pragma once
+
 #include <ostream>
 #include <string>
 #include <tuple>
+
 #include "fmt_print_fwd.h"
 #include "serialization_traits.h"
-
-#pragma once
 
 namespace detail {
 template <typename T>

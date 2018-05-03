@@ -1,9 +1,7 @@
 #include <memory>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::make_shared;
 using std::shared_ptr;
 
@@ -13,7 +11,6 @@ void InsertAfter(const shared_ptr<ListNode<int>>& node,
   // TODO - you fill in here.
   return;
 }
-
 shared_ptr<ListNode<int>> InsertListWrapper(TimedExecutor& executor,
                                             const shared_ptr<ListNode<int>>& l,
                                             int node_idx, int new_node_data) {

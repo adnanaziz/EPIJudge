@@ -1,11 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.List;
-
 public class DrawingSkyline {
   @EpiUserType(ctorParams = {int.class, int.class, int.class})
 

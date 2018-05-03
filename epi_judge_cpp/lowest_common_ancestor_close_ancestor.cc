@@ -1,11 +1,9 @@
 #include <memory>
-
 #include "binary_tree_with_parent_prototype.h"
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::unique_ptr;
 
 BinaryTreeNode<int>* LCA(const unique_ptr<BinaryTreeNode<int>>& node0,
@@ -13,7 +11,6 @@ BinaryTreeNode<int>* LCA(const unique_ptr<BinaryTreeNode<int>>& node0,
   // TODO - you fill in here.
   return nullptr;
 }
-
 int LcaWrapper(TimedExecutor& executor,
                const unique_ptr<BinaryTreeNode<int>>& tree, int key0,
                int key1) {

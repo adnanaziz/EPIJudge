@@ -3,21 +3,17 @@
 #include <iterator>
 #include <numeric>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
-
 using std::bind;
 using std::iota;
 using std::vector;
-
 // Returns a random k-sized subset of {0, 1, ..., n - 1}.
 vector<int> RandomSubset(int n, int k) {
   // TODO - you fill in here.
   return {};
 }
-
 bool RandomSubsetRunner(TimedExecutor& executor, int n, int k) {
   vector<vector<int>> results;
 

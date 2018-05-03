@@ -1,10 +1,7 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.List;
-
 public class SpiralOrderingSegments {
   @EpiTest(testDataFile = "spiral_ordering_segments.tsv")
 

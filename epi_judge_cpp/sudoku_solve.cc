@@ -2,20 +2,16 @@
 #include <cmath>
 #include <iterator>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::begin;
 using std::end;
 using std::vector;
-
 bool SolveSudoku(vector<vector<int>>* partial_assignment) {
   // TODO - you fill in here.
   return true;
 }
-
 vector<int> GatherColumn(const vector<vector<int>>& data, size_t i) {
   vector<int> result;
   for (auto& row : data) {

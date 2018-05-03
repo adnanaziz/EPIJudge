@@ -1,11 +1,9 @@
 package epi;
-
 import epi.test_framework.BinaryTreeUtils;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 public class LowestCommonAncestorInBst {
 
   // Input nodes are nonempty and the key at s is less than or equal to that at
@@ -15,7 +13,6 @@ public class LowestCommonAncestorInBst {
     // TODO - you fill in here.
     return null;
   }
-
   @EpiTest(testDataFile = "lowest_common_ancestor_in_bst.tsv")
   public static int lcaWrapper(TimedExecutor executor, BstNode<Integer> tree,
                                Integer key0, Integer key1) throws Exception {

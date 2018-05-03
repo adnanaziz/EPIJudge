@@ -1,12 +1,9 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.Collections;
 import java.util.List;
-
 public class RangeLookupInBst {
   @EpiUserType(ctorParams = {int.class, int.class})
 
@@ -26,7 +23,6 @@ public class RangeLookupInBst {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   public static void rangeLookupInBstHelper(BstNode<Integer> tree,
                                             Interval interval,
                                             List<Integer> result) {

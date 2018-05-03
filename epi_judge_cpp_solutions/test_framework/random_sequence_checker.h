@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -8,9 +11,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include "test_failure.h"
 
-#pragma once
+#include "test_failure.h"
 
 int ComputeDeviationMultiplier(double allowed_false_negative, int num_rvs) {
   const double individual_rv_error = allowed_false_negative / num_rvs;
@@ -51,7 +53,8 @@ bool CheckFrequencies(const std::vector<int>& seq, int n,
   // roughly we mean the difference is less than k_sigma.
   return std::all_of(std::begin(indiv_freqs), std::end(indiv_freqs),
                      [avg, k_sigma_indiv](const auto& key_freq) {
-                       return std::abs(avg - key_freq.second) <= k_sigma_indiv;
+                       return std::abs(avg - key_freq.second) <=
+                              k_sigma_indiv;
                      });
 }
 
@@ -124,8 +127,8 @@ int BinomialCoefficient(int n, int k) {
 
 // Get the mth combination in lexicographical order from A (n elements) chosen
 // k at a time.
-std::vector<int> ComputeCombinationIdx(const std::vector<int>& A, int n, int k,
-                                       int m) {
+std::vector<int> ComputeCombinationIdx(const std::vector<int>& A, int n,
+                                       int k, int m) {
   std::vector<int> comb;
   int a = n, b = k, x = (BinomialCoefficient(n, k) - 1) - m;
   for (int i = 0; i < k; ++i) {
