@@ -3,30 +3,24 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 using std::vector;
-namespace drawing_skyline {
 
-struct Rectangle {
+struct Rect {
   int left, right, height;
 };
-typedef vector<Rectangle> Skyline;
+typedef vector<Rect> Skyline;
 
-Skyline ComputeSkyline(const vector<Rectangle>& buildings) {
+Skyline ComputeSkyline(const vector<Rect>& buildings) {
   // TODO - you fill in here.
   return {};
 }
-bool operator==(const Rectangle& a, const Rectangle& b) {
+bool operator==(const Rect& a, const Rect& b) {
   return a.left == b.left && a.right == b.right && a.height == b.height;
 }
-}  // namespace drawing_skyline
-
-using drawing_skyline::ComputeSkyline;
 
 template <>
-struct SerializationTraits<drawing_skyline::Rectangle>
-    : UserSerTraits<drawing_skyline::Rectangle, int, int, int> {};
+struct SerializationTraits<Rect> : UserSerTraits<Rect, int, int, int> {};
 
-std::ostream& operator<<(std::ostream& out,
-                         const drawing_skyline::Rectangle& r) {
+std::ostream& operator<<(std::ostream& out, const Rect& r) {
   return PrintTo(out, std::make_tuple(r.left, r.right, r.height));
 }
 
