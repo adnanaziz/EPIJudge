@@ -3,6 +3,7 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 using std::vector;
+namespace drawing_skyline {
 
 struct Rectangle {
   int left, right, height;
