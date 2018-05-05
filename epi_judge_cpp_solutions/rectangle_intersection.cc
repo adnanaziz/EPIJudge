@@ -8,7 +8,9 @@
 using std::max;
 using std::min;
 
+namespace rectangle_intersection {
 struct Rectangle;
+
 bool IsIntersect(const Rectangle&, const Rectangle&);
 
 struct Rectangle {
@@ -34,21 +36,25 @@ bool operator==(const Rectangle& r1, const Rectangle& r2) {
          std::tie(r2.x, r2.y, r2.width, r2.height);
 }
 
+}  // namespace rectangle_intersection
+
 template <>
-struct SerializationTraits<Rectangle>
-    : UserSerTraits<Rectangle, int, int, int, int> {
+struct SerializationTraits<rectangle_intersection::Rectangle>
+    : UserSerTraits<rectangle_intersection::Rectangle, int, int, int, int> {
   static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
     return {FmtStr("area({})", arg_name), FmtStr("perimeter({})", arg_name),
             FmtStr("max(w, h)({})", arg_name)};
   }
 
-  static std::vector<int> GetMetrics(const Rectangle& x) {
+  static std::vector<int> GetMetrics(
+      const rectangle_intersection::Rectangle& x) {
     return {x.height * x.width, 2 * (x.height + x.width),
             std::max(x.height, x.width)};
   }
 };
 
-std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
+std::ostream& operator<<(std::ostream& out,
+                         const rectangle_intersection::Rectangle& r) {
   return PrintTo(out, std::make_tuple(r.x, r.y, r.width, r.height));
 }
 

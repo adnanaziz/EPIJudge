@@ -10,6 +10,7 @@ using std::min;
 using std::numeric_limits;
 using std::vector;
 
+namespace drawing_skyline {
 struct Rectangle;
 typedef vector<Rectangle> Skyline;
 
@@ -49,12 +50,14 @@ Skyline ComputeSkyline(const vector<Rectangle>& buildings) {
 bool operator==(const Rectangle& a, const Rectangle& b) {
   return a.left == b.left && a.right == b.right && a.height == b.height;
 }
+}  // namespace drawing_skyline
 
 template <>
-struct SerializationTraits<Rectangle>
-    : UserSerTraits<Rectangle, int, int, int> {};
+struct SerializationTraits<drawing_skyline::Rectangle>
+    : UserSerTraits<drawing_skyline::Rectangle, int, int, int> {};
 
-std::ostream& operator<<(std::ostream& out, const Rectangle& r) {
+std::ostream& operator<<(std::ostream& out,
+                         const drawing_skyline::Rectangle& r) {
   return PrintTo(out, std::make_tuple(r.left, r.right, r.height));
 }
 

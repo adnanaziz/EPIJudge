@@ -29,25 +29,29 @@ void TreeGenerateHelper(const Node& tree, std::vector<T>* result, int order) {
   }
 }
 
+//TODO Try type extractor pattern
 template <template <typename...> class SmartPtr,
-          template <typename...> class Node, typename T>
-std::vector<T> GeneratePreorder(const SmartPtr<Node<T>>& tree) {
+          template <typename...> class Node, typename T,
+          typename... MsvcWorkaround>
+std::vector<T> GeneratePreorder(const SmartPtr<Node<T>, MsvcWorkaround...>& tree) {
   std::vector<T> result;
   TreeGenerateHelper(tree, &result, -1);
   return result;
 }
 
 template <template <typename...> class SmartPtr,
-          template <typename...> class Node, typename T>
-std::vector<T> GenerateInorder(const SmartPtr<Node<T>>& tree) {
+          template <typename...> class Node, typename T,
+          typename... MsvcWorkaround>
+std::vector<T> GenerateInorder(const SmartPtr<Node<T>, MsvcWorkaround...>& tree) {
   std::vector<T> result;
   TreeGenerateHelper(tree, &result, 0);
   return result;
 }
 
 template <template <typename...> class SmartPtr,
-          template <typename...> class Node, typename T>
-std::vector<T> GeneratePostorder(const SmartPtr<Node<T>>& tree) {
+          template <typename...> class Node, typename T,
+          typename... MsvcWorkaround>
+std::vector<T> GeneratePostorder(const SmartPtr<Node<T>, MsvcWorkaround...>& tree) {
   std::vector<T> result;
   TreeGenerateHelper(tree, &result, 1);
   return result;
