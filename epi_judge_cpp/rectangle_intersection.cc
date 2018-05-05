@@ -17,6 +17,8 @@ bool operator==(const Rectangle& r1, const Rectangle& r2) {
 
 }  // namespace rectangle_intersection
 
+using rectangle_intersection::IntersectRectangle;
+
 template <>
 struct SerializationTraits<rectangle_intersection::Rectangle>
     : UserSerTraits<rectangle_intersection::Rectangle, int, int, int, int> {

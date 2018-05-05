@@ -52,6 +52,8 @@ bool operator==(const Rectangle& a, const Rectangle& b) {
 }
 }  // namespace drawing_skyline
 
+using drawing_skyline::ComputeSkyline;
+
 template <>
 struct SerializationTraits<drawing_skyline::Rectangle>
     : UserSerTraits<drawing_skyline::Rectangle, int, int, int> {};
