@@ -80,20 +80,39 @@ If you do have issues, e.g., with install or with buggy tests, feel free to reac
 The IntelliJ Integrated Development environments described above are best-in-class, and have free versions that will work fine for the EPI Judge. They do not include the compilers. You can get the Java development environment from [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), and the Python development environment from [Python.org](https://www.python.org/downloads/). For C++, you have multiple options. The simplest is to install [VisualStudio](https://code.visualstudio.com/download), which includes both the IDE and the compiler. Google is a good resource for installation help.
 
 - What compilers are supported for judge?
-  - **GCC** 5.4.1 (on Ubuntu 16.04)
-  - **Clang** 4.0 (on Ubuntu 16.04)
-  - **Apple LLVM Clang** 9.0.0
-  - **Visual Studio** 2017
-  - **Java** 9
-  - **Python** 3.6
+  - C++
+    - Linux
+      - **GCC** 5.4.1
+      - **Clang** 4.0
+    - OS X  
+      - **Apple LLVM Clang** 9.0.0
+    - Windows
+      - **Visual Studio** 2017 15.7.0 Preview 6
+        - Release version of VS2017 contains a bug that makes it impossible to compile judge programs
+      - **MinGW** GCC 5.4.0
+      - **LXSS** (Windows Subsystem for Linux) GCC 5.4.0
+  - Java     
+    - **Java** 9
+  - Python
+    - **Python** 3.6
+   
 
 - What compilers are supported for solutions?
-  - **GCC** 7.0.0 (on Ubuntu 16.04)
-  - **Clang** 5.0 (on Ubuntu 16.04)
-  - **Apple LLVM Clang** 9.0.0
-  - **Visual Studio** 2017
-  - **Java** 9
-  - **Python** 3.6
+  - C++
+      - Linux
+        - **GCC** 7.0.0
+        - **Clang** 5.0
+      - OS X  
+        - **Apple LLVM Clang** 9.0.0
+      - Windows
+        - **Visual Studio** 2017 15.7.0 Preview 6
+            - Release version of VS2017 contains a bug that makes it impossible to compile judge programs
+        - **MinGW** GCC 7.2.0
+        - **LXSS** (Windows Subsystem for Linux) GCC 7.2.0
+    - Java     
+      - **Java** 9
+    - Python
+      - **Python** 3.6 
 
 Let us know if you managed to compile with an older version.
 
