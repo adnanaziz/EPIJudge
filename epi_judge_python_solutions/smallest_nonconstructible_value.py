@@ -15,8 +15,8 @@ def smallest_nonconstructible_value(A):
 
 def smallest_nonconstructible_value_pythonic(A):
     return functools.reduce(
-        lambda max_val, a: max_val + (0 if a > max_val + 1 else a),
-        sorted(A), 0) + 1
+        lambda max_val, a: max_val + (0 if a > max_val + 1 else a), sorted(A),
+        0) + 1
 
 
 if __name__ == '__main__':

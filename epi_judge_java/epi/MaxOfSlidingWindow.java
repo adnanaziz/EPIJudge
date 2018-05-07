@@ -1,12 +1,9 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.Collections;
 import java.util.List;
-
 public class MaxOfSlidingWindow {
   @EpiUserType(ctorParams = {int.class, double.class})
 

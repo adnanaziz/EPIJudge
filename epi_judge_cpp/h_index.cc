@@ -1,8 +1,6 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 int HIndex(vector<int> citations) {
   // TODO - you fill in here.
   return 0;

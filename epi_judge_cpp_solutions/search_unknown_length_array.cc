@@ -16,7 +16,7 @@ int BinarySearchUnknownLength(const vector<int>& A, int k) {
       } else if (A.at(idx) > k) {
         break;
       }
-    } catch (const exception& e) {
+    } catch (const exception&) {
       break;
     }
     ++p;
@@ -34,7 +34,7 @@ int BinarySearchUnknownLength(const vector<int>& A, int k) {
       } else {  // A.at(mid) < k
         left = mid + 1;
       }
-    } catch (const exception& e) {
+    } catch (const exception&) {
       right = mid - 1;  // Search the left part if out-of-bound.
     }
   }

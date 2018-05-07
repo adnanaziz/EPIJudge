@@ -1,10 +1,8 @@
 #include <stdexcept>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 struct GraphVertex {
@@ -16,7 +14,6 @@ bool IsAnyPlacementFeasible(vector<GraphVertex>* graph) {
   // TODO - you fill in here.
   return true;
 }
-
 struct Edge {
   int from;
   int to;

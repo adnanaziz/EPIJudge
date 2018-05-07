@@ -2,22 +2,17 @@
 #include <stack>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::array;
 using std::stack;
 using std::vector;
-
 const int kNumPegs = 3;
-
 vector<vector<int>> ComputeTowerHanoi(int num_rings) {
   // TODO - you fill in here.
   return {};
 }
-
 void ComputeTowerHanoiWrapper(TimedExecutor& executor, int num_rings) {
   array<stack<int>, kNumPegs> pegs;
   for (int i = num_rings; i >= 1; --i) {

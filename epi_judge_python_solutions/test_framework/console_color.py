@@ -1,4 +1,4 @@
-# @library
+
 import sys
 from enum import Enum, auto
 

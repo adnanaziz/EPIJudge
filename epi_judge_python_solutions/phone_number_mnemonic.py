@@ -26,9 +26,8 @@ def phone_mnemonic(phone_number):
 # Pythonic solution
 def phone_mnemonic_pythonic(phone_number):
     return [
-        ''.join(mnemonic)
-        for mnemonic in itertools.product(*(MAPPING[int(digit)]
-                                            for digit in phone_number))
+        ''.join(mnemonic) for mnemonic in
+        itertools.product(*(MAPPING[int(digit)] for digit in phone_number))
     ]
 
 
@@ -46,8 +45,7 @@ def phone_mnemonic_pythonic_another(phone_number):
         '9': 'WXYZ'
     }
     return [
-        a + b
-        for a in TABLE.get(phone_number[:1], '')
+        a + b for a in TABLE.get(phone_number[:1], '')
         for b in phone_mnemonic_pythonic_another(phone_number[1:]) or ['']
     ]
 

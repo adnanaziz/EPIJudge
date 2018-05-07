@@ -18,10 +18,9 @@ def is_palindrome(s):
 
 
 def is_palindrome_pythonic(s):
-    return all(a == b
-               for a, b in zip(
-                   map(str.lower, filter(str.isalnum, s)),
-                   map(str.lower, filter(str.isalnum, reversed(s)))))
+    return all(a == b for a, b in zip(
+        map(str.lower, filter(str.isalnum, s)),
+        map(str.lower, filter(str.isalnum, reversed(s)))))
 
 
 if __name__ == '__main__':

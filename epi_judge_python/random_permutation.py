@@ -33,8 +33,8 @@ def compute_random_permutation_wrapper(executor, n):
             lambda: [compute_random_permutation(n) for _ in range(1000000)])
 
         return check_sequence_is_uniformly_random(
-            [permutation_index(perm) for perm in result],
-            math.factorial(n), 0.01)
+            [permutation_index(perm)
+             for perm in result], math.factorial(n), 0.01)
 
     run_func_with_retries(
         functools.partial(compute_random_permutation_runner, executor, n))

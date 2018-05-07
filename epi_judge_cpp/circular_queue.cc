@@ -1,28 +1,22 @@
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-
 class Queue {
  public:
   Queue(size_t capacity) {}
-
   void Enqueue(int x) {
     // TODO - you fill in here.
     return;
   }
-
   int Dequeue() {
     // TODO - you fill in here.
     return 0;
   }
-
   int Size() const {
     // TODO - you fill in here.
     return 0;
   }
 };
-
 struct QueueOp {
   enum { kConstruct, kDequeue, kEnqueue, kSize } op;
   int argument;

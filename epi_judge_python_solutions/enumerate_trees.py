@@ -17,8 +17,8 @@ def generate_all_binary_trees(num_nodes):
         right_subtrees = generate_all_binary_trees(num_right_tree_nodes)
         # Generates all combinations of left_subtrees and right_subtrees.
         result += [
-            BinaryTreeNode(0, left, right)
-            for left in left_subtrees for right in right_subtrees
+            BinaryTreeNode(0, left, right) for left in left_subtrees
+            for right in right_subtrees
         ]
     return result
 

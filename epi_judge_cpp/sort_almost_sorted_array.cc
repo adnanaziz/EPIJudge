@@ -1,15 +1,12 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 vector<int> SortApproximatelySortedData(
     vector<int>::const_iterator sequence_begin,
     const vector<int>::const_iterator& sequence_end, int k) {
   // TODO - you fill in here.
   return {};
 }
-
 vector<int> SortApproximatelySortedDataWrapper(const vector<int>& sequence,
                                                int k) {
   return SortApproximatelySortedData(cbegin(sequence), cend(sequence), k);

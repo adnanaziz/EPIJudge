@@ -1,13 +1,10 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 void ApplyPermutation(vector<int>* perm_ptr, vector<int>* A_ptr) {
   // TODO - you fill in here.
   return;
 }
-
 vector<int> ApplyPermutationWrapper(vector<int> perm, vector<int> A) {
   ApplyPermutation(&perm, &A);
   return A;

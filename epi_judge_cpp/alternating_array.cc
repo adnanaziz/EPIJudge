@@ -1,18 +1,14 @@
 #include <string>
 #include <vector>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
-
 void Rearrange(vector<int>* A_ptr) {
   // TODO - you fill in here.
   return;
 }
-
 void CheckAnswer(const vector<int>& A) {
   for (int i = 0; i < A.size(); ++i) {
     if (i % 2) {

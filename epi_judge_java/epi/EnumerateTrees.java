@@ -1,15 +1,12 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-
 public class EnumerateTrees {
 
   public static List<BinaryTreeNode<Integer>>
@@ -17,7 +14,6 @@ public class EnumerateTrees {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   public static List<Integer> serializeStructure(BinaryTreeNode<Integer> tree) {
     List<Integer> result = new ArrayList<>();
     Stack<BinaryTreeNode<Integer>> stack = new Stack<>();

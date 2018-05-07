@@ -1,14 +1,11 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class TreeConnectLeaves {
 
   public static List<BinaryTreeNode<Integer>>
@@ -16,7 +13,6 @@ public class TreeConnectLeaves {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   @EpiTest(testDataFile = "tree_connect_leaves.tsv")
   public static List<Integer>
   createListOfLeavesWrapper(TimedExecutor executor,

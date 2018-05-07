@@ -1,10 +1,8 @@
 #include <memory>
-
 #include "bst_node.h"
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::unique_ptr;
 
 bool PairIncludesAncestorAndDescendantOfM(
@@ -14,7 +12,6 @@ bool PairIncludesAncestorAndDescendantOfM(
   // TODO - you fill in here.
   return true;
 }
-
 bool PairIncludesAncestorAndDescendantOfMWrapper(
     TimedExecutor& executor, const unique_ptr<BstNode<int>>& tree,
     int possible_anc_or_desc_0, int possible_anc_or_desc_1, int middle) {

@@ -1,11 +1,9 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::string;
 using std::unordered_set;
 using std::vector;
@@ -15,7 +13,6 @@ vector<string> DecomposeIntoDictionaryWords(
   // TODO - you fill in here.
   return {};
 }
-
 void DecomposeIntoDictionaryWordsWrapper(
     TimedExecutor& executor, const string& domain,
     const unordered_set<string>& dictionary, bool decomposable) {

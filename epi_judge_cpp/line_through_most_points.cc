@@ -1,19 +1,15 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::vector;
 
 struct Point {
   int x, y;
 };
-
 int FindLineWithMostPoints(const vector<Point>& points) {
   // TODO - you fill in here.
   return 0;
 }
-
 template <>
 struct SerializationTraits<Point> : UserSerTraits<Point, int, int> {};
 

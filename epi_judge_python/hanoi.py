@@ -14,8 +14,8 @@ def compute_tower_hanoi(num_rings):
 
 @enable_executor_hook
 def compute_tower_hanoi_wrapper(executor, num_rings):
-    pegs = [list(reversed(range(1, num_rings + 1)))
-            ] + [[] for _ in range(1, NUM_PEGS)]
+    pegs = [list(reversed(range(1, num_rings + 1)))] + [[] for _ in range(
+        1, NUM_PEGS)]
 
     result = executor.run(functools.partial(compute_tower_hanoi, num_rings))
 

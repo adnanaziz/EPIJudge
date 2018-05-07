@@ -1,48 +1,38 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
-
 public class AddingCredits {
 
   public static class ClientsCreditsInfo {
-
     public void insert(String clientID, int c) {
       // TODO - you fill in here.
       return;
     }
-
     public boolean remove(String clientID) {
       // TODO - you fill in here.
       return true;
     }
-
     public int lookup(String clientID) {
       // TODO - you fill in here.
       return 0;
     }
-
     public void addAll(int C) {
       // TODO - you fill in here.
       return;
     }
-
     public String max() {
       // TODO - you fill in here.
       return "";
     }
-
     @Override
     public String toString() {
       // TODO - you fill in here.
       return super.toString();
     }
   }
-
   @EpiUserType(ctorParams = {String.class, String.class, int.class})
   public static class Operation {
     public String op;

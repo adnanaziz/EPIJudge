@@ -1,8 +1,6 @@
 #include <memory>
-
 #include "bst_node.h"
 #include "test_framework/generic_test.h"
-
 using std::unique_ptr;
 
 BstNode<int>* FindFirstGreaterThanK(const unique_ptr<BstNode<int>>& tree,
@@ -10,7 +8,6 @@ BstNode<int>* FindFirstGreaterThanK(const unique_ptr<BstNode<int>>& tree,
   // TODO - you fill in here.
   return nullptr;
 }
-
 int FindFirstGreaterThanKWrapper(const unique_ptr<BstNode<int>>& tree, int k) {
   auto result = FindFirstGreaterThanK(tree, k);
   return result ? result->data : -1;

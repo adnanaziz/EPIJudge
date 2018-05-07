@@ -1,16 +1,12 @@
 #include <istream>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
-
 typedef enum { kWhite, kBlack } Color;
-
 struct Coordinate {
   bool operator==(const Coordinate& that) const {
     return x == that.x && y == that.y;
@@ -18,13 +14,11 @@ struct Coordinate {
 
   int x, y;
 };
-
 vector<Coordinate> SearchMaze(vector<vector<Color>> maze, const Coordinate& s,
                               const Coordinate& e) {
   // TODO - you fill in here.
   return {};
 }
-
 template <>
 struct SerializationTraits<Color> : SerializationTraits<int> {
   using serialization_type = Color;

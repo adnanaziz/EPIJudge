@@ -1,14 +1,11 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class IntervalsUnion {
 
   public static class Interval {
@@ -25,7 +22,6 @@ public class IntervalsUnion {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   @EpiUserType(
       ctorParams = {int.class, boolean.class, int.class, boolean.class})
   public static class FlatInterval {

@@ -2,15 +2,12 @@
 #include <functional>
 #include <iterator>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
-
 using std::bind;
 using std::sort;
 using std::vector;
-
 // Assumption: there are at least k elements in the stream.
 vector<int> OnlineRandomSample(vector<int>::const_iterator stream_begin,
                                const vector<int>::const_iterator stream_end,
@@ -18,7 +15,6 @@ vector<int> OnlineRandomSample(vector<int>::const_iterator stream_begin,
   // TODO - you fill in here.
   return {};
 }
-
 bool OnlineRandomSamplingRunner(TimedExecutor& executor, vector<int> stream,
                                 int k) {
   vector<vector<int>> results;

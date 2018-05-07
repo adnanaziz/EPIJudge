@@ -1,10 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 public class KthNodeInTree {
   public static class BinaryTreeNode<T> {
     public T data;
@@ -25,7 +23,6 @@ public class KthNodeInTree {
     // TODO - you fill in here.
     return null;
   }
-
   public static BinaryTreeNode<Integer>
   convertToTreeWithSize(BinaryTree<Integer> original) {
     if (original == null)

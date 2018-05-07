@@ -1,16 +1,12 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
-
 // Returns the number of valid entries after deletion.
 int DeleteDuplicates(vector<int>* A_ptr) {
   // TODO - you fill in here.
   return 0;
 }
-
 vector<int> DeleteDuplicatesWrapper(TimedExecutor& executor, vector<int> A) {
   int end = executor.Run([&] { return DeleteDuplicates(&A); });
   A.resize(end);

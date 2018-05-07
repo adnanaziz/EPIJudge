@@ -1,10 +1,8 @@
 package epi;
-
 import epi.test_framework.BinaryTreeUtils;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 public class DescendantAndAncestorInBst {
 
   public static boolean
@@ -14,7 +12,6 @@ public class DescendantAndAncestorInBst {
     // TODO - you fill in here.
     return true;
   }
-
   @EpiTest(testDataFile = "descendant_and_ancestor_in_bst.tsv")
   public static boolean pairIncludesAncestorAndDescendantOfMWrapper(
       TimedExecutor executor, BstNode<Integer> tree, int possibleAncOrDesc0,

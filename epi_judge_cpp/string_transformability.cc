@@ -1,7 +1,6 @@
 #include <string>
 #include <unordered_set>
 #include "test_framework/generic_test.h"
-
 using std::string;
 using std::unordered_set;
 

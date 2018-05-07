@@ -1,6 +1,5 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
 
 double FindSalaryCap(int target_payroll, vector<int> current_salaries) {

@@ -1,6 +1,7 @@
 import math
 
 import bintrees
+
 from test_framework import generic_test
 
 # These numbers have very interesting property, and people called it ugly numbers. It is also called quadratic integer rings.

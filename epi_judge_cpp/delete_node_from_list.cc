@@ -7,7 +7,6 @@ void DeletionFromList(const shared_ptr<ListNode<int>>& node_to_delete) {
   // TODO - you fill in here.
   return;
 }
-
 shared_ptr<ListNode<int>> DeletionFromListWrapper(
     TimedExecutor& executor, const shared_ptr<ListNode<int>>& head,
     int node_to_delete_idx) {

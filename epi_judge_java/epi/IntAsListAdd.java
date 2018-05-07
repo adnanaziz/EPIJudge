@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class IntAsListAdd {
   @EpiTest(testDataFile = "int_as_list_add.tsv")
 

@@ -1,17 +1,14 @@
 #include <set>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 void EvenOdd(vector<int>* A_ptr) {
   // TODO - you fill in here.
   return;
 }
-
 void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
   std::multiset<int> before(begin(A), end(A));
 

@@ -1,12 +1,9 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class TreeRightSibling {
   public static class BinaryTreeNode<T> {
     public T data;
@@ -20,7 +17,6 @@ public class TreeRightSibling {
     // TODO - you fill in here.
     return;
   }
-
   private static BinaryTreeNode<Integer>
   cloneTree(BinaryTree<Integer> original) {
     if (original == null) {

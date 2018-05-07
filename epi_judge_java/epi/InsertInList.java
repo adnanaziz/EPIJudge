@@ -1,9 +1,7 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 public class InsertInList {
 
   // Insert newNode after node.
@@ -12,7 +10,6 @@ public class InsertInList {
     // TODO - you fill in here.
     return;
   }
-
   @EpiTest(testDataFile = "insert_in_list.tsv")
   public static ListNode<Integer>
   insertListWrapper(TimedExecutor executor, ListNode<Integer> l, int nodeIdx,

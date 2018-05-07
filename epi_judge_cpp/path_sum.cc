@@ -1,8 +1,6 @@
 #include <memory>
-
 #include "binary_tree_node.h"
 #include "test_framework/generic_test.h"
-
 using std::unique_ptr;
 
 bool HasPathSum(const unique_ptr<BinaryTreeNode<int>>& tree,

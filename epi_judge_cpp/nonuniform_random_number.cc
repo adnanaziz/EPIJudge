@@ -2,22 +2,18 @@
 #include <functional>
 #include <unordered_map>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
-
 using std::abs;
 using std::bind;
 using std::unordered_map;
 using std::vector;
-
 int NonuniformRandomNumberGeneration(const vector<int>& values,
                                      const vector<double>& probabilities) {
   // TODO - you fill in here.
   return 0;
 }
-
 bool NonuniformRandomNumberGenerationRunner(
     TimedExecutor& executor, const vector<int>& values,
     const vector<double>& probabilities) {

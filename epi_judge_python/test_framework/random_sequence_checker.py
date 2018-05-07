@@ -1,4 +1,4 @@
-# @library
+
 import collections
 import math
 import random

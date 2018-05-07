@@ -1,4 +1,4 @@
-# @library
+
 from test_framework.console_color import ConsoleColor, print_std_out_colored
 from test_framework.platform import std_out_clear_line, use_tty_output
 from test_framework.test_result import TestResult

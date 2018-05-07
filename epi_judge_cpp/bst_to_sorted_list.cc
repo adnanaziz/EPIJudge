@@ -1,19 +1,15 @@
 #include <memory>
 #include <vector>
-
 #include "bst_prototype_shared_ptr.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::shared_ptr;
-
 shared_ptr<BstNode<int>> BSTToDoublyLinkedList(
     const shared_ptr<BstNode<int>>& tree) {
   // TODO - you fill in here.
   return nullptr;
 }
-
 std::vector<int> BSTToDoublyLinkedListWrapper(
     TimedExecutor& executor, const std::shared_ptr<BstNode<int>>& tree) {
   auto list = executor.Run([&] { return BSTToDoublyLinkedList(tree); });

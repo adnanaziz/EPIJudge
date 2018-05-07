@@ -1,9 +1,7 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 public class DeleteNodeFromList {
 
   // Assumes nodeToDelete is not tail.
@@ -11,7 +9,6 @@ public class DeleteNodeFromList {
     // TODO - you fill in here.
     return;
   }
-
   @EpiTest(testDataFile = "delete_node_from_list.tsv")
   public static ListNode<Integer> deleteListWrapper(TimedExecutor executor,
                                                     ListNode<Integer> head,

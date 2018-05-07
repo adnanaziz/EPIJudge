@@ -1,10 +1,8 @@
 #include <memory>
 #include <vector>
-
 #include "bst_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::unique_ptr;
 using std::vector;
 
@@ -17,10 +15,8 @@ vector<int> RangeLookupInBST(const unique_ptr<BstNode<int>>& tree,
   // TODO - you fill in here.
   return {};
 }
-
 void RangeLookupInBSTHelper(const unique_ptr<BstNode<int>>& tree,
                             const Interval& interval, vector<int>* result) {}
-
 template <>
 struct SerializationTraits<Interval> : UserSerTraits<Interval, int, int> {
   static std::vector<std::string> GetMetricNames(const std::string& arg_name) {

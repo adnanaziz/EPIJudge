@@ -1,14 +1,11 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
 public class IsStringDecomposableIntoWords {
 
   public static List<String>
@@ -16,7 +13,6 @@ public class IsStringDecomposableIntoWords {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   @EpiTest(testDataFile = "is_string_decomposable_into_words.tsv")
   public static void decomposeIntoDictionaryWordsWrapper(TimedExecutor executor,
                                                          String domain,

@@ -1,9 +1,7 @@
 #include <string>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
-
 using std::string;
 
 class ClientsCreditsInfo {
@@ -12,28 +10,23 @@ class ClientsCreditsInfo {
     // TODO - you fill in here.
     return;
   }
-
   bool Remove(const string& client_id) {
     // TODO - you fill in here.
     return true;
   }
-
   int Lookup(const string& client_id) const {
     // TODO - you fill in here.
     return 0;
   }
-
   void AddAll(int C) {
     // TODO - you fill in here.
     return;
   }
-
   string Max() const {
     // TODO - you fill in here.
     return "";
   }
 };
-
 struct Operation {
   std::string op;
   std::string s_arg;

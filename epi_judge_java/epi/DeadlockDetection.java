@@ -1,17 +1,13 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class DeadlockDetection {
 
   public static class GraphVertex {
-
     public List<GraphVertex> edges;
 
     public GraphVertex() { edges = new ArrayList<>(); }
@@ -21,7 +17,6 @@ public class DeadlockDetection {
     // TODO - you fill in here.
     return true;
   }
-
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;

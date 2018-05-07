@@ -1,26 +1,21 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-
 using std::length_error;
-
 class Queue {
  public:
   void Enqueue(int x) {
     // TODO - you fill in here.
     return;
   }
-
   int Dequeue() {
     // TODO - you fill in here.
     return 0;
   }
 };
-
 struct QueueOp {
   enum { kConstruct, kDequeue, kEnqueue } op;
   int argument;

@@ -31,13 +31,13 @@ def queue_tester(ops):
         elif op == 'dequeue':
             result = q.dequeue()
             if result != arg:
-                raise TestFailure("Dequeue: expected " + str(arg) + ", got " +
-                                  str(result))
+                raise TestFailure(
+                    "Dequeue: expected " + str(arg) + ", got " + str(result))
         elif op == 'size':
             result = q.size()
             if result != arg:
-                raise TestFailure("Size: expected " + str(arg) + ", got " +
-                                  str(result))
+                raise TestFailure(
+                    "Size: expected " + str(arg) + ", got " + str(result))
         else:
             raise RuntimeError("Unsupported queue operation: " + op)
 

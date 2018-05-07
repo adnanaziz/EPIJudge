@@ -1,20 +1,16 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TestUtils;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class AlternatingArray {
   public static void rearrange(List<Integer> A) {
     // TODO - you fill in here.
     return;
   }
-
   private static void checkOrder(List<Integer> A) throws TestFailure {
     for (int i = 0; i < A.size(); ++i) {
       if ((i % 2) != 0) {

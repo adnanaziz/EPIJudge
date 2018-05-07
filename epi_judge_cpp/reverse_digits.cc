@@ -1,5 +1,4 @@
 #include "test_framework/generic_test.h"
-
 long long Reverse(int x) {
   // TODO - you fill in here.
   return 0;

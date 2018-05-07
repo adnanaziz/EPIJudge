@@ -1,4 +1,4 @@
-# @library
+
 import inspect
 import math
 

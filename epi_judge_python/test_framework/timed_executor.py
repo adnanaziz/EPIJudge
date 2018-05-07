@@ -1,4 +1,4 @@
-# @library
+
 from concurrent import futures
 
 from test_framework.test_timer import TestTimer

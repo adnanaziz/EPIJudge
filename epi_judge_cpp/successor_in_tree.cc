@@ -7,7 +7,6 @@ BinaryTreeNode<int>* FindSuccessor(
   // TODO - you fill in here.
   return nullptr;
 }
-
 int FindSuccessorWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
                          int node_idx) {
   auto result = FindSuccessor(MustFindNode(tree, node_idx));

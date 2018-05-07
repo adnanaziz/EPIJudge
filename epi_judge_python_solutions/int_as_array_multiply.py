@@ -14,8 +14,8 @@ def multiply(num1, num2):
             result[i + j + 1] %= 10
 
     # Remove the leading zeroes.
-    result = result[next((i for i, x in enumerate(result)
-                          if x != 0), len(result)):] or [0]
+    result = result[next((
+        i for i, x in enumerate(result) if x != 0), len(result)):] or [0]
     return [sign * result[0]] + result[1:]
 
 

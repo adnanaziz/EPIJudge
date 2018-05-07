@@ -1,8 +1,6 @@
 #include <memory>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
-
 using std::shared_ptr;
 
 shared_ptr<ListNode<int>> CyclicallyRightShiftList(shared_ptr<ListNode<int>> L,

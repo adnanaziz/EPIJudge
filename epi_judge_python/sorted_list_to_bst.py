@@ -38,8 +38,8 @@ def build_bst_from_sorted_doubly_list_wrapper(executor, l):
             input_list.next.prev = input_list
 
     input_list = executor.run(
-        functools.partial(build_bst_from_sorted_doubly_list, input_list, len(
-            l)))
+        functools.partial(build_bst_from_sorted_doubly_list, input_list,
+                          len(l)))
 
     it = iter(l)
     compare_vector_and_tree(input_list, it)

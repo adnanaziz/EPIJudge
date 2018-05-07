@@ -1,9 +1,7 @@
 #include <stdexcept>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-
 using std::length_error;
 
 class QueueWithMax {
@@ -12,18 +10,15 @@ class QueueWithMax {
     // TODO - you fill in here.
     return;
   }
-
   int Dequeue() {
     // TODO - you fill in here.
     return 0;
   }
-
   int Max() const {
     // TODO - you fill in here.
     return 0;
   }
 };
-
 struct QueueOp {
   enum { kConstruct, kDequeue, kEnqueue, kMax } op;
   int argument;

@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::string;
 using std::vector;
 
@@ -13,7 +12,6 @@ vector<string> SearchFrequentItems(
   // TODO - you fill in here.
   return {};
 }
-
 vector<string> SearchFrequentItemsWrapper(int k, vector<string>& stream) {
   return SearchFrequentItems(k, begin(stream), end(stream));
 }

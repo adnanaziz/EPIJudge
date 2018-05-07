@@ -1,8 +1,6 @@
 #include <memory>
-
 #include "bst_prototype_shared_ptr.h"
 #include "test_framework/generic_test.h"
-
 using std::shared_ptr;
 
 shared_ptr<BstNode<int>> MergeTwoBSTs(shared_ptr<BstNode<int>> A,

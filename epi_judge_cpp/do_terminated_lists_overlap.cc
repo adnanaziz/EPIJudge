@@ -1,10 +1,8 @@
 #include <memory>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::shared_ptr;
 
 shared_ptr<ListNode<int>> OverlappingNoCycleLists(
@@ -12,7 +10,6 @@ shared_ptr<ListNode<int>> OverlappingNoCycleLists(
   // TODO - you fill in here.
   return nullptr;
 }
-
 void OverlappingNoCycleListsWrapper(TimedExecutor& executor,
                                     shared_ptr<ListNode<int>> l0,
                                     shared_ptr<ListNode<int>> l1,

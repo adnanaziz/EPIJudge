@@ -9,7 +9,8 @@ def number_of_ways_to_top(top, maximum_step):
         if number_of_ways_to_h[h] == 0:
             number_of_ways_to_h[h] = sum(
                 compute_number_of_ways_to_h(h - i)
-                for i in range(1, min(maximum_step, h) + 1))
+                for i in range(1,
+                               min(maximum_step, h) + 1))
         return number_of_ways_to_h[h]
 
     number_of_ways_to_h = [0] * (top + 1)

@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class IsTreeABst {
   @EpiTest(testDataFile = "is_tree_a_bst.tsv")
 

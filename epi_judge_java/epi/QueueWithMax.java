@@ -1,30 +1,24 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueWithMax {
-
   public void enqueue(Integer x) {
     // TODO - you fill in here.
     return;
   }
-
   public Integer dequeue() {
     // TODO - you fill in here.
     return 0;
   }
-
   public Integer max() {
     // TODO - you fill in here.
     return 0;
   }
-
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class QueueOp {
     public String op;

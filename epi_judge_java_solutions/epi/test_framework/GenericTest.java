@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 import epi.test_framework.minimal_json.Json;

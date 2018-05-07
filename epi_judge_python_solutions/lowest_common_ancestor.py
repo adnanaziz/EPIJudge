@@ -40,8 +40,8 @@ def lca(tree, node0, node1):
 def lca_wrapper(executor, tree, key1, key2):
     strip_parent_link(tree)
     result = executor.run(
-        functools.partial(
-            lca, tree, must_find_node(tree, key1), must_find_node(tree, key2)))
+        functools.partial(lca, tree, must_find_node(tree, key1),
+                          must_find_node(tree, key2)))
 
     if result is None:
         raise TestFailure("Result can't be None")

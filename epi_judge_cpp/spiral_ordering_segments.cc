@@ -1,8 +1,6 @@
 #include <vector>
 #include "test_framework/generic_test.h"
-
 using std::vector;
-
 vector<int> MatrixInSpiralOrder(vector<vector<int>> square_matrix) {
   // TODO - you fill in here.
   return {};

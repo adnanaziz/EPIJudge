@@ -1,10 +1,7 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.Set;
-
 public class StringTransformability {
 
   @EpiTest(testDataFile = "string_transformability.tsv")

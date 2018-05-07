@@ -1,18 +1,14 @@
 #include <functional>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
-
 using std::bind;
 using std::vector;
-
 vector<int> ComputeRandomPermutation(int n) {
   // TODO - you fill in here.
   return {};
 }
-
 int Factorial(int n) { return n <= 1 ? 1 : n * Factorial(n - 1); }
 
 int PermutationIndex(vector<int> perm) {

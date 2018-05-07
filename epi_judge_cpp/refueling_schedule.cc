@@ -1,12 +1,9 @@
 #include <vector>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
-
 const int kMPG = 20;
 
 // gallons[i] is the amount of gas in city i, and distances[i] is the distance
@@ -15,7 +12,6 @@ int FindAmpleCity(const vector<int>& gallons, const vector<int>& distances) {
   // TODO - you fill in here.
   return 0;
 }
-
 void FindAmpleCityWrapper(TimedExecutor& executor, const vector<int>& gallons,
                           const vector<int>& distances) {
   int result = executor.Run([&] { return FindAmpleCity(gallons, distances); });

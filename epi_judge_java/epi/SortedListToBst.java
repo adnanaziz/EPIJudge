@@ -1,15 +1,11 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.Iterator;
 import java.util.List;
-
 public class SortedListToBst {
-
   // Returns the root of the corresponding BST. The prev and next fields of the
   // list nodes are used as the BST nodes left and right fields, respectively.
   // The length of the list is given.
@@ -18,7 +14,6 @@ public class SortedListToBst {
     // TODO - you fill in here.
     return null;
   }
-
   public static void compareVectorAndTree(DoublyListNode<Integer> tree,
                                           Iterator<Integer> it)
       throws TestFailure {

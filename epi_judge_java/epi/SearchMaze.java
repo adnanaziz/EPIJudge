@@ -1,14 +1,11 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class SearchMaze {
   @EpiUserType(ctorParams = {int.class, int.class})
 
@@ -45,7 +42,6 @@ public class SearchMaze {
     // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   public static boolean pathElementIsFeasible(List<List<Integer>> maze,
                                               Coordinate prev, Coordinate cur) {
     if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&

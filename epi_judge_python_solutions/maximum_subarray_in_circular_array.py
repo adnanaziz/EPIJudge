@@ -28,8 +28,8 @@ def max_subarray_sum_in_circular(A):
         maximum_end = compute_running_maximum(A[::-1])[::-1][1:] + [0]
 
         # Calculates the maximum subarray which is circular.
-        return max(begin + end
-                   for begin, end in zip(maximum_begin, maximum_end))
+        return max(
+            begin + end for begin, end in zip(maximum_begin, maximum_end))
 
     return max(find_max_subarray(), find_circular_max_subarray())
 

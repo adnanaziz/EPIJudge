@@ -1,4 +1,6 @@
+
 from test_framework.binary_tree_utils import binary_tree_to_string
+
 
 
 class BinaryTreeNode:
@@ -7,6 +9,9 @@ class BinaryTreeNode:
         self.left = left
         self.right = right
         self.parent = parent
+
+
+
 
     def __repr__(self):
         return str(binary_tree_to_string(self))

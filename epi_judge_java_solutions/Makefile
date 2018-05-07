@@ -75,9 +75,6 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class : $(SRC_DIR)/$(MAIN_P
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.java"
-
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java"
 
@@ -219,7 +216,6 @@ TEST_FRAMEWORK := \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class \

@@ -6,7 +6,7 @@
   - Run each test case with a timeout
  
  
-## [Beta 4] - 2018-05-??
+## [Beta 4] - 2018-05-08
 
 ### Added
   - This changelog
@@ -18,9 +18,13 @@
     - RangeLookupInBst
     - ReverseLinkedListIterative
     - TwoSortedArraysMerge
+  - Separate compiler requirements for the solution projects  
   
 ### Changed
   - [IMPORTANT] Java project now requires at least Java 9 JDK
+  - [IMPORTANT] [Windows only] C++ project now requires at least Visual Studio 17 Preview 6 
+    - You are still free to use MinGW or LXSS compilers
+  - [IMPORTANT] Python project now requires at least Python 3.6
   - Java JSON library is divided into separate files
   - Some solution code improvements
   
@@ -29,7 +33,8 @@
   - Several warnings issued by VS2017  
  
 ### Removed
-  - All test cases with binary trees with height greater than 500
+  - All test cases with binary trees with height greater than 500 
+    - They may cause stack overflow on some systems
  
  
 ## [Beta 3] - 2018-04-05

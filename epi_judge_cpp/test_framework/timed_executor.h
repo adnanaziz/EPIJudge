@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <chrono>

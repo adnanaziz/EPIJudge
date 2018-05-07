@@ -2,12 +2,10 @@
 #include <set>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::string;
 using std::vector;
 
@@ -20,7 +18,6 @@ void GroupByAge(vector<Person>* people) {
   // TODO - you fill in here.
   return;
 }
-
 template <>
 struct SerializationTraits<Person> : UserSerTraits<Person, int, string> {};
 

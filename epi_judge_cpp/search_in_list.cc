@@ -1,15 +1,12 @@
 #include <memory>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
-
 using std::shared_ptr;
 
 shared_ptr<ListNode<int>> SearchList(shared_ptr<ListNode<int>> L, int key) {
   // TODO - you fill in here.
   return nullptr;
 }
-
 int SearchListWrapper(shared_ptr<ListNode<int>> L, int key) {
   auto result = SearchList(L, key);
   return result ? result->data : -1;

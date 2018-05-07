@@ -1,4 +1,4 @@
-# @library
+
 import json
 import os
 import sys
@@ -111,9 +111,8 @@ def run_tests(handler, config, res_printer):
         JS_BEGIN_PATTERN, JS_END_PATTERN = 'run(', ');'
         with open(problem_mapping_file_path) as problem_mapping_file:
             chapter_to_problem_to_language_solution_mapping = json.loads(
-                problem_mapping_file.read().replace(JS_BEGIN_PATTERN,
-                                                    '').replace(
-                                                        JS_END_PATTERN, ''))
+                problem_mapping_file.read().replace(JS_BEGIN_PATTERN, '')
+                .replace(JS_END_PATTERN, ''))
 
         test_file = 'Python: ' + test_file
         for chapter in chapter_to_problem_to_language_solution_mapping.values(

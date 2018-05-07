@@ -1,12 +1,10 @@
 #include <map>
 #include <memory>
-
 #include "posting_list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::make_shared;
 using std::shared_ptr;
 
@@ -15,7 +13,6 @@ shared_ptr<PostingListNode> CopyPostingsList(
   // TODO - you fill in here.
   return nullptr;
 }
-
 using PostingListPtr = std::shared_ptr<PostingListNode>;
 
 struct SerializedNode {

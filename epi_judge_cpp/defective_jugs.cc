@@ -1,19 +1,15 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::vector;
 
 struct Jug {
   int low, high;
 };
-
 bool CheckFeasible(const vector<Jug>& jugs, int L, int H) {
   // TODO - you fill in here.
   return true;
 }
-
 template <>
 struct SerializationTraits<Jug> : UserSerTraits<Jug, int, int> {};
 

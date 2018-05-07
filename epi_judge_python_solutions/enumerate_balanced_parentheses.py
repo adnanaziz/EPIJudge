@@ -27,18 +27,15 @@ def generate_balanced_parentheses_pythonic(num_pairs, num_left_open=0):
         return [')' * num_left_open]
     if not num_left_open:
         return [
-            '(' + p
-            for p in generate_balanced_parentheses_pythonic(
+            '(' + p for p in generate_balanced_parentheses_pythonic(
                 num_pairs - 1, num_left_open + 1)
         ]
     else:
         return ([
-            '(' + p
-            for p in generate_balanced_parentheses_pythonic(
+            '(' + p for p in generate_balanced_parentheses_pythonic(
                 num_pairs - 1, num_left_open + 1)
         ] + [
-            ')' + p
-            for p in generate_balanced_parentheses_pythonic(
+            ')' + p for p in generate_balanced_parentheses_pythonic(
                 num_pairs - 1, num_left_open - 1)
         ])
 

@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 import epi.test_framework.serialization_traits.SerializationTraits;

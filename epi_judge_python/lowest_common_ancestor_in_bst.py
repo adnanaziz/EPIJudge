@@ -15,8 +15,8 @@ def find_LCA(tree, s, b):
 @enable_executor_hook
 def lca_wrapper(executor, tree, s, b):
     result = executor.run(
-        functools.partial(find_LCA, tree,
-                          must_find_node(tree, s), must_find_node(tree, b)))
+        functools.partial(find_LCA, tree, must_find_node(tree, s),
+                          must_find_node(tree, b)))
     if result is None:
         raise TestFailure("Result can't be None")
     return result.data

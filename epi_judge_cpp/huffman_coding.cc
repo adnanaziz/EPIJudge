@@ -1,26 +1,20 @@
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::string;
 using std::vector;
-
 namespace huffman {
 
 struct CharWithFrequency {
   char c;
   double freq;
 };
-
 double HuffmanEncoding(vector<CharWithFrequency>* symbols) {
   // TODO - you fill in here.
   return 0.0;
 }
-
 }  // namespace huffman
-
 template <>
 struct SerializationTraits<huffman::CharWithFrequency>
     : UserSerTraits<huffman::CharWithFrequency, std::string, double> {

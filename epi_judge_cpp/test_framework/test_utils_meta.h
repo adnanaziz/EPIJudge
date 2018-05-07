@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <algorithm>
@@ -394,6 +394,3 @@ using IsBinaryTree =
 template <typename T>
 using BinaryTreeTag = std::conditional_t<IsBinaryTree<T>::value,
                                          IsBinaryTreeTag, IsNotBinaryTreeTag>;
-
-// Testing for the file using static assertions
-#include "test_utils_meta_test.h"

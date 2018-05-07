@@ -21,12 +21,12 @@ def k_largest_in_binary_heap(A, k):
 
         left_child_idx = 2 * candidate_idx + 1
         if left_child_idx < len(A):
-            heapq.heappush(candidate_max_heap, (-A[left_child_idx],
-                                                left_child_idx))
+            heapq.heappush(candidate_max_heap,
+                           (-A[left_child_idx], left_child_idx))
         right_child_idx = 2 * candidate_idx + 2
         if right_child_idx < len(A):
-            heapq.heappush(candidate_max_heap, (-A[right_child_idx],
-                                                right_child_idx))
+            heapq.heappush(candidate_max_heap,
+                           (-A[right_child_idx], right_child_idx))
     return result
 
 

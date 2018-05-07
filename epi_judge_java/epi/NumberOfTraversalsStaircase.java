@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class NumberOfTraversalsStaircase {
   @EpiTest(testDataFile = "number_of_traversals_staircase.tsv")
 

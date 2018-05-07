@@ -1,13 +1,10 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class MaxTeamsInPhotograph {
 
   public static class GraphVertex {
@@ -20,7 +17,6 @@ public class MaxTeamsInPhotograph {
     // TODO - you fill in here.
     return 0;
   }
-
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;

@@ -1,8 +1,6 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class ClosestIntSameWeight {
   @EpiTest(testDataFile = "closest_int_same_weight.tsv")
   public static long closestIntSameBitCount(long x) {

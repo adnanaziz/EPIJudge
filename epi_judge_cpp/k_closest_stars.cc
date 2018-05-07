@@ -1,11 +1,9 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_utils.h"
-
 using std::vector;
 
 struct Star {
@@ -24,7 +22,6 @@ vector<Star> FindClosestKStars(vector<Star>::const_iterator stars_begin,
   // TODO - you fill in here.
   return {};
 }
-
 template <>
 struct SerializationTraits<Star> : UserSerTraits<Star, double, double, double> {
 };

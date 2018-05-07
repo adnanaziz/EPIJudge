@@ -1,23 +1,19 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class CopyPostingList {
 
   public static PostingListNode copyPostingsList(PostingListNode l) {
     // TODO - you fill in here.
     return null;
   }
-
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class SerializedNode {
     public int order;

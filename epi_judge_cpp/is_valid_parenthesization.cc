@@ -1,8 +1,6 @@
 #include <string>
 #include "test_framework/generic_test.h"
-
 using std::string;
-
 bool IsWellFormed(const string& s) {
   // TODO - you fill in here.
   return true;

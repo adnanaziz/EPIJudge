@@ -1,6 +1,5 @@
 #include <string>
 #include "test_framework/generic_test.h"
-
 using std::string;
 
 string ConvertBase(const string& num_as_string, int b1, int b2) {

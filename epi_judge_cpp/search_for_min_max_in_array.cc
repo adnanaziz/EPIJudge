@@ -1,10 +1,7 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::vector;
-
 struct MinMax {
   int smallest, largest;
 };
@@ -13,7 +10,6 @@ MinMax FindMinMax(const vector<int>& A) {
   // TODO - you fill in here.
   return {0, 0};
 }
-
 template <>
 struct SerializationTraits<MinMax> : UserSerTraits<MinMax, int, int> {};
 

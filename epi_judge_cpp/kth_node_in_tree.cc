@@ -2,14 +2,11 @@
 #include <memory>
 #include <string>
 #include <vector>
-
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-
 using std::unique_ptr;
-
 template <typename T>
 struct BinaryTreeNode {
   T data;
@@ -22,7 +19,6 @@ const BinaryTreeNode<int>* FindKthNodeBinaryTree(
   // TODO - you fill in here.
   return nullptr;
 }
-
 template <typename KeyT>
 struct SerializationTraits<std::unique_ptr<BinaryTreeNode<KeyT>>>
     : BinaryTreeSerializationTraits<std::unique_ptr<BinaryTreeNode<KeyT>>,

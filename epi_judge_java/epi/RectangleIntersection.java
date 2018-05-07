@@ -1,9 +1,7 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 public class RectangleIntersection {
   @EpiUserType(ctorParams = {int.class, int.class, int.class, int.class})
   public static class Rectangle {
@@ -53,7 +51,6 @@ public class RectangleIntersection {
       return "[" + x + ", " + y + ", " + width + ", " + height + "]";
     }
   }
-
   @EpiTest(testDataFile = "rectangle_intersection.tsv")
   public static Rectangle intersectRectangle(Rectangle R1, Rectangle R2) {
     // TODO - you fill in here.

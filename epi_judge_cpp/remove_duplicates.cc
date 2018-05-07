@@ -2,10 +2,8 @@
 #include <iterator>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-
 using std::string;
 using std::vector;
 
@@ -17,12 +15,10 @@ struct Name {
 
   string first_name, last_name;
 };
-
 void EliminateDuplicate(vector<Name>* names) {
   // TODO - you fill in here.
   return;
 }
-
 template <>
 struct SerializationTraits<Name>
     : UserSerTraits<Name, std::string, std::string> {};

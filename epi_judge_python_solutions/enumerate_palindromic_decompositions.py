@@ -20,7 +20,8 @@ def palindrome_decompositions(input):
 
 # Pythonic solution uses bottom-up construction.
 def palindrome_decompositions_pythonic(text):
-    return ([[text[:i]] + right for i in range(1, len(text) + 1)
+    return ([[text[:i]] + right for i in range(1,
+                                               len(text) + 1)
              if text[:i] == text[:i][::-1]
              for right in palindrome_decompositions_pythonic(text[i:])]
             or [[]])

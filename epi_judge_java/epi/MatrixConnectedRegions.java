@@ -1,19 +1,14 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class MatrixConnectedRegions {
-
   public static void flipColor(int x, int y, List<List<Boolean>> image) {
     // TODO - you fill in here.
     return;
   }
-
   @EpiTest(testDataFile = "painting.tsv")
   public static List<List<Integer>> flipColorWrapper(TimedExecutor executor,
                                                      int x, int y,

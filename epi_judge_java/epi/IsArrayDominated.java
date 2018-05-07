@@ -1,10 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,10 +28,8 @@ class Team {
     // TODO - you fill in here.
     return true;
   }
-
   private List<Player> players;
 }
-
 public class IsArrayDominated {
   @EpiTest(testDataFile = "is_array_dominated.tsv")
   public static void
