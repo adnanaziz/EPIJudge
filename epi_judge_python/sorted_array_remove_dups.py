@@ -1,13 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 # Returns the number of valid entries after deletion.
 def delete_duplicates(A):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return 0
 
 
@@ -19,5 +18,6 @@ def delete_duplicates_wrapper(executor, A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('sorted_array_remove_dups.tsv',
+        generic_test.generic_test_main("sorted_array_remove_dups.py",
+                                       'sorted_array_remove_dups.tsv',
                                        delete_duplicates_wrapper))

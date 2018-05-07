@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <memory>
@@ -7,9 +7,9 @@
 
 #include "fmt_print.h"
 #include "test_utils_meta.h"
-#include "test_utils_serialization_traits.h"
+#include "serialization_traits.h"
 
-namespace {
+namespace any {
 class AnyBase {
  public:
   virtual ~AnyBase() = default;
@@ -31,8 +31,7 @@ class AnyBase {
   const T& Cast() const {
     const T* ptr = TryCast<T>();
     if (!ptr) {
-      throw std::runtime_error(FmtStr("Any: expected type {}, got {}",
-                                      TypeName(), typeid(T).name()));
+      throw std::runtime_error(FmtStr("Any: expected type {}, got {}", TypeName(), typeid(T).name()));
     }
     return *ptr;
   }
@@ -62,7 +61,6 @@ class AnySpecialization : public AnyBase {
  private:
   T value_;
 };
-}  // namespace 
 
 class Any {
   std::shared_ptr<AnyBase> ptr_;
@@ -92,3 +90,4 @@ class Any {
     return out;
   }
 };
+}  // namespace any

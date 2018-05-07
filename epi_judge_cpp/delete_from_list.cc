@@ -1,17 +1,14 @@
 #include <memory>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::shared_ptr;
 
 // Delete the node past this one. Assume node is not a tail.
 void DeleteAfter(const shared_ptr<ListNode<int>>& node) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
-
 shared_ptr<ListNode<int>> DeleteFromListWrapper(
     TimedExecutor& executor, const shared_ptr<ListNode<int>>& head,
     int node_idx) {
@@ -30,6 +27,7 @@ shared_ptr<ListNode<int>> DeleteFromListWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "head", "node_idx"};
-  return GenericTestMain(args, "delete_from_list.tsv", &DeleteFromListWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "delete_from_list.cc", "delete_from_list.tsv",
+                         &DeleteFromListWrapper, DefaultComparator{},
+                         param_names);
 }

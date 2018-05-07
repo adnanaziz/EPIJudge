@@ -1,11 +1,8 @@
-from sys import exit
-
-from list_node import ListNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def search_list(L, key):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return None
 
 
@@ -16,5 +13,5 @@ def search_list_wrapper(L, key):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('search_in_list.tsv',
-                                       search_list_wrapper))
+        generic_test.generic_test_main(
+            "search_in_list.py", 'search_in_list.tsv', search_list_wrapper))

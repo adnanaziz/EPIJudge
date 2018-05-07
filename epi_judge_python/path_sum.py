@@ -1,11 +1,12 @@
+from test_framework import generic_test
+
+
 def has_path_sum(tree, remaining_weight):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return True
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('path_sum.tsv', has_path_sum))
+    exit(
+        generic_test.generic_test_main("path_sum.py", 'path_sum.tsv',
+                                       has_path_sum))

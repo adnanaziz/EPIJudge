@@ -1,12 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def gray_code(num_bits):
+
     if num_bits == 0:
         return [0]
 
@@ -61,4 +61,6 @@ def gray_code_wrapper(executor, num_bits):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main("gray_code.tsv", gray_code_wrapper))
+    exit(
+        generic_test.generic_test_main("gray_code.py", "gray_code.tsv",
+                                       gray_code_wrapper))

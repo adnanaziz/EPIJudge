@@ -143,6 +143,6 @@ void SolveSudokuWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "partial_assignment"};
-  return GenericTestMain(args, "sudoku_solve.tsv", &SolveSudokuWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "sudoku_solve.cc", "sudoku_solve.tsv",
+                         &SolveSudokuWrapper, DefaultComparator{}, param_names);
 }

@@ -1,31 +1,24 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
 
 public class LruCache {
-
   LruCache(final int capacity) {}
-
   public Integer lookup(Integer key) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
-
   public void insert(Integer key, Integer value) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
-
   public Boolean erase(Object key) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return true;
   }
-
   @EpiUserType(ctorParams = {String.class, int.class, int.class})
   public static class Op {
     String code;
@@ -39,7 +32,7 @@ public class LruCache {
     }
   }
 
-  @EpiTest(testfile = "lru_cache.tsv")
+  @EpiTest(testDataFile = "lru_cache.tsv")
   public static void runTest(List<Op> commands) throws TestFailure {
     if (commands.isEmpty() || !commands.get(0).code.equals("LruCache")) {
       throw new RuntimeException("Expected LruCache as first command");
@@ -72,9 +65,10 @@ public class LruCache {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LruCache.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

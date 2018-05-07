@@ -1,17 +1,14 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 public class GroupEqualEntries {
   @EpiUserType(ctorParams = {Integer.class, String.class})
 
@@ -45,12 +42,10 @@ public class GroupEqualEntries {
       return result;
     }
   }
-
   public static void groupByAge(List<Person> people) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
-
   private static Map<Person, Integer> buildMultiset(List<Person> people) {
     Map<Person, Integer> m = new HashMap<>();
     for (Person p : people) {
@@ -59,7 +54,7 @@ public class GroupEqualEntries {
     return m;
   }
 
-  @EpiTest(testfile = "group_equal_entries.tsv")
+  @EpiTest(testDataFile = "group_equal_entries.tsv")
   public static void groupByAgeWrapper(TimedExecutor executor,
                                        List<Person> people) throws Exception {
     if (people.isEmpty()) {
@@ -88,9 +83,10 @@ public class GroupEqualEntries {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "GroupEqualEntries.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

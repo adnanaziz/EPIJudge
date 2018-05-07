@@ -10,6 +10,7 @@ import java.util.List;
 
 public class RoadNetwork {
   @EpiUserType(ctorParams = {int.class, int.class, int.class})
+
   public static class HighwaySection {
     public int x, y, distance;
 
@@ -38,9 +39,11 @@ public class RoadNetwork {
     }
   }
 
-  @EpiTest(testfile = "road_network.tsv")
+  @EpiTest(testDataFile = "road_network.tsv")
+
   public static HighwaySection
   findBestProposals(List<HighwaySection> H, List<HighwaySection> P, int n) {
+
     // graph stores the shortest path distances between all pairs of vertices.
     List<List<Integer>> graph = new ArrayList<>(n);
     for (int i = 0; i < n; ++i) {
@@ -96,9 +99,10 @@ public class RoadNetwork {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RoadNetwork.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

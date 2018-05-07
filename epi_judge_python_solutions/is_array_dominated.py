@@ -1,8 +1,7 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -16,6 +15,7 @@ class Team:
     # Checks if team0 can be placed in front of team1.
     @staticmethod
     def valid_placement_exists(team0, team1):
+
         return all(
             a < b
             for a, b in zip(sorted(team0._players), sorted(team1._players)))
@@ -36,5 +36,6 @@ def valid_placement_exists_wrapper(executor, team0, team1, expected_01,
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('is_array_dominated.tsv',
+        generic_test.generic_test_main("is_array_dominated.py",
+                                       'is_array_dominated.tsv',
                                        valid_placement_exists_wrapper))

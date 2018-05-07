@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 // MinGW defines TRUE and FALSE macros, that's why we use prefix here

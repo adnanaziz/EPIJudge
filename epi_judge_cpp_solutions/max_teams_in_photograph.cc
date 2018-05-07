@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
 
 using std::make_unique;
@@ -70,7 +70,7 @@ int FindLargestNumberTeamsWrapper(TimedExecutor& executor, int k,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "k", "edges"};
-  return GenericTestMain(args, "max_teams_in_photograph.tsv",
-                         &FindLargestNumberTeamsWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(
+      args, "max_teams_in_photograph.cc", "max_teams_in_photograph.tsv",
+      &FindLargestNumberTeamsWrapper, DefaultComparator{}, param_names);
 }

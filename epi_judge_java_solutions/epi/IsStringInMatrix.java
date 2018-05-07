@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class IsStringInMatrix {
+
   private static class Attempt {
     public Integer x;
     public Integer y;
@@ -51,9 +52,10 @@ public class IsStringInMatrix {
     }
   }
 
-  @EpiTest(testfile = "is_string_in_matrix.tsv")
+  @EpiTest(testDataFile = "is_string_in_matrix.tsv")
   public static boolean isPatternContainedInGrid(List<List<Integer>> grid,
                                                  List<Integer> pattern) {
+
     for (int i = 0; i < grid.size(); ++i) {
       for (int j = 0; j < grid.get(i).size(); ++j) {
         if (isPatternSuffixContainedStartingAtXY(grid, i, j, pattern, 0,
@@ -98,9 +100,10 @@ public class IsStringInMatrix {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsStringInMatrix.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

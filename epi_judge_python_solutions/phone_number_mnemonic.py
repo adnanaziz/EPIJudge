@@ -1,5 +1,4 @@
 import itertools
-from sys import exit
 
 from test_framework import generic_test, test_utils
 
@@ -27,9 +26,8 @@ def phone_mnemonic(phone_number):
 # Pythonic solution
 def phone_mnemonic_pythonic(phone_number):
     return [
-        ''.join(mnemonic)
-        for mnemonic in itertools.product(*(MAPPING[int(digit)]
-                                            for digit in phone_number))
+        ''.join(mnemonic) for mnemonic in
+        itertools.product(*(MAPPING[int(digit)] for digit in phone_number))
     ]
 
 
@@ -55,6 +53,7 @@ def phone_mnemonic_pythonic_another(phone_number):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "phone_number_mnemonic.py",
             'phone_number_mnemonic.tsv',
             phone_mnemonic,
             comparator=test_utils.unordered_compare))

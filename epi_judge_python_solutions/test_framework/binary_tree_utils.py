@@ -1,8 +1,8 @@
-# @library
+
 import collections
 import sys
 
-from test_framework.test_failure import TestFailure, PropertyName
+from test_framework.test_failure import PropertyName, TestFailure
 
 sys.setrecursionlimit(15500)
 

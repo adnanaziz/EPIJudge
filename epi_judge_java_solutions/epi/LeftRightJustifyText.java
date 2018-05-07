@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class LeftRightJustifyText {
-  @EpiTest(testfile = "left_right_justify_text.tsv")
+  @EpiTest(testDataFile = "left_right_justify_text.tsv")
+
   public static List<String> justifyText(List<String> words, int L) {
+
     int currLineLength = 0;
     List<String> result = new ArrayList<>();
     List<StringBuilder> currLine = new ArrayList<>();
@@ -35,9 +37,10 @@ public class LeftRightJustifyText {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LeftRightJustifyText.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

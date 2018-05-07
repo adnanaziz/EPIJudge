@@ -1,7 +1,6 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.binary_tree_utils import must_find_node
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
@@ -9,7 +8,7 @@ from test_framework.test_utils import enable_executor_hook
 
 # Input nodes are nonempty and the key at s is less than or equal to that at b.
 def find_LCA(tree, s, b):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return None
 
 
@@ -25,5 +24,6 @@ def lca_wrapper(executor, tree, s, b):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('lowest_common_ancestor_in_bst.tsv',
+        generic_test.generic_test_main("lowest_common_ancestor_in_bst.py",
+                                       'lowest_common_ancestor_in_bst.tsv',
                                        lca_wrapper))

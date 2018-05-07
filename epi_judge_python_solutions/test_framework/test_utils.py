@@ -1,9 +1,9 @@
-# @library
+
 import collections
 import os
 import re
 
-from test_framework.test_failure import TestFailure, PropertyName
+from test_framework.test_failure import PropertyName, TestFailure
 
 
 def split_tsv_file(tsv_file):
@@ -30,11 +30,13 @@ def get_default_test_data_dir_path():
         path = os.path.join(os.path.pardir, path)
 
     raise RuntimeError(
-        'Can\'t find test data directory. Please start the program with "--test_data_dir <path>" command-line option')
+        'Can\'t find test data directory. Please start the program with "--test_data_dir <path>" command-line option'
+    )
 
 
 def get_file_path_in_judge_dir(file_name):
-    return os.path.join(get_default_test_data_dir_path(), os.path.pardir, file_name)
+    return os.path.join(get_default_test_data_dir_path(), os.path.pardir,
+                        file_name)
 
 
 def filter_bracket_comments(s):

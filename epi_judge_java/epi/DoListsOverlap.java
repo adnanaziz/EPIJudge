@@ -1,22 +1,18 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.HashSet;
 import java.util.Set;
-
 public class DoListsOverlap {
 
   public static ListNode<Integer> overlappingLists(ListNode<Integer> l0,
                                                    ListNode<Integer> l1) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
-
-  @EpiTest(testfile = "do_lists_overlap.tsv")
+  @EpiTest(testDataFile = "do_lists_overlap.tsv")
   public static void
   overlappingListsWrapper(TimedExecutor executor, ListNode<Integer> l0,
                           ListNode<Integer> l1, ListNode<Integer> common,
@@ -92,9 +88,10 @@ public class DoListsOverlap {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DoListsOverlap.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

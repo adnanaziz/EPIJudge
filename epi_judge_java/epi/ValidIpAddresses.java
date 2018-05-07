@@ -1,21 +1,17 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.EpiTestComparator;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
-
 public class ValidIpAddresses {
-  @EpiTest(testfile = "valid_ip_addresses.tsv")
+  @EpiTest(testDataFile = "valid_ip_addresses.tsv")
 
   public static List<String> getValidIpAddress(String s) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
-
   @EpiTestComparator
   public static BiPredicate<List<String>, List<String>> comp =
       (expected, result) -> {
@@ -28,9 +24,10 @@ public class ValidIpAddresses {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ValidIpAddresses.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <deque>
@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "binary_tree_utils.h"
+#include "json_parser.h"
 #include "test_utils_meta.h"
 
 struct NoSpecializationTag {};
@@ -46,8 +47,19 @@ struct SerializationTraits : NoSpecializationTag {
     static_assert(sizeof(T) < 0, "Unsupported type");
   }
 
-  static void JsonParse(std::istream& in) {
+  static void JsonParse(const json_parser::Json& json_object) {
     static_assert(sizeof(T) < 0, "Unsupported type");
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    static_assert(sizeof(T) < 0, "Unsupported type");
+    return {};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    static_assert(sizeof(T) < 0, "Unsupported type");
+    return {};
   }
 
   static bool Equal(const serialization_type& a,
@@ -77,8 +89,17 @@ struct SerializationTraits<void, void> {
     throw std::runtime_error("Can't parse void");
   }
 
-  static void JsonParse(std::istream& in) {
+  static void JsonParse(const json_parser::Json& json_object) {
     throw std::runtime_error("Can't parse void");
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    throw std::runtime_error("Can't process void");
+  }
+
+  static std::vector<int> GetMetrics(int x) {
+    throw std::runtime_error("Can't process void");
   }
 };
 
@@ -87,18 +108,9 @@ struct SerializationTraits<void, void> {
  * It is used when tested function has void return type.
  */
 template <>
-struct SerializationTraits<VoidPlaceholder, void> {
+struct SerializationTraits<VoidPlaceholder, void>
+    : SerializationTraits<void, void> {
   using serialization_type = VoidPlaceholder;
-
-  static constexpr const char* Name() { return "void"; }
-
-  static void Parse(const std::string& str) {
-    throw std::runtime_error("Can't parse void");
-  }
-
-  static void JsonParse(std::istream& in) {
-    throw std::runtime_error("Can't parse void");
-  }
 };
 
 /**
@@ -116,19 +128,27 @@ struct SerializationTraits<
     try {
       return static_cast<T>(std::stoi(str));
     } catch (std::invalid_argument&) {
-      throw std::runtime_error("Int parser: conversion failed");
+      throw std::runtime_error("Int parser: conversion error");
     } catch (std::out_of_range&) {
-      throw std::runtime_error("Int parser: conversion failed");
+      throw std::runtime_error("Int parser: conversion error: out of range");
     }
   }
 
-  static T JsonParse(std::istream& in) {
-    serialization_type x;
-    in >> x;
-    if (!in) {
+  static T JsonParse(const json_parser::Json& json_object) {
+    if (json_object.is_number()) {
+      return static_cast<T>(json_object.int_value());
+    } else {
       throw std::runtime_error("Int parser: conversion error");
     }
-    return static_cast<T>(x);
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {arg_name};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(std::abs(x))};
   }
 
   static bool Equal(serialization_type a, serialization_type b) {
@@ -151,19 +171,28 @@ struct SerializationTraits<
     try {
       return std::stoll(str);
     } catch (std::invalid_argument&) {
-      throw std::runtime_error("Long parser: conversion failed");
+      throw std::runtime_error("Long parser: conversion error");
     } catch (std::out_of_range&) {
-      throw std::runtime_error("Long parser: conversion failed");
+      throw std::runtime_error("Long parser: conversion error: out of range");
     }
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    serialization_type x;
-    in >> x;
-    if (!in) {
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (json_object.is_number()) {
+      return static_cast<serialization_type>(json_object.int_value());
+    } else {
       throw std::runtime_error("Long parser: conversion error");
     }
-    return x;
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {arg_name};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(std::min<serialization_type>(
+        std::abs(x), std::numeric_limits<int>::max()))};
   }
 
   static bool Equal(serialization_type a, serialization_type b) {
@@ -187,19 +216,28 @@ struct SerializationTraits<
     try {
       return std::stoull(str);
     } catch (std::invalid_argument&) {
-      throw std::runtime_error("Long parser: conversion failed");
+      throw std::runtime_error("Long parser: conversion error");
     } catch (std::out_of_range&) {
-      throw std::runtime_error("Long parser: conversion failed");
+      throw std::runtime_error("Long parser: conversion error: out of range");
     }
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    serialization_type x;
-    in >> x;
-    if (!in) {
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (json_object.is_number()) {
+      return static_cast<serialization_type>(json_object.int_value());
+    } else {
       throw std::runtime_error("Long parser: conversion error");
     }
-    return x;
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {arg_name};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(
+        std::min<serialization_type>(x, std::numeric_limits<int>::max()))};
   }
 
   static bool Equal(serialization_type a, serialization_type b) {
@@ -220,19 +258,29 @@ struct SerializationTraits<float, void> {
     try {
       return std::stof(str);
     } catch (std::invalid_argument&) {
-      throw std::runtime_error("Float parser: conversion failed");
+      throw std::runtime_error("Float parser: conversion error");
     } catch (std::out_of_range&) {
-      throw std::runtime_error("Float parser: conversion failed");
+      throw std::runtime_error(
+          "Float parser: conversion error: out of range");
     }
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    serialization_type x;
-    in >> x;
-    if (!in) {
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (json_object.is_number()) {
+      return static_cast<serialization_type>(json_object.number_value());
+    } else {
       throw std::runtime_error("Float parser: conversion error");
     }
-    return x;
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {arg_name};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(std::min<serialization_type>(
+        std::abs(x), std::numeric_limits<int>::max()))};
   }
 
   static bool Equal(serialization_type a, serialization_type b) {
@@ -258,17 +306,27 @@ struct SerializationTraits<double, void> {
     } catch (std::invalid_argument&) {
       throw std::runtime_error("Double parser: conversion error");
     } catch (std::out_of_range&) {
+      throw std::runtime_error(
+          "Double parser: conversion error: out of range");
+    }
+  }
+
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (json_object.is_number()) {
+      return json_object.number_value();
+    } else {
       throw std::runtime_error("Double parser: conversion error");
     }
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    serialization_type x;
-    in >> x;
-    if (!in) {
-      throw std::runtime_error("Double parser: conversion error");
-    }
-    return x;
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {arg_name};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(std::min<serialization_type>(
+        std::abs(x), std::numeric_limits<int>::max()))};
   }
 
   static bool Equal(serialization_type a, serialization_type b) {
@@ -298,26 +356,22 @@ struct SerializationTraits<bool, void> {
     throw std::runtime_error("Bool parser: conversion error from " + str);
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    char c;
-    in >> c;
-    if (!in) {
-      throw std::runtime_error("Bool parser: unexpected character");
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (json_object.is_bool()) {
+      return json_object.bool_value();
+    } else {
+      throw std::runtime_error("Bool parser: conversion error");
     }
-    if (c == 't') {
-      if (in.get() != 'r' || in.get() != 'u' || in.get() != 'e') {
-        throw std::runtime_error("Bool parser: unexpected character");
-      }
-      return true;
-    }
-    if (c == 'f') {
-      if (in.get() != 'a' || in.get() != 'l' || in.get() != 's' ||
-          in.get() != 'e') {
-        throw std::runtime_error("Bool parser: unexpected character");
-      }
-      return false;
-    }
-    throw std::runtime_error("Bool parser: unexpected character");
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    // TODO Should we generate any metric for booleans at all?
+    return {};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {};
   }
 
   static bool Equal(serialization_type a, serialization_type b) {
@@ -336,37 +390,21 @@ struct SerializationTraits<std::string, void> {
 
   static const std::string& Parse(const std::string& str) { return str; }
 
-  static serialization_type JsonParse(std::istream& in) {
-    char c;
-
-    in >> c;
-    if (!in || c != '"') {
-      throw std::runtime_error("String parser: expected \"");
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (json_object.is_string()) {
+      return json_object.string_value();
+    } else {
+      throw std::runtime_error("String parser: conversion error");
     }
+  }
 
-    std::string str;
-    bool escape_mode = false;
-    while (true) {
-      int x = in.get();
-      if (x == EOF) {
-        throw std::runtime_error("String parser: unexpected end of data");
-      }
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {FmtStr("size({})", arg_name)};
+  }
 
-      if (!escape_mode) {
-        if (x == '"') {
-          return str;
-        }
-
-        if (x == '\\') {
-          escape_mode = true;
-        } else {
-          str.push_back((char)x);
-        }
-      } else {
-        str.push_back((char)x);
-        escape_mode = false;
-      }
-    }
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(x.size())};
   }
 
   static bool Equal(const serialization_type& a,
@@ -385,56 +423,42 @@ struct SerializationTraits<std::vector<Inner>, void> {
       std::vector<typename inner_traits::serialization_type>;
 
   static const char* Name() {
-    static std::string s = std::string("array(") + inner_traits::Name() + ")";
+    static std::string s = FmtStr("array({})", inner_traits::Name());
     return s.c_str();
   }
 
   static serialization_type Parse(const std::string& str) {
-    std::istringstream ss(str);
-    auto result = JsonParse(ss);
-    char c;
-    ss >> c;
-    if (!ss.eof()) {
-      throw std::runtime_error(
-          "Array parser: unexpected trailing characters");
+    std::string err;
+
+    auto json_object = json_parser::Json::parse(str, err);
+    if (!err.empty()) {
+      throw std::runtime_error("Array parser: JSON: " + err);
     }
+
+    return JsonParse(json_object);
+  }
+
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (!json_object.is_array()) {
+      throw std::runtime_error("Array parser: expected array");
+    }
+
+    serialization_type result;
+
+    for (auto& inner : json_object.array_items()) {
+      result.push_back(inner_traits::JsonParse(inner));
+    }
+
     return result;
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    char c;
-    in >> c;
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {FmtStr("size({})", arg_name)};
+  }
 
-    if (!in || c != '[') {
-      throw std::runtime_error("Array parser: expected [");
-    }
-
-    in >> c;
-    if (in && c == ']') {
-      return {};
-    }
-
-    in.putback(c);
-
-    serialization_type v;
-    while (in) {
-      if (in.peek() != ']') {
-        v.push_back(inner_traits::JsonParse(in));
-      }
-      in >> c;
-      if (!in) {
-        throw std::runtime_error("Array parser: expected ]");
-      }
-      switch (c) {
-        case ']':
-          return v;
-        case ',':
-          break;
-        default:
-          throw std::runtime_error("Array parser: expected , of ]");
-      }
-    }
-    throw std::runtime_error("Array parser: unexpected end of data");
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(x.size())};
   }
 
   static bool Equal(const serialization_type& a,
@@ -456,13 +480,22 @@ struct ArrayBasedTypeSerTraits : SerializationTraits<std::vector<Inner>> {
     return FromVector(v);
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    auto v = SerializationTraits<std::vector<Inner>>::JsonParse(in);
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    auto v = SerializationTraits<std::vector<Inner>>::JsonParse(json_object);
     return FromVector(v);
   }
 
   static serialization_type FromVector(std::vector<Inner>& v) {
     return {std::begin(v), std::end(v)};
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {FmtStr("size({})", arg_name)};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {static_cast<int>(x.size())};
   }
 
   static bool Equal(const serialization_type& a,
@@ -488,7 +521,8 @@ struct SerializationTraits<std::set<Inner>, void>
   using inner_traits = SerializationTraits<Inner>;
 
   static const char* Name() {
-    static std::string s = std::string("set(") + inner_traits::Name() + ")";
+    static std::string s = FmtStr("set({})", inner_traits::Name());
+    ;
     return s.c_str();
   }
 };
@@ -502,88 +536,11 @@ struct SerializationTraits<std::unordered_set<Inner>, void>
   using inner_traits = SerializationTraits<Inner>;
 
   static const char* Name() {
-    static std::string s = std::string("set(") + inner_traits::Name() + ")";
+    static std::string s = FmtStr("set({})", inner_traits::Name());
+    ;
     return s.c_str();
   }
 };
-
-namespace {
-/**
- * std::tuple specialization helper class.
- */
-template <typename TupleT, size_t Idx, bool lastElement>
-struct TupleJsonParserImpl {
-  static decltype(auto) Parse(std::istream& in) {
-    char c;
-
-    if (Idx == 0) {
-      in >> c;
-      if (!in || c != '[') {
-        throw std::runtime_error("Tuple parser: expected [");
-      }
-    }
-
-    in >> c;
-    if (in && c == ']') {
-      throw std::runtime_error("Tuple parser: missing value for " +
-                               std::to_string(Idx) + ". element");
-    }
-    in.putback(c);
-
-    if (Idx > 0) {
-      in >> c;
-      if (c != ',') {
-        throw std::runtime_error("Tuple parser: expected ,");
-      }
-    }
-
-    using cur_element_t = std::tuple_element_t<Idx, TupleT>;
-    auto v = SerializationTraits<cur_element_t>::JsonParse(in);
-    if (!in) {
-      throw std::runtime_error("Array parser: unexpected end of data");
-    }
-
-    return std::tuple_cat(
-        std::make_tuple(v),
-        TupleJsonParserImpl<TupleT, Idx + 1,
-                            std::tuple_size<TupleT>::value ==
-                                (Idx + 1)>::Parse(in));
-  }
-};
-
-/**
- * std::tuple specialization helper class.
- */
-template <typename TupleT, size_t Idx>
-struct TupleJsonParserImpl<TupleT, Idx, true> {
-  static std::tuple<> Parse(std::istream& in) {
-    char c;
-
-    if (Idx == 0) {
-      in >> c;
-      if (!in || c != '[') {
-        throw std::runtime_error("Tuple parser: expected [");
-      }
-    }
-
-    in >> c;
-    if (in && c == ']') {
-      return {};
-    }
-
-    throw std::runtime_error("Tuple parser: expected ]");
-  }
-};
-
-/**
- * std::tuple specialization helper class.
- */
-template <typename TupleT, size_t Idx>
-struct TupleJsonParser
-    : TupleJsonParserImpl<TupleT, Idx,
-                          std::tuple_size<TupleT>::value == (Idx + 1)> {};
-
-}  // namespace 
 
 /**
  * std::tuple specialization
@@ -598,51 +555,91 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
   using this_sub_tuple_t = sub_tuple_t<tuple_type, Begin, End>;
 
   using this_tuple_size = std::tuple_size<tuple_type>;
+  using index_sequence = std::make_index_sequence<this_tuple_size::value>;
+
+  template <size_t I>
+  using ith_item_t = std::tuple_element_t<I, tuple_type>;
+
+  template <size_t I>
+  using ith_item_trait = SerializationTraits<ith_item_t<I>>;
 
   static const char* Name() {
-    static std::string s =
-        "tuple(" +
-        innerTypesName(
-            std::make_index_sequence<std::tuple_size<tuple_type>::value>()) +
-        ")";
+    static std::string s = FmtStr("tuple({})", InnerTypesName());
     return s.c_str();
   }
 
   static serialization_type Parse(const std::string& str) {
-    std::istringstream ss(str);
-    auto result = JsonParse(ss);
-    char c;
-    ss >> c;
-    if (!ss.eof()) {
-      throw std::runtime_error(
-          "Tuple parser: unexpected trailing characters");
+    std::string err;
+
+    auto json_object = json_parser::Json::parse(str, err);
+    if (!err.empty()) {
+      throw std::runtime_error("Tuple parser: JSON: " + err);
     }
-    return result;
+
+    return JsonParse(json_object);
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    return TupleJsonParser<tuple_type, 0>::Parse(in);
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    if (!json_object.is_array()) {
+      throw std::runtime_error("Tuple parser: expected array");
+    }
+
+    auto& arr = json_object.array_items();
+
+    if (arr.size() != this_tuple_size::value) {
+      throw std::runtime_error(
+          FmtStr("Tuple parser: invalid item count: expected {}, actual {}",
+                 this_tuple_size::value, arr.size()));
+    }
+
+    return JsonArrayToTuple(arr, index_sequence());
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return GetMetricNamesImpl(arg_name, index_sequence());
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return GetMetricsImpl(x, index_sequence());
   }
 
   static bool Equal(const serialization_type& a,
                     const serialization_type& b) {
-    return equalImpl(
-        a, b, std::make_index_sequence<std::tuple_size<tuple_type>::value>());
+    return EqualImpl(a, b, index_sequence());
   }
 
  private:
-  template <size_t... I>
-  static std::string innerTypesName(std::index_sequence<I...> /*unused*/) {
+  static std::string InnerTypesName() {
     return Concatenate(",", SerializationTraits<TupleTypes>::Name()...);
   }
 
   template <size_t... I>
-  static bool equalImpl(const serialization_type& a,
+  static std::vector<std::string> GetMetricNamesImpl(
+      const std::string& arg_name, std::index_sequence<I...> /*unused*/) {
+    return FlattenVector<std::string>({ith_item_trait<I>::GetMetricNames(
+        FmtStr("{}[{}]", arg_name, I))...});
+  }
+
+  template <size_t... I>
+  static std::vector<int> GetMetricsImpl(
+      const serialization_type& x, std::index_sequence<I...> /*unused*/) {
+    return FlattenVector<int>(
+        {ith_item_trait<I>::GetMetrics(std::get<I>(x))...});
+  }
+
+  template <size_t... I>
+  static serialization_type JsonArrayToTuple(
+      const typename json_parser::Json::array& json_arr,
+      std::index_sequence<I...> /*unused*/) {
+    return std::make_tuple(ith_item_trait<I>::JsonParse(json_arr[I])...);
+  };
+
+  template <size_t... I>
+  static bool EqualImpl(const serialization_type& a,
                         const serialization_type& b,
                         std::index_sequence<I...> /*unused*/) {
-    return FirstFalseArg(
-               SerializationTraits<std::tuple_element_t<
-                   I, serialization_type>>::Equal(std::get<I>(a),
+    return FirstFalseArg(ith_item_trait<I>::Equal(std::get<I>(a),
                                                   std::get<I>(b))...) == 0;
   }
 };
@@ -685,8 +682,7 @@ struct BinaryTreeSerializationTraits<
   using serialization_type = SmartPtrT<node_type>;
 
   static const char* Name() {
-    static std::string s =
-        std::string("binary_tree(") + key_traits::Name() + ")";
+    static std::string s = FmtStr("binary_tree({})", key_traits::Name());
     return s.c_str();
   }
 
@@ -695,9 +691,19 @@ struct BinaryTreeSerializationTraits<
     return BuildTreeFromVector(v);
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    auto v = SerializationTraits<std::vector<std::string>>::JsonParse(in);
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    auto v =
+        SerializationTraits<std::vector<std::string>>::JsonParse(json_object);
     return BuildTreeFromVector(v);
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    return {FmtStr("size({})", arg_name), FmtStr("height({})", arg_name)};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    return {BinaryTreeSize(x), BinaryTreeHeight(x)};
   }
 
   static serialization_type BuildTreeFromVector(
@@ -710,33 +716,35 @@ struct BinaryTreeSerializationTraits<
 
     for (auto& x : data) {
       nodes.emplace_back(x == "null" ? nullptr
-                                     : new node_type(key_traits::Parse(x)));
+                                     : new node_type{key_traits::Parse(x)});
     }
     std::vector<node_type*> candidate_children(std::rbegin(nodes),
                                                std::rend(nodes));
     auto root = serialization_type(candidate_children.back());
     candidate_children.pop_back();
 
+    using traits_helper = BinaryTreeSerializationTraitsHelper<HasParent>;
+
     for (const auto& node : nodes) {
       if (node) {
         if (!candidate_children.empty()) {
           node->left = serialization_type(candidate_children.back());
           if (node->left) {
-            BinaryTreeSerializationTraitsHelper<HasParent>::InitParent(
-                node->left, node);
+            traits_helper::InitParent(node->left, node);
           }
           candidate_children.pop_back();
-        } else
+        } else {
           node->left = nullptr;
+        }
         if (!candidate_children.empty()) {
           node->right = serialization_type(candidate_children.back());
           if (node->right) {
-            BinaryTreeSerializationTraitsHelper<HasParent>::InitParent(
-                node->right, node);
+            traits_helper::InitParent(node->right, node);
           }
           candidate_children.pop_back();
-        } else
+        } else {
           node->right = nullptr;
+        }
       }
     }
     return root;
@@ -746,20 +754,16 @@ struct BinaryTreeSerializationTraits<
                     const serialization_type& b) {
     return EqualBinaryTrees(a, b);
   }
-
-  static void Print(std::ostream& out, const serialization_type& x) {
-    out << BinaryTreeToString(x);
-  }
 };
 
 #define DECLARE_BINARY_TREE_TYPE(KeyType, NodePtrType, HasParent) \
   template <typename KeyType>                                     \
   struct SerializationTraits<NodePtrType>                         \
       : BinaryTreeSerializationTraits<NodePtrType, HasParent> {}; \
-  namespace {                                                     \
+  namespace detail {                                              \
   template <typename KeyType>                                     \
   struct IsBinaryTreeImpl<NodePtrType> : std::true_type {};       \
-  }  // namespace                                                 \
+  }  // namespace
 
 /**
  * A specialization for handling types with modifiers.
@@ -816,9 +820,21 @@ struct UserSerTraits : SerializationTraits<std::tuple<Members...>> {
     return SerializationTraits<UserType>::FromTuple(t);
   }
 
-  static serialization_type JsonParse(std::istream& in) {
-    auto t = SerializationTraits<std::tuple<Members...>>::JsonParse(in);
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
+    auto t =
+        SerializationTraits<std::tuple<Members...>>::JsonParse(json_object);
     return SerializationTraits<UserType>::FromTuple(t);
+  }
+
+  static std::vector<std::string> GetMetricNames(
+      const std::string& arg_name) {
+    static_assert(sizeof(UserType) < 0, "Must be overriden for user types");
+    return {};
+  }
+
+  static std::vector<int> GetMetrics(const serialization_type& x) {
+    static_assert(sizeof(UserType) < 0, "Must be overriden for user types");
+    return {};
   }
 
   static serialization_type FromTuple(const std::tuple<Members...>& values) {

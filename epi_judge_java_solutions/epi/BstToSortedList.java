@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BstToSortedList {
+
   private static class HeadAndTail {
     public BstNode<Integer> head;
     public BstNode<Integer> tail;
@@ -20,6 +21,7 @@ public class BstToSortedList {
   }
 
   public static BstNode<Integer> bstToDoublyLinkedList(BstNode<Integer> tree) {
+
     return bstToDoublyLinkedListHelper(tree).head;
   }
 
@@ -52,7 +54,7 @@ public class BstToSortedList {
                            right.tail != null ? right.tail : tree);
   }
 
-  @EpiTest(testfile = "bst_to_sorted_list.tsv")
+  @EpiTest(testDataFile = "bst_to_sorted_list.tsv")
   public static List<Integer>
   bstToDoublyLinkedListWrapper(TimedExecutor executor, BstNode<Integer> tree)
       throws Exception {
@@ -72,9 +74,10 @@ public class BstToSortedList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BstToSortedList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

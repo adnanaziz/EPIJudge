@@ -1,25 +1,21 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
 import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
-
 public class PowerSet {
-  @EpiTest(testfile = "power_set.tsv")
+  @EpiTest(testDataFile = "power_set.tsv")
 
   public static List<List<Integer>> generatePowerSet(List<Integer> inputSet) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
-
   @EpiTestComparator
-      public static BiPredicate < List<List<Integer>>,
-      List < List<Integer>>> comp = (expected, result) -> {
+  public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }
@@ -35,9 +31,10 @@ public class PowerSet {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PowerSet.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

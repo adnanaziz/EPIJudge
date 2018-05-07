@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class ElementAppearingOnce {
-  @EpiTest(testfile = "element_appearing_once.tsv")
+  @EpiTest(testDataFile = "element_appearing_once.tsv")
+
   public static int findElementAppearsOnce(List<Integer> A) {
+
     int[] counts = new int[32];
     for (int x : A) {
       for (int i = 0; i < 32; ++i) {
@@ -21,9 +23,10 @@ public class ElementAppearingOnce {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ElementAppearingOnce.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

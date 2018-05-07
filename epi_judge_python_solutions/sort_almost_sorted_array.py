@@ -1,11 +1,11 @@
 import heapq
 import itertools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def sort_approximately_sorted_array(sequence, k):
+
     min_heap = []
     # Adds the first k elements into min_heap. Stop if there are fewer than k
     # elements.
@@ -33,5 +33,5 @@ def sort_approximately_sorted_array_wrapper(sequence, k):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            'sort_almost_sorted_array.tsv',
+            "sort_almost_sorted_array.py", 'sort_almost_sorted_array.tsv',
             sort_approximately_sorted_array_wrapper))

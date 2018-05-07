@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class IsStringPalindromicPunctuation {
-  @EpiTest(testfile = "is_string_palindromic_punctuation.tsv")
+  @EpiTest(testDataFile = "is_string_palindromic_punctuation.tsv")
+
   public static boolean isPalindrome(String s) {
+
     // i moves forward, and j moves backward.
     int i = 0, j = s.length() - 1;
     while (i < j) {
@@ -25,9 +27,10 @@ public class IsStringPalindromicPunctuation {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsStringPalindromicPunctuation.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

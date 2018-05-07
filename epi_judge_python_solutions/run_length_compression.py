@@ -1,11 +1,11 @@
 import itertools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 def decoding(s):
+
     count, result = 0, []
     for c in s:
         if c.isdigit():
@@ -17,6 +17,7 @@ def decoding(s):
 
 
 def encoding(s):
+
     result, count = [], 1
     for i in range(1, len(s) + 1):
         if i == len(s) or s[i] != s[i - 1]:
@@ -41,5 +42,6 @@ def rle_tester(encoded, decoded):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('run_length_compression.tsv',
+        generic_test.generic_test_main("run_length_compression.py",
+                                       'run_length_compression.tsv',
                                        rle_tester))

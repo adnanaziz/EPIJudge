@@ -4,9 +4,11 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class DeleteKthLastFromList {
-  @EpiTest(testfile = "delete_kth_last_from_list.tsv")
+  @EpiTest(testDataFile = "delete_kth_last_from_list.tsv")
+
   // Assumes L has at least k nodes, deletes the k-th last node in L.
   public static ListNode<Integer> removeKthLast(ListNode<Integer> L, int k) {
+
     ListNode<Integer> dummyHead = new ListNode<>(0, L);
     ListNode<Integer> first = dummyHead.next;
     while (k-- > 0) {
@@ -24,9 +26,10 @@ public class DeleteKthLastFromList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DeleteKthLastFromList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

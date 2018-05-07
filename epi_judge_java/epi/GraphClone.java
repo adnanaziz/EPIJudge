@@ -1,10 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
-
 public class GraphClone {
 
   public static class GraphVertex {
@@ -27,10 +24,9 @@ public class GraphClone {
   }
 
   public static GraphVertex cloneGraph(GraphVertex graph) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return new GraphVertex(0);
   }
-
   private static List<Integer> copyLabels(List<GraphVertex> edges) {
     List<Integer> labels = new ArrayList<>();
     for (GraphVertex e : edges) {
@@ -41,6 +37,10 @@ public class GraphClone {
 
   private static void checkGraph(GraphVertex node, List<GraphVertex> graph)
       throws TestFailure {
+    if (node == null) {
+      throw new TestFailure("Graph was not copied");
+    }
+
     Set<GraphVertex> vertexSet = new HashSet<>();
     Queue<GraphVertex> q = new ArrayDeque<>();
     q.add(node);
@@ -77,7 +77,7 @@ public class GraphClone {
     }
   }
 
-  @EpiTest(testfile = "graph_clone.tsv")
+  @EpiTest(testDataFile = "graph_clone.tsv")
   public static void cloneGraphTest(int k, List<Edge> edges)
       throws TestFailure {
     if (k <= 0) {
@@ -98,9 +98,10 @@ public class GraphClone {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "GraphClone.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

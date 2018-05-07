@@ -8,8 +8,10 @@ import java.util.Deque;
 import java.util.List;
 
 public class LargestRectangleUnderSkyline {
-  @EpiTest(testfile = "largest_rectangle_under_skyline.tsv")
+  @EpiTest(testDataFile = "largest_rectangle_under_skyline.tsv")
+
   public static int calculateLargestRectangle(List<Integer> heights) {
+
     Deque<Integer> pillarIndices = new ArrayDeque<>();
     int maxRectangleArea = 0;
     // By iterating to heights.size() instead of heights.size() - 1, we can
@@ -35,9 +37,10 @@ public class LargestRectangleUnderSkyline {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LargestRectangleUnderSkyline.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

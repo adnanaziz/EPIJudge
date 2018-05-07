@@ -1,23 +1,19 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-
 public class EnumerateTrees {
 
   public static List<BinaryTreeNode<Integer>>
   generateAllBinaryTrees(int numNodes) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   public static List<Integer> serializeStructure(BinaryTreeNode<Integer> tree) {
     List<Integer> result = new ArrayList<>();
     Stack<BinaryTreeNode<Integer>> stack = new Stack<>();
@@ -33,7 +29,7 @@ public class EnumerateTrees {
     return result;
   }
 
-  @EpiTest(testfile = "enumerate_trees.tsv")
+  @EpiTest(testDataFile = "enumerate_trees.tsv")
   public static List<List<Integer>>
   generateAllBinaryTreesWrapper(TimedExecutor executor, int numNodes)
       throws Exception {
@@ -49,9 +45,10 @@ public class EnumerateTrees {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "EnumerateTrees.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

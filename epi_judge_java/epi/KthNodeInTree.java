@@ -1,10 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 public class KthNodeInTree {
   public static class BinaryTreeNode<T> {
     public T data;
@@ -22,10 +20,9 @@ public class KthNodeInTree {
 
   public static BinaryTreeNode<Integer>
   findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
-
   public static BinaryTreeNode<Integer>
   convertToTreeWithSize(BinaryTree<Integer> original) {
     if (original == null)
@@ -37,7 +34,7 @@ public class KthNodeInTree {
     return new BinaryTreeNode<>(original.data, left, right, 1 + lSize + rSize);
   }
 
-  @EpiTest(testfile = "kth_node_in_tree.tsv")
+  @EpiTest(testDataFile = "kth_node_in_tree.tsv")
   public static int findKthNodeBinaryTreeWrapper(TimedExecutor executor,
                                                  BinaryTree<Integer> tree,
                                                  int k) throws Exception {
@@ -53,9 +50,10 @@ public class KthNodeInTree {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "KthNodeInTree.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

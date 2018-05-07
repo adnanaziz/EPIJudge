@@ -7,8 +7,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class NextPermutation {
-  @EpiTest(testfile = "next_permutation.tsv")
+
+  @EpiTest(testDataFile = "next_permutation.tsv")
   public static List<Integer> nextPermutation(List<Integer> perm) {
+
     // Find the first entry from the right that is smaller than the entry
     // immediately after it.
     int inversionPoint = perm.size() - 2;
@@ -38,9 +40,10 @@ public class NextPermutation {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "NextPermutation.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

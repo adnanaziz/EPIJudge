@@ -12,6 +12,7 @@ struct Status;
 Status LCAHelper(const unique_ptr<BinaryTreeNode<int>>&,
                  const unique_ptr<BinaryTreeNode<int>>&,
                  const unique_ptr<BinaryTreeNode<int>>&);
+
 struct Status {
   int num_target_nodes;
   BinaryTreeNode<int>* ancestor;
@@ -67,6 +68,7 @@ int LcaWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree", "key0", "key1"};
-  return GenericTestMain(args, "lowest_common_ancestor.tsv", &LcaWrapper,
+  return GenericTestMain(args, "lowest_common_ancestor.cc",
+                         "lowest_common_ancestor.tsv", &LcaWrapper,
                          DefaultComparator{}, param_names);
 }

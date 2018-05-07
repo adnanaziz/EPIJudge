@@ -42,6 +42,6 @@ void DirectedGenerateBalancedParentheses(int num_left_parens_needed,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"num_pairs"};
-  return GenericTestMain(args, "enumerate_balanced_parentheses.tsv", &GenerateBalancedParentheses, &UnorderedComparator<vector<string>>, param_names);
+  return GenericTestMain(args, "enumerate_balanced_parentheses.cc", "enumerate_balanced_parentheses.tsv", &GenerateBalancedParentheses, &UnorderedComparator<vector<string>>, param_names);
 }
 // clang-format on

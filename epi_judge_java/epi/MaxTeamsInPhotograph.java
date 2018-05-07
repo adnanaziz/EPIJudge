@@ -1,13 +1,10 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class MaxTeamsInPhotograph {
 
   public static class GraphVertex {
@@ -17,10 +14,9 @@ public class MaxTeamsInPhotograph {
   }
 
   public static int findLargestNumberTeams(List<GraphVertex> graph) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
-
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;
@@ -32,7 +28,7 @@ public class MaxTeamsInPhotograph {
     }
   }
 
-  @EpiTest(testfile = "max_teams_in_photograph.tsv")
+  @EpiTest(testDataFile = "max_teams_in_photograph.tsv")
   public static int findLargestNumberTeamsWrapper(TimedExecutor executor, int k,
                                                   List<Edge> edges)
       throws Exception {
@@ -54,9 +50,10 @@ public class MaxTeamsInPhotograph {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxTeamsInPhotograph.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

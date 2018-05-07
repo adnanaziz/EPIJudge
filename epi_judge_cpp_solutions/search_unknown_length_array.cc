@@ -16,7 +16,7 @@ int BinarySearchUnknownLength(const vector<int>& A, int k) {
       } else if (A.at(idx) > k) {
         break;
       }
-    } catch (const exception& e) {
+    } catch (const exception&) {
       break;
     }
     ++p;
@@ -34,7 +34,7 @@ int BinarySearchUnknownLength(const vector<int>& A, int k) {
       } else {  // A.at(mid) < k
         left = mid + 1;
       }
-    } catch (const exception& e) {
+    } catch (const exception&) {
       right = mid - 1;  // Search the left part if out-of-bound.
     }
   }
@@ -47,6 +47,6 @@ int BinarySearchUnknownLength(const vector<int>& A, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"A", "k"};
-  return GenericTestMain(args, "search_unknown_length_array.tsv", &BinarySearchUnknownLength, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "search_unknown_length_array.cc", "search_unknown_length_array.tsv", &BinarySearchUnknownLength, DefaultComparator{}, param_names);
 }
 // clang-format on

@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class CircularQueue {
+
   public static class Queue {
+
     private int head = 0, tail = 0, numQueueElements = 0;
     private static final int SCALE_FACTOR = 2;
     private Integer[] entries;
@@ -19,6 +21,7 @@ public class CircularQueue {
     public Queue(int capacity) { entries = new Integer[capacity]; }
 
     public void enqueue(Integer x) {
+
       if (numQueueElements == entries.length) { // Need to resize.
         // Makes the queue elements appear consecutively.
         Collections.rotate(Arrays.asList(entries), -head);
@@ -34,6 +37,7 @@ public class CircularQueue {
     }
 
     public Integer dequeue() {
+
       if (numQueueElements != 0) {
         --numQueueElements;
         Integer result = entries[head];
@@ -47,6 +51,7 @@ public class CircularQueue {
 
     @Override
     public String toString() {
+
       return "Queue{"
           + "head=" + head + ", tail=" + tail +
           ", entries=" + Arrays.toString(entries) + '}';
@@ -69,7 +74,7 @@ public class CircularQueue {
     }
   }
 
-  @EpiTest(testfile = "circular_queue.tsv")
+  @EpiTest(testDataFile = "circular_queue.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     Queue q = new Queue(1);
     int opIdx = 0;
@@ -105,9 +110,10 @@ public class CircularQueue {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CircularQueue.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

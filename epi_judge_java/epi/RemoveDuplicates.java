@@ -1,16 +1,12 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
 import epi.test_framework.EpiTestExpectedType;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
-
 public class RemoveDuplicates {
   @EpiUserType(ctorParams = {String.class, String.class})
   //@include
@@ -49,13 +45,11 @@ public class RemoveDuplicates {
       return lastName.compareTo(name.lastName);
     }
   }
-
   public static void eliminateDuplicate(List<Name> names) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
-
-  @EpiTest(testfile = "remove_duplicates.tsv")
+  @EpiTest(testDataFile = "remove_duplicates.tsv")
   public static List<Name> eliminateDuplicateWrapper(List<Name> names) {
     eliminateDuplicate(names);
     return names;
@@ -80,14 +74,13 @@ public class RemoveDuplicates {
     return true;
   };
 
-  @EpiTestExpectedType
-  public static List<Class<?>> expectedType =
-      Arrays.asList(List.class, String.class);
+  @EpiTestExpectedType public static List<String> expectedType;
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RemoveDuplicates.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

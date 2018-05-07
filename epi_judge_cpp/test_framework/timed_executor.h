@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <chrono>
@@ -24,17 +24,11 @@ class TimedExecutor {
   template <typename Func>
   decltype(auto) Run(Func func) {
     if (timeout_seconds_ == timeout_seconds_.zero()) {
-      // timeout is disabled
-      timer_.Start();
-      OnScopeExit timer_stopper(std::bind(&TestTimer::Stop, &timer_));
-
-      return func();
+      // Timeout is disabled.
+      return TimedCall(func);
     } else {
-      auto future = std::async(std::launch::async, [&] {
-        timer_.Start();
-        OnScopeExit timer_stopper(std::bind(&TestTimer::Stop, &timer_));
-        return func();
-      });
+      auto future =
+          std::async(std::launch::async, [&] { return TimedCall(func); });
 
       if (future.wait_for(timeout_seconds_) == std::future_status::ready) {
         return future.get();
@@ -42,6 +36,13 @@ class TimedExecutor {
         throw TimeoutException(timeout_seconds_);
       }
     }
+  }
+
+  template <typename Func>
+  decltype(auto) TimedCall(Func func) {
+    timer_.Start();
+    OnScopeExit timer_stopper(std::bind(&TestTimer::Stop, &timer_));
+    return func();
   }
 
   const TestTimer& GetTimer() const { return timer_; }

@@ -1,12 +1,12 @@
 import math
-from sys import exit
 
 import bintrees
 
-from test_framework import generic_test, test_utils
-
+from test_framework import generic_test
 
 # These numbers have very interesting property, and people called it ugly numbers. It is also called quadratic integer rings.
+
+
 class Number:
     def __init__(self, a, b):
         self.a, self.b = a, b
@@ -20,6 +20,7 @@ class Number:
 
 
 def generate_first_k_a_b_sqrt2(k):
+
     # Initial for 0 + 0 * sqrt(2).
     candidates = bintrees.RBTree([(Number(0, 0), None)])
 
@@ -35,5 +36,5 @@ def generate_first_k_a_b_sqrt2(k):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('a_b_sqrt2.tsv',
+        generic_test.generic_test_main("a_b_sqrt2.py", 'a_b_sqrt2.tsv',
                                        generate_first_k_a_b_sqrt2))

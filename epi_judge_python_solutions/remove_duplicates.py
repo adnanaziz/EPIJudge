@@ -1,8 +1,7 @@
 import functools
 import itertools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
@@ -23,6 +22,7 @@ class Name:
 
 
 def eliminate_duplicate(A):
+
     A.sort()  # Makes identical elements become neighbors.
     write_idx = 1
     for cand in A[1:]:
@@ -58,5 +58,6 @@ def comp(expected, result):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('remove_duplicates.tsv',
+        generic_test.generic_test_main("remove_duplicates.py",
+                                       'remove_duplicates.tsv',
                                        eliminate_duplicate_wrapper, comp))

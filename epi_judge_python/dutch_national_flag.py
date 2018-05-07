@@ -1,7 +1,6 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -9,7 +8,7 @@ RED, WHITE, BLUE = range(3)
 
 
 def dutch_flag_partition(pivot_index, A):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return
 
 
@@ -41,5 +40,6 @@ def dutch_flag_partition_wrapper(executor, A, pivot_idx):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('dutch_national_flag.tsv',
+        generic_test.generic_test_main("dutch_national_flag.py",
+                                       'dutch_national_flag.tsv',
                                        dutch_flag_partition_wrapper))

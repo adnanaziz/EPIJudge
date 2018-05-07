@@ -1,3 +1,6 @@
+from test_framework import generic_test, test_utils
+
+
 def combinations(n, k):
     def directed_combinations(offset, partial_combination):
         if len(partial_combination) == k:
@@ -25,13 +28,10 @@ def combinations_pythonic(n, k):
     return result
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "combinations.py",
             'combinations.tsv',
             combinations,
             comparator=test_utils.unordered_compare))

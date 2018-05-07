@@ -3,13 +3,14 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BuyAndSellStockTwice {
-  @EpiTest(testfile = "buy_and_sell_stock_twice.tsv")
+
+  @EpiTest(testDataFile = "buy_and_sell_stock_twice.tsv")
   public static double buyAndSellStockTwice(List<Double> prices) {
+
     double maxTotalProfit = 0.0;
     List<Double> firstBuySellProfits = new ArrayList<>();
     double minPriceSoFar = Double.MAX_VALUE;
@@ -35,8 +36,8 @@ public class BuyAndSellStockTwice {
   }
 
   private static double buyAndSellStockTwiceConstantSpace(List<Double> prices) {
-    List<Double> minPrices = Arrays.asList(Double.MAX_VALUE, Double.MAX_VALUE),
-                 maxProfits = Arrays.asList(0.0, 0.0);
+    List<Double> minPrices = List.of(Double.MAX_VALUE, Double.MAX_VALUE),
+                 maxProfits = List.of(0.0, 0.0);
     for (Double price : prices) {
       for (int i = 1; i >= 0; --i) {
         maxProfits.set(i,
@@ -50,9 +51,10 @@ public class BuyAndSellStockTwice {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BuyAndSellStockTwice.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

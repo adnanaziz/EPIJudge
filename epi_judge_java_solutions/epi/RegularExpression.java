@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class RegularExpression {
-  @EpiTest(testfile = "regular_expression.tsv")
+  @EpiTest(testDataFile = "regular_expression.tsv")
+
   public static boolean isMatch(String regex, String s) {
+
     // Case (2.): regex starts with '^'.
     if (regex.charAt(0) == '^') {
       return isMatchHere(regex.substring(1), s);
@@ -52,9 +54,10 @@ public class RegularExpression {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RegularExpression.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

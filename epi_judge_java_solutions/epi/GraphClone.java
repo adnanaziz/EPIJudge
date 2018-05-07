@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class GraphClone {
+
   public static class GraphVertex {
     public int label;
     public List<GraphVertex> edges;
@@ -28,6 +29,7 @@ public class GraphClone {
   }
 
   public static GraphVertex cloneGraph(GraphVertex graph) {
+
     if (graph == null) {
       return null;
     }
@@ -60,6 +62,10 @@ public class GraphClone {
 
   private static void checkGraph(GraphVertex node, List<GraphVertex> graph)
       throws TestFailure {
+    if (node == null) {
+      throw new TestFailure("Graph was not copied");
+    }
+
     Set<GraphVertex> vertexSet = new HashSet<>();
     Queue<GraphVertex> q = new ArrayDeque<>();
     q.add(node);
@@ -96,7 +102,7 @@ public class GraphClone {
     }
   }
 
-  @EpiTest(testfile = "graph_clone.tsv")
+  @EpiTest(testDataFile = "graph_clone.tsv")
   public static void cloneGraphTest(int k, List<Edge> edges)
       throws TestFailure {
     if (k <= 0) {
@@ -117,9 +123,10 @@ public class GraphClone {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "GraphClone.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

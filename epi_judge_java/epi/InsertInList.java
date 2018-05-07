@@ -1,19 +1,16 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
-
 public class InsertInList {
 
   // Insert newNode after node.
   public static void insertAfter(ListNode<Integer> node,
                                  ListNode<Integer> newNode) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
-
-  @EpiTest(testfile = "insert_in_list.tsv")
+  @EpiTest(testDataFile = "insert_in_list.tsv")
   public static ListNode<Integer>
   insertListWrapper(TimedExecutor executor, ListNode<Integer> l, int nodeIdx,
                     int newNodeData) throws Exception {
@@ -31,9 +28,10 @@ public class InsertInList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "InsertInList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

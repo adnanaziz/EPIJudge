@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def calculate_largest_rectangle(heights):
+
     pillar_indices, max_rectangle_area = [], 0
     # By appending [0] to heights, we can uniformly handle the computation for
     # rectangle area here.
@@ -11,11 +15,8 @@ def calculate_largest_rectangle(heights):
     return max_rectangle_area
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('largest_rectangle_under_skyline.tsv',
+        generic_test.generic_test_main("largest_rectangle_under_skyline.py",
+                                       'largest_rectangle_under_skyline.tsv',
                                        calculate_largest_rectangle))

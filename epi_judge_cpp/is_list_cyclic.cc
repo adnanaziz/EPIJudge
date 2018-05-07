@@ -1,17 +1,14 @@
 #include <memory>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::shared_ptr;
 
 shared_ptr<ListNode<int>> HasCycle(const shared_ptr<ListNode<int>>& head) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
-
 void HasCycleWrapper(TimedExecutor& executor,
                      const shared_ptr<ListNode<int>>& head, int cycle_idx) {
   int cycle_length = 0;
@@ -70,6 +67,6 @@ void HasCycleWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "head", "cycle_idx"};
-  return GenericTestMain(args, "is_list_cyclic.tsv", &HasCycleWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "is_list_cyclic.cc", "is_list_cyclic.tsv",
+                         &HasCycleWrapper, DefaultComparator{}, param_names);
 }

@@ -1,11 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.List;
-
 public class LineThroughMostPoints {
   @EpiUserType(ctorParams = {int.class, int.class})
 
@@ -18,17 +15,18 @@ public class LineThroughMostPoints {
     }
   }
 
-  @EpiTest(testfile = "line_through_most_points.tsv")
+  @EpiTest(testDataFile = "line_through_most_points.tsv")
 
   public static int findLineWithMostPoints(List<Point> points) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LineThroughMostPoints.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

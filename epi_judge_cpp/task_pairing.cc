@@ -1,10 +1,8 @@
 #include <tuple>
 #include <vector>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
-
+#include "test_framework/serialization_traits.h"
 using std::vector;
 
 struct PairedTasks {
@@ -12,10 +10,9 @@ struct PairedTasks {
 };
 
 vector<PairedTasks> OptimumTaskAssignment(vector<int> task_durations) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
-
 template <>
 struct SerializationTraits<PairedTasks> : UserSerTraits<PairedTasks, int, int> {
 };
@@ -31,6 +28,7 @@ std::ostream& operator<<(std::ostream& out, const PairedTasks& t) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"task_durations"};
-  return GenericTestMain(args, "task_pairing.tsv", &OptimumTaskAssignment,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "task_pairing.cc", "task_pairing.tsv",
+                         &OptimumTaskAssignment, DefaultComparator{},
+                         param_names);
 }

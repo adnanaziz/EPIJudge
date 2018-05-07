@@ -1,10 +1,10 @@
 import collections
-from sys import exit
 
 from test_framework import generic_test, test_utils
 
 
 def find_anagrams(dictionary):
+
     sorted_string_to_anagrams = collections.defaultdict(list)
     for s in dictionary:
         # Sorts the string, uses it as a key, and then appends the original
@@ -20,6 +20,7 @@ def find_anagrams(dictionary):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "anagrams.py",
             "anagrams.tsv",
             find_anagrams,
             comparator=test_utils.unordered_compare))

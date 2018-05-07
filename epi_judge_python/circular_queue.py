@@ -1,24 +1,22 @@
-from sys import exit
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 class Queue:
     def __init__(self, capacity):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def enqueue(self, x):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def dequeue(self):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return 0
 
     def size(self):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return 0
 
 
@@ -45,4 +43,6 @@ def queue_tester(ops):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('circular_queue.tsv', queue_tester))
+    exit(
+        generic_test.generic_test_main("circular_queue.py",
+                                       'circular_queue.tsv', queue_tester))

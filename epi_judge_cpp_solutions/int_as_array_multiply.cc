@@ -7,7 +7,7 @@ using std::abs;
 using std::vector;
 
 vector<int> Multiply(vector<int> num1, vector<int> num2) {
-  const int sign = num1.front() < 0 ^ num2.front() < 0 ? -1 : 1;
+  const int sign = (num1.front() < 0) ^ (num2.front() < 0) ? -1 : 1;
   num1.front() = abs(num1.front()), num2.front() = abs(num2.front());
 
   vector<int> result(size(num1) + size(num2), 0);
@@ -33,6 +33,7 @@ vector<int> Multiply(vector<int> num1, vector<int> num2) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"num1", "num2"};
-  return GenericTestMain(args, "int_as_array_multiply.tsv", &Multiply,
+  return GenericTestMain(args, "int_as_array_multiply.cc",
+                         "int_as_array_multiply.tsv", &Multiply,
                          DefaultComparator{}, param_names);
 }

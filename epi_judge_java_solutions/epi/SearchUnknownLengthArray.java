@@ -6,8 +6,10 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class SearchUnknownLengthArray {
-  @EpiTest(testfile = "search_unknown_length_array.tsv")
+  @EpiTest(testDataFile = "search_unknown_length_array.tsv")
+
   public static int binarySearchUnknownLength(List<Integer> A, int k) {
+
     // Find a range where k exists, if it's present.
     int p = 0;
     while (true) {
@@ -44,9 +46,10 @@ public class SearchUnknownLengthArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchUnknownLengthArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -5,7 +5,9 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
 public class StringIntegerInterconversion {
+
   public static String intToString(int x) {
+
     boolean isNegative = false;
     if (x < 0) {
       isNegative = true;
@@ -22,13 +24,14 @@ public class StringIntegerInterconversion {
   }
 
   public static int stringToInt(String s) {
+
     return (s.charAt(0) == '-' ? -1 : 1) *
         s.substring(s.charAt(0) == '-' ? 1 : 0)
             .chars()
             .reduce(0, (runningSum, c) -> runningSum * 10 + c - '0');
   }
 
-  @EpiTest(testfile = "string_integer_interconversion.tsv")
+  @EpiTest(testDataFile = "string_integer_interconversion.tsv")
   public static void wrapper(int x, String s) throws TestFailure {
     if (!intToString(x).equals(s)) {
       throw new TestFailure("Int to string conversion failed");
@@ -39,9 +42,10 @@ public class StringIntegerInterconversion {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "StringIntegerInterconversion.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,7 +1,6 @@
 import itertools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def maximum_revenue(coins):
@@ -48,5 +47,5 @@ def maximum_revenue_alternative(coins):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('picking_up_coins.tsv',
-                                       maximum_revenue))
+        generic_test.generic_test_main(
+            "picking_up_coins.py", 'picking_up_coins.tsv', maximum_revenue))

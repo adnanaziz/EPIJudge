@@ -58,6 +58,6 @@ int FindCircularMaxSubarray(const vector<int>& A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"A"};
-  return GenericTestMain(args, "maximum_subarray_in_circular_array.tsv", &MaxSubarraySumInCircular, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "maximum_subarray_in_circular_array.cc", "maximum_subarray_in_circular_array.tsv", &MaxSubarraySumInCircular, DefaultComparator{}, param_names);
 }
 // clang-format on

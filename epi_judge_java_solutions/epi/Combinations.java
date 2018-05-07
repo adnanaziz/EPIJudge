@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class Combinations {
-  @EpiTest(testfile = "combinations.tsv")
+  @EpiTest(testDataFile = "combinations.tsv")
+
   public static List<List<Integer>> combinations(int n, int k) {
+
     List<List<Integer>> result = new ArrayList<>();
     directedCombinations(n, k, 1, new ArrayList<Integer>(), result);
     return result;
@@ -37,8 +39,8 @@ public class Combinations {
   }
 
   @EpiTestComparator
-      public static BiPredicate < List<List<Integer>>,
-      List < List<Integer>>> comp = (expected, result) -> {
+  public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
+      (expected, result) -> {
     if (result == null) {
       return false;
     }
@@ -48,9 +50,10 @@ public class Combinations {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Combinations.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

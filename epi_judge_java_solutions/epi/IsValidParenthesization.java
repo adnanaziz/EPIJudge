@@ -5,21 +5,16 @@ import epi.test_framework.GenericTest;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.Map;
 
 public class IsValidParenthesization {
-  @EpiTest(testfile = "is_valid_parenthesization.tsv")
+  @EpiTest(testDataFile = "is_valid_parenthesization.tsv")
+
   public static boolean isWellFormed(String s) {
+
     Deque<Character> leftChars = new ArrayDeque<>();
     final Map<Character, Character> LOOKUP =
-        new HashMap<Character, Character>() {
-          {
-            put('(', ')');
-            put('{', '}');
-            put('[', ']');
-          }
-        };
+        Map.of('(', ')', '{', '}', '[', ']');
     for (int i = 0; i < s.length(); ++i) {
       if (LOOKUP.get(s.charAt(i)) != null) {
         leftChars.addFirst(s.charAt(i));
@@ -32,9 +27,10 @@ public class IsValidParenthesization {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsValidParenthesization.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

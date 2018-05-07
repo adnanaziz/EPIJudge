@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Knapsack {
   @EpiUserType(ctorParams = {Integer.class, Integer.class})
+
   public static class Item {
     public Integer weight;
     public Integer value;
@@ -19,8 +20,10 @@ public class Knapsack {
     }
   }
 
-  @EpiTest(testfile = "knapsack.tsv")
+  @EpiTest(testDataFile = "knapsack.tsv")
+
   public static int optimumSubjectToCapacity(List<Item> items, int capacity) {
+
     // V[i][j] holds the optimum value when we choose from
     // items.subList(0, i + 1) and have a capacity of j.
     int[][] V = new int[items.size()][capacity + 1];
@@ -57,9 +60,10 @@ public class Knapsack {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Knapsack.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

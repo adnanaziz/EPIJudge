@@ -1,9 +1,7 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 public class RectangleIntersection {
   @EpiUserType(ctorParams = {int.class, int.class, int.class, int.class})
   public static class Rectangle {
@@ -53,17 +51,17 @@ public class RectangleIntersection {
       return "[" + x + ", " + y + ", " + width + ", " + height + "]";
     }
   }
-
-  @EpiTest(testfile = "rectangle_intersection.tsv")
+  @EpiTest(testDataFile = "rectangle_intersection.tsv")
   public static Rectangle intersectRectangle(Rectangle R1, Rectangle R2) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return new Rectangle(0, 0, 0, 0);
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RectangleIntersection.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

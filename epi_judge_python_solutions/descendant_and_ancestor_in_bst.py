@@ -1,13 +1,13 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.binary_tree_utils import must_find_node
 from test_framework.test_utils import enable_executor_hook
 
 
 def pair_includes_ancestor_and_descendant_of_m(possible_anc_or_desc_0,
                                                possible_anc_or_desc_1, middle):
+
     search_0, search_1 = possible_anc_or_desc_0, possible_anc_or_desc_1
 
     # Perform interleaved searching from possible_anc_or_desc_0 and
@@ -60,5 +60,6 @@ def pair_includes_ancestor_and_descendant_of_m_wrapper(
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "descendant_and_ancestor_in_bst.py",
             'descendant_and_ancestor_in_bst.tsv',
             pair_includes_ancestor_and_descendant_of_m_wrapper))

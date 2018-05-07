@@ -1,12 +1,10 @@
 #include <iterator>
 #include <memory>
 #include <vector>
-
 #include "doubly_list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::make_shared;
 using std::vector;
 
@@ -15,10 +13,9 @@ using std::vector;
 // The length of the list is given.
 shared_ptr<ListNode<int>> BuildBSTFromSortedDoublyList(
     shared_ptr<ListNode<int>> l, int length) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
-
 void CompareVectorAndTree(const shared_ptr<ListNode<int>>& tree,
                           vector<int>::const_iterator& current,
                           const vector<int>::const_iterator& end) {
@@ -68,7 +65,7 @@ void BuildBSTFromSortedDoublyListWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "l"};
-  return GenericTestMain(args, "sorted_list_to_bst.tsv",
-                         &BuildBSTFromSortedDoublyListWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(
+      args, "sorted_list_to_bst.cc", "sorted_list_to_bst.tsv",
+      &BuildBSTFromSortedDoublyListWrapper, DefaultComparator{}, param_names);
 }

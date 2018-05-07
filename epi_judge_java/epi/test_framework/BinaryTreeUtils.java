@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 import epi.BinaryTree;
@@ -226,6 +226,14 @@ public class BinaryTreeUtils {
     }
     return 1 + Math.max(binaryTreeHeight(getLeft(tree)),
                         binaryTreeHeight(getRight(tree)));
+  }
+
+  public static <Node> int binaryTreeSize(Node tree) {
+    if (tree == null) {
+      return 0;
+    }
+
+    return 1 + binaryTreeSize(getLeft(tree)) + binaryTreeSize(getRight(tree));
   }
 
   // Java framework specific methods

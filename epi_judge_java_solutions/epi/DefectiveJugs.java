@@ -11,6 +11,7 @@ import java.util.Set;
 
 public class DefectiveJugs {
   @EpiUserType(ctorParams = {int.class, int.class})
+
   public static class Jug {
     public int low, high;
 
@@ -49,8 +50,10 @@ public class DefectiveJugs {
     }
   }
 
-  @EpiTest(testfile = "defective_jugs.tsv")
+  @EpiTest(testDataFile = "defective_jugs.tsv")
+
   public static boolean checkFeasible(List<Jug> jugs, int L, int H) {
+
     return checkFeasibleHelper(jugs, L, H, new HashSet<>());
   }
 
@@ -72,9 +75,10 @@ public class DefectiveJugs {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DefectiveJugs.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class IntSquareRoot {
-  @EpiTest(testfile = "int_square_root.tsv")
+  @EpiTest(testDataFile = "int_square_root.tsv")
+
   public static int squareRoot(int k) {
+
     long left = 0, right = k;
     // Candidate interval [left, right] where everything before left has
     // square <= k, and everything after right has square > k.
@@ -22,9 +24,10 @@ public class IntSquareRoot {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IntSquareRoot.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

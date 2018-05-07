@@ -1,4 +1,4 @@
-# @library
+
 import statistics
 import time
 

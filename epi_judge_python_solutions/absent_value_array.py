@@ -1,11 +1,11 @@
 import itertools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 def find_missing_element(stream):
+
     NUM_BUCKET = 1 << 16
     counter = [0] * NUM_BUCKET
     stream, stream_copy = itertools.tee(stream)
@@ -46,5 +46,6 @@ def find_missing_element_wrapper(data):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('absent_value_array.tsv',
+        generic_test.generic_test_main("absent_value_array.py",
+                                       'absent_value_array.tsv',
                                        find_missing_element_wrapper))

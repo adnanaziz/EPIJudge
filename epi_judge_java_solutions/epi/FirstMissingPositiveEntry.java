@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class FirstMissingPositiveEntry {
-  @EpiTest(testfile = "first_missing_positive_entry.tsv")
+  @EpiTest(testDataFile = "first_missing_positive_entry.tsv")
+
   public static int findFirstMissingPositive(List<Integer> A) {
+
     // Record which values are present by writing A.get(i) to index A.get(i) - 1
     // if A.get(i) is between 1 and A.size(), inclusive. We save the value at
     // index A.get(i) - 1 by swapping it with the entry at i. If A.get(i) is
@@ -32,9 +34,10 @@ public class FirstMissingPositiveEntry {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "FirstMissingPositiveEntry.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def test_collatz_conjecture(n):
+
     # Stores odd numbers already tested to converge to 1.
     verified_numbers = set()
 
@@ -24,11 +28,8 @@ def test_collatz_conjecture(n):
     return True
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('collatz_checker.tsv',
+        generic_test.generic_test_main("collatz_checker.py",
+                                       'collatz_checker.tsv',
                                        test_collatz_conjecture))

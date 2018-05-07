@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class ValidIpAddresses {
-  @EpiTest(testfile = "valid_ip_addresses.tsv")
+  @EpiTest(testDataFile = "valid_ip_addresses.tsv")
+
   public static List<String> getValidIpAddress(String s) {
+
     List<String> result = new ArrayList<>();
     for (int i = 1; i < 4 && i < s.length(); ++i) {
       final String first = s.substring(0, i);
@@ -57,9 +59,10 @@ public class ValidIpAddresses {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ValidIpAddresses.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

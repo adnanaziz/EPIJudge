@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PascalTriangle {
-  @EpiTest(testfile = "pascal_triangle.tsv")
+  @EpiTest(testDataFile = "pascal_triangle.tsv")
+
   public static List<List<Integer>> generatePascalTriangle(int numRows) {
+
     List<List<Integer>> pascalTriangle = new ArrayList<>();
     for (int i = 0; i < numRows; ++i) {
       List<Integer> currRow = new ArrayList<>();
@@ -25,9 +27,10 @@ public class PascalTriangle {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PascalTriangle.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

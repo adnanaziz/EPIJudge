@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 import java.util.concurrent.Callable;
@@ -28,20 +28,13 @@ public class TimedExecutor {
   public <ReturnType> ReturnType run(Callable<ReturnType> func)
       throws Exception {
     if (timeoutSeconds == 0) {
-      // timeout is disabled
-      timer.start();
-      ReturnType result = func.call();
-      timer.stop();
-      return result;
+      // Timeout is disabled.
+      return timedCall(func);
     } else {
       try {
         final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Future<ReturnType> future = executor.submit(() -> {
-          timer.start();
-          ReturnType result = func.call();
-          timer.stop();
-          return result;
-        });
+        final Future<ReturnType> future =
+            executor.submit(() -> { return timedCall(func); });
 
         // This does not cancel the already-scheduled task.
         executor.shutdown();
@@ -61,6 +54,14 @@ public class TimedExecutor {
         }
       }
     }
+  }
+
+  private <ReturnType> ReturnType timedCall(Callable<ReturnType> func)
+      throws Exception {
+    timer.start();
+    ReturnType result = func.call();
+    timer.stop();
+    return result;
   }
 
   /**

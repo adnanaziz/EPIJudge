@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-#include "test_framework/test_utils_serialization_traits.h"
 #include "test_framework/timed_executor.h"
 
 using std::function;
@@ -30,7 +30,7 @@ void GroupByAge(vector<Person>* people) {
   }
   unordered_map<int, int> age_to_offset;
   int offset = 0;
-  for (const auto & [ age, count ] : age_to_count) {
+  for (const auto& [age, count] : age_to_count) {
     age_to_offset[age] = offset;
     offset += count;
   }
@@ -87,6 +87,7 @@ void GroupByAgeWrapper(TimedExecutor& executor, vector<Person>& people) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "people"};
-  return GenericTestMain(args, "group_equal_entries.tsv", &GroupByAgeWrapper,
+  return GenericTestMain(args, "group_equal_entries.cc",
+                         "group_equal_entries.tsv", &GroupByAgeWrapper,
                          DefaultComparator{}, param_names);
 }

@@ -11,13 +11,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueFromStacks {
+
   public static class Queue {
+
     private Deque<Integer> enqueue = new ArrayDeque<>();
     private Deque<Integer> dequeue = new ArrayDeque<>();
 
     public void enqueue(Integer x) { enqueue.addFirst(x); }
 
     public Integer dequeue() {
+
       if (dequeue.isEmpty()) {
         // Transfers the elements from enqueue to dequeue.
         while (!enqueue.isEmpty()) {
@@ -43,7 +46,7 @@ public class QueueFromStacks {
     }
   }
 
-  @EpiTest(testfile = "queue_from_stacks.tsv")
+  @EpiTest(testDataFile = "queue_from_stacks.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     try {
       Queue q = new Queue();
@@ -72,9 +75,10 @@ public class QueueFromStacks {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "QueueFromStacks.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

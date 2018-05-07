@@ -46,6 +46,7 @@ vector<int> MergeSortedArrays(const vector<vector<int>>& sorted_arrays) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"sorted_arrays"};
-  return GenericTestMain(args, "sorted_arrays_merge.tsv", &MergeSortedArrays,
+  return GenericTestMain(args, "sorted_arrays_merge.cc",
+                         "sorted_arrays_merge.tsv", &MergeSortedArrays,
                          DefaultComparator{}, param_names);
 }

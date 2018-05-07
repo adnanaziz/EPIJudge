@@ -9,15 +9,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TreeLevelOrder {
-  @EpiTest(testfile = "tree_level_order.tsv")
+  @EpiTest(testDataFile = "tree_level_order.tsv")
+
   public static List<List<Integer>>
   binaryTreeDepthOrder(BinaryTreeNode<Integer> tree) {
+
     List<List<Integer>> result = new ArrayList<>();
     if (tree == null) {
       return result;
     }
 
-    List<BinaryTreeNode<Integer>> currDepthNodes = Arrays.asList(tree);
+    List<BinaryTreeNode<Integer>> currDepthNodes = List.of(tree);
     while (!currDepthNodes.isEmpty()) {
       result.add(currDepthNodes.stream()
                      .map(curr -> curr.data)
@@ -32,9 +34,10 @@ public class TreeLevelOrder {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeLevelOrder.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -4,9 +4,11 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class PathSum {
-  @EpiTest(testfile = "path_sum.tsv")
+  @EpiTest(testDataFile = "path_sum.tsv")
+
   public static boolean hasPathSum(BinaryTreeNode<Integer> tree,
                                    int remainingWeight) {
+
     if (tree == null) {
       return false;
     } else if (tree.left == null && tree.right == null) { // Leaf.
@@ -18,9 +20,10 @@ public class PathSum {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PathSum.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

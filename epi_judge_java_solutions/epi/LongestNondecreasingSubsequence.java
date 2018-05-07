@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class LongestNondecreasingSubsequence {
-  @EpiTest(testfile = "longest_nondecreasing_subsequence.tsv")
+  @EpiTest(testDataFile = "longest_nondecreasing_subsequence.tsv")
+
   public static int longestNondecreasingSubsequenceLength(List<Integer> A) {
+
     // maxLength[i] holds the length of the longest nondecreasing subsequence of
     // A.subList(0, i + 1).
     Integer[] maxLength = new Integer[A.size()];
@@ -21,13 +23,14 @@ public class LongestNondecreasingSubsequence {
         }
       }
     }
-    return Collections.max(Arrays.asList(maxLength));
+    return Collections.max(List.of(maxLength));
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LongestNondecreasingSubsequence.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

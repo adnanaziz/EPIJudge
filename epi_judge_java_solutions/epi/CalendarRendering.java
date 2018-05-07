@@ -4,12 +4,12 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CalendarRendering {
   @EpiUserType(ctorParams = {int.class, int.class})
+
   public static class Event {
     public int start, finish;
 
@@ -29,16 +29,17 @@ public class CalendarRendering {
     }
   }
 
-  @EpiTest(testfile = "calendar_rendering.tsv")
+  @EpiTest(testDataFile = "calendar_rendering.tsv")
+
   public static int findMaxSimultaneousEvents(List<Event> A) {
+
     // Builds an array of all endpoints.
-    List<Endpoint> E =
-        A.stream()
-            .map(event
-                 -> Arrays.asList(new Endpoint(event.start, true),
-                                  new Endpoint(event.finish, false)))
-            .flatMap(List::stream)
-            .collect(Collectors.toList());
+    List<Endpoint> E = A.stream()
+                           .map(event
+                                -> List.of(new Endpoint(event.start, true),
+                                           new Endpoint(event.finish, false)))
+                           .flatMap(List::stream)
+                           .collect(Collectors.toList());
     // Sorts the endpoint array according to the time, breaking ties
     // by putting start times before end times.
     E.sort((a, b) -> {
@@ -65,9 +66,10 @@ public class CalendarRendering {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CalendarRendering.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

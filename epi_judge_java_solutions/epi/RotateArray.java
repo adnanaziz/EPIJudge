@@ -9,7 +9,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class RotateArray {
+
   public static void rotateArray(int rotateAmount, List<Integer> A) {
+
     rotateAmount %= A.size();
     reverse(0, A.size(), A);
     reverse(0, rotateAmount, A);
@@ -22,7 +24,7 @@ public class RotateArray {
     }
   }
 
-  @EpiTest(testfile = "rotate_array.tsv")
+  @EpiTest(testDataFile = "rotate_array.tsv")
   public static List<Integer>
   rotateArrayWrapper(TimedExecutor executor, List<Integer> A, int rotateAmount)
       throws Exception {
@@ -33,9 +35,10 @@ public class RotateArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RotateArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

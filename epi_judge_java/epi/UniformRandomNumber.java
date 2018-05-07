@@ -1,15 +1,12 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 public class UniformRandomNumber {
   private static int zeroOneRandom() {
     Random gen = new Random();
@@ -17,10 +14,9 @@ public class UniformRandomNumber {
   }
 
   public static int uniformRandom(int lowerBound, int upperBound) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
-
   private static boolean uniformRandomRunner(TimedExecutor executor,
                                              int lowerBound, int upperBound)
       throws Exception {
@@ -40,7 +36,7 @@ public class UniformRandomNumber {
         sequence, upperBound - lowerBound + 1, 0.01);
   }
 
-  @EpiTest(testfile = "uniform_random_number.tsv")
+  @EpiTest(testDataFile = "uniform_random_number.tsv")
   public static void uniformRandomWrapper(TimedExecutor executor,
                                           int lowerBound, int upperBound)
       throws Exception {
@@ -49,9 +45,10 @@ public class UniformRandomNumber {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "UniformRandomNumber.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

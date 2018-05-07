@@ -6,8 +6,10 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class TwoSum {
-  @EpiTest(testfile = "two_sum.tsv")
+  @EpiTest(testDataFile = "two_sum.tsv")
+
   public static boolean hasTwoSum(List<Integer> A, int t) {
+
     int i = 0, j = A.size() - 1;
     while (i <= j) {
       if (A.get(i) + A.get(j) == t) {
@@ -22,9 +24,10 @@ public class TwoSum {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TwoSum.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

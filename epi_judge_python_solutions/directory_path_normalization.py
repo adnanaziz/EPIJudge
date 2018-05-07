@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def shortest_equivalent_path(path):
+
     if not path:
         raise ValueError('Empty string is not a valid path.')
 
@@ -23,11 +27,8 @@ def shortest_equivalent_path(path):
     return result[result.startswith('//'):]  # Avoid starting '//'.
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('directory_path_normalization.tsv',
+        generic_test.generic_test_main("directory_path_normalization.py",
+                                       'directory_path_normalization.tsv',
                                        shortest_equivalent_path))

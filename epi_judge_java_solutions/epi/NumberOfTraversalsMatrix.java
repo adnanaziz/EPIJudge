@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class NumberOfTraversalsMatrix {
-  @EpiTest(testfile = "number_of_traversals_matrix.tsv")
+  @EpiTest(testDataFile = "number_of_traversals_matrix.tsv")
+
   public static int numberOfWays(int n, int m) {
+
     return computeNumberOfWaysToXY(n - 1, m - 1, new int[n][m]);
   }
 
@@ -47,9 +49,10 @@ public class NumberOfTraversalsMatrix {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "NumberOfTraversalsMatrix.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

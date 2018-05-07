@@ -2,20 +2,16 @@
 #include <iterator>
 #include <memory>
 #include <vector>
-
 #include "list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::shared_ptr;
-
 shared_ptr<ListNode<int>> ListPivoting(const shared_ptr<ListNode<int>>& l,
                                        int x) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
-
 std::vector<int> ListToVector(const shared_ptr<ListNode<int>>& l) {
   std::vector<int> v;
   ListNode<int>* it = l.get();
@@ -67,6 +63,7 @@ void ListPivotingWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "l", "x"};
-  return GenericTestMain(args, "pivot_list.tsv", &ListPivotingWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "pivot_list.cc", "pivot_list.tsv",
+                         &ListPivotingWrapper, DefaultComparator{},
+                         param_names);
 }

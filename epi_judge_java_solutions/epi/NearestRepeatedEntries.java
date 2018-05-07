@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class NearestRepeatedEntries {
-  @EpiTest(testfile = "nearest_repeated_entries.tsv")
+  @EpiTest(testDataFile = "nearest_repeated_entries.tsv")
+
   public static int findNearestRepetition(List<String> paragraph) {
+
     Map<String, Integer> wordToLatestIndex = new HashMap<>();
     int nearestRepeatedDistance = Integer.MAX_VALUE;
     for (int i = 0; i < paragraph.size(); ++i) {
@@ -26,9 +28,10 @@ public class NearestRepeatedEntries {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "NearestRepeatedEntries.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

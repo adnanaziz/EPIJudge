@@ -1,5 +1,8 @@
+from test_framework import generic_test
+
+
 def fill_surrounded_regions(board):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return
 
 
@@ -8,11 +11,8 @@ def fill_surrounded_regions_wrapper(board):
     return board
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('matrix_enclosed_regions.tsv',
+        generic_test.generic_test_main("matrix_enclosed_regions.py",
+                                       'matrix_enclosed_regions.tsv',
                                        fill_surrounded_regions_wrapper))

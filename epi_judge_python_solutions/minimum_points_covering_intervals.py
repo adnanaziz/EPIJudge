@@ -1,15 +1,15 @@
 import collections
 import functools
 import operator
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 Interval = collections.namedtuple('Interval', ('left', 'right'))
 
 
 def find_minimum_visits(intervals):
+
     # Sort intervals based on the right endpoints.
     intervals.sort(key=operator.attrgetter('right'))
     last_visit_time, num_visits = float('-inf'), 0
@@ -30,5 +30,6 @@ def find_minimum_visits_wrapper(executor, A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('minimum_points_covering_intervals.tsv',
+        generic_test.generic_test_main("minimum_points_covering_intervals.py",
+                                       'minimum_points_covering_intervals.tsv',
                                        find_minimum_visits_wrapper))

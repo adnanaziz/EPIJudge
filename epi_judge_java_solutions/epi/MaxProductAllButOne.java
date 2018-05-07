@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class MaxProductAllButOne {
-  @EpiTest(testfile = "max_product_all_but_one.tsv")
+  @EpiTest(testDataFile = "max_product_all_but_one.tsv")
+
   public static int findBiggestProductNMinusOneProduct(List<Integer> A) {
+
     // Builds suffix products.
     int product = 1;
     List<Integer> suffixProducts =
@@ -31,9 +33,10 @@ public class MaxProductAllButOne {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxProductAllButOne.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

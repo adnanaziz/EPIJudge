@@ -66,6 +66,6 @@ void RearrangeWrapper(TimedExecutor& executor, vector<int> A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "A"};
-  return GenericTestMain(args, "alternating_array.tsv", &RearrangeWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "alternating_array.cc", "alternating_array.tsv",
+                         &RearrangeWrapper, DefaultComparator{}, param_names);
 }

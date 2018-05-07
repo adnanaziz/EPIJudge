@@ -1,11 +1,12 @@
+from test_framework import generic_test
+
+
 def is_arbitrage_exist(graph):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return True
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main("arbitrage.tsv", is_arbitrage_exist))
+    exit(
+        generic_test.generic_test_main("arbitrage.py", "arbitrage.tsv",
+                                       is_arbitrage_exist))

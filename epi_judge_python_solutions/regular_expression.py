@@ -1,3 +1,6 @@
+from test_framework import generic_test
+
+
 def is_match(regex, s):
     def is_match_here(regex, s):
         if not regex:
@@ -30,9 +33,7 @@ def is_match(regex, s):
     return any(is_match_here(regex, s[i:]) for i in range(len(s) + 1))
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('regular_expression.tsv', is_match))
+    exit(
+        generic_test.generic_test_main("regular_expression.py",
+                                       'regular_expression.tsv', is_match))

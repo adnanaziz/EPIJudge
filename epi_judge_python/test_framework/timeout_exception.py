@@ -1,4 +1,4 @@
-# @library
+
 from test_framework.test_timer import TestTimer
 
 

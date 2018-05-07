@@ -30,6 +30,7 @@ string MajoritySearchWrapper(const vector<string>& stream) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"stream"};
-  return GenericTestMain(args, "majority_element.tsv", &MajoritySearchWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "majority_element.cc", "majority_element.tsv",
+                         &MajoritySearchWrapper, DefaultComparator{},
+                         param_names);
 }

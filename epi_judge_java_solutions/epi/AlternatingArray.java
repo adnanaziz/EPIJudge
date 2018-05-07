@@ -12,7 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class AlternatingArray {
+
   public static void rearrange(List<Integer> A) {
+
     for (int i = 1; i < A.size(); ++i) {
       if (((i % 2) == 0 && A.get(i - 1) < A.get(i)) ||
           ((i % 2) != 0 && A.get(i - 1) > A.get(i))) {
@@ -63,7 +65,7 @@ public class AlternatingArray {
     }
   }
 
-  @EpiTest(testfile = "alternating_array.tsv")
+  @EpiTest(testDataFile = "alternating_array.tsv")
   public static void rearrangeWrapper(TimedExecutor executor, List<Integer> A)
       throws Exception {
     List<Integer> result = new ArrayList<>(A);
@@ -74,9 +76,10 @@ public class AlternatingArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "AlternatingArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -5,6 +5,7 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
 public class RectangleIntersection {
+
   @EpiUserType(ctorParams = {int.class, int.class, int.class, int.class})
   public static class Rectangle {
     int x, y, width, height;
@@ -54,8 +55,9 @@ public class RectangleIntersection {
     }
   }
 
-  @EpiTest(testfile = "rectangle_intersection.tsv")
+  @EpiTest(testDataFile = "rectangle_intersection.tsv")
   public static Rectangle intersectRectangle(Rectangle R1, Rectangle R2) {
+
     if (!isIntersect(R1, R2)) {
       return new Rectangle(0, 0, -1, -1); // No intersection.
     }
@@ -71,9 +73,10 @@ public class RectangleIntersection {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RectangleIntersection.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

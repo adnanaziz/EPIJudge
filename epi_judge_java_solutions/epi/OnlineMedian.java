@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class OnlineMedian {
+
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
 
   public static List<Double> onlineMedian(Iterator<Integer> sequence) {
+
     // minHeap stores the larger half seen so far.
     PriorityQueue<Integer> minHeap = new PriorityQueue<>();
     // maxHeap stores the smaller half seen so far.
@@ -38,15 +40,16 @@ public class OnlineMedian {
     return result;
   }
 
-  @EpiTest(testfile = "online_median.tsv")
+  @EpiTest(testDataFile = "online_median.tsv")
   public static List<Double> onlineMedianWrapper(List<Integer> sequence) {
     return onlineMedian(sequence.iterator());
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "OnlineMedian.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

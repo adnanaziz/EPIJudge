@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CountInversions {
-  @EpiTest(testfile = "count_inversions.tsv")
+  @EpiTest(testDataFile = "count_inversions.tsv")
+
   public static int countInversions(List<Integer> A) {
+
     return countSubarrayInversions(A, 0, A.size());
   }
 
@@ -55,9 +57,10 @@ public class CountInversions {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CountInversions.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

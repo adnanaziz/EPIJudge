@@ -44,6 +44,7 @@ void Wrapper(int x, const string& s) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x", "s"};
-  return GenericTestMain(args, "string_integer_interconversion.tsv", &Wrapper,
+  return GenericTestMain(args, "string_integer_interconversion.cc",
+                         "string_integer_interconversion.tsv", &Wrapper,
                          DefaultComparator{}, param_names);
 }

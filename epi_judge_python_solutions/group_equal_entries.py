@@ -1,8 +1,7 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -10,6 +9,7 @@ Person = collections.namedtuple('Person', ('age', 'name'))
 
 
 def group_by_age(people):
+
     age_to_count = collections.Counter((person.age for person in people))
     age_to_offset, offset = {}, 0
     for age, count in age_to_count.items():
@@ -61,5 +61,6 @@ def group_by_age_wrapper(executor, people):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('group_equal_entries.tsv',
+        generic_test.generic_test_main("group_equal_entries.py",
+                                       'group_equal_entries.tsv',
                                        group_by_age_wrapper))

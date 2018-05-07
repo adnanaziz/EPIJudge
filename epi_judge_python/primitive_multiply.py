@@ -1,11 +1,12 @@
+from test_framework import generic_test
+
+
 def multiply(x, y):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return 0
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('primitive_multiply.tsv', multiply))
+    exit(
+        generic_test.generic_test_main("primitive_multiply.py",
+                                       'primitive_multiply.tsv', multiply))

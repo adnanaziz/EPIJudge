@@ -1,10 +1,9 @@
-from sys import exit
-
 from reverse_linked_list_iterative import reverse_linked_list
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def zipping_linked_list(L):
+
     if not L or not L.next:
         return L
 
@@ -29,4 +28,6 @@ def zipping_linked_list(L):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('zip_list.tsv', zipping_linked_list))
+    exit(
+        generic_test.generic_test_main("zip_list.py", 'zip_list.tsv',
+                                       zipping_linked_list))

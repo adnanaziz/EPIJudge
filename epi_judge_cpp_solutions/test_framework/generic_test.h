@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <chrono>
@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "fmt_print.h"
 #include "generic_test_handler.h"
 #include "json_parser.h"
 #include "platform.h"
@@ -25,23 +26,26 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
  */
 template <typename Function, typename Comparator>
 TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
+                           const std::string& test_file,
                            const std::string& test_data_file,
                            Function test_func, Comparator comparator,
                            const std::vector<std::string>& param_names) {
+  std::ifstream config_data(GetFilePathInJudgeDir("config.json"));
+  std::stringstream buffer;
+  buffer << config_data.rdbuf();
+  std::string err;
+  const json_parser::Json config_override =
+      json_parser::Json::parse(buffer.str(), err);
+
   // Enables automatic flushing of the output stream after any output
   // operation.
   std::cout.setf(std::ios::unitbuf);
 
-  std::ifstream config_data(GetFilePathInJudgeDir("config.json"));
-  std::string err;
-  const json_parser::Json config_override =
-      json_parser::Json::parse(std::string{std::istream_iterator<char>(config_data), std::istream_iterator<char>()}, err);
-
   try {
     TestConfig config = TestConfig::FromCommandLine(
-        test_data_file,
+        test_file, test_data_file,
         std::chrono::seconds{config_override["timeoutSeconds"].int_value()},
-        config_override["numFailedTestsBeforeStop"].int_value(),
+        (int)config_override["numFailedTestsBeforeStop"].int_value(),
         commandline_args);
 
     platform::SetOutputOpts(config.tty_mode, config.color_mode);
@@ -55,6 +59,50 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
   }
 }
 
+void UpdateTestPassed(std::string test_file, int tests_passed) {
+  const std::string problem_mapping_file_path =
+      GetFilePathInJudgeDir("problem_mapping.js");
+  std::ifstream problem_mapping_file_data(problem_mapping_file_path);
+  std::stringstream buffer;
+  buffer << problem_mapping_file_data.rdbuf();
+  std::string err;
+  std::string js_file_str = buffer.str();
+  const std::string kJsBeginPattern = "run(";
+  js_file_str.replace(js_file_str.find(kJsBeginPattern),
+                      kJsBeginPattern.size(), "");
+  const std::string kJsEndPattern = ");";
+  js_file_str.replace(js_file_str.find(kJsEndPattern), kJsEndPattern.size(),
+                      "");
+  const json_parser::Json chapter_to_problem_to_language_solution_mapping =
+      json_parser::Json::parse(js_file_str, err);
+
+  test_file = "C++: " + test_file;
+  std::string serialized_problem_mapping =
+      chapter_to_problem_to_language_solution_mapping.dump();
+  for (const auto& chapter :
+       chapter_to_problem_to_language_solution_mapping.object_items()) {
+    for (const auto& problem : chapter.second.object_items()) {
+      for (const auto& language : problem.second.object_items()) {
+        if (test_file == language.first) {
+          const std::string format = "\"{}\": {{\"passed\": {},";
+          const std::string pattern = FmtStr(
+              format, test_file, language.second["passed"].int_value());
+          const std::string replacement =
+              FmtStr(format, test_file, tests_passed);
+          serialized_problem_mapping.replace(
+              serialized_problem_mapping.find(pattern), pattern.size(),
+              replacement);
+          std::ofstream ofs(problem_mapping_file_path);
+          ofs << kJsBeginPattern << serialized_problem_mapping
+              << kJsEndPattern;
+          ofs.close();
+          return;
+        }
+      }
+    }
+  }
+}
+
 template <typename Function, typename Comparator>
 TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
                     const TestConfig& config) {
@@ -65,6 +113,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
   int test_nr = 0;
   int tests_passed = 0;
   const int total_tests = static_cast<int>(test_data.size() - 1);
+  std::vector<std::vector<int>> metrics;
   std::vector<std::chrono::microseconds> durations;
   TestResult result = FAILED;
 
@@ -77,21 +126,22 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     const std::string test_explanation = std::move(test_case.back());
     test_case.pop_back();
 
-    TestTimer test_timer;
+    TestOutput test_output;
     TestFailure test_failure;
 
     try {
-      test_timer = handler.RunTest(config.timeout_seconds, test_case);
+      test_output = handler.RunTest(config.timeout_seconds, test_case);
       result = PASSED;
       ++tests_passed;
-      durations.push_back(test_timer.GetMicroseconds());
+      metrics.emplace_back(test_output.metrics);
+      durations.emplace_back(test_output.timer.GetMicroseconds());
     } catch (TestFailure& e) {
       result = FAILED;
       test_failure = e;
     } catch (TimeoutException& e) {
       result = TIMEOUT;
-      test_timer = e.GetTimer();
-    } catch (std::runtime_error& e) {
+      test_output.timer = e.GetTimer();
+    } catch (std::runtime_error&) {
       throw;
     } catch (std::exception& e) {
       result = UNKNOWN_EXCEPTION;
@@ -104,7 +154,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     }
 
     PrintTestInfo(result, test_nr, total_tests, test_failure.GetDescription(),
-                  test_timer);
+                  test_output.timer);
 
     if (result != PASSED) {
       if (config.verbose) {
@@ -124,10 +174,15 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     }
   }
 
-  std::cout << std::endl;
+  if (config.update_js) {
+    UpdateTestPassed(config.test_file, tests_passed);
+  }
 
+  std::string complexity;
+
+  std::cout << std::endl;
   if (config.verbose) {
-    PrintPostRunStats(tests_passed, total_tests, durations);
+    PrintPostRunStats(tests_passed, total_tests, complexity, durations);
   }
   return result;
 }

@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class MaximumSubarrayInCircularArray {
-  @EpiTest(testfile = "maximum_subarray_in_circular_array.tsv")
+  @EpiTest(testDataFile = "maximum_subarray_in_circular_array.tsv")
+
   public static int maxSubarraySumInCircular(List<Integer> A) {
+
     return Math.max(findMaxSubarray(A), findCircularMaxSubarray(A));
   }
 
@@ -56,9 +58,10 @@ public class MaximumSubarrayInCircularArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaximumSubarrayInCircularArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

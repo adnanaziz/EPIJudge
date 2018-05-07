@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class MaxSafeHeight {
-  @EpiTest(testfile = "max_safe_height.tsv")
+  @EpiTest(testDataFile = "max_safe_height.tsv")
+
   public static int getHeight(int cases, int drops) {
+
     List<List<Integer>> F = new ArrayList<>(cases + 1);
     for (int i = 0; i < cases + 1; ++i) {
       F.add(new ArrayList<>(Collections.nCopies(drops + 1, -1)));
@@ -32,9 +34,10 @@ public class MaxSafeHeight {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxSafeHeight.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

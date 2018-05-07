@@ -1,21 +1,17 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class PivotList {
 
   public static ListNode<Integer> listPivoting(ListNode<Integer> l, int x) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
-
   public static List<Integer> linkedToList(ListNode<Integer> l) {
     List<Integer> v = new ArrayList<>();
     while (l != null) {
@@ -25,7 +21,7 @@ public class PivotList {
     return v;
   }
 
-  @EpiTest(testfile = "pivot_list.tsv")
+  @EpiTest(testDataFile = "pivot_list.tsv")
   public static void listPivotingWrapper(TimedExecutor executor,
                                          ListNode<Integer> l, int x)
       throws Exception {
@@ -67,9 +63,10 @@ public class PivotList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PivotList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

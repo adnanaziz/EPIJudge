@@ -10,6 +10,7 @@ using std::numeric_limits;
 typedef enum { kSmaller, kEqual, kLarger } Ordering;
 
 Ordering Compare(double a, double b);
+
 double SquareRoot(double x) {
   // Decides the search range according to x's value relative to 1.0.
   double left, right;
@@ -42,6 +43,6 @@ Ordering Compare(double a, double b) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x"};
-  return GenericTestMain(args, "real_square_root.tsv", &SquareRoot,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "real_square_root.cc", "real_square_root.tsv",
+                         &SquareRoot, DefaultComparator{}, param_names);
 }

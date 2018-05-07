@@ -1,17 +1,14 @@
 #include <deque>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::deque;
 using std::vector;
 
 void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
-
 vector<vector<int>> FlipColorWrapper(TimedExecutor& executor, int x, int y,
                                      vector<vector<int>> image) {
   vector<deque<bool>> b;
@@ -41,6 +38,6 @@ vector<vector<int>> FlipColorWrapper(TimedExecutor& executor, int x, int y,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "x", "y", "image"};
-  return GenericTestMain(args, "painting.tsv", &FlipColorWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "matrix_connected_regions.cc", "painting.tsv",
+                         &FlipColorWrapper, DefaultComparator{}, param_names);
 }

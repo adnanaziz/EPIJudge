@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def has_two_sum(A, t):
+
     i, j = 0, len(A) - 1
 
     while i <= j:
@@ -11,9 +15,7 @@ def has_two_sum(A, t):
     return False
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('two_sum.tsv', has_two_sum))
+    exit(
+        generic_test.generic_test_main("two_sum.py", 'two_sum.tsv',
+                                       has_two_sum))

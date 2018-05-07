@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class TreeFromPreorderInorder {
-  @EpiTest(testfile = "tree_from_preorder_inorder.tsv")
+  @EpiTest(testDataFile = "tree_from_preorder_inorder.tsv")
+
   public static BinaryTreeNode<Integer>
   binaryTreeFromPreorderInorder(List<Integer> preorder, List<Integer> inorder) {
+
     return binaryTreeFromPreorderInorderHelper(
         preorder, 0, preorder.size(), 0, inorder.size(),
         IntStream.range(0, inorder.size())
@@ -45,9 +47,10 @@ public class TreeFromPreorderInorder {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeFromPreorderInorder.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,16 +1,16 @@
+import functools
+
+from test_framework import generic_test
+
+
 def smallest_nonconstructible_value(A):
+
     max_constructible_value = 0
     for a in sorted(A):
         if a > max_constructible_value + 1:
             break
         max_constructible_value += a
     return max_constructible_value + 1
-
-
-import functools
-from sys import exit
-
-from test_framework import generic_test, test_utils
 
 
 def smallest_nonconstructible_value_pythonic(A):
@@ -21,5 +21,6 @@ def smallest_nonconstructible_value_pythonic(A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('smallest_nonconstructible_value.tsv',
+        generic_test.generic_test_main("smallest_nonconstructible_value.py",
+                                       'smallest_nonconstructible_value.tsv',
                                        smallest_nonconstructible_value))

@@ -1,12 +1,15 @@
+
 package epi;
 
 import epi.test_framework.BinaryTreeUtils;
 
 import java.util.Objects;
 
+
 public class BinaryTreeNode<T> {
   public T data;
   public BinaryTreeNode<T> left, right;
+  
 
   public BinaryTreeNode() {}
 
@@ -19,7 +22,7 @@ public class BinaryTreeNode<T> {
     this.right = right;
   }
 
-  @Override public boolean equals(Object o) { // TODO Remove equal override
+  @Override public boolean equals(Object o) {  // TODO Remove equal override
     if (this == o) {
       return true;
     }
@@ -49,4 +52,6 @@ public class BinaryTreeNode<T> {
   public String toString() {
     return BinaryTreeUtils.binaryTreeToString(this);
   }
+  
 }
+

@@ -1,11 +1,9 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 class Team {
@@ -14,10 +12,9 @@ class Team {
     transform(begin(height), end(height), back_inserter(players_),
               [](int h) { return Player{h}; });
   }
-
   // Checks if team0 can be placed in front of team1.
   static bool ValidPlacementExists(const Team& team0, const Team& team1) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return true;
   }
 
@@ -27,10 +24,8 @@ class Team {
 
     int height;
   };
-
   vector<Player> players_;
 };
-
 void ValidPlacementExistsWrapper(TimedExecutor& executor,
                                  const vector<int>& team0,
                                  const vector<int>& team1, bool expected_01,
@@ -50,7 +45,7 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "team0", "team1",
                                        "expected_01", "expected_10"};
-  return GenericTestMain(args, "is_array_dominated.tsv",
-                         &ValidPlacementExistsWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "is_array_dominated.cc",
+                         "is_array_dominated.tsv", &ValidPlacementExistsWrapper,
+                         DefaultComparator{}, param_names);
 }

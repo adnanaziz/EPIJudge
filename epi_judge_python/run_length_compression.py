@@ -1,16 +1,14 @@
-from sys import exit
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 def decoding(s):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return ''
 
 
 def encoding(s):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return ''
 
 
@@ -23,5 +21,6 @@ def rle_tester(encoded, decoded):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('run_length_compression.tsv',
+        generic_test.generic_test_main("run_length_compression.py",
+                                       'run_length_compression.tsv',
                                        rle_tester))

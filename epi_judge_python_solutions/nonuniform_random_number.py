@@ -4,14 +4,14 @@ import functools
 import itertools
 import math
 import random
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.random_sequence_checker import run_func_with_retries
 from test_framework.test_utils import enable_executor_hook
 
 
 def nonuniform_random_number_generation(values, probabilities):
+
     prefix_sum_of_probabilities = list(itertools.accumulate(probabilities))
     interval_idx = bisect.bisect(prefix_sum_of_probabilities, random.random())
     return values[interval_idx]
@@ -42,5 +42,5 @@ def nonuniform_random_number_generation_wrapper(executor, values,
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            'nonuniform_random_number.tsv',
+            "nonuniform_random_number.py", 'nonuniform_random_number.tsv',
             nonuniform_random_number_generation_wrapper))

@@ -1,3 +1,6 @@
+from test_framework import generic_test
+
+
 def compute_binomial_coefficient(n, k):
     def compute_x_choose_y(x, y):
         if y in (0, x):
@@ -23,11 +26,8 @@ def compute_binomial_coefficients_space_efficient(n, k):
     return table[-1]
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('binomial_coefficients.tsv',
+        generic_test.generic_test_main("binomial_coefficients.py",
+                                       'binomial_coefficients.tsv',
                                        compute_binomial_coefficient))

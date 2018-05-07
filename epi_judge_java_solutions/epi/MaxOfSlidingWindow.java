@@ -10,6 +10,7 @@ import java.util.List;
 
 public class MaxOfSlidingWindow {
   @EpiUserType(ctorParams = {int.class, double.class})
+
   public static class TrafficElement implements Comparable<TrafficElement> {
     public int time;
     public double volume;
@@ -42,9 +43,11 @@ public class MaxOfSlidingWindow {
     }
   }
 
-  @EpiTest(testfile = "max_of_sliding_window.tsv")
+  @EpiTest(testDataFile = "max_of_sliding_window.tsv")
+
   public static List<TrafficElement>
   computeTrafficVolumes(List<TrafficElement> A, int w) {
+
     QueueWithMaxUsingDeque.QueueWithMax<TrafficElement> slidingWindow =
         new QueueWithMaxUsingDeque.QueueWithMax<>();
     List<TrafficElement> maximumVolumes = new ArrayList<>();
@@ -60,9 +63,10 @@ public class MaxOfSlidingWindow {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxOfSlidingWindow.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

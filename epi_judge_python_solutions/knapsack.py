@@ -1,14 +1,14 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 Item = collections.namedtuple('Item', ('weight', 'value'))
 
 
 def optimum_subject_to_capacity(items, capacity):
+
     # Returns the optimum value when we choose from items[:k + 1] and have a
     # capacity of available_capacity.
     def optimum_subject_to_item_and_capacity(k, available_capacity):
@@ -40,5 +40,5 @@ def optimum_subject_to_capacity_wrapper(executor, items, capacity):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("knapsack.tsv",
+        generic_test.generic_test_main("knapsack.py", "knapsack.tsv",
                                        optimum_subject_to_capacity_wrapper))

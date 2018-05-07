@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <algorithm>
@@ -93,6 +93,9 @@ struct FunctionalTraits<ReturnT (*)(ArgsT...)> {
   using return_t = ReturnT;
   using arg_tuple_t = std::tuple<ArgsT...>;
 
+  template <size_t I>
+  using ith_arg_t = std::tuple_element_t<I, arg_tuple_t>;
+
   using executor_hook_tag = HasNoExecutorHookTag;
   static constexpr bool HasExecutorHook() { return false; }
 };
@@ -104,6 +107,9 @@ template <typename ReturnT, typename... ArgsT>
 struct FunctionalTraits<ReturnT (*)(TimedExecutor&, ArgsT...)> {
   using return_t = ReturnT;
   using arg_tuple_t = std::tuple<ArgsT...>;
+
+  template <size_t I>
+  using ith_arg_t = std::tuple_element_t<I, arg_tuple_t>;
 
   using executor_hook_tag = HasExecutorHookTag;
   static constexpr bool HasExecutorHook() { return true; }
@@ -265,7 +271,20 @@ template <typename T>
 using escape_void_t =
     std::conditional_t<std::is_same<T, void>::value, VoidPlaceholder, T>;
 
-namespace {
+/**
+ * This function joins elements in vector of vectors
+ */
+template <typename T>
+std::vector<T> FlattenVector(std::vector<std::vector<T>>&& vv) {
+  std::vector<T> result;
+  for (size_t i = 0; i < vv.size(); i++) {
+    result.reserve(result.size() + vv[i].size());
+    std::move(begin(vv[i]), end(vv[i]), back_inserter(result));
+  }
+  return result;
+}
+
+namespace detail {
 struct No {};
 /**
  * @see HasEqualOp
@@ -329,13 +348,13 @@ template <typename T>
 struct IsBinaryTreeImpl {
   using type = std::false_type;
 };
-}  // namespace 
+}  // namespace detail
 
 /**
  * Check if operator== is defined for T and EqualTo types
  */
 template <class T, class EqualTo = T>
-using HasEqualOp = typename HasEqualOpImpl<T, EqualTo>::type;
+using HasEqualOp = typename detail::HasEqualOpImpl<T, EqualTo>::type;
 template <typename T, class EqualTo = T>
 using EqualOpTag = std::conditional_t<HasEqualOp<T, EqualTo>::value,
                                       HasEqualOpTag, HasNoEqualOpTag>;
@@ -344,7 +363,7 @@ using EqualOpTag = std::conditional_t<HasEqualOp<T, EqualTo>::value,
  * Check if operator<< is defined for T and U types
  */
 template <class T, class U>
-using HasLeftShiftOp = typename HasLeftShiftOpImpl<T, U>::type;
+using HasLeftShiftOp = typename detail::HasLeftShiftOpImpl<T, U>::type;
 
 /**
  * Check if operator<< is defined for std::ostream and T
@@ -361,7 +380,7 @@ using OStreamOpTag = std::conditional_t<HasOStreamOp<T>::value,
  * It is assumed these methods return begin/end iterators.
  */
 template <typename T>
-using HasBeginEnd = typename HasBeginEndImpl<T>::type;
+using HasBeginEnd = typename detail::HasBeginEndImpl<T>::type;
 template <typename T>
 using BeginEndTag = std::conditional_t<HasBeginEnd<T>::value, HasBeginEndTag,
                                        HasNoBeginEndTag>;
@@ -370,10 +389,8 @@ using BeginEndTag = std::conditional_t<HasBeginEnd<T>::value, HasBeginEndTag,
  * Check if T is of a binary tree type
  */
 template <typename T>
-using IsBinaryTree = typename IsBinaryTreeImpl<remove_ref_cv_t<T>>::type;
+using IsBinaryTree =
+    typename detail::IsBinaryTreeImpl<remove_ref_cv_t<T>>::type;
 template <typename T>
 using BinaryTreeTag = std::conditional_t<IsBinaryTree<T>::value,
                                          IsBinaryTreeTag, IsNotBinaryTreeTag>;
-
-// Testing for the file using static assertions
-#include "test_utils_meta_test.h"

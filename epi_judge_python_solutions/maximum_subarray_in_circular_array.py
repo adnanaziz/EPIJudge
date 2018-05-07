@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def max_subarray_sum_in_circular(A):
+
     # Calculates the non-circular solution.
     def find_max_subarray():
         maximum_till = maximum = 0
@@ -30,12 +34,9 @@ def max_subarray_sum_in_circular(A):
     return max(find_max_subarray(), find_circular_max_subarray())
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "maximum_subarray_in_circular_array.py",
             'maximum_subarray_in_circular_array.tsv',
             max_subarray_sum_in_circular))

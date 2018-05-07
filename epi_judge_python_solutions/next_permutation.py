@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def next_permutation(perm):
+
     # Find the first entry from the right that is smaller than the entry
     # immediately after it.
     inversion_point = len(perm) - 2
@@ -23,11 +27,7 @@ def next_permutation(perm):
     return perm
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('next_permutation.tsv',
-                                       next_permutation))
+        generic_test.generic_test_main(
+            "next_permutation.py", 'next_permutation.tsv', next_permutation))

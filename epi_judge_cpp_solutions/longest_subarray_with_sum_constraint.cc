@@ -46,6 +46,6 @@ int FindLongestSubarrayLessEqualK(const vector<int>& A, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"A", "k"};
-  return GenericTestMain(args, "longest_subarray_with_sum_constraint.tsv", &FindLongestSubarrayLessEqualK, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "longest_subarray_with_sum_constraint.cc", "longest_subarray_with_sum_constraint.tsv", &FindLongestSubarrayLessEqualK, DefaultComparator{}, param_names);
 }
 // clang-format on

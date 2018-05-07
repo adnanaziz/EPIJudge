@@ -1,48 +1,38 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
-
 public class AddingCredits {
 
   public static class ClientsCreditsInfo {
-
     public void insert(String clientID, int c) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return;
     }
-
     public boolean remove(String clientID) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return true;
     }
-
     public int lookup(String clientID) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
-
     public void addAll(int C) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return;
     }
-
     public String max() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return "";
     }
-
     @Override
     public String toString() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return super.toString();
     }
   }
-
   @EpiUserType(ctorParams = {String.class, String.class, int.class})
   public static class Operation {
     public String op;
@@ -89,7 +79,7 @@ public class AddingCredits {
     }
   }
 
-  @EpiTest(testfile = "adding_credits.tsv")
+  @EpiTest(testDataFile = "adding_credits.tsv")
   public static void ClientsCreditsInfoTester(List<Operation> ops)
       throws TestFailure {
     ClientsCreditsInfo cr = new ClientsCreditsInfo();
@@ -130,9 +120,10 @@ public class AddingCredits {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "AddingCredits.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

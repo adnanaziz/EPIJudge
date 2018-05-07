@@ -1,8 +1,7 @@
 import operator
 import random
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 # The numbering starts from one, i.e., if A = [3, 1, -1, 2]
@@ -41,6 +40,7 @@ def find_kth_largest(k, A):
                 right = new_pivot_idx - 1
             else:  # new_pivot_idx < k - 1.
                 left = new_pivot_idx + 1
+
         raise IndexError('no k-th node in array A')
 
     return find_kth(operator.gt)
@@ -89,5 +89,6 @@ def find_kth_smallest(k, A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('kth_largest_in_array.tsv',
+        generic_test.generic_test_main("kth_largest_in_array.py",
+                                       'kth_largest_in_array.tsv',
                                        find_kth_largest))

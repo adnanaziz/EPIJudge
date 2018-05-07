@@ -1,21 +1,18 @@
 #include <map>
 #include <memory>
-
 #include "posting_list_node.h"
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-#include "test_framework/test_utils_serialization_traits.h"
 #include "test_framework/timed_executor.h"
-
 using std::make_shared;
 using std::shared_ptr;
 
 shared_ptr<PostingListNode> CopyPostingsList(
     const shared_ptr<PostingListNode>& l) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return nullptr;
 }
-
 using PostingListPtr = std::shared_ptr<PostingListNode>;
 
 struct SerializedNode {
@@ -94,7 +91,7 @@ void CopyPostingsListWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "l"};
-  return GenericTestMain(args, "copy_posting_list.tsv",
+  return GenericTestMain(args, "copy_posting_list.cc", "copy_posting_list.tsv",
                          &CopyPostingsListWrapper, DefaultComparator{},
                          param_names);
 }

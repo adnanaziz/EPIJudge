@@ -14,8 +14,10 @@ import java.util.Map;
 import java.util.Random;
 
 public class RandomSubset {
+
   // Returns a random k-sized subset of {0, 1, ..., n - 1}.
   public static List<Integer> randomSubset(int n, int k) {
+
     Map<Integer, Integer> changedElements = new HashMap<>();
     Random randIdxGen = new Random();
     for (int i = 0; i < k; ++i) {
@@ -73,7 +75,7 @@ public class RandomSubset {
         sequence, totalPossibleOutcomes, 0.01);
   }
 
-  @EpiTest(testfile = "random_subset.tsv")
+  @EpiTest(testDataFile = "random_subset.tsv")
   public static void randomSubsetWrapper(TimedExecutor executor, int n, int k)
       throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
@@ -81,9 +83,10 @@ public class RandomSubset {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RandomSubset.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

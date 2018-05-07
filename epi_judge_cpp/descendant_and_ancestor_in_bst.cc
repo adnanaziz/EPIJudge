@@ -1,20 +1,17 @@
 #include <memory>
-
 #include "bst_node.h"
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::unique_ptr;
 
 bool PairIncludesAncestorAndDescendantOfM(
     const unique_ptr<BstNode<int>>& possible_anc_or_desc_0,
     const unique_ptr<BstNode<int>>& possible_anc_or_desc_1,
     const unique_ptr<BstNode<int>>& middle) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return true;
 }
-
 bool PairIncludesAncestorAndDescendantOfMWrapper(
     TimedExecutor& executor, const unique_ptr<BstNode<int>>& tree,
     int possible_anc_or_desc_0, int possible_anc_or_desc_1, int middle) {
@@ -32,7 +29,8 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> param_names{"executor", "tree",
                                        "possible_anc_or_desc_0",
                                        "possible_anc_or_desc_1", "middle"};
-  return GenericTestMain(args, "descendant_and_ancestor_in_bst.tsv",
+  return GenericTestMain(args, "descendant_and_ancestor_in_bst.cc",
+                         "descendant_and_ancestor_in_bst.tsv",
                          &PairIncludesAncestorAndDescendantOfMWrapper,
                          DefaultComparator{}, param_names);
 }

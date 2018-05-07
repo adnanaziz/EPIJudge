@@ -1,24 +1,22 @@
-from sys import exit
-
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 class LruCache:
     def __init__(self, capacity):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def lookup(self, isbn):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return 0
 
     def insert(self, isbn, price):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def erase(self, isbn):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return True
 
 
@@ -46,4 +44,6 @@ def run_test(commands):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('lru_cache.tsv', run_test))
+    exit(
+        generic_test.generic_test_main("lru_cache.py", 'lru_cache.tsv',
+                                       run_test))

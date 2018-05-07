@@ -1,12 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def search_entry_equal_to_its_index(A):
+
     left, right = 0, len(A) - 1
     while left <= right:
         mid = (left + right) // 2
@@ -36,5 +36,6 @@ def search_entry_equal_to_its_index_wrapper(executor, A):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "search_entry_equal_to_index.py",
             'search_entry_equal_to_index.tsv',
             search_entry_equal_to_its_index_wrapper))

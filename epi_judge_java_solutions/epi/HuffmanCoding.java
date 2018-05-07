@@ -12,10 +12,12 @@ import java.util.PriorityQueue;
 
 public class HuffmanCoding {
   @EpiUserType(ctorParams = {String.class, double.class})
+
   public static class CharWithFrequency {
     public char c;
     public double freq;
     public String code;
+
     public CharWithFrequency(String s, double freq) {
       if (s.length() != 1) {
         throw new RuntimeException(
@@ -59,8 +61,10 @@ public class HuffmanCoding {
     }
   }
 
-  @EpiTest(testfile = "huffman_coding.tsv")
+  @EpiTest(testDataFile = "huffman_coding.tsv")
+
   public static Double huffmanEncoding(List<CharWithFrequency> symbols) {
+
     PriorityQueue<BinaryTree> candidates = new PriorityQueue<>();
     // Add leaves for symbols.
     for (CharWithFrequency s : symbols) {
@@ -103,9 +107,10 @@ public class HuffmanCoding {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "HuffmanCoding.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -6,8 +6,10 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class IntAsArrayIncrement {
-  @EpiTest(testfile = "int_as_array_increment.tsv")
+
+  @EpiTest(testDataFile = "int_as_array_increment.tsv")
   public static List<Integer> plusOne(List<Integer> A) {
+
     int n = A.size() - 1;
     A.set(n, A.get(n) + 1);
     for (int i = n; i > 0 && A.get(i) == 10; --i) {
@@ -25,9 +27,10 @@ public class IntAsArrayIncrement {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IntAsArrayIncrement.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

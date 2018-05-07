@@ -1,15 +1,19 @@
-// @library
+
 #pragma once
 
 #include <functional>
 #include <iostream>
 
 #ifdef PLATFORM_WIN
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #include <Windows.h>
 #endif
 
 #include "platform.h"
+
+namespace console_color {
 
 enum class ConsoleColor { FG_RED, FG_GREEN, FG_BLUE, FG_YELLOW, FG_DEFAULT };
 
@@ -69,3 +73,5 @@ void PrintStdOutColored(ConsoleColor color, const T& value) {
             << GetColorCodeUnix(ConsoleColor::FG_DEFAULT);
 #endif
 }
+
+}  // namespace console_color

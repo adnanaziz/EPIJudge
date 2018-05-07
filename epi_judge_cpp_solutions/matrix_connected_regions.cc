@@ -22,9 +22,9 @@ void FlipColor(int x, int y, vector<deque<bool>>* image_ptr) {
   image[x][y] = !color;  // Flips.
   q.emplace(x, y);
   while (!empty(q)) {
-    const auto[x, y] = q.front();
+    const auto [x, y] = q.front();
     q.pop();
-    for (const auto & [ next_x, next_y ] : initializer_list<pair<int, int>>{
+    for (const auto& [next_x, next_y] : initializer_list<pair<int, int>>{
              {x, y + 1}, {x, y - 1}, {x + 1, y}, {x - 1, y}}) {
       if (next_x >= 0 && next_x < size(image) && next_y >= 0 &&
           next_y < size(image[next_x]) && image[next_x][next_y] == color) {
@@ -65,6 +65,6 @@ vector<vector<int>> FlipColorWrapper(TimedExecutor& executor, int x, int y,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "x", "y", "image"};
-  return GenericTestMain(args, "painting.tsv", &FlipColorWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "matrix_connected_regions.cc", "painting.tsv",
+                         &FlipColorWrapper, DefaultComparator{}, param_names);
 }

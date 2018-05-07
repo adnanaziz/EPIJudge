@@ -8,9 +8,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class IsAnonymousLetterConstructible {
-  @EpiTest(testfile = "is_anonymous_letter_constructible.tsv")
+  @EpiTest(testDataFile = "is_anonymous_letter_constructible.tsv")
+
   public static boolean isLetterConstructibleFromMagazine(String letterText,
                                                           String magazineText) {
+
     // Compute the frequencies for all chars in letterText.
     Map<Character, Long> charFrequencyForLetter =
         letterText.chars()
@@ -38,9 +40,10 @@ public class IsAnonymousLetterConstructible {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsAnonymousLetterConstructible.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,15 +1,12 @@
 import functools
-from sys import exit
 
-from do_terminated_lists_overlap import overlapping_no_cycle_lists
-from is_list_cyclic import has_cycle
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def overlapping_lists(l0, l1):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return None
 
 
@@ -68,5 +65,6 @@ def overlapping_lists_wrapper(executor, l0, l1, common, cycle0, cycle1):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('do_lists_overlap.tsv',
+        generic_test.generic_test_main("do_lists_overlap.py",
+                                       'do_lists_overlap.tsv',
                                        overlapping_lists_wrapper))

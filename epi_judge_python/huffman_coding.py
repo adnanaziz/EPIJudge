@@ -1,15 +1,14 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 CharWithFrequency = collections.namedtuple('CharWithFrequency', ('c', 'freq'))
 
 
 def huffman_encoding(symbols):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return 0.0
 
 
@@ -24,5 +23,6 @@ def huffman_encoding_wrapper(executor, symbols):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('huffman_coding.tsv',
+        generic_test.generic_test_main("huffman_coding.py",
+                                       'huffman_coding.tsv',
                                        huffman_encoding_wrapper))

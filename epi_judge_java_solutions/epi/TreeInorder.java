@@ -9,8 +9,10 @@ import java.util.Deque;
 import java.util.List;
 
 public class TreeInorder {
-  @EpiTest(testfile = "tree_inorder.tsv")
+  @EpiTest(testDataFile = "tree_inorder.tsv")
+
   public static List<Integer> inorderTraversal(BinaryTreeNode<Integer> tree) {
+
     Deque<BinaryTreeNode<Integer>> s = new ArrayDeque<>();
     BinaryTreeNode<Integer> curr = tree;
     List<Integer> result = new ArrayList<>();
@@ -32,9 +34,10 @@ public class TreeInorder {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeInorder.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

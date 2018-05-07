@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class PrimitiveMultiply {
-  @EpiTest(testfile = "primitive_multiply.tsv")
+
+  @EpiTest(testDataFile = "primitive_multiply.tsv")
   public static long multiply(long x, long y) {
+
     long sum = 0;
     while (x != 0) {
       // Examines each bit of x.
@@ -28,9 +30,10 @@ public class PrimitiveMultiply {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "PrimitiveMultiply.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -7,7 +7,7 @@ TEST_DATA_DIR := ../test_data
 PROGRAM_ARGS := --test-data-dir $(TEST_DATA_DIR)
 
 CXX_COMPILER := g++
-CXX_FLAGS := -std=c++17 -pthread -Werror
+CXX_FLAGS := -std=c++14 -pthread -Werror -Wno-unused-variable -Wno-sign-compare
 CXX_FLAGS_DEBUG := $(CXX_FLAGS) -g -O0
 
 LAST_MODIFIED_CXX_FILE = $(shell ls -rt $(SRC_DIR)/*\.cc | tail -1)
@@ -461,6 +461,16 @@ even_odd_list_merge: $(BUILD_DIR)/even_odd_list_merge
 .PHONY: even_odd_list_merge
 
 
+# fibonacci.cc
+
+$(BUILD_DIR)/fibonacci: $(SRC_DIR)/fibonacci.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+fibonacci: $(BUILD_DIR)/fibonacci
+	$< $(PROGRAM_ARGS)
+
+.PHONY: fibonacci
+
+
 # find_salary_threshold.cc
 
 $(BUILD_DIR)/find_salary_threshold: $(SRC_DIR)/find_salary_threshold.cc | $(BUILD_DIR)
@@ -831,6 +841,16 @@ knapsack: $(BUILD_DIR)/knapsack
 .PHONY: knapsack
 
 
+# kth_largest_element_in_long_array.cc
+
+$(BUILD_DIR)/kth_largest_element_in_long_array: $(SRC_DIR)/kth_largest_element_in_long_array.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+kth_largest_element_in_long_array: $(BUILD_DIR)/kth_largest_element_in_long_array
+	$< $(PROGRAM_ARGS)
+
+.PHONY: kth_largest_element_in_long_array
+
+
 # kth_largest_element_in_two_sorted_arrays.cc
 
 $(BUILD_DIR)/kth_largest_element_in_two_sorted_arrays: $(SRC_DIR)/kth_largest_element_in_two_sorted_arrays.cc | $(BUILD_DIR)
@@ -1119,6 +1139,16 @@ max_submatrix: $(BUILD_DIR)/max_submatrix
 	$< $(PROGRAM_ARGS)
 
 .PHONY: max_submatrix
+
+
+# max_sum_subarray.cc
+
+$(BUILD_DIR)/max_sum_subarray: $(SRC_DIR)/max_sum_subarray.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+max_sum_subarray: $(BUILD_DIR)/max_sum_subarray
+	$< $(PROGRAM_ARGS)
+
+.PHONY: max_sum_subarray
 
 
 # max_teams_in_photograph.cc
@@ -1469,6 +1499,16 @@ random_subset: $(BUILD_DIR)/random_subset
 	$< $(PROGRAM_ARGS)
 
 .PHONY: random_subset
+
+
+# range_lookup_in_bst.cc
+
+$(BUILD_DIR)/range_lookup_in_bst: $(SRC_DIR)/range_lookup_in_bst.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+range_lookup_in_bst: $(BUILD_DIR)/range_lookup_in_bst
+	$< $(PROGRAM_ARGS)
+
+.PHONY: range_lookup_in_bst
 
 
 # real_square_root.cc
@@ -2091,6 +2131,16 @@ tree_with_parent_inorder: $(BUILD_DIR)/tree_with_parent_inorder
 .PHONY: tree_with_parent_inorder
 
 
+# two_sorted_arrays_merge.cc
+
+$(BUILD_DIR)/two_sorted_arrays_merge: $(SRC_DIR)/two_sorted_arrays_merge.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+two_sorted_arrays_merge: $(BUILD_DIR)/two_sorted_arrays_merge
+	$< $(PROGRAM_ARGS)
+
+.PHONY: two_sorted_arrays_merge
+
+
 # two_sum.cc
 
 $(BUILD_DIR)/two_sum: $(SRC_DIR)/two_sum.cc | $(BUILD_DIR)
@@ -2175,6 +2225,7 @@ all: \
     $(BUILD_DIR)/evaluate_rpn \
     $(BUILD_DIR)/even_odd_array \
     $(BUILD_DIR)/even_odd_list_merge \
+    $(BUILD_DIR)/fibonacci \
     $(BUILD_DIR)/find_salary_threshold \
     $(BUILD_DIR)/first_missing_positive_entry \
     $(BUILD_DIR)/gcd \
@@ -2212,6 +2263,7 @@ all: \
     $(BUILD_DIR)/k_largest_in_heap \
     $(BUILD_DIR)/k_largest_values_in_bst \
     $(BUILD_DIR)/knapsack \
+    $(BUILD_DIR)/kth_largest_element_in_long_array \
     $(BUILD_DIR)/kth_largest_element_in_two_sorted_arrays \
     $(BUILD_DIR)/kth_largest_in_array \
     $(BUILD_DIR)/kth_node_in_tree \
@@ -2241,6 +2293,7 @@ all: \
     $(BUILD_DIR)/max_safe_height \
     $(BUILD_DIR)/max_square_submatrix \
     $(BUILD_DIR)/max_submatrix \
+    $(BUILD_DIR)/max_sum_subarray \
     $(BUILD_DIR)/max_teams_in_photograph \
     $(BUILD_DIR)/max_trapped_water \
     $(BUILD_DIR)/max_water_trappable \
@@ -2276,6 +2329,7 @@ all: \
     $(BUILD_DIR)/queue_with_max \
     $(BUILD_DIR)/random_permutation \
     $(BUILD_DIR)/random_subset \
+    $(BUILD_DIR)/range_lookup_in_bst \
     $(BUILD_DIR)/real_square_root \
     $(BUILD_DIR)/rectangle_intersection \
     $(BUILD_DIR)/refueling_schedule \
@@ -2338,6 +2392,7 @@ all: \
     $(BUILD_DIR)/tree_preorder \
     $(BUILD_DIR)/tree_right_sibling \
     $(BUILD_DIR)/tree_with_parent_inorder \
+    $(BUILD_DIR)/two_sorted_arrays_merge \
     $(BUILD_DIR)/two_sum \
     $(BUILD_DIR)/uniform_random_number \
     $(BUILD_DIR)/valid_ip_addresses \

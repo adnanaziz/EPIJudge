@@ -1,10 +1,9 @@
-from sys import exit
-
 from bst_node import BstNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def rebuild_bst_from_preorder(preorder_sequence):
+
     if not preorder_sequence:
         return None
 
@@ -19,5 +18,6 @@ def rebuild_bst_from_preorder(preorder_sequence):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('bst_from_preorder.tsv',
+        generic_test.generic_test_main("bst_from_preorder.py",
+                                       'bst_from_preorder.tsv',
                                        rebuild_bst_from_preorder))

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class LongestSubarrayWithDistinctValues {
-  @EpiTest(testfile = "longest_subarray_with_distinct_values.tsv")
+  @EpiTest(testDataFile = "longest_subarray_with_distinct_values.tsv")
+
   public static int longestSubarrayWithDistinctEntries(List<Integer> A) {
+
     // Records the most recent occurrences of each entry.
     Map<Integer, Integer> mostRecentOccurrence = new HashMap<>();
     int longestDupFreeSubarrayStartIdx = 0, result = 0;
@@ -28,9 +30,10 @@ public class LongestSubarrayWithDistinctValues {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LongestSubarrayWithDistinctValues.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

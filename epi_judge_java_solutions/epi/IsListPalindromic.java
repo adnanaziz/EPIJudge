@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class IsListPalindromic {
-  @EpiTest(testfile = "is_list_palindromic.tsv")
+  @EpiTest(testDataFile = "is_list_palindromic.tsv")
+
   public static boolean isLinkedListAPalindrome(ListNode<Integer> L) {
+
     // Finds the second half of L.
     ListNode<Integer> slow = L, fast = L;
     while (fast != null && fast.next != null) {
@@ -28,9 +30,10 @@ public class IsListPalindromic {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IsListPalindromic.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

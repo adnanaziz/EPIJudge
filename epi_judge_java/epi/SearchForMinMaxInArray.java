@@ -1,11 +1,8 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.List;
-
 public class SearchForMinMaxInArray {
   @EpiUserType(ctorParams = {Integer.class, Integer.class})
 
@@ -45,17 +42,18 @@ public class SearchForMinMaxInArray {
     }
   }
 
-  @EpiTest(testfile = "search_for_min_max_in_array.tsv")
+  @EpiTest(testDataFile = "search_for_min_max_in_array.tsv")
 
   public static MinMax findMinMax(List<Integer> A) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return new MinMax(0, 0);
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchForMinMaxInArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

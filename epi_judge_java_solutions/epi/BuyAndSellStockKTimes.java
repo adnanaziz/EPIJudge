@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class BuyAndSellStockKTimes {
-  @EpiTest(testfile = "buy_and_sell_stock_k_times.tsv")
+  @EpiTest(testDataFile = "buy_and_sell_stock_k_times.tsv")
+
   public static double buyAndSellStockKTimes(List<Double> prices, int k) {
+
     if (k == 0) {
       return 0.0;
     } else if (2 * k >= prices.size()) {
@@ -39,9 +41,10 @@ public class BuyAndSellStockKTimes {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BuyAndSellStockKTimes.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

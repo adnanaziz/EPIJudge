@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class RealSquareRoot {
-  @EpiTest(testfile = "real_square_root.tsv")
+  @EpiTest(testDataFile = "real_square_root.tsv")
+
   public static double squareRoot(double x) {
+
     // Decides the search range according to x's value relative to 1.0.
     double left, right;
     if (x < 1.0) {
@@ -41,9 +43,10 @@ public class RealSquareRoot {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RealSquareRoot.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

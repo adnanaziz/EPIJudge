@@ -1,10 +1,13 @@
+from test_framework import generic_test
+
+
 class Queue:
     def enqueue(self, x):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return
 
     def dequeue(self):
-        # Implement this placeholder.
+        # TODO - you fill in here.
         return 0
 
 
@@ -30,9 +33,7 @@ def queue_tester(ops):
         raise TestFailure('Unexpected IndexError exception')
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('queue_from_stacks.tsv', queue_tester))
+    exit(
+        generic_test.generic_test_main("queue_from_stacks.py",
+                                       'queue_from_stacks.tsv', queue_tester))

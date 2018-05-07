@@ -14,8 +14,10 @@ import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 public class SearchFrequentItems {
+
   public static List<String> searchFrequentItems(int k,
                                                  Iterable<String> stream) {
+
     // Finds the candidates which may occur > n / k times.
     String buf = "";
     Map<String, Integer> table = new HashMap<>();
@@ -66,7 +68,7 @@ public class SearchFrequentItems {
         .collect(Collectors.toList());
   }
 
-  @EpiTest(testfile = "search_frequent_items.tsv")
+  @EpiTest(testDataFile = "search_frequent_items.tsv")
   public static List<String> searchFrequentItemsWrapper(int k,
                                                         List<String> stream) {
     return searchFrequentItems(k, stream);
@@ -84,9 +86,10 @@ public class SearchFrequentItems {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchFrequentItems.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,10 +1,8 @@
-from sys import exit
-
-from binary_tree_node import BinaryTreeNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def inorder_traversal(tree):
+
     s, result = [], []
 
     while s or tree:
@@ -22,4 +20,6 @@ def inorder_traversal(tree):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('tree_inorder.tsv', inorder_traversal))
+    exit(
+        generic_test.generic_test_main("tree_inorder.py", 'tree_inorder.tsv',
+                                       inorder_traversal))

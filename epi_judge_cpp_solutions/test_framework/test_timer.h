@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <algorithm>
@@ -70,7 +70,7 @@ std::string DurationToString(const std::chrono::microseconds& dur) {
 }
 
 std::pair<std::chrono::microseconds, std::chrono::microseconds>
-AvgAndMedianFromDurations(std::vector<std::chrono::microseconds>& durations) {
+AvgAndMedianFromDurations(std::vector<std::chrono::microseconds> durations) {
   std::sort(std::begin(durations), std::end(durations));
   auto avg = std::accumulate(std::begin(durations), std::end(durations),
                              std::chrono::microseconds::zero()) /

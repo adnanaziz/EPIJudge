@@ -1,16 +1,12 @@
 #include <istream>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
-#include "test_framework/test_utils_serialization_traits.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
-
 typedef enum { kWhite, kBlack } Color;
-
 struct Coordinate {
   bool operator==(const Coordinate& that) const {
     return x == that.x && y == that.y;
@@ -18,13 +14,11 @@ struct Coordinate {
 
   int x, y;
 };
-
 vector<Coordinate> SearchMaze(vector<vector<Color>> maze, const Coordinate& s,
                               const Coordinate& e) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return {};
 }
-
 template <>
 struct SerializationTraits<Color> : SerializationTraits<int> {
   using serialization_type = Color;
@@ -34,14 +28,20 @@ struct SerializationTraits<Color> : SerializationTraits<int> {
         SerializationTraits<int>::Parse(str));
   }
 
-  static serialization_type JsonParse(std::istream& in) {
+  static serialization_type JsonParse(const json_parser::Json& json_object) {
     return static_cast<serialization_type>(
-        SerializationTraits<int>::JsonParse(in));
+        SerializationTraits<int>::JsonParse(json_object));
   }
 };
 
 template <>
-struct SerializationTraits<Coordinate> : UserSerTraits<Coordinate, int, int> {};
+struct SerializationTraits<Coordinate> : UserSerTraits<Coordinate, int, int> {
+  static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
+    return {};
+  }
+
+  static std::vector<int> GetMetrics(const Coordinate& x) { return {}; }
+};
 
 bool PathElementIsFeasible(const vector<vector<Color>>& maze,
                            const Coordinate& prev, const Coordinate& cur) {
@@ -82,6 +82,6 @@ bool SearchMazeWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "maze", "s", "e"};
-  return GenericTestMain(args, "search_maze.tsv", &SearchMazeWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "search_maze.cc", "search_maze.tsv",
+                         &SearchMazeWrapper, DefaultComparator{}, param_names);
 }

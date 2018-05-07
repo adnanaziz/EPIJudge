@@ -7,6 +7,7 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 public class LowestCommonAncestor {
+
   private static class Status {
     public int numTargetNodes;
     public BinaryTreeNode<Integer> ancestor;
@@ -20,6 +21,7 @@ public class LowestCommonAncestor {
   public static BinaryTreeNode<Integer> LCA(BinaryTreeNode<Integer> tree,
                                             BinaryTreeNode<Integer> node0,
                                             BinaryTreeNode<Integer> node1) {
+
     return LCAHelper(tree, node0, node1).ancestor;
   }
 
@@ -50,7 +52,7 @@ public class LowestCommonAncestor {
     return new Status(numTargetNodes, numTargetNodes == 2 ? tree : null);
   }
 
-  @EpiTest(testfile = "lowest_common_ancestor.tsv")
+  @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
   public static int lcaWrapper(TimedExecutor executor,
                                BinaryTreeNode<Integer> tree, Integer key0,
                                Integer key1) throws Exception {
@@ -67,9 +69,10 @@ public class LowestCommonAncestor {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LowestCommonAncestor.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

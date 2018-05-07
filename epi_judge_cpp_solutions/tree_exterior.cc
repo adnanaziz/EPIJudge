@@ -8,55 +8,71 @@
 
 using std::vector;
 
-void LeftBoundaryAndLeaves(const unique_ptr<BinaryTreeNode<int>>&, bool,
-                           vector<const unique_ptr<BinaryTreeNode<int>>*>*);
-void RightBoundaryAndLeaves(const unique_ptr<BinaryTreeNode<int>>&, bool,
-                            vector<const unique_ptr<BinaryTreeNode<int>>*>*);
-bool IsLeaf(const unique_ptr<BinaryTreeNode<int>>&);
+void LeftBoundary(const unique_ptr<BinaryTreeNode<int>>&,
+                  vector<const unique_ptr<BinaryTreeNode<int>>*>*);
+void RightBoundary(const unique_ptr<BinaryTreeNode<int>>&,
+                   vector<const unique_ptr<BinaryTreeNode<int>>*>*);
+void Leaves(const unique_ptr<BinaryTreeNode<int>>&,
+            vector<const unique_ptr<BinaryTreeNode<int>>*>*);
 
 vector<const unique_ptr<BinaryTreeNode<int>>*> ExteriorBinaryTree(
     const unique_ptr<BinaryTreeNode<int>>& tree) {
-  vector<const unique_ptr<BinaryTreeNode<int>>*> exterior;
-  if (tree != nullptr) {
-    exterior.emplace_back(&tree);
-    LeftBoundaryAndLeaves(tree->left, true, &exterior);
-    RightBoundaryAndLeaves(tree->right, true, &exterior);
+  if (tree == nullptr) {
+    return {};
   }
+
+  vector<const unique_ptr<BinaryTreeNode<int>>*> exterior{&tree};
+  LeftBoundary(tree->left, &exterior);
+  Leaves(tree->left, &exterior);
+  Leaves(tree->right, &exterior);
+  RightBoundary(tree->right, &exterior);
   return exterior;
 }
 
-// Computes the nodes from the root to the leftmost leaf followed by all the
-// leaves in subtree.
-void LeftBoundaryAndLeaves(
-    const unique_ptr<BinaryTreeNode<int>>& subtree, bool is_boundary,
+// Computes the nodes from the root to the leftmost leaf.
+void LeftBoundary(
+    const unique_ptr<BinaryTreeNode<int>>& subtree,
     vector<const unique_ptr<BinaryTreeNode<int>>*>* exterior_ptr) {
-  if (subtree != nullptr) {
-    if (is_boundary || IsLeaf(subtree)) {
-      exterior_ptr->emplace_back(&subtree);
-    }
-    LeftBoundaryAndLeaves(subtree->left, is_boundary, exterior_ptr);
-    LeftBoundaryAndLeaves(
-        subtree->right, is_boundary && subtree->left == nullptr, exterior_ptr);
+  if (subtree == nullptr ||
+      (subtree->left == nullptr && subtree->right == nullptr)) {
+    return;
+  }
+  exterior_ptr->emplace_back(&subtree);
+  if (subtree->left != nullptr) {
+    LeftBoundary(subtree->left, exterior_ptr);
+  } else {
+    LeftBoundary(subtree->right, exterior_ptr);
   }
 }
 
-// Computes the leaves in left-to-right order followed by the rightmost leaf
-// to the root path in subtree.
-void RightBoundaryAndLeaves(
-    const unique_ptr<BinaryTreeNode<int>>& subtree, bool is_boundary,
+// Computes the nodes from the rightmost leaf to the root.
+void RightBoundary(
+    const unique_ptr<BinaryTreeNode<int>>& subtree,
     vector<const unique_ptr<BinaryTreeNode<int>>*>* exterior_ptr) {
-  if (subtree != nullptr) {
-    RightBoundaryAndLeaves(
-        subtree->left, is_boundary && subtree->right == nullptr, exterior_ptr);
-    RightBoundaryAndLeaves(subtree->right, is_boundary, exterior_ptr);
-    if (is_boundary || IsLeaf(subtree)) {
-      exterior_ptr->emplace_back(&subtree);
-    }
+  if (subtree == nullptr ||
+      (subtree->left == nullptr && subtree->right == nullptr)) {
+    return;
   }
+  if (subtree->right != nullptr) {
+    RightBoundary(subtree->right, exterior_ptr);
+  } else {
+    RightBoundary(subtree->left, exterior_ptr);
+  }
+  exterior_ptr->emplace_back(&subtree);
 }
 
-bool IsLeaf(const unique_ptr<BinaryTreeNode<int>>& node) {
-  return node->left == nullptr && node->right == nullptr;
+// Compute the leaves in left-to-right order.
+void Leaves(const unique_ptr<BinaryTreeNode<int>>& subtree,
+            vector<const unique_ptr<BinaryTreeNode<int>>*>* exterior_ptr) {
+  if (subtree == nullptr) {
+    return;
+  }
+  if (subtree->left == nullptr && subtree->right == nullptr) {
+    exterior_ptr->emplace_back(&subtree);
+    return;
+  }
+  Leaves(subtree->left, exterior_ptr);
+  Leaves(subtree->right, exterior_ptr);
 }
 
 vector<int> CreateOutputVector(
@@ -81,6 +97,7 @@ vector<int> ExteriorBinaryTreeWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "tree"};
-  return GenericTestMain(args, "tree_exterior.tsv", &ExteriorBinaryTreeWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "tree_exterior.cc", "tree_exterior.tsv",
+                         &ExteriorBinaryTreeWrapper, DefaultComparator{},
+                         param_names);
 }

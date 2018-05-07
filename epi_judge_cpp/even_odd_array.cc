@@ -1,17 +1,14 @@
 #include <set>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 void EvenOdd(vector<int>* A_ptr) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return;
 }
-
 void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
   std::multiset<int> before(begin(A), end(A));
 
@@ -37,6 +34,6 @@ void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "A"};
-  return GenericTestMain(args, "even_odd_array.tsv", &EvenOddWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "even_odd_array.cc", "even_odd_array.tsv",
+                         &EvenOddWrapper, DefaultComparator{}, param_names);
 }

@@ -1,7 +1,6 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
@@ -9,14 +8,14 @@ NUM_PEGS = 3
 
 
 def compute_tower_hanoi(num_rings):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return []
 
 
 @enable_executor_hook
 def compute_tower_hanoi_wrapper(executor, num_rings):
-    pegs = [list(reversed(range(1, num_rings + 1)))
-            ] + [[] for _ in range(1, NUM_PEGS)]
+    pegs = [list(reversed(range(1, num_rings + 1)))] + [[] for _ in range(
+        1, NUM_PEGS)]
 
     result = executor.run(functools.partial(compute_tower_hanoi, num_rings))
 
@@ -33,5 +32,5 @@ def compute_tower_hanoi_wrapper(executor, num_rings):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('hanoi.tsv',
+        generic_test.generic_test_main("hanoi.py", 'hanoi.tsv',
                                        compute_tower_hanoi_wrapper))

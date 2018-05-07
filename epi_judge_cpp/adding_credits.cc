@@ -1,39 +1,32 @@
 #include <string>
-
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
-
 using std::string;
 
 class ClientsCreditsInfo {
  public:
   void Insert(const string& client_id, int c) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
-
   bool Remove(const string& client_id) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return true;
   }
-
   int Lookup(const string& client_id) const {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
-
   void AddAll(int C) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return;
   }
-
   string Max() const {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return "";
   }
 };
-
 struct Operation {
   std::string op;
   std::string s_arg;
@@ -91,6 +84,7 @@ void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "adding_credits.tsv", &ClientsCreditsInfoTester,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "adding_credits.cc", "adding_credits.tsv",
+                         &ClientsCreditsInfoTester, DefaultComparator{},
+                         param_names);
 }

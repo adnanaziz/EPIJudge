@@ -32,6 +32,7 @@ int FindKthLargest(int k, vector<int>* A_ptr) {
 int FindKthSmallest(int k, vector<int>* A_ptr) {
   return FindKth(k, less<int>(), A_ptr);
 }
+
 template <typename Compare>
 int FindKth(int k, Compare comp, vector<int>* A_ptr) {
   vector<int>& A = *A_ptr;
@@ -51,6 +52,7 @@ int FindKth(int k, Compare comp, vector<int>* A_ptr) {
       left = new_pivot_idx + 1;
     }
   }
+
   throw length_error("no k-th node in array A");
 }
 
@@ -86,7 +88,7 @@ int FindKthLargestWrapper(int k, vector<int>& A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"k", "A"};
-  return GenericTestMain(args, "kth_largest_in_array.tsv",
-                         &FindKthLargestWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "kth_largest_in_array.cc",
+                         "kth_largest_in_array.tsv", &FindKthLargestWrapper,
+                         DefaultComparator{}, param_names);
 }

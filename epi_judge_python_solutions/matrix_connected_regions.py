@@ -1,10 +1,10 @@
 import collections
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def flip_color(x, y, image):
+
     color = image[x][y]
     q = collections.deque([(x, y)])
     image[x][y] = 1 - image[x][y]  # Flips.
@@ -24,4 +24,6 @@ def flip_color_wrapper(x, y, image):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('painting.tsv', flip_color_wrapper))
+    exit(
+        generic_test.generic_test_main("matrix_connected_regions.py",
+                                       'painting.tsv', flip_color_wrapper))

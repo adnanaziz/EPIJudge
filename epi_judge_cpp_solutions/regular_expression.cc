@@ -56,6 +56,7 @@ bool IsMatchHere(const string &regex, int regex_offset, const string &s,
 int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"regex", "s"};
-  return GenericTestMain(args, "regular_expression.tsv", &IsMatch,
+  return GenericTestMain(args, "regular_expression.cc",
+                         "regular_expression.tsv", &IsMatch,
                          DefaultComparator{}, param_names);
 }

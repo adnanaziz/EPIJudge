@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueWithMax {
+
   private StackWithMax.Stack enqueue = new StackWithMax.Stack();
   private StackWithMax.Stack dequeue = new StackWithMax.Stack();
 
   public void enqueue(Integer x) { enqueue.push(x); }
 
   public Integer dequeue() {
+
     if (dequeue.empty()) {
       while (!enqueue.empty()) {
         dequeue.push(enqueue.pop());
@@ -27,6 +29,7 @@ public class QueueWithMax {
   }
 
   public Integer max() {
+
     if (!enqueue.empty()) {
       return dequeue.empty() ? enqueue.max()
                              : Math.max(enqueue.max(), dequeue.max());
@@ -47,7 +50,7 @@ public class QueueWithMax {
     }
   }
 
-  @EpiTest(testfile = "queue_with_max.tsv")
+  @EpiTest(testDataFile = "queue_with_max.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     try {
       QueueWithMax q = new QueueWithMax();
@@ -83,9 +86,10 @@ public class QueueWithMax {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "QueueWithMax.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

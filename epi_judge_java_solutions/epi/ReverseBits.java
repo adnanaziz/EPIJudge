@@ -19,8 +19,9 @@ public class ReverseBits {
     }
   }
 
-  @EpiTest(testfile = "reverse_bits.tsv")
+  @EpiTest(testDataFile = "reverse_bits.tsv")
   public static long reverseBits(long x) {
+
     final int MASK_SIZE = 16;
     final int BIT_MASK = 0xFFFF;
     return precomputedReverse[(int)(x & BIT_MASK)] << (3 * MASK_SIZE) |
@@ -32,9 +33,10 @@ public class ReverseBits {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ReverseBits.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

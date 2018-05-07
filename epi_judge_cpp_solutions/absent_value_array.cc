@@ -49,6 +49,7 @@ int FindMissingElement(vector<int>::const_iterator stream_begin,
       return (candidate_bucket << 16) | i;
     }
   }
+
   throw invalid_argument("no missing element");
 }
 
@@ -63,7 +64,7 @@ int FindMissingElementWrapper(const vector<int>& stream) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"stream"};
-  return GenericTestMain(args, "absent_value_array.tsv",
-                         &FindMissingElementWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "absent_value_array.cc",
+                         "absent_value_array.tsv", &FindMissingElementWrapper,
+                         DefaultComparator{}, param_names);
 }

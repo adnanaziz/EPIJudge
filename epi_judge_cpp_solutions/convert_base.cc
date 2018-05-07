@@ -29,6 +29,6 @@ string ConstructFromBase(int num_as_int, int base) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"num_as_string", "b1", "b2"};
-  return GenericTestMain(args, "convert_base.tsv", &ConvertBase,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "convert_base.cc", "convert_base.tsv",
+                         &ConvertBase, DefaultComparator{}, param_names);
 }

@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def find_kth_in_two_sorted_arrays(A, B, k):
+
     # Lower bound of elements we will choose in A.
     b = max(0, k - len(B))
     # Upper bound of elements we will choose in A.
@@ -24,12 +28,9 @@ def find_kth_in_two_sorted_arrays(A, B, k):
     return max(A_b_1, B_k_b_1)
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "kth_largest_element_in_two_sorted_arrays.py",
             'kth_largest_element_in_two_sorted_arrays.tsv',
             find_kth_in_two_sorted_arrays))

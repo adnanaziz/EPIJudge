@@ -1,15 +1,16 @@
-// @library
+
 #pragma once
 
 #include <algorithm>
 #include <memory>
 #include <queue>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 #include <unordered_set>
 #include <vector>
 
 #include "fmt_print_fwd.h"
-#include "test_utils_serialization_traits.h"
 
 template <typename Node, typename T>
 void TreeGenerateHelper(const Node& tree, std::vector<T>* result, int order) {
@@ -28,25 +29,29 @@ void TreeGenerateHelper(const Node& tree, std::vector<T>* result, int order) {
   }
 }
 
+//TODO Try type extractor pattern
 template <template <typename...> class SmartPtr,
-          template <typename...> class Node, typename T>
-std::vector<T> GeneratePreorder(const SmartPtr<Node<T>>& tree) {
+          template <typename...> class Node, typename T,
+          typename... MsvcWorkaround>
+std::vector<T> GeneratePreorder(const SmartPtr<Node<T>, MsvcWorkaround...>& tree) {
   std::vector<T> result;
   TreeGenerateHelper(tree, &result, -1);
   return result;
 }
 
 template <template <typename...> class SmartPtr,
-          template <typename...> class Node, typename T>
-std::vector<T> GenerateInorder(const SmartPtr<Node<T>>& tree) {
+          template <typename...> class Node, typename T,
+          typename... MsvcWorkaround>
+std::vector<T> GenerateInorder(const SmartPtr<Node<T>, MsvcWorkaround...>& tree) {
   std::vector<T> result;
   TreeGenerateHelper(tree, &result, 0);
   return result;
 }
 
 template <template <typename...> class SmartPtr,
-          template <typename...> class Node, typename T>
-std::vector<T> GeneratePostorder(const SmartPtr<Node<T>>& tree) {
+          template <typename...> class Node, typename T,
+          typename... MsvcWorkaround>
+std::vector<T> GeneratePostorder(const SmartPtr<Node<T>, MsvcWorkaround...>& tree) {
   std::vector<T> result;
   TreeGenerateHelper(tree, &result, 1);
   return result;
@@ -146,6 +151,14 @@ int BinaryTreeHeight(const Node& tree) {
   }
   return 1 + std::max(BinaryTreeHeight(tree->left),
                       BinaryTreeHeight(tree->right));
+}
+
+template <typename Node>
+int BinaryTreeSize(const Node& tree) {
+  if (!tree) {
+    return 0;
+  }
+  return 1 + BinaryTreeSize(tree->left) + BinaryTreeSize(tree->right);
 }
 
 // C++ framework specific functions

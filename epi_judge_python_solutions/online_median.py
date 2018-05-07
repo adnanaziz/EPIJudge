@@ -1,10 +1,10 @@
 import heapq
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def online_median(sequence):
+
     # min_heap stores the larger half seen so far.
     min_heap = []
     # max_heap stores the smaller half seen so far.
@@ -31,5 +31,5 @@ def online_median_wrapper(sequence):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("online_median.tsv",
+        generic_test.generic_test_main("online_median.py", "online_median.tsv",
                                        online_median_wrapper))

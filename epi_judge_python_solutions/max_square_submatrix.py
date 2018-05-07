@@ -1,10 +1,10 @@
 import collections
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def max_square_submatrix(A):
+
     MaxHW = collections.namedtuple('MaxHW', ('h', 'w'))
     # DP table stores (h, w) for each (i, j).
     table = [[None] * len(A[0]) for _ in A]
@@ -46,5 +46,6 @@ def max_square_submatrix_space_efficient(A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('max_square_submatrix.tsv',
+        generic_test.generic_test_main("max_square_submatrix.py",
+                                       'max_square_submatrix.tsv',
                                        max_square_submatrix))

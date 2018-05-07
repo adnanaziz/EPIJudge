@@ -31,6 +31,7 @@ int ComputeNumberOfWaysToH(int h, int maximum_step,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"top", "maximum_step"};
-  return GenericTestMain(args, "number_of_traversals_staircase.tsv",
+  return GenericTestMain(args, "number_of_traversals_staircase.cc",
+                         "number_of_traversals_staircase.tsv",
                          &NumberOfWaysToTop, DefaultComparator{}, param_names);
 }

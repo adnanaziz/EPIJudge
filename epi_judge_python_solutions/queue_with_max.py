@@ -1,7 +1,5 @@
-from sys import exit
-
 from stack_with_max import Stack
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
@@ -11,9 +9,11 @@ class QueueWithMax:
         self._dequeue = Stack()
 
     def enqueue(self, x):
+
         self._enqueue.push(x)
 
     def dequeue(self):
+
         if self._dequeue.empty():
             while not self._enqueue.empty():
                 self._dequeue.push(self._enqueue.pop())
@@ -22,6 +22,7 @@ class QueueWithMax:
         raise IndexError('Cannot get dequeue() on empty queue.')
 
     def max(self):
+
         if not self._enqueue.empty():
             return self._enqueue.max() if self._dequeue.empty() else max(
                 self._enqueue.max(), self._dequeue.max())
@@ -57,4 +58,6 @@ def queue_tester(ops):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('queue_with_max.tsv', queue_tester))
+    exit(
+        generic_test.generic_test_main("queue_with_max.py",
+                                       'queue_with_max.tsv', queue_tester))

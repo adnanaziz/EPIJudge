@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public class KLargestValuesInBst {
-  @EpiTest(testfile = "k_largest_values_in_bst.tsv")
+  @EpiTest(testDataFile = "k_largest_values_in_bst.tsv")
+
   public static List<Integer> findKLargestInBst(BstNode<Integer> tree, int k) {
+
     List<Integer> kLargestElements = new ArrayList<>();
     findKLargestInBstHelper(tree, k, kLargestElements);
     return kLargestElements;
@@ -41,9 +43,10 @@ public class KLargestValuesInBst {
   };
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "KLargestValuesInBst.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

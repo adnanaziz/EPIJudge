@@ -89,7 +89,7 @@ int Evaluate(const vector<int>& operands, const vector<char>& operators) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"digits", "target"};
-  return GenericTestMain(args, "insert_operators_in_string.tsv",
-                         &ExpressionSynthesis, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "insert_operators_in_string.cc",
+                         "insert_operators_in_string.tsv", &ExpressionSynthesis,
+                         DefaultComparator{}, param_names);
 }

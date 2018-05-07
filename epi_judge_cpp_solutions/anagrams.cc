@@ -19,7 +19,7 @@ vector<vector<string>> FindAnagrams(const vector<string>& dictionary) {
   }
 
   vector<vector<string>> anagram_groups;
-  for (const auto & [ key, group ] : sorted_string_to_anagrams) {
+  for (const auto& [key, group] : sorted_string_to_anagrams) {
     if (size(group) >= 2) {  // Found anagrams.
       anagram_groups.emplace_back(group);
     }
@@ -33,6 +33,6 @@ vector<vector<string>> FindAnagrams(const vector<string>& dictionary) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"dictionary"};
-  return GenericTestMain(args, "anagrams.tsv", &FindAnagrams, &UnorderedComparator<std::vector<std::vector<std::string>>>, param_names);
+  return GenericTestMain(args, "anagrams.cc", "anagrams.tsv", &FindAnagrams, &UnorderedComparator<std::vector<std::vector<std::string>>>, param_names);
 }
 // clang-format on

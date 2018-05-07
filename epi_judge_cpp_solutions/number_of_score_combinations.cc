@@ -27,6 +27,6 @@ int NumCombinationsForFinalScore(int final_score,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"final_score", "individual_play_scores"};
-  return GenericTestMain(args, "number_of_score_combinations.tsv", &NumCombinationsForFinalScore, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "number_of_score_combinations.cc", "number_of_score_combinations.tsv", &NumCombinationsForFinalScore, DefaultComparator{}, param_names);
 }
 // clang-format on

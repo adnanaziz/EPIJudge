@@ -8,7 +8,9 @@ import epi.test_framework.TimedExecutor;
 import java.util.List;
 
 public class SearchEntryEqualToIndex {
+
   public static int searchEntryEqualToItsIndex(List<Integer> A) {
+
     int left = 0, right = A.size() - 1;
     while (left <= right) {
       int mid = left + ((right - left) / 2);
@@ -25,7 +27,7 @@ public class SearchEntryEqualToIndex {
     return -1;
   }
 
-  @EpiTest(testfile = "search_entry_equal_to_index.tsv")
+  @EpiTest(testDataFile = "search_entry_equal_to_index.tsv")
   public static void searchEntryEqualToItsIndexWrapper(TimedExecutor executor,
                                                        List<Integer> A)
       throws Exception {
@@ -45,9 +47,10 @@ public class SearchEntryEqualToIndex {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchEntryEqualToIndex.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

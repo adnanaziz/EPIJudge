@@ -1,12 +1,9 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.Collections;
 import java.util.List;
-
 public class MaxOfSlidingWindow {
   @EpiUserType(ctorParams = {int.class, double.class})
 
@@ -42,18 +39,19 @@ public class MaxOfSlidingWindow {
     }
   }
 
-  @EpiTest(testfile = "max_of_sliding_window.tsv")
+  @EpiTest(testDataFile = "max_of_sliding_window.tsv")
 
   public static List<TrafficElement>
   computeTrafficVolumes(List<TrafficElement> A, int w) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MaxOfSlidingWindow.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

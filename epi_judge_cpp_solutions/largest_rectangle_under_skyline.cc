@@ -40,6 +40,6 @@ bool IsNewPillarOrReachEnd(const vector<int>& heights, int curr_idx,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"heights"};
-  return GenericTestMain(args, "largest_rectangle_under_skyline.tsv", &CalculateLargestRectangle, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "largest_rectangle_under_skyline.cc", "largest_rectangle_under_skyline.tsv", &CalculateLargestRectangle, DefaultComparator{}, param_names);
 }
 // clang-format on

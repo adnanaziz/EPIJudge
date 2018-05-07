@@ -1,28 +1,22 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
 import java.util.NoSuchElementException;
-
 public class QueueFromStacks {
 
   public static class Queue {
-
     public void enqueue(Integer x) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return;
     }
-
     public Integer dequeue() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
   }
-
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class QueueOp {
     public String op;
@@ -34,7 +28,7 @@ public class QueueFromStacks {
     }
   }
 
-  @EpiTest(testfile = "queue_from_stacks.tsv")
+  @EpiTest(testDataFile = "queue_from_stacks.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     try {
       Queue q = new Queue();
@@ -63,9 +57,10 @@ public class QueueFromStacks {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "QueueFromStacks.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

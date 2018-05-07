@@ -1,17 +1,14 @@
 #include <functional>
 #include <random>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
-
 using std::bind;
 using std::default_random_engine;
 using std::random_device;
 using std::uniform_int_distribution;
 using std::vector;
-
 int ZeroOneRandom() {
   default_random_engine gen((random_device())());
   uniform_int_distribution<int> dis(0, 1);
@@ -19,10 +16,9 @@ int ZeroOneRandom() {
 }
 
 int UniformRandom(int lower_bound, int upper_bound) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0;
 }
-
 bool UniformRandomRunner(TimedExecutor& executor, int lower_bound,
                          int upper_bound) {
   vector<int> result;
@@ -48,7 +44,7 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "lower_bound",
                                        "upper_bound"};
-  return GenericTestMain(args, "uniform_random_number.tsv",
-                         &UniformRandomWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "uniform_random_number.cc",
+                         "uniform_random_number.tsv", &UniformRandomWrapper,
+                         DefaultComparator{}, param_names);
 }

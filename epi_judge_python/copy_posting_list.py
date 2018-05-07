@@ -1,14 +1,13 @@
 import functools
-from sys import exit
 
 from posting_list_node import PostingListNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def copy_postings_list(L):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return None
 
 
@@ -73,5 +72,6 @@ def copy_postings_list_wrapper(executor, l):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('copy_posting_list.tsv',
+        generic_test.generic_test_main("copy_posting_list.py",
+                                       'copy_posting_list.tsv',
                                        copy_postings_list_wrapper))

@@ -1,4 +1,4 @@
-# @library
+
 from enum import Enum, auto
 
 

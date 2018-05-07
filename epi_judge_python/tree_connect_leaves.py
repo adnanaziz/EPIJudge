@@ -1,13 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def create_list_of_leaves(tree):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return []
 
 
@@ -22,5 +21,6 @@ def create_list_of_leaves_wrapper(executor, tree):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("tree_connect_leaves.tsv",
+        generic_test.generic_test_main("tree_connect_leaves.py",
+                                       "tree_connect_leaves.tsv",
                                        create_list_of_leaves_wrapper))

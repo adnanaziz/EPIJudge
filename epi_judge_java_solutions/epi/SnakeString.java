@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class SnakeString {
-  @EpiTest(testfile = "snake_string.tsv")
+  @EpiTest(testDataFile = "snake_string.tsv")
+
   public static String snakeString(String s) {
+
     StringBuilder result = new StringBuilder();
     // Outputs the first row, i.e., s[1], s[5], s[9], ...
     for (int i = 1; i < s.length(); i += 4) {
@@ -23,9 +25,10 @@ public class SnakeString {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SnakeString.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

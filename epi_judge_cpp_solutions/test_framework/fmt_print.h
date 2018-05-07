@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 #include <ostream>
@@ -6,9 +6,9 @@
 #include <tuple>
 
 #include "fmt_print_fwd.h"
-#include "test_utils_serialization_traits.h"
+#include "serialization_traits.h"
 
-namespace {
+namespace detail {
 template <typename T>
 void PrintToImpl(std::ostream& out, const T& x, HasOStreamOpTag) {
   out << x;
@@ -139,7 +139,7 @@ void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx,
                              "\": too many values provided");
   }
 }
-}  // namespace
+}  // namespace detail
 
 template <typename T>
 std::ostream& PrintTo(std::ostream& out, const T& x) {
@@ -150,13 +150,13 @@ std::ostream& PrintTo(std::ostream& out, const T& x) {
           std::conditional_t<IsBinaryTree<T>::value, IsBinaryTreeTag,
                              HasNoOStreamOpTag>>>;
 
-  PrintToImpl(out, x, Tag());
+  detail::PrintToImpl(out, x, Tag());
   return out;
 }
 
 template <typename... Args>
 std::string FmtStr(const std::string& fmt, const Args&... args) {
   std::stringstream ss;
-  FmtStrImpl(ss, fmt, 0, args..., FormatterArgsTerminator{});
+  detail::FmtStrImpl(ss, fmt, 0, args..., detail::FormatterArgsTerminator{});
   return ss.str();
 }

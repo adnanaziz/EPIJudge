@@ -7,8 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EvenOddListMerge {
-  @EpiTest(testfile = "even_odd_list_merge.tsv")
+  @EpiTest(testDataFile = "even_odd_list_merge.tsv")
+
   public static ListNode<Integer> evenOddMerge(ListNode<Integer> L) {
+
     if (L == null) {
       return L;
     }
@@ -28,9 +30,10 @@ public class EvenOddListMerge {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "EvenOddListMerge.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

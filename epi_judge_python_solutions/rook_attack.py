@@ -1,10 +1,10 @@
 import copy
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def rook_attack(A):
+
     m, n = len(A), len(A[0])
     has_first_row_zero = 0 in A[0]
     has_first_column_zero = any(not A[i][0] for i in range(m))
@@ -41,4 +41,5 @@ def rook_attack_wrapper(A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('rook_attack.tsv', rook_attack_wrapper))
+        generic_test.generic_test_main("rook_attack.py", 'rook_attack.tsv',
+                                       rook_attack_wrapper))

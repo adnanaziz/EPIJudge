@@ -1,12 +1,12 @@
 import functools
 import string
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 def int_to_string(x):
+
     is_negative = False
     if x < 0:
         x, is_negative = -x, True
@@ -23,6 +23,7 @@ def int_to_string(x):
 
 
 def string_to_int(s):
+
     return functools.reduce(
         lambda running_sum, c: running_sum * 10 + string.digits.index(c),
         s[s[0] == '-':], 0) * (-1 if s[0] == '-' else 1)
@@ -37,5 +38,6 @@ def wrapper(x, s):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('string_integer_interconversion.tsv',
+        generic_test.generic_test_main("string_integer_interconversion.py",
+                                       'string_integer_interconversion.tsv',
                                        wrapper))

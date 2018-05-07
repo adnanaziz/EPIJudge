@@ -1,13 +1,12 @@
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 # Assumes node_to_delete is not tail.
 def deletion_from_list(node_to_delete):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return
 
 
@@ -28,5 +27,6 @@ def deletion_from_list_wrapper(executor, head, node_to_delete_idx):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('delete_node_from_list.tsv',
+        generic_test.generic_test_main("delete_node_from_list.py",
+                                       'delete_node_from_list.tsv',
                                        deletion_from_list_wrapper))

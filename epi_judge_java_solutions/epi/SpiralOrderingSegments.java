@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpiralOrderingSegments {
-  @EpiTest(testfile = "spiral_ordering_segments.tsv")
+  @EpiTest(testDataFile = "spiral_ordering_segments.tsv")
+
   public static List<Integer>
   matrixInSpiralOrder(List<List<Integer>> squareMatrix) {
+
     final int[][] SHIFT = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
     int dir = 0, x = 0, y = 0;
     List<Integer> spiralOrdering = new ArrayList<>();
@@ -32,9 +34,10 @@ public class SpiralOrderingSegments {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SpiralOrderingSegments.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

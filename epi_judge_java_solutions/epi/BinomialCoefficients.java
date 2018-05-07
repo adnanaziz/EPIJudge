@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class BinomialCoefficients {
-  @EpiTest(testfile = "binomial_coefficients.tsv")
+  @EpiTest(testDataFile = "binomial_coefficients.tsv")
+
   public static int computeBinomialCoefficient(int n, int k) {
+
     return computeXChooseY(n, k, new int[n + 1][k + 1]);
   }
 
@@ -40,9 +42,10 @@ public class BinomialCoefficients {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "BinomialCoefficients.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

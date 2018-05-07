@@ -1,11 +1,16 @@
+from test_framework import generic_test
+
+
 class Queue:
     def __init__(self):
         self._enq, self._deq = [], []
 
     def enqueue(self, x):
+
         self._enq.append(x)
 
     def dequeue(self):
+
         if not self._deq:
             # Transfers the elements in _enq to _deq.
             while self._enq:
@@ -38,9 +43,7 @@ def queue_tester(ops):
         raise TestFailure('Unexpected IndexError exception')
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('queue_from_stacks.tsv', queue_tester))
+    exit(
+        generic_test.generic_test_main("queue_from_stacks.py",
+                                       'queue_from_stacks.tsv', queue_tester))

@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TreeWithParentInorder {
-  @EpiTest(testfile = "tree_with_parent_inorder.tsv")
+  @EpiTest(testDataFile = "tree_with_parent_inorder.tsv")
+
   public static List<Integer> inorderTraversal(BinaryTree<Integer> tree) {
+
     BinaryTree<Integer> prev = null, curr = tree;
     List<Integer> result = new ArrayList<>();
 
@@ -39,9 +41,10 @@ public class TreeWithParentInorder {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "TreeWithParentInorder.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

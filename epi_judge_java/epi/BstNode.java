@@ -5,9 +5,11 @@ import epi.test_framework.BinaryTreeUtils;
 
 import java.util.Objects;
 
+
 public class BstNode<T> {
   public T data;
   public BstNode<T> left, right;
+  
 
   public BstNode() {}
 
@@ -52,4 +54,6 @@ public class BstNode<T> {
   public String toString() {
     return BinaryTreeUtils.binaryTreeToString(this);
   }
+  
 }
+

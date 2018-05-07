@@ -1,11 +1,12 @@
+from test_framework import generic_test
+
+
 def divide(x, y):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return 0
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main("primitive_divide.tsv", divide))
+    exit(
+        generic_test.generic_test_main("primitive_divide.py",
+                                       "primitive_divide.tsv", divide))

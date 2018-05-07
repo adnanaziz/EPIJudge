@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 public class LruCache {
+
   LinkedHashMap<Integer, Integer> isbnToPrice;
 
   LruCache(final int capacity) {
+
     this.isbnToPrice =
         new LinkedHashMap<Integer, Integer>(capacity, 1.0f, true) {
           @Override
@@ -23,10 +25,12 @@ public class LruCache {
   }
 
   public Integer lookup(Integer key) {
+
     return isbnToPrice.getOrDefault(key, -1);
   }
 
   public void insert(Integer key, Integer value) {
+
     // We add the value for key only if key is not present - we don't update
     // existing values.
     isbnToPrice.putIfAbsent(key, value);
@@ -47,7 +51,7 @@ public class LruCache {
     }
   }
 
-  @EpiTest(testfile = "lru_cache.tsv")
+  @EpiTest(testDataFile = "lru_cache.tsv")
   public static void runTest(List<Op> commands) throws TestFailure {
     if (commands.isEmpty() || !commands.get(0).code.equals("LruCache")) {
       throw new RuntimeException("Expected LruCache as first command");
@@ -80,9 +84,10 @@ public class LruCache {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LruCache.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

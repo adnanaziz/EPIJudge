@@ -5,12 +5,14 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 public class DeleteFromList {
+
   // Delete the node immediately following aNode. Assumes aNode is not a tail.
   public static void deleteList(ListNode<Integer> aNode) {
+
     aNode.next = aNode.next.next;
   }
 
-  @EpiTest(testfile = "delete_from_list.tsv")
+  @EpiTest(testDataFile = "delete_from_list.tsv")
   public static ListNode<Integer>
   deleteListWrapper(TimedExecutor executor, ListNode<Integer> head, int nodeIdx)
       throws Exception {
@@ -34,9 +36,10 @@ public class DeleteFromList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DeleteFromList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

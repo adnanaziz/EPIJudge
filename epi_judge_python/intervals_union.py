@@ -1,8 +1,7 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 Endpoint = collections.namedtuple('Endpoint', ('is_closed', 'val'))
@@ -11,7 +10,7 @@ Interval = collections.namedtuple('Interval', ('left', 'right'))
 
 
 def union_of_intervals(intervals):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return []
 
 
@@ -29,5 +28,6 @@ def union_of_intervals_wrapper(executor, intervals):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("intervals_union.tsv",
+        generic_test.generic_test_main("intervals_union.py",
+                                       "intervals_union.tsv",
                                        union_of_intervals_wrapper))

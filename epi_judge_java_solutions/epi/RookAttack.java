@@ -8,7 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class RookAttack {
+
   public static void rookAttack(List<List<Integer>> A) {
+
     int m = A.size(), n = A.get(0).size();
     boolean hasFirstRowZero = A.get(0).contains(0);
     boolean hasFirstColumnZero = A.stream().anyMatch(row -> row.get(0) == 0);
@@ -43,7 +45,7 @@ public class RookAttack {
     }
   }
 
-  @EpiTest(testfile = "rook_attack.tsv")
+  @EpiTest(testDataFile = "rook_attack.tsv")
   public static List<List<Integer>> rookAttackWrapper(List<List<Integer>> A) {
     List<List<Integer>> aCopy = new ArrayList<>(A);
     rookAttack(aCopy);
@@ -51,9 +53,10 @@ public class RookAttack {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RookAttack.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

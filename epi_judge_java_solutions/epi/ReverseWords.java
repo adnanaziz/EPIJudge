@@ -5,7 +5,9 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 public class ReverseWords {
+
   public static void reverseWords(char[] input) {
+
     int n = input.length;
     // First, reverses the whole string.
     reverse(input, 0, n - 1);
@@ -31,7 +33,7 @@ public class ReverseWords {
     }
   }
 
-  @EpiTest(testfile = "reverse_words.tsv")
+  @EpiTest(testDataFile = "reverse_words.tsv")
   public static String reverseWordsWrapper(TimedExecutor executor, String s)
       throws Exception {
     char[] sCopy = s.toCharArray();
@@ -42,9 +44,10 @@ public class ReverseWords {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ReverseWords.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

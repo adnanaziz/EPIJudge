@@ -8,6 +8,7 @@ import java.util.List;
 
 public class MinimumPointsCoveringIntervals {
   @EpiUserType(ctorParams = {int.class, int.class})
+
   public static class Interval {
     public int left, right;
 
@@ -17,8 +18,10 @@ public class MinimumPointsCoveringIntervals {
     }
   }
 
-  @EpiTest(testfile = "minimum_points_covering_intervals.tsv")
+  @EpiTest(testDataFile = "minimum_points_covering_intervals.tsv")
+
   public static Integer findMinimumVisits(List<Interval> intervals) {
+
     // Sort intervals based on the right endpoints.
     intervals.sort((i1, i2) -> Integer.compare(i1.right, i2.right));
     Integer lastVisitTime = Integer.MIN_VALUE;
@@ -35,9 +38,10 @@ public class MinimumPointsCoveringIntervals {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MinimumPointsCoveringIntervals.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,16 +1,13 @@
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 int SearchEntryEqualToItsIndex(const vector<int>& A) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0;
 }
-
 void SearchEntryEqualToItsIndexWrapper(TimedExecutor& executor,
                                        const vector<int>& A) {
   int result = executor.Run([&] { return SearchEntryEqualToItsIndex(A); });
@@ -31,7 +28,7 @@ void SearchEntryEqualToItsIndexWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "A"};
-  return GenericTestMain(args, "search_entry_equal_to_index.tsv",
-                         &SearchEntryEqualToItsIndexWrapper,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(
+      args, "search_entry_equal_to_index.cc", "search_entry_equal_to_index.tsv",
+      &SearchEntryEqualToItsIndexWrapper, DefaultComparator{}, param_names);
 }

@@ -8,8 +8,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Arbitrage {
-  @EpiTest(testfile = "arbitrage.tsv")
+  @EpiTest(testDataFile = "arbitrage.tsv")
+
   public static boolean isArbitrageExist(List<List<Double>> graph) {
+
     // Transforms each edge in graph.
     for (List<Double> edgeList : graph) {
       for (int i = 0; i < edgeList.size(); i++) {
@@ -57,9 +59,10 @@ public class Arbitrage {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "Arbitrage.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,18 +1,15 @@
 #include <iterator>
 #include <string>
 #include <vector>
-
 #include "test_framework/generic_test.h"
 #include "test_framework/timed_executor.h"
-
 using std::string;
 using std::vector;
 
 int ReplaceAndRemove(int size, char s[]) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0;
 }
-
 vector<string> ReplaceAndRemoveWrapper(TimedExecutor& executor, int size,
                                        const vector<string>& s) {
   std::vector<char> s_copy(s.size(), '\0');
@@ -35,7 +32,7 @@ vector<string> ReplaceAndRemoveWrapper(TimedExecutor& executor, int size,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "size", "s"};
-  return GenericTestMain(args, "replace_and_remove.tsv",
-                         &ReplaceAndRemoveWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(args, "replace_and_remove.cc",
+                         "replace_and_remove.tsv", &ReplaceAndRemoveWrapper,
+                         DefaultComparator{}, param_names);
 }

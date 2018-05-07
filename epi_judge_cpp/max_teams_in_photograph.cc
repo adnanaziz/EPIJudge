@@ -1,10 +1,8 @@
 #include <stdexcept>
 #include <vector>
-
 #include "test_framework/generic_test.h"
-#include "test_framework/test_utils_serialization_traits.h"
+#include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
-
 using std::vector;
 
 struct GraphVertex {
@@ -14,10 +12,9 @@ struct GraphVertex {
 };
 
 int FindLargestNumberTeams(vector<GraphVertex>* graph) {
-  // Implement this placeholder.
+  // TODO - you fill in here.
   return 0;
 }
-
 struct Edge {
   int from;
   int to;
@@ -47,7 +44,7 @@ int FindLargestNumberTeamsWrapper(TimedExecutor& executor, int k,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "k", "edges"};
-  return GenericTestMain(args, "max_teams_in_photograph.tsv",
-                         &FindLargestNumberTeamsWrapper, DefaultComparator{},
-                         param_names);
+  return GenericTestMain(
+      args, "max_teams_in_photograph.cc", "max_teams_in_photograph.tsv",
+      &FindLargestNumberTeamsWrapper, DefaultComparator{}, param_names);
 }

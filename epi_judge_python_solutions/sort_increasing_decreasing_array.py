@@ -1,11 +1,11 @@
 import itertools
-from sys import exit
 
 from sorted_arrays_merge import merge_sorted_arrays
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def sort_k_increasing_decreasing_array(A):
+
     # Decomposes A into a set of sorted arrays.
     sorted_subarrays = []
     INCREASING, DECREASING = range(2)
@@ -42,5 +42,6 @@ def sort_k_increasing_decreasing_array_pythonic(A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('sort_increasing_decreasing_array.tsv',
+        generic_test.generic_test_main("sort_increasing_decreasing_array.py",
+                                       'sort_increasing_decreasing_array.tsv',
                                        sort_k_increasing_decreasing_array))

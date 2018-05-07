@@ -1,22 +1,18 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class RandomPermutation {
 
   public static List<Integer> computeRandomPermutation(int n) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   private static int factorial(int n) {
     return n <= 1 ? 1 : n * factorial(n - 1);
   }
@@ -56,7 +52,7 @@ public class RandomPermutation {
         sequence, factorial(n), 0.01);
   }
 
-  @EpiTest(testfile = "random_permutation.tsv")
+  @EpiTest(testDataFile = "random_permutation.tsv")
   public static void computeRandomPermutationWrapper(TimedExecutor executor,
                                                      int n) throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
@@ -64,9 +60,10 @@ public class RandomPermutation {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RandomPermutation.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

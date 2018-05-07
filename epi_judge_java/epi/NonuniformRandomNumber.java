@@ -1,25 +1,21 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class NonuniformRandomNumber {
 
   public static int
   nonuniformRandomNumberGeneration(List<Integer> values,
                                    List<Double> probabilities) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
-
   private static boolean nonuniformRandomNumberGenerationRunner(
       TimedExecutor executor, List<Integer> values, List<Double> probabilities)
       throws Exception {
@@ -50,7 +46,7 @@ public class NonuniformRandomNumber {
     return true;
   }
 
-  @EpiTest(testfile = "nonuniform_random_number.tsv")
+  @EpiTest(testDataFile = "nonuniform_random_number.tsv")
   public static void nonuniformRandomNumberGenerationWrapper(
       TimedExecutor executor, List<Integer> values, List<Double> probabilities)
       throws Exception {
@@ -61,9 +57,10 @@ public class NonuniformRandomNumber {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "NonuniformRandomNumber.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

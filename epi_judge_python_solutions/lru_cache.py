@@ -1,16 +1,17 @@
 import collections
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
 
 class LruCache:
     def __init__(self, capacity):
+
         self._isbn_price_table = collections.OrderedDict()
         self._capacity = capacity
 
     def lookup(self, isbn):
+
         if isbn not in self._isbn_price_table:
             return -1
         price = self._isbn_price_table.pop(isbn)
@@ -18,6 +19,7 @@ class LruCache:
         return price
 
     def insert(self, isbn, price):
+
         # We add the value for key only if key is not present - we don't update
         # existing values.
         if isbn in self._isbn_price_table:
@@ -27,6 +29,7 @@ class LruCache:
         self._isbn_price_table[isbn] = price
 
     def erase(self, isbn):
+
         return self._isbn_price_table.pop(isbn, None) is not None
 
 
@@ -54,4 +57,6 @@ def run_test(commands):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('lru_cache.tsv', run_test))
+    exit(
+        generic_test.generic_test_main("lru_cache.py", 'lru_cache.tsv',
+                                       run_test))

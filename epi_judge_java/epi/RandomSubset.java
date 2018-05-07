@@ -1,23 +1,19 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 public class RandomSubset {
 
   // Returns a random k-sized subset of {0, 1, ..., n - 1}.
   public static List<Integer> randomSubset(int n, int k) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return Collections.emptyList();
   }
-
   private static boolean randomSubsetRunner(TimedExecutor executor, int n,
                                             int k) throws Exception {
     List<List<Integer>> results = new ArrayList<>();
@@ -46,7 +42,7 @@ public class RandomSubset {
         sequence, totalPossibleOutcomes, 0.01);
   }
 
-  @EpiTest(testfile = "random_subset.tsv")
+  @EpiTest(testDataFile = "random_subset.tsv")
   public static void randomSubsetWrapper(TimedExecutor executor, int n, int k)
       throws Exception {
     RandomSequenceChecker.runFuncWithRetries(
@@ -54,9 +50,10 @@ public class RandomSubset {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RandomSubset.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

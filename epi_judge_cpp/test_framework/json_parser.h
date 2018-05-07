@@ -1,7 +1,8 @@
-// @library
+
 #pragma once
 
 #include <cassert>
+#include <cinttypes>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -44,7 +45,7 @@ class Json final {
   Json() noexcept;                 // NUL
   Json(std::nullptr_t) noexcept;   // NUL
   Json(double value);              // NUMBER
-  Json(int value);                 // NUMBER
+  Json(int64_t value);             // NUMBER
   Json(bool value);                // BOOL
   Json(const std::string &value);  // STRING
   Json(std::string &&value);       // STRING
@@ -96,7 +97,7 @@ class Json final {
   // int_value()
   // can both be applied to a NUMBER-typed object.
   double number_value() const;
-  int int_value() const;
+  int64_t int_value() const;
 
   // Return the enclosed value if this is a boolean, false otherwise.
   bool bool_value() const;
@@ -179,7 +180,7 @@ class JsonValue {
   virtual bool less(const JsonValue *other) const = 0;
   virtual void dump(std::string &out) const = 0;
   virtual double number_value() const;
-  virtual int int_value() const;
+  virtual int64_t int_value() const;
   virtual bool bool_value() const;
   virtual const std::string &string_value() const;
   virtual const Json::array &array_items() const;
@@ -223,9 +224,9 @@ static void dump(double value, string &out) {
   }
 }
 
-static void dump(int value, string &out) {
+static void dump(int64_t value, string &out) {
   char buf[32];
-  snprintf(buf, sizeof buf, "%d", value);
+  snprintf(buf, sizeof buf, "%" PRId64, value);
   out += buf;
 }
 
@@ -324,7 +325,7 @@ class Value : public JsonValue {
 
 class JsonDouble final : public Value<Json::NUMBER, double> {
   double number_value() const override { return m_value; }
-  int int_value() const override { return static_cast<int>(m_value); }
+  int64_t int_value() const override { return static_cast<int64_t>(m_value); }
   bool equals(const JsonValue *other) const override {
     return m_value == other->number_value();
   }
@@ -336,9 +337,9 @@ class JsonDouble final : public Value<Json::NUMBER, double> {
   explicit JsonDouble(double value) : Value(value) {}
 };
 
-class JsonInt final : public Value<Json::NUMBER, int> {
+class JsonInt final : public Value<Json::NUMBER, int64_t> {
   double number_value() const override { return m_value; }
-  int int_value() const override { return m_value; }
+  int64_t int_value() const override { return m_value; }
   bool equals(const JsonValue *other) const override {
     return m_value == other->number_value();
   }
@@ -420,7 +421,7 @@ static const Json &static_null() {
 Json::Json() noexcept : m_ptr(statics().null) {}
 Json::Json(std::nullptr_t) noexcept : m_ptr(statics().null) {}
 Json::Json(double value) : m_ptr(make_shared<JsonDouble>(value)) {}
-Json::Json(int value) : m_ptr(make_shared<JsonInt>(value)) {}
+Json::Json(int64_t value) : m_ptr(make_shared<JsonInt>(value)) {}
 Json::Json(bool value) : m_ptr(value ? statics().t : statics().f) {}
 Json::Json(const string &value) : m_ptr(make_shared<JsonString>(value)) {}
 Json::Json(string &&value) : m_ptr(make_shared<JsonString>(move(value))) {}
@@ -440,7 +441,7 @@ Json::Json(Json::object &&values)
 
 Json::Type Json::type() const { return m_ptr->type(); }
 double Json::number_value() const { return m_ptr->number_value(); }
-int Json::int_value() const { return m_ptr->int_value(); }
+int64_t Json::int_value() const { return m_ptr->int_value(); }
 bool Json::bool_value() const { return m_ptr->bool_value(); }
 const string &Json::string_value() const { return m_ptr->string_value(); }
 const vector<Json> &Json::array_items() const { return m_ptr->array_items(); }
@@ -453,7 +454,7 @@ const Json &Json::operator[](const string &key) const {
 }
 
 double JsonValue::number_value() const { return 0; }
-int JsonValue::int_value() const { return 0; }
+int64_t JsonValue::int_value() const { return 0; }
 bool JsonValue::bool_value() const { return false; }
 const string &JsonValue::string_value() const {
   return statics().empty_string;
@@ -521,7 +522,6 @@ static inline bool in_range(long x, long lower, long upper) {
   return (x >= lower && x <= upper);
 }
 
-namespace {
 /* JsonParser
  *
  * Object that tracks all state of an in-progress parse.
@@ -771,8 +771,8 @@ struct JsonParser final {
 
     if (str[i] != '.' && str[i] != 'e' && str[i] != 'E' &&
         (i - start_pos) <=
-            static_cast<size_t>(std::numeric_limits<int>::digits10)) {
-      return std::atoi(str.c_str() + start_pos);
+            static_cast<size_t>(std::numeric_limits<int64_t>::digits10)) {
+      return static_cast<int64_t>(std::atoll(str.c_str() + start_pos));
     }
 
     // Decimal part
@@ -891,7 +891,6 @@ struct JsonParser final {
     return fail("expected value, got " + esc(ch));
   }
 };
-}  // namespace
 
 Json Json::parse(const string &in, string &err, JsonParse strategy) {
   JsonParser parser{in, 0, err, false, strategy};

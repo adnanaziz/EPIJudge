@@ -1,11 +1,11 @@
 import itertools
 import operator
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def find_biggest_n_minus_one_product(A):
+
     # Builds suffix products.
     suffix_products = list(
         reversed(list(itertools.accumulate(reversed(A), operator.mul))))
@@ -21,5 +21,6 @@ def find_biggest_n_minus_one_product(A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('max_product_all_but_one.tsv',
+        generic_test.generic_test_main("max_product_all_but_one.py",
+                                       'max_product_all_but_one.tsv',
                                        find_biggest_n_minus_one_product))

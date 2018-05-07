@@ -1,8 +1,7 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import PropertyName
 
 DuplicateAndMissing = collections.namedtuple('DuplicateAndMissing',
@@ -10,6 +9,7 @@ DuplicateAndMissing = collections.namedtuple('DuplicateAndMissing',
 
 
 def find_duplicate_missing(A):
+
     # Compute the XOR of all numbers from 0 to |A| - 1 and all entries in A.
     miss_XOR_dup = functools.reduce(lambda v, i: v ^ i[0] ^ i[1], enumerate(A),
                                     0)
@@ -49,6 +49,7 @@ def res_printer(prop, value):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "search_for_missing_element.py",
             'find_missing_and_duplicate.tsv',
             find_duplicate_missing,
             res_printer=res_printer))

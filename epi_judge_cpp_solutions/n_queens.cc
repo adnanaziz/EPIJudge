@@ -56,5 +56,6 @@ bool Comp(vector<vector<int>>& a, vector<vector<int>>& b) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"n"};
-  return GenericTestMain(args, "n_queens.tsv", &NQueens, &Comp, param_names);
+  return GenericTestMain(args, "n_queens.cc", "n_queens.tsv", &NQueens, &Comp,
+                         param_names);
 }

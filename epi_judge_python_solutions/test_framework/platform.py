@@ -1,4 +1,4 @@
-# @library
+
 import sys
 
 ENABLE_TTY_OUTPUT = False

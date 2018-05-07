@@ -80,7 +80,7 @@ void OnlineRandomSampleWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "stream", "k"};
-  return GenericTestMain(args, "online_sampling.tsv",
+  return GenericTestMain(args, "online_sampling.cc", "online_sampling.tsv",
                          &OnlineRandomSampleWrapper, DefaultComparator{},
                          param_names);
 }

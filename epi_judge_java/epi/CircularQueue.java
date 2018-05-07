@@ -1,40 +1,31 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
-
 import java.util.List;
-
 public class CircularQueue {
 
   public static class Queue {
-
     public Queue(int capacity) {}
-
     public void enqueue(Integer x) {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return;
     }
-
     public Integer dequeue() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
-
     public int size() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return 0;
     }
-
     @Override
     public String toString() {
-      // Implement this placeholder.
+      // TODO - you fill in here.
       return super.toString();
     }
   }
-
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class QueueOp {
     public String op;
@@ -51,7 +42,7 @@ public class CircularQueue {
     }
   }
 
-  @EpiTest(testfile = "circular_queue.tsv")
+  @EpiTest(testDataFile = "circular_queue.tsv")
   public static void queueTest(List<QueueOp> ops) throws TestFailure {
     Queue q = new Queue(1);
     int opIdx = 0;
@@ -87,9 +78,10 @@ public class CircularQueue {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "CircularQueue.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

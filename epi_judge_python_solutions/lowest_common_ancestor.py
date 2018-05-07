@@ -1,14 +1,14 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.binary_tree_utils import must_find_node, strip_parent_link
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
 def lca(tree, node0, node1):
+
     Status = collections.namedtuple('Status', ('num_target_nodes', 'ancestor'))
 
     # Returns an object consisting of an int and a node. The int field is 0,
@@ -50,5 +50,6 @@ def lca_wrapper(executor, tree, key1, key2):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('lowest_common_ancestor.tsv',
+        generic_test.generic_test_main("lowest_common_ancestor.py",
+                                       'lowest_common_ancestor.tsv',
                                        lca_wrapper))

@@ -1,8 +1,7 @@
 import collections
 import functools
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_failure import PropertyName
 from test_framework.test_utils import enable_executor_hook
 
@@ -11,7 +10,7 @@ HighwaySection = collections.namedtuple('HighwaySection',
 
 
 def find_best_proposals(H, P, n):
-    # Implement this placeholder.
+    # TODO - you fill in here.
     return HighwaySection(0, 0, 0)
 
 
@@ -36,6 +35,7 @@ def res_printer(prop, value):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
+            "road_network.py",
             'road_network.tsv',
             find_best_proposals_wrapper,
             res_printer=res_printer))

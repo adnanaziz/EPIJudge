@@ -1,20 +1,19 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 public class RomanToInteger {
-  @EpiTest(testfile = "roman_to_integer.tsv")
+  @EpiTest(testDataFile = "roman_to_integer.tsv")
 
   public static int romanToInteger(String s) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return 0;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "RomanToInteger.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

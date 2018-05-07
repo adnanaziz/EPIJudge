@@ -6,11 +6,11 @@ import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
 public class MatrixConnectedRegions {
+
   private static class Coordinate {
     public Integer x;
     public Integer y;
@@ -22,6 +22,7 @@ public class MatrixConnectedRegions {
   }
 
   public static void flipColor(int x, int y, List<List<Boolean>> image) {
+
     boolean color = image.get(x).get(y);
 
     Queue<Coordinate> q = new ArrayDeque<>();
@@ -29,11 +30,10 @@ public class MatrixConnectedRegions {
     q.add(new Coordinate(x, y));
     while (!q.isEmpty()) {
       Coordinate cur = q.element();
-      for (Coordinate nextMove :
-           Arrays.asList(new Coordinate(cur.x, cur.y + 1),
-                         new Coordinate(cur.x, cur.y - 1),
-                         new Coordinate(cur.x + 1, cur.y),
-                         new Coordinate(cur.x - 1, cur.y))) {
+      for (Coordinate nextMove : List.of(new Coordinate(cur.x, cur.y + 1),
+                                         new Coordinate(cur.x, cur.y - 1),
+                                         new Coordinate(cur.x + 1, cur.y),
+                                         new Coordinate(cur.x - 1, cur.y))) {
         if (nextMove.x >= 0 && nextMove.x < image.size() && nextMove.y >= 0 &&
             nextMove.y < image.get(nextMove.x).size() &&
             image.get(nextMove.x).get(nextMove.y) == color) {
@@ -46,7 +46,7 @@ public class MatrixConnectedRegions {
     }
   }
 
-  @EpiTest(testfile = "painting.tsv")
+  @EpiTest(testDataFile = "painting.tsv")
   public static List<List<Integer>> flipColorWrapper(TimedExecutor executor,
                                                      int x, int y,
                                                      List<List<Integer>> image)
@@ -73,9 +73,10 @@ public class MatrixConnectedRegions {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "MatrixConnectedRegions.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

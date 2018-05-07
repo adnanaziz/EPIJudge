@@ -1,12 +1,12 @@
 import functools
-from sys import exit
 
 from binary_tree_node import BinaryTreeNode
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 def generate_all_binary_trees(num_nodes):
+
     if num_nodes == 0:  # Empty tree, add as a None.
         return [None]
 
@@ -54,5 +54,6 @@ def generate_all_binary_trees_wrapper(executor, num_nodes):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('enumerate_trees.tsv',
+        generic_test.generic_test_main("enumerate_trees.py",
+                                       'enumerate_trees.tsv',
                                        generate_all_binary_trees_wrapper))

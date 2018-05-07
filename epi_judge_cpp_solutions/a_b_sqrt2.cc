@@ -10,6 +10,7 @@ using std::vector;
 
 // These numbers have very interesting property, and people called it ugly
 // numbers. It is also called Quadratic integer rings.
+
 struct Number {
   Number(int a, int b) : a(a), b(b), val(a + b * sqrt(2)) {}
 
@@ -39,6 +40,7 @@ vector<double> GenerateFirstKABSqrt2(int k) {
 int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"k"};
-  return GenericTestMain(args, "a_b_sqrt2.tsv", &GenerateFirstKABSqrt2,
-                         DefaultComparator{}, param_names);
+  return GenericTestMain(args, "a_b_sqrt2.cc", "a_b_sqrt2.tsv",
+                         &GenerateFirstKABSqrt2, DefaultComparator{},
+                         param_names);
 }

@@ -4,8 +4,10 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 public class ZipList {
-  @EpiTest(testfile = "zip_list.tsv")
+  @EpiTest(testDataFile = "zip_list.tsv")
+
   public static ListNode<Integer> zippingLinkedList(ListNode<Integer> L) {
+
     if (L == null || L.next == null) {
       return L;
     }
@@ -36,9 +38,10 @@ public class ZipList {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ZipList.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

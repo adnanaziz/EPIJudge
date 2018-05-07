@@ -9,18 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeadlockDetection {
+
   public static class GraphVertex {
+
     public enum Color { WHITE, GRAY, BLACK }
 
     public Color color;
+
     public List<GraphVertex> edges;
+
     public GraphVertex() {
+
       color = Color.WHITE;
+
       edges = new ArrayList<>();
     }
   }
 
   public static boolean isDeadlocked(List<GraphVertex> graph) {
+
     return graph.stream().anyMatch(
         vertex -> vertex.color == GraphVertex.Color.WHITE && hasCycle(vertex));
   }
@@ -52,7 +59,7 @@ public class DeadlockDetection {
     }
   }
 
-  @EpiTest(testfile = "deadlock_detection.tsv")
+  @EpiTest(testDataFile = "deadlock_detection.tsv")
   public static boolean isDeadlockedWrapper(TimedExecutor executor,
                                             int numNodes, List<Edge> edges)
       throws Exception {
@@ -74,9 +81,10 @@ public class DeadlockDetection {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "DeadlockDetection.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

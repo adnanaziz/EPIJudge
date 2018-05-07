@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 public class ConsoleColor {

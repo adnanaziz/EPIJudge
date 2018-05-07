@@ -6,8 +6,10 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class SearchShiftedSortedArray {
-  @EpiTest(testfile = "search_shifted_sorted_array.tsv")
+  @EpiTest(testDataFile = "search_shifted_sorted_array.tsv")
+
   public static int searchSmallest(List<Integer> A) {
+
     int left = 0, right = A.size() - 1;
     while (left < right) {
       int mid = left + ((right - left) / 2);
@@ -25,9 +27,10 @@ public class SearchShiftedSortedArray {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SearchShiftedSortedArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

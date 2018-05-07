@@ -17,6 +17,7 @@ public class UniformRandomNumber {
   }
 
   public static int uniformRandom(int lowerBound, int upperBound) {
+
     int numberOfOutcomes = upperBound - lowerBound + 1, result;
     do {
       result = 0;
@@ -47,7 +48,7 @@ public class UniformRandomNumber {
         sequence, upperBound - lowerBound + 1, 0.01);
   }
 
-  @EpiTest(testfile = "uniform_random_number.tsv")
+  @EpiTest(testDataFile = "uniform_random_number.tsv")
   public static void uniformRandomWrapper(TimedExecutor executor,
                                           int lowerBound, int upperBound)
       throws Exception {
@@ -56,9 +57,10 @@ public class UniformRandomNumber {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "UniformRandomNumber.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

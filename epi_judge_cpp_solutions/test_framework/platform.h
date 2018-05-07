@@ -1,4 +1,4 @@
-// @library
+
 #pragma once
 
 /**
@@ -6,7 +6,7 @@
  * function.
  */
 
-#if _WINDOWS || __MINGW__ || __CYGWIN__
+#if _WINDOWS || __MINGW32__ || __CYGWIN__
 #define PLATFORM_WIN
 #endif
 

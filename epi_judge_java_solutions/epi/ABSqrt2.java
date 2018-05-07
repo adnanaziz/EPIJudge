@@ -10,7 +10,9 @@ import java.util.TreeSet;
 
 // These numbers have very interesting property, and people called it ugly
 // numbers. It is also called Quadratic integer rings.
+
 public class ABSqrt2 {
+
   public static class Number {
     public int a, b;
     public double val;
@@ -22,8 +24,10 @@ public class ABSqrt2 {
     }
   }
 
-  @EpiTest(testfile = "a_b_sqrt2.tsv")
+  @EpiTest(testDataFile = "a_b_sqrt2.tsv")
+
   public static List<Double> generateFirstKABSqrt2(int k) {
+
     SortedSet<Number> candidates =
         new TreeSet<>((a, b) -> Double.compare(a.val, b.val));
     // Initial for 0 + 0 * sqrt(2).
@@ -43,9 +47,10 @@ public class ABSqrt2 {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "ABSqrt2.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 public class LongestContainedInterval {
-  @EpiTest(testfile = "longest_contained_interval.tsv")
+  @EpiTest(testDataFile = "longest_contained_interval.tsv")
+
   public static int longestContainedRange(List<Integer> A) {
+
     // unprocessedEntries records the existence of each entry in A.
     Set<Integer> unprocessedEntries = new HashSet<>(A);
 
@@ -38,9 +40,10 @@ public class LongestContainedInterval {
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "LongestContainedInterval.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

@@ -1,4 +1,4 @@
-// @library
+
 package epi.test_framework;
 
 import java.io.IOException;
@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ public class TestUtils {
 
     List<List<String>> result = new ArrayList<>();
     for (String line : asList) {
-      result.add(Arrays.asList(line.split(FIELD_DELIM)));
+      result.add(List.of(line.split(FIELD_DELIM)));
     }
     return result;
   }
@@ -53,7 +52,11 @@ public class TestUtils {
   }
 
   public static String getFilePathInJudgeDir(String fileName) {
-    return Paths.get(getDefaultTestDataDirPath()).getParent().resolve(fileName).toAbsolutePath().toString();
+    return Paths.get(getDefaultTestDataDirPath())
+        .getParent()
+        .resolve(fileName)
+        .toAbsolutePath()
+        .toString();
   }
 
   /**

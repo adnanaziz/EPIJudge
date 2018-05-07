@@ -1,4 +1,8 @@
+from test_framework import generic_test
+
+
 def is_palindrome(s):
+
     # i moves forward, and j moves backward.
     i, j = 0, len(s) - 1
     while i < j:
@@ -19,11 +23,8 @@ def is_palindrome_pythonic(s):
         map(str.lower, filter(str.isalnum, reversed(s)))))
 
 
-from sys import exit
-
-from test_framework import generic_test, test_utils
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("is_string_palindromic_punctuation.tsv",
+        generic_test.generic_test_main("is_string_palindromic_punctuation.py",
+                                       "is_string_palindromic_punctuation.tsv",
                                        is_palindrome))

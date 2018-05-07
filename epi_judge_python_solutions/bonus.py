@@ -1,11 +1,11 @@
 import collections
 import heapq
-from sys import exit
 
-from test_framework import generic_test, test_utils
+from test_framework import generic_test
 
 
 def calculate_bonus(productivity):
+
     # Stores (productivity, index)-pair in min_heap where ordered by
     # productivity.
     EmployeeData = collections.namedtuple('EmployeeData',
@@ -31,4 +31,6 @@ def calculate_bonus(productivity):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main('bonus.tsv', calculate_bonus))
+    exit(
+        generic_test.generic_test_main("bonus.py", 'bonus.tsv',
+                                       calculate_bonus))

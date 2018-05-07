@@ -11,8 +11,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SortAlmostSortedArray {
+
   public static List<Integer>
   sortApproximatelySortedData(Iterator<Integer> sequence, int k) {
+
     PriorityQueue<Integer> minHeap = new PriorityQueue<>();
     // Adds the first k elements into minHeap. Stop if there are fewer than k
     // elements.
@@ -35,16 +37,17 @@ public class SortAlmostSortedArray {
     return result;
   }
 
-  @EpiTest(testfile = "sort_almost_sorted_array.tsv")
+  @EpiTest(testDataFile = "sort_almost_sorted_array.tsv")
   public static List<Integer>
   sortApproximatelySortedDataWrapper(List<Integer> sequence, int k) {
     return sortApproximatelySortedData(sequence.iterator(), k);
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "SortAlmostSortedArray.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }

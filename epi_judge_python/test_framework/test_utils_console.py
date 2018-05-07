@@ -1,8 +1,8 @@
-# @library
+
 from test_framework.console_color import ConsoleColor, print_std_out_colored
 from test_framework.platform import std_out_clear_line, use_tty_output
 from test_framework.test_result import TestResult
-from test_framework.test_timer import duration_to_string, avg_and_median_from_durations
+from test_framework.test_timer import avg_and_median_from_durations, duration_to_string
 
 
 def escape_newline(s):
@@ -17,11 +17,12 @@ def clear_line_if_tty():
 
 
 _print_test_result_values = {
-    TestResult.PASSED: ('PASSED', ConsoleColor.FG_GREEN),
-    TestResult.FAILED: ('FAILED', ConsoleColor.FG_RED),
-    TestResult.TIMEOUT: ('TIMEOUT', ConsoleColor.FG_BLUE),
-    TestResult.UNKNOWN_EXCEPTION: ('UNHANDLED EXCEPTION', ConsoleColor.FG_RED),
-    TestResult.STACK_OVERFLOW: ('STACK OVERFLOW', ConsoleColor.FG_RED)
+    TestResult.PASSED: ('PASSED', ConsoleColor.FG_GREEN), TestResult.FAILED:
+    ('FAILED', ConsoleColor.FG_RED), TestResult.TIMEOUT:
+    ('TIMEOUT', ConsoleColor.FG_BLUE), TestResult.UNKNOWN_EXCEPTION:
+    ('UNHANDLED EXCEPTION',
+     ConsoleColor.FG_RED), TestResult.STACK_OVERFLOW: ('STACK OVERFLOW',
+                                                       ConsoleColor.FG_RED)
 }
 
 

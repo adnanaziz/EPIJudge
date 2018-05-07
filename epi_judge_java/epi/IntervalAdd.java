@@ -1,12 +1,9 @@
 package epi;
-
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class IntervalAdd {
   @EpiUserType(ctorParams = {int.class, int.class})
 
@@ -41,18 +38,19 @@ public class IntervalAdd {
     }
   }
 
-  @EpiTest(testfile = "interval_add.tsv")
+  @EpiTest(testDataFile = "interval_add.tsv")
 
   public static List<Interval> addInterval(List<Interval> disjointIntervals,
                                            Interval newInterval) {
-    // Implement this placeholder.
+    // TODO - you fill in here.
     return null;
   }
 
   public static void main(String[] args) {
-    System.exit(GenericTest
-                    .runFromAnnotations(
-                        args, new Object() {}.getClass().getEnclosingClass())
-                    .ordinal());
+    System.exit(
+        GenericTest
+            .runFromAnnotations(args, "IntervalAdd.java",
+                                new Object() {}.getClass().getEnclosingClass())
+            .ordinal());
   }
 }
