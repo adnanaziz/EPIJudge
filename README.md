@@ -251,7 +251,7 @@ Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio 
 | Bootcamp: Hash Tables | anagrams.cc | Anagrams.java | anagrams.py | 
 | Test for palindromic permutations | is\_string\_permutable\_to\_palindrome.cc | IsStringPermutableToPalindrome.java | is\_string\_permutable\_to\_palindrome.py | 
 | Is an anonymous letter constructible? | is\_anonymous\_letter\_constructible.cc | IsAnonymousLetterConstructible.java | is\_anonymous\_letter\_constructible.py | 
-| Implement an ISBN cache | lru\_cache.cc | LRUCache.java | lru\_cache.py | 
+| Implement an ISBN cache | lru\_cache.cc | LruCache.java | lru\_cache.py | 
 | Compute the LCA, optimizing for close ancestors | lowest\_common\_ancestor\_close\_ancestor.cc | LowestCommonAncestorCloseAncestor.java | lowest\_common\_ancestor\_close\_ancestor.py | 
 | Find the nearest repeated entries in an array | nearest\_repeated\_entries.cc | NearestRepeatedEntries.java | nearest\_repeated\_entries.py | 
 | Find the smallest subarray covering all values | smallest\_subarray\_covering\_set.cc | SmallestSubarrayCoveringSet.java | smallest\_subarray\_covering\_set.py | 
