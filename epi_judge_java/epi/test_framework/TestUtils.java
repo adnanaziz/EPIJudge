@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import java.util.Arrays;
 
 public class TestUtils {
   public static List<List<String>> splitTsvFile(Path tsvFile) {
@@ -27,7 +28,8 @@ public class TestUtils {
 
     List<List<String>> result = new ArrayList<>();
     for (String line : asList) {
-      result.add(List.of(line.split(FIELD_DELIM)));
+      
+      result.add(Arrays.asList(line.split(FIELD_DELIM)));
     }
     return result;
   }

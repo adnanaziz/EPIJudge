@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.Arrays;
 
 /**
  * The central class in generic test runner framework.
@@ -64,7 +65,7 @@ public class GenericTestHandler {
     this.func = func;
     this.comparator = comparator;
     hasExecutorHook = false;
-    paramTypes = List.of(func.getGenericParameterTypes());
+    paramTypes = Arrays.asList(func.getGenericParameterTypes());
 
     if (paramTypes.size() >= 1 &&
         paramTypes.get(0).equals(TimedExecutor.class)) {
