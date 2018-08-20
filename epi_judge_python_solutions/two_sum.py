@@ -5,7 +5,7 @@ def has_two_sum(A, t):
 
     i, j = 0, len(A) - 1
 
-    while i <= j:
+    while i < j:
         if A[i] + A[j] == t:
             return True
         elif A[i] + A[j] < t:
