@@ -21,8 +21,7 @@ public class PowerSet {
       int bitArray = intForSubset;
       List<Integer> subset = new ArrayList<>();
       while (bitArray != 0) {
-        subset.add(inputSet.get(
-            (int)(Math.log(bitArray & ~(bitArray - 1)) / Math.log(2))));
+        subset.add(inputSet.get(Integer.numberOfTrailingZeros(bitArray)));
         bitArray &= bitArray - 1;
       }
       powerSet.add(subset);
