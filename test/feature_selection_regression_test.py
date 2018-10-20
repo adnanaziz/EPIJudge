@@ -58,18 +58,18 @@ for l in xrange(1):
     else:
         emotions = ['ang', 'exc', 'neu', 'sad', 'fru', 'hap', 'sur',
                     'fea', 'xxx']
-    data = feature.Load_features(path_to_features, path_to_labels, features[l], emotions)
+    data = feature.Load_features(path_to_features, path_to_labels, features[l], emotions, reg=True)
     x, y = data.data()
     if std is True:
         plot = plot + 'std/'
     if MI is True:
         plot = plot + '_MI_'
-
-    plsda = feature.PLSDA(x, y, features[l], plot)
+    
+    plsda = feature.PLSDA(x, y, features[l], plot, reg=True)
     plsda.PLS_process(plot)
-    selection = feature.feature_selection(x, y, features[l], plot)
+    selection = feature.feature_selection(x, y, features[l], plot, reg=True)
     selection.mutual_information()
     selection.plot_features()
-
+    
     test = feature.final_test()
-    test.plot(x, y, features[l], plot, component_list[l])
+    test.plot(x, y, features[l], plot, component_list[l], reg=True)
