@@ -17,7 +17,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-
+# add path to the dataset
 
 path_to_features1 = "/nas/lrz/tuei/ldv/studierende/Emotion/IEMOCAP_full_release/same_length/nsynth_features/"
 
@@ -32,14 +32,17 @@ path_to_features5 = "/nas/lrz/tuei/ldv/studierende/Emotion/IEMOCAP_full_release/
 std = False
 MI = False
 
+# location to extract plots
 plot = "temp/"
 
+# name of the tool features are extracted with
 features = ['nsynth', 'pyaudio_more_cat',
             'mel_frequency_energy', 'pyaudio_less_cat', 'opensmile_IS_09']
 
 path_list = [path_to_features1, path_to_features2, path_to_features3,
              path_to_features4, path_to_features5]
 
+# path to labels 
 path_to_labels = '/nas/lrz/tuei/ldv/studierende/' + \
                  'Emotion/IEMOCAP_full_release/IEMOCAP_labels/'
 
@@ -61,12 +64,12 @@ for l in xrange(1):
         plot = plot + 'std/'
     if MI is True:
         plot = plot + '_MI_'
-    """
+
     plsda = feature.PLSDA(x, y, features[l], plot)
     plsda.PLS_process(plot)
     selection = feature.feature_selection(x, y, features[l], plot)
     selection.mutual_information()
     selection.plot_features()
-    """
+
     test = feature.final_test()
     test.plot(x, y, features[l], plot, component_list[l])

@@ -8,6 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import f_classif, mutual_info_classif
 from sklearn.cross_decomposition import PLSRegression
+from sklearn.feature_selection import f_regression, mutual_info_regression
 from preprocessing import Preprocessor
 import sys
 matplotlib.use('Agg')
@@ -19,7 +20,8 @@ from sammon import sammon
 
 class Load_features:
     def __init__(self, path_to_features, path_to_labels, name, emotions,
-                 MI=False, std=False):
+                 MI=False, std=False, reg=False):
+        self.reg = reg
         self.path_to_features = path_to_features
         self.path_to_labels = path_to_labels
         self.name = name
@@ -77,6 +79,29 @@ class Load_features:
         ty = np.array(ty)
         return tx, ty, row_shapes
 
+    def get_features_regression(self, path_x, path_y):
+        max_row_shape = 0
+        files = os.listdir(path_x)
+        tx = []
+        ty = np.empty([1, 2], dtype=float)
+        a = len(files)
+        k = 1
+        for f in files:
+            if k % 1000 == 0:
+                print str(k) + " out of " + str(a)
+                return tx, ty[1:, :], max_row_shape
+            k += 1
+            x, row_shape = self.load_x(path_x + '/' + f)
+            if max_row_shape < row_shape:
+                max_row_shape = row_shape
+            y = self.load_y(path_y + f)
+            if len(x) > 0:
+                tx.append(np.array(x, dtype=float))
+                ty = np.vstack((ty, y[0]))
+        tx = np.array(tx)
+        ty = np.array(ty)
+        return tx, ty[1:, :], max_row_shape
+
     def to_categorical(self, y, available_emotions):
         return label_binarize(y, np.asarray(available_emotions))
 
@@ -86,25 +111,33 @@ class Load_features:
         df = df.values
         return df
 
+    # set the location for the uncorrelated_index file
     def data(self, MI_loc=''):
-        x, y, row_shapes = self.get_features(self.path_to_features,
-                                             self.path_to_labels)
+        if self.reg is False:
+            x, y, row_shapes = self.get_features(self.path_to_features,
+                                                 self.path_to_labels)
+            y_cat = self.to_categorical(y, self.emotions)
+            y_cat = np.argmax(y_cat, axis=1)
+            y_cat = np.reshape(y_cat, (y_cat.shape[0], 1))
+            y_cat = np.ravel(y_cat)
+        else:
+            x, y, row_shapes = self.get_features_regression(self.path_to_features,
+                                                            self.path_to_labels)
         x = np.asarray(x)
-        y_cat = self.to_categorical(y, self.emotions)
-        y_cat = np.argmax(y_cat, axis=1)
-        y_cat = np.reshape(y_cat, (y_cat.shape[0], 1))
-        y_cat = np.ravel(y_cat)
         if self.MI is True:
             index = self.check_with_mutual_inf(MI_loc)
             index = index.T
             x = x[:, index[0]]
             print index[0]
             print x.shape[1]
+        if self.reg is True:
+            return x, y
         return x, y_cat
 
 
 class Create_data_sets:
-    def __init__(self, x, y):
+    def __init__(self, x, y, reg=False):
+        self.reg = reg
         self.x = x
         self.y = y
 
@@ -122,25 +155,31 @@ class Create_data_sets:
         x_final_test = x_perm[i0:i1]
         y_final_test = y_perm[i0:i1]
         x_perm = np.vstack((x_perm[:i0, :], x_perm[i1:, :]))
-        y_perm = np.append(y_perm[:i0], y_perm[i1:])
+        x_final_train = np.vstack((x_perm[:i0, :], x_perm[i1:, :]))
+        if self.reg is False:
+            y_perm = np.append(y_perm[:i0], y_perm[i1:])
+            y_final_train = np.append(y_perm[:i0], y_perm[i1:])
+        elif self.reg is True:
+            y_perm = np.vstack((y_perm[:i0], y_perm[i1:]))
+            y_final_train = np.vstack((y_perm[:i0], y_perm[i1:]))
         parts = 5
         step = x_perm.shape[0] / parts
-        x_final_train = np.vstack((x_perm[:i0, :], x_perm[i1:, :]))
-        y_final_train = np.append(y_perm[:i0], y_perm[i1:])
 
         return (x_perm, y_perm, x_final_test, y_final_test, parts, step,
                 x_final_train, y_final_train)
 
     @staticmethod
     def create_cross_val_set(x_perm, y_perm, x_final_test,
-                             y_final_test, part, step):
+                             y_final_test, part, step, reg=False):
         i0 = step * part
         i1 = step * (part + 1)
         x_train = np.vstack((x_perm[:i0, :], x_perm[i1:, :]))
         x_test = x_perm[i0:i1]
-        y_train = np.append(y_perm[:i0], y_perm[i1:])
         y_test = y_perm[i0:i1]
-
+        if reg is False:
+            y_train = np.append(y_perm[:i0], y_perm[i1:])
+        elif reg is True:
+            y_train = np.vstack((y_perm[:i0], y_perm[i1:]))
         return x_train, x_test, y_train, y_test
 
 
@@ -158,9 +197,9 @@ class Plotting:
         plt.plot(number_of_components,
                  test,
                  label='test')
-        plt.title('PLS-DA accuracy, fold number')
+        plt.title('PLS accuracy, fold number')
         plt.xlabel('number of components')
-        plt.ylabel('PLS-DA accuracy')
+        plt.ylabel('PLS accuracy')
         plt.legend()
         plt.savefig(plot + features +
                     '_PLSR accuracy, number' + str(part) + '.png')
@@ -185,8 +224,9 @@ class Plotting:
 
 
 class PLSDA:
-    def __init__(self, x, y, features, save, std=False, MI=False):
-        self.dataset = Create_data_sets(x, y)
+    def __init__(self, x, y, features, save, std=False, MI=False, reg=False):
+        self.reg = reg
+        self.dataset = Create_data_sets(x, y, reg=reg)
         self.feature = features
         (self.x_perm, self.y_perm, self.x_final_test,
          self.y_final_test, self.parts, self.step,
@@ -224,7 +264,7 @@ class PLSDA:
 
                 x_train, x_test, y_train, y_test = self.dataset.create_cross_val_set(
                     self.x_perm, self.y_perm, self.x_final_test,
-                    self.y_final_test, part, self.step)
+                    self.y_final_test, part, self.step, reg=self.reg)
                 pp = Preprocessor('standard',
                                   n_components=20)
                 (x_train, x_test) = pp.standardize(x_train, x_test)
@@ -234,14 +274,18 @@ class PLSDA:
                         print "at component " + str(n)
                     pls = PLSRegression(n_components=n, scale=False)
                     pls_fit = pls.fit(x_train, y_train)
-                    pred_train = np.round(np.ravel(pls_fit.predict(x_train)))
-                    pred_test = np.round(np.ravel(pls_fit.predict(x_test)))
-                    
-                    acc_train = pred_train[
-                        pred_train ==
-                        y_train].shape[0] / float(pred_train.shape[0])
-                    acc_test = pred_test[pred_test ==
-                                         y_test].shape[0] / float(pred_test.shape[0])
+                    if self.reg is False:
+                        pred_train = np.round(np.ravel(pls_fit.predict(x_train)))
+                        pred_test = np.round(np.ravel(pls_fit.predict(x_test)))
+                        acc_train = pred_train[
+                            pred_train ==
+                            y_train].shape[0] / float(pred_train.shape[0])
+                        acc_test = pred_test[pred_test ==
+                                             y_test].shape[0] / float(pred_test.shape[0])
+                    else:
+                        pls_fit = pls.fit(x_train, y_train)
+                        acc_train = pls_fit.score(x_train, y_train)
+                        acc_test = pls_fit.score(x_test, y_test)
                     PLSR_accuracy_train.append(acc_train)
                     PLSR_accuracy_test.append(acc_test)
 
@@ -260,16 +304,17 @@ class PLSDA:
 
 
 class feature_selection:
-    def __init__(self, x, y, features, plot):
+    def __init__(self, x, y, features, plot, reg=False):
         # standardize features
         scaler = StandardScaler()
         x = scaler.fit_transform(x)
-        f_test, p_val = f_classif(x, y)
-        f_test /= np.max(f_test)
-
-        mi = mutual_info_classif(x, y)
-        mi_not_scaled = mutual_info_classif(x, y)
-        mi /= np.max(mi)
+        if reg is False:
+            f_test, p_val = f_classif(x, y)
+            f_test /= np.max(f_test)
+            
+            mi = mutual_info_classif(x, y)
+            mi_not_scaled = mutual_info_classif(x, y)
+            mi /= np.max(mi)
 
         pca = PCA()
         fit = pca.fit(x)
@@ -277,6 +322,30 @@ class feature_selection:
         self.explained_variance = fit.explained_variance_
         self.explained_variance_ratio = fit.explained_variance_ratio_
 
+        if reg is True:
+                f_test_v, p_val_v = f_regression(x, y[:, 0])
+                f_test_v /= np.max(f_test_v)
+                
+                f_test_a, p_val_a = f_regression(x, y[:, 1])
+                f_test_a /= np.max(f_test_a)
+                
+                f_test_c = f_test_a + f_test_v
+                f_test_c /= 2
+
+                p_val_c = p_val_a + p_val_v
+                p_val_c /= 2
+                
+                mi_v = mutual_info_regression(x, y[:, 0])
+                mi_not_scaled = mi_v
+                mi_v /= np.max(mi_v)
+
+                mi_a = mutual_info_regression(x, y[:, 1])
+                mi_a /= np.max(mi_a)
+                mi_c = mi_a + mi_v
+                mi_c /= 2
+                mi = mi_c
+                p_val = p_val_c
+                f_test = f_test_c
         self.mi = mi
         self.mi_not_scaled = mi_not_scaled
         self.f_test = f_test
@@ -493,8 +562,8 @@ class final_test:
         pass
 
     @staticmethod
-    def plot(x, y, features, plot, component_list):
-        split_set = Create_data_sets(x, y)
+    def plot(x, y, features, plot, component_list, reg=False):
+        split_set = Create_data_sets(x, y, reg)
         (x_perm, y_perm, x_final_test, y_final_test, parts, step,
          x_final_train, y_final_train) = split_set.create_val_set()
         pp = Preprocessor('standard',
@@ -524,8 +593,5 @@ class final_test:
         P_a = pls_a.x_loadings_
         U_a = pls_a.y_scores_
         Q_a = pls_a.y_loadings_
-        y = np.reshape(y, (y.shape[0], 1))
         plot_factors(x, y, T_a, P_a, U_a, Q_a, features, plot,
                      x_perm.shape[1], component_list)
-
-
