@@ -23,7 +23,7 @@ from matplotlib import cm as cm
 class Heatmap:
     def __init__(self, path_to_features, path_to_labels, name):
         self.name = name
-        x, y, row_shapes = self.get_features(path_list[i], path_to_labels)
+        x, y, row_shapes = self.get_features(path_to_features, path_to_labels)
         scaler = StandardScaler()
         x = scaler.fit_transform(x)
         df_ = pandas.DataFrame(x)
