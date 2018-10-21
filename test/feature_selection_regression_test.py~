@@ -1,11 +1,18 @@
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import pdb; pdb.set_trace()
 import sys
 sys.path.append('../')
 import feature_selection.featureselection as feature
+import pandas
+import matplotlib
+import os
+import csv
+from sklearn.preprocessing import label_binarize
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+
+# add path to the dataset
 
 path_to_features1 = "/nas/lrz/tuei/ldv/studierende/Emotion/IEMOCAP_full_release/same_length/nsynth_features/"
 
@@ -20,16 +27,19 @@ path_to_features5 = "/nas/lrz/tuei/ldv/studierende/Emotion/IEMOCAP_full_release/
 std = False
 MI = False
 
+# location to extract plots
 plot = "plot/"
 
+# name of the tool features are extracted with
 features = ['nsynth', 'pyaudio_more_cat',
             'mel_frequency_energy', 'pyaudio_less_cat', 'opensmile_IS_09']
 
 path_list = [path_to_features1, path_to_features2, path_to_features3,
              path_to_features4, path_to_features5]
 
+# path to labels 
 path_to_labels = '/nas/lrz/tuei/ldv/studierende/' + \
-                 'Emotion/IEMOCAP_full_release/IEMOCAP_labels_regression/'
+                 'Emotion/IEMOCAP_full_release/IEMOCAP_labels/'
 
 component_list = [16, 17, 18, 15, 15]
 
@@ -43,8 +53,8 @@ for l in xrange(1):
     else:
         emotions = ['ang', 'exc', 'neu', 'sad', 'fru', 'hap', 'sur',
                     'fea', 'xxx']
-    data = feature.Load_features(path_to_features, path_to_labels, features[l],
-                                 emotions, reg=True)
+    data = feature.Load_features(path_to_features, path_to_labels,
+                                 features[l], emotions, reg=True)
     x, y = data.data()
     if std is True:
         plot = plot + 'std/'

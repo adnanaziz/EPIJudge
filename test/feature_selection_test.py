@@ -1,16 +1,11 @@
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import pdb; pdb.set_trace()
 import sys
 sys.path.append('../')
 import feature_selection.featureselection as feature
-import pandas
-import matplotlib
-import os
-import csv
-from sklearn.preprocessing import label_binarize
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-
 
 # add path to the dataset
 
@@ -53,7 +48,8 @@ for l in xrange(1):
     else:
         emotions = ['ang', 'exc', 'neu', 'sad', 'fru', 'hap', 'sur',
                     'fea', 'xxx']
-    data = feature.Load_features(path_to_features, path_to_labels, features[l], emotions)
+    data = feature.Load_features(path_to_features, path_to_labels,
+                                 features[l], emotions)
     x, y = data.data()
     if std is True:
         plot = plot + 'std/'
