@@ -50,12 +50,12 @@ for l in xrange(1):
         plot = plot + 'std/'
     if MI is True:
         plot = plot + '_MI_'
-    
+
     plsda = feature.PLSDA(x, y, features[l], plot, reg=True)
     plsda.PLS_process(plot)
     selection = feature.feature_selection(x, y, features[l], plot, reg=True)
     selection.mutual_information()
     selection.plot_features()
-    
+
     test = feature.final_test()
     test.plot(x, y, features[l], plot, component_list[l], reg=True)

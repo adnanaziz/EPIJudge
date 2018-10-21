@@ -20,11 +20,9 @@ import matplotlib.pyplot as plt
 
 
 class SVM_parameter_search:
-    def __init__(self, x, y, save, feature, name, kernel, component_list,
-                 power_C, power_gamma):
+    def __init__(self, x, y, save, feature, name, kernel, component_list):
         self.feature = feature
         self.kernel = [kernel]
-        self.name = name
         power_C = range(-5, -4)
         power_gamma = range(-3, -2)
         self.C_values = [np.float_power(2, power) for power in power_C]
@@ -34,7 +32,7 @@ class SVM_parameter_search:
         self.x = x
         self.y = y
 
-    def grid_search(self, classifier, str_classifier):
+    def grid_search(self, classifier):
         parameters = {
             "clf__estimator__C": self.C_values,
             "clf__estimator__kernel": self.kernel,
@@ -49,9 +47,9 @@ class SVM_parameter_search:
         clf = GridSearchCV(pipe, param_grid=parameters, cv=3, scoring='accuracy', n_jobs=-1, verbose=1, return_train_score=False)
         clf.fit(self.x, self.y)
         self.plot_grid(clf, self.save, 'none',
-                       str_classifier, self.feature, str(self.kernel[0]))
+                       str(classifier), self.feature, self.kernel[0])
 
-    def grid_search_pca(self, classifier,  str_classifier):
+    def grid_search_pca(self, classifier):
         pca = decomposition.PCA()
         parameters = {
             "clf__estimator__C": self.C_values,
@@ -70,7 +68,7 @@ class SVM_parameter_search:
         clf = GridSearchCV(pipe, param_grid=parameters, cv=3, scoring='accuracy', n_jobs=-1, verbose=1, return_train_score=False)
         clf.fit(self.x, self.y)
         self.plot_grid(clf, self.save, 'pca',
-                       str_classifier, self.feature, self.kernel[0])
+                       str(classifier), self.feature, self.kernel[0])
 
     def plot_grid(self, clf, save, method_str, classifier_str, feature,
                   kernel):
@@ -82,22 +80,22 @@ class SVM_parameter_search:
             pvt = pandas.pivot_table(data_frame, values='mean_test_score', index=['param_clf__estimator__C'], columns='param_clf__estimator__gamma')
         else:
             pvt = pandas.pivot_table(data_frame, values='mean_test_score', index=['param_clf__estimator__C', 'param_dim_red__n_components'], columns='param_clf__estimator__gamma')
-        plt.figure()
-        ax = sns.heatmap(pvt, annot=False, linewidths=.1)
-        plt.xlabel('Gamma power of 2')
-        plt.ylabel('C power of 2' + method_str + 'component number')
-        if method_str == 'none':
-            plt.ylabel('C power of 2 with no reduction_method')
-        plt.savefig(save + classifier_str + feature +
-                    '_' + self.name + '_' + method_str + '_' + kernel)
-        plt.close()
-        with open(save + classifier_str +
-                  feature + '_' + self.name + '_' +
-                  method_str + '_' +
-                  'best_parameters' +
-                  '_' + kernel
-                  + '.csv', 'w') as csvfile:
-            w = csv.writer(csvfile, delimiter=',')
-            w.writerow(['Best parameters'])
-            w.writerow(['clf.best_params', clf.best_params_])
-            w.writerow(['best_score', clf.best_score_])
+            plt.figure()
+            ax = sns.heatmap(pvt, annot=False, linewidths=.1)
+            plt.xlabel('Gamma power of 2')
+            plt.ylabel('C power of 2' + method_str + 'component number')
+            if method_str == 'none':
+                plt.ylabel('C power of 2 with no reduction_method')
+            plt.savefig(save + classifier_str + feature +
+                        '_' + self.name + '_' + method_str + '_' + kernel)
+            plt.close()
+            with open(save + classifier_str +
+                      feature + '_' + self.name + '_' +
+                      method_str + '_' +
+                      'best_parameters' +
+                      '_' + kernel
+                      + '.csv', 'w') as csvfile:
+                w = csv.writer(csvfile, delimiter=',')
+                w.writerow(['Best parameters'])
+                w.writerow(['clf.best_params', clf.best_params_])
+                w.writerow(['best_score', clf.best_score_])
