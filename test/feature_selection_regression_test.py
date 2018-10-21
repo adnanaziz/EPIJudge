@@ -2,13 +2,11 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import pdb; pdb.set_trace()
 import sys
 sys.path.append('../')
 import feature_selection.featureselection as feature
 
 path_to_features1 = "/home/ga25gux/tensorflow_python2/EPIJudge/example_dataset/"
-
 
 std = False
 MI = False
