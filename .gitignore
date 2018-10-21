@@ -22,3 +22,21 @@ __pycache__/
 cpp_build
 
 epi_judge_java/java_build/
+
+
+# pictures
+*.png
+
+# weights
+*.h5
+
+# python backups
+*.py~
+*.py#
+*.pyc
+
+
+# data files
+*.csv
+
+.#
