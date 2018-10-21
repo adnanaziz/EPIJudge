@@ -7,7 +7,8 @@ import sys
 sys.path.append('../')
 import feature_selection.featureselection as feature
 
-path_to_features1 = "/nas/lrz/tuei/ldv/studierende/Emotion/IEMOCAP_full_release/same_length/nsynth_features/"
+path_to_features1 = "/home/ga25gux/tensorflow_python2/EPIJudge/example_dataset/"
+
 
 std = False
 MI = False
@@ -18,10 +19,9 @@ features = 'nsynth'
 
 path_list = path_to_features1
 
-path_to_labels = '/nas/lrz/tuei/ldv/studierende/' + \
-                 'Emotion/IEMOCAP_full_release/IEMOCAP_labels_regression/'
+path_to_labels = "/home/ga25gux/tensorflow_python2/EPIJudge/example_labels_regression/"
 
-component_list = [16, 17, 18, 15, 15]
+component_list = 16
 
 np.random.seed(200)
 
