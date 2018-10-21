@@ -8,11 +8,6 @@ import matplotlib
 import os
 import csv
 from sklearn.preprocessing import label_binarize
-from pls_DA_package import pls_DA_function
-from pls_DA_package import final_test_DA
-from pls_DA_package import feature_selection_DA
-from pls_DA_package import set_plot_dir
-from pls_DA_package import set_MI_true, set_MI_false
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
