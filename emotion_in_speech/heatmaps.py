@@ -1,18 +1,12 @@
 import numpy as np
-from sklearn.decomposition import PCA
-import sys
-import csv
 import seaborn as sns
-from sklearn.cross_decomposition import PLSRegression
 import pandas
 import matplotlib
 import os
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import label_binarize
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import pdb; pdb.set_trace()
 from matplotlib import pyplot as plt
 from matplotlib import cm as cm
 

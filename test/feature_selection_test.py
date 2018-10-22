@@ -1,14 +1,22 @@
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+import os
 import sys
 sys.path.append('../')
-import feature_selection.featureselection as feature
+import emotion_in_speech.featureselection as feature
 
 # add path to the dataset
 
-path_to_features1 = "/nas/lrz/tuei/ldv/studierende/Emotion/IEMOCAP_full_release/same_length/nsynth_features/"
+path = os.path.abspath(__file__)
+
+path = os.path.abspath(os.path.join(path, os.pardir))
+
+parentDir = os.path.abspath(os.path.join(path, os.pardir))
+
+path_to_labels = os.path.abspath(os.path.join(parentDir,
+                                              "example_labels_classification"))
+path_to_labels = path_to_labels + '/'
+path_to_features = os.path.abspath(os.path.join(parentDir, "example_dataset/"))
+path_to_features = path_to_features + '/'
 
 std = False
 MI = False
@@ -19,18 +27,10 @@ plot = "plot/"
 # name of the tool features are extracted with
 features = 'nsynth'
 
-path_list = path_to_features1
-
-# path to labels
-path_to_labels = '/nas/lrz/tuei/ldv/studierende/' + \
-                 'Emotion/IEMOCAP_full_release/IEMOCAP_labels/'
-
 component_list = 16
 
 np.random.seed(200)
 
-
-path_to_features = path_list
 print features
 emotions = ['ang', 'exc', 'neu', 'sad', 'fru', 'hap', 'sur',
             'fea', 'xxx']

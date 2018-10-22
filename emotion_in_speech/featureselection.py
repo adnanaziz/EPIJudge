@@ -14,8 +14,8 @@ import sys
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 sys.path
-sys.path.append('/home/ga25gux/tensorflow_python2/workspace/tools/sammon/')
-from sammon import sammon
+sys.path.append('../')
+from tools.sammon import sammon
 
 
 class Load_features:
