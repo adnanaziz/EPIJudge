@@ -37,6 +37,8 @@ epi_judge_java/java_build/
 
 
 # data files
-*.csv
+# *.csv
 
-.#
+
+\#*\#
+.\#*
