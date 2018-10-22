@@ -42,3 +42,5 @@ epi_judge_java/java_build/
 
 \#*\#
 .\#*
+
+*.txt~
