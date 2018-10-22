@@ -1,23 +1,26 @@
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multiclass import OneVsOneClassifier
 from sklearn.model_selection import train_test_split
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
+import os
 import sys
 sys.path.append('../')
-import feature_selection.featureselection as feature
-import feature_selection.grid_search_svm as svm
+import emotion_in_speech.featureselection as feature
+import emotion_in_speech.grid_search_svm as svm
 
 
-path_to_features = "/home/ga25gux/tensorflow_python2/EPIJudge/example_dataset/"
+path = os.path.abspath(__file__)
 
-path_to_labels = "/home/ga25gux/tensorflow_python2/EPIJudge/example_labels_regression/"
+path = os.path.abspath(os.path.join(path, os.pardir))
+
+parentDir = os.path.abspath(os.path.join(path, os.pardir))
+
+path_to_labels = os.path.abspath(os.path.join(parentDir,
+                                              "example_labels_classification"))
+path_to_labels = path_to_labels + '/'
+path_to_features = os.path.abspath(os.path.join(parentDir, "example_dataset/"))
+path_to_features = path_to_features + '/'
 
 features = 'nsynth'
-
-path_to_labels = '/nas/lrz/tuei/ldv/studierende/' + \
-                 'Emotion/IEMOCAP_full_release/IEMOCAP_labels/'
 
 plot = 'plot/'
 std = False
