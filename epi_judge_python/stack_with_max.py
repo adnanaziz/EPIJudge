@@ -3,20 +3,32 @@ from test_framework.test_failure import TestFailure
 
 
 class Stack:
+    def __init__(self,):
+        self.el = []
+        self.asc_s = []
+
     def empty(self):
-        # TODO - you fill in here.
-        return True
+        if len(self.el) == 0:
+            return True
+        return False
 
     def max(self):
-        # TODO - you fill in here.
-        return 0
+        if self.empty():
+            return
+        return self.asc_s[-1]
 
     def pop(self):
-        # TODO - you fill in here.
-        return 0
+        if self.empty():
+            return
+        x = self.el.pop()
+        if x >= self.asc_s[-1]:
+            self.asc_s.pop()
+        return x
 
     def push(self, x):
-        # TODO - you fill in here.
+        self.el.append(x)
+        if not self.asc_s or x >= self.asc_s[-1]:
+            self.asc_s.append(x)
         return
 
 
