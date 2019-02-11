@@ -20,6 +20,7 @@ def look_and_say2(n):
         s = next_number(s)
     return s
 
+# Pythonic solution,
 from itertools import groupby
 def look_and_say(n):
     s = "1"
