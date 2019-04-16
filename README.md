@@ -94,7 +94,7 @@ The IntelliJ Integrated Development environments described above are best-in-cla
   - Java     
     - **Java** 9
   - Python
-    - **Python** 3.6
+    - **Python** 3.3 to 3.5 (using [aenum](https://pypi.org/project/aenum/)) or 3.6 (using the [enum](https://docs.python.org/3/library/enum.html) built in to the stdlib)
    
 
 - What compilers are supported for solutions?
@@ -112,7 +112,7 @@ The IntelliJ Integrated Development environments described above are best-in-cla
     - Java     
       - **Java** 9
     - Python
-      - **Python** 3.6 
+      - **Python** 3.3 to 3.5 (using [aenum](https://pypi.org/project/aenum/)) or 3.6 (using the [enum](https://docs.python.org/3/library/enum.html) built in to the stdlib)
 
 Let us know if you managed to compile with an older version.
 
