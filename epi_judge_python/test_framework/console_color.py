@@ -1,6 +1,6 @@
 
 import sys
-from enum import Enum, auto
+from aenum import Enum, auto
 
 from test_framework import platform
 
