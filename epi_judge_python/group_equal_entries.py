@@ -21,7 +21,7 @@ def group_by_age_wrapper(executor, people):
     values = collections.Counter()
     values.update(people)
 
-    executor.run(functools.partial(group_by_age, people))
+    people = executor.run(functools.partial(group_by_age, people))
 
     if not people:
         raise TestFailure('Empty result')
@@ -32,7 +32,7 @@ def group_by_age_wrapper(executor, people):
         raise TestFailure('Entry set changed')
 
     ages = set()
-    last_age = people[0]
+    last_age = people[0].age
 
     for x in people:
         if x.age in ages:
