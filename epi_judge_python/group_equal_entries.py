@@ -10,7 +10,7 @@ Person = collections.namedtuple('Person', ('age', 'name'))
 
 def group_by_age(people):
     # TODO - you fill in here.
-    return
+    return people
 
 
 @enable_executor_hook
