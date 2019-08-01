@@ -12,8 +12,28 @@ Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
 
 def search_maze(maze, s, e):
-    # TODO - you fill in here.
-    return []
+    path = []
+
+    def search_maze_rec(cell: Coordinate):
+        if not (0 <= cell.x < len(maze) and 0 <= cell.y < len(maze[cell.x]) and maze[cell.x][cell.y] == WHITE):
+            return False
+        path.append(cell)
+        maze[cell.x][cell.y] = BLACK
+        if cell == e:
+            return True
+
+        children = [Coordinate(cell.x-1, cell.y),
+                    Coordinate(cell.x, cell.y+1),
+                    Coordinate(cell.x+1, cell.y),
+                    Coordinate(cell.x, cell.y+1)]
+        if any(search_maze_rec(child) for child in children):
+            return True
+
+        del path[-1]
+        return False
+
+    search_maze_rec(s)
+    return path
 
 
 def path_element_is_feasible(maze, prev, cur):

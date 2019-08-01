@@ -2,7 +2,7 @@ from test_framework import generic_test
 
 
 def buy_and_sell_stock_k_times(prices, k):
-    # TODO - you fill in here.
+    # TODO - you fill in here
     return 0.0
 
 
