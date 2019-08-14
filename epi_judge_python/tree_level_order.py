@@ -1,9 +1,17 @@
 from test_framework import generic_test
 
+from binary_tree_node import BinaryTreeNode
 
-def binary_tree_depth_order(tree):
-    # TODO - you fill in here.
-    return []
+
+def binary_tree_depth_order(tree: BinaryTreeNode):
+    result = []
+    if tree is None:
+        return result
+    q1 = [tree]
+    while q1:
+        result.append([node.data for node in q1])
+        q1 = [child for node in q1 for child in (node.left, node.right) if child is not None]
+    return result
 
 
 if __name__ == '__main__':
