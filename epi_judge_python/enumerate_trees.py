@@ -1,10 +1,13 @@
 import functools
+from typing import List, Optional
 
+from binary_tree_node import BinaryTreeNode
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
-def generate_all_binary_trees(num_nodes):
+def generate_all_binary_trees(num_nodes: int
+                              ) -> List[Optional[BinaryTreeNode]]:
     # TODO - you fill in here.
     return []
 
@@ -31,6 +34,6 @@ def generate_all_binary_trees_wrapper(executor, num_nodes):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("enumerate_trees.py",
+        generic_test.generic_test_main('enumerate_trees.py',
                                        'enumerate_trees.tsv',
                                        generate_all_binary_trees_wrapper))

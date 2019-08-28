@@ -1,11 +1,13 @@
 import functools
+from typing import List, Set
 
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def decompose_into_dictionary_words(domain, dictionary):
+def decompose_into_dictionary_words(domain: str,
+                                    dictionary: Set[str]) -> List[str]:
     # TODO - you fill in here.
     return []
 
@@ -31,6 +33,6 @@ def decompose_into_dictionary_words_wrapper(executor, domain, dictionary,
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "is_string_decomposable_into_words.py",
+            'is_string_decomposable_into_words.py',
             'is_string_decomposable_into_words.tsv',
             decompose_into_dictionary_words_wrapper))

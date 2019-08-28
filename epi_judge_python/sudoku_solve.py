@@ -1,13 +1,14 @@
 import copy
 import functools
 import math
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def solve_sudoku(partial_assignment):
+def solve_sudoku(partial_assignment: List[List[int]]) -> bool:
     # TODO - you fill in here.
     return True
 
@@ -51,14 +52,13 @@ def solve_sudoku_wrapper(executor, partial_assignment):
                 raise TestFailure('Initial cell assignment has been changed')
 
     block_size = int(math.sqrt(len(solved)))
-
-    for i in range(len(solved)):
-        assert_unique_seq(solved[i])
+    for i, solved_row in enumerate(solved):
+        assert_unique_seq(solved_row)
         assert_unique_seq([row[i] for row in solved])
         assert_unique_seq(gather_square_block(solved, block_size, i))
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("sudoku_solve.py", 'sudoku_solve.tsv',
+        generic_test.generic_test_main('sudoku_solve.py', 'sudoku_solve.tsv',
                                        solve_sudoku_wrapper))
