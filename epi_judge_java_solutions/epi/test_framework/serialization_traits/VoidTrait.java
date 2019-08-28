@@ -6,19 +6,14 @@ import epi.test_framework.minimal_json.JsonValue;
 import java.util.Collections;
 import java.util.List;
 
-public class VoidTraits extends SerializationTraits {
+public class VoidTrait extends SerializationTrait {
   @Override
   public String name() {
     return "void";
   }
 
   @Override
-  public Object parse(String str) {
-    throw new RuntimeException("Can't parse void");
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
+  public Object parse(JsonValue jsonObject) {
     throw new RuntimeException("Can't parse void");
   }
 

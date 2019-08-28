@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class LowestCommonAncestorCloseAncestor {
 
-  public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
+  public static BinaryTree<Integer> lca(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
 
     Set<BinaryTree<Integer>> hash = new HashSet<>();
@@ -40,7 +40,7 @@ public class LowestCommonAncestorCloseAncestor {
     BinaryTree<Integer> node0 = BinaryTreeUtils.mustFindNode(tree, key0);
     BinaryTree<Integer> node1 = BinaryTreeUtils.mustFindNode(tree, key1);
 
-    BinaryTree<Integer> result = executor.run(() -> LCA(node0, node1));
+    BinaryTree<Integer> result = executor.run(() -> lca(node0, node1));
 
     if (result == null) {
       throw new TestFailure("Result can not be null");

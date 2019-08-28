@@ -7,29 +7,15 @@ import epi.test_framework.minimal_json.JsonValue;
 import java.util.Collections;
 import java.util.List;
 
-public class FloatTraits extends SerializationTraits {
+public class FloatTrait extends SerializationTrait {
   @Override
   public String name() {
     return "float";
   }
 
   @Override
-  public Object parse(String str) {
-    try {
-      return Float.parseFloat(str);
-    } catch (NumberFormatException e) {
-      throw new RuntimeException("Float parser: conversion error: " +
-                                 e.getMessage());
-    }
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
-    if (jsonObject.isNumber()) {
-      return jsonObject.asFloat();
-    } else {
-      throw new RuntimeException("Float parser: conversion error");
-    }
+  public Object parse(JsonValue jsonObject) {
+    return jsonObject.asFloat();
   }
 
   @Override
@@ -42,17 +28,15 @@ public class FloatTraits extends SerializationTraits {
     if (x instanceof Float) {
       float val = Math.abs((float)x);
       return Collections.singletonList((int)Math.min(val, Integer.MAX_VALUE));
-    } else {
-      throw new RuntimeException("Expected Float");
     }
+    throw new RuntimeException("Expected Float");
   }
 
   @Override
   public boolean argumentsEqual(Object a, Object b) {
     if (a instanceof Float && b instanceof Float) {
       return TestUtils.floatComparison((Float)a, (Float)b);
-    } else {
-      throw new RuntimeException("Expected Float");
     }
+    throw new RuntimeException("Expected Float");
   }
 }

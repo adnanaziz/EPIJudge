@@ -10,7 +10,7 @@ public class PrimitiveDivide {
 
     int result = 0;
     int power = 32;
-    long yPower = y << power;
+    long yPower = (long)y << power;
     while (x >= y) {
       while (yPower > x) {
         yPower >>>= 1;

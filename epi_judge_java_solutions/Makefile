@@ -3,7 +3,7 @@ SRC_DIR := .
 TEST_DATA_DIR := ../test_data
 
 # Modify this line if you want to pass custom arguments
-PROGRAM_ARGS := --test-data-dir $(TEST_DATA_DIR)
+PROGRAM_ARGS := --test-data-dir $(TEST_DATA_DIR) 
 
 ifdef ComSpec # Running on Windows
 	JAVAC_CMD := javac -parameters -d "$(BUILD_DIR)" -cp "$(BUILD_DIR);."
@@ -42,11 +42,17 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/ListNod
 $(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class : $(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/PostingListNode.java"
 
+$(BUILD_DIR)/$(MAIN_PACKAGE)/TreeLike.class : $(SRC_DIR)/$(MAIN_PACKAGE)/TreeLike.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/TreeLike.java"
+
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiProgramConfig.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiProgramConfig.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiProgramConfig.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.java"
@@ -74,6 +80,9 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class : $(SRC_DIR)/$(MAIN_P
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.java"
+
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.java"
@@ -150,53 +159,53 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WriterConfig.class : $(
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTrait.java"
 
 $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.java | $(BUILD_DIR)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTrait.java"
 
-$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.java | $(BUILD_DIR)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.java"
+$(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTrait.class : $(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTrait.java | $(BUILD_DIR)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTrait.java"
 
 TEST_FRAMEWORK := \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/BinaryTree.class \
@@ -205,8 +214,10 @@ TEST_FRAMEWORK := \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/DoublyListNode.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/ListNode.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/PostingListNode.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/TreeLike.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/BinaryTreeUtils.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/ConsoleColor.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiProgramConfig.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTest.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestComparator.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/EpiTestExpectedType.class \
@@ -216,6 +227,7 @@ TEST_FRAMEWORK := \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/LexicographicalListComparator.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/Platform.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/RandomSequenceChecker.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestComplexity.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestConfig.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestFailure.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/TestResult.class \
@@ -241,22 +253,22 @@ TEST_FRAMEWORK := \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/PrettyPrint.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WriterConfig.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/minimal_json/WritingBuffer.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTraits.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BinaryTreeTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/BooleanTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/CharacterTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/DoubleTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/FloatTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/IntegerTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LinkedListTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ListTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/LongTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SerializationTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/SetTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/ShortTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/StringTrait.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/TraitsFactory.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTraits.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTraits.class
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/UserTypeTrait.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/test_framework/serialization_traits/VoidTrait.class
 
 .PHONY: ABSqrt2
 $(BUILD_DIR)/$(MAIN_PACKAGE)/ABSqrt2.class: $(SRC_DIR)/$(MAIN_PACKAGE)/ABSqrt2.java $(TEST_FRAMEWORK)
@@ -504,6 +516,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/EnumerateTrees.class: $(SRC_DIR)/$(MAIN_PACKAGE)/En
 EnumerateTrees: $(BUILD_DIR)/$(MAIN_PACKAGE)/EnumerateTrees.class
 	$(RUN_CMD) $(MAIN_PACKAGE).EnumerateTrees $(PROGRAM_ARGS)
 
+.PHONY: EuclideanGcd
+$(BUILD_DIR)/$(MAIN_PACKAGE)/EuclideanGcd.class: $(SRC_DIR)/$(MAIN_PACKAGE)/EuclideanGcd.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/EuclideanGcd.java"
+EuclideanGcd: $(BUILD_DIR)/$(MAIN_PACKAGE)/EuclideanGcd.class
+	$(RUN_CMD) $(MAIN_PACKAGE).EuclideanGcd $(PROGRAM_ARGS)
+
 .PHONY: EvaluateRpn
 $(BUILD_DIR)/$(MAIN_PACKAGE)/EvaluateRpn.class: $(SRC_DIR)/$(MAIN_PACKAGE)/EvaluateRpn.java $(TEST_FRAMEWORK)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/EvaluateRpn.java"
@@ -683,6 +701,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringInMatrix.class: $(SRC_DIR)/$(MAIN_PACKAGE)/
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/IsStringInMatrix.java"
 IsStringInMatrix: $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringInMatrix.class
 	$(RUN_CMD) $(MAIN_PACKAGE).IsStringInMatrix $(PROGRAM_ARGS)
+
+.PHONY: IsStringPalindromic
+$(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringPalindromic.class: $(SRC_DIR)/$(MAIN_PACKAGE)/IsStringPalindromic.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/IsStringPalindromic.java"
+IsStringPalindromic: $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringPalindromic.class
+	$(RUN_CMD) $(MAIN_PACKAGE).IsStringPalindromic $(PROGRAM_ARGS)
 
 .PHONY: IsStringPalindromicPunctuation
 $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringPalindromicPunctuation.class: $(SRC_DIR)/$(MAIN_PACKAGE)/IsStringPalindromicPunctuation.java $(TEST_FRAMEWORK)
@@ -881,6 +905,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/MajorityElement.class: $(SRC_DIR)/$(MAIN_PACKAGE)/M
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/MajorityElement.java"
 MajorityElement: $(BUILD_DIR)/$(MAIN_PACKAGE)/MajorityElement.class
 	$(RUN_CMD) $(MAIN_PACKAGE).MajorityElement $(PROGRAM_ARGS)
+
+.PHONY: MakingChange
+$(BUILD_DIR)/$(MAIN_PACKAGE)/MakingChange.class: $(SRC_DIR)/$(MAIN_PACKAGE)/MakingChange.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/MakingChange.java"
+MakingChange: $(BUILD_DIR)/$(MAIN_PACKAGE)/MakingChange.class
+	$(RUN_CMD) $(MAIN_PACKAGE).MakingChange $(PROGRAM_ARGS)
 
 .PHONY: MatrixConnectedRegions
 $(BUILD_DIR)/$(MAIN_PACKAGE)/MatrixConnectedRegions.class: $(SRC_DIR)/$(MAIN_PACKAGE)/MatrixConnectedRegions.java $(TEST_FRAMEWORK)
@@ -1284,6 +1314,12 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchFrequentItems.class: $(SRC_DIR)/$(MAIN_PACKAG
 SearchFrequentItems: $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchFrequentItems.class
 	$(RUN_CMD) $(MAIN_PACKAGE).SearchFrequentItems $(PROGRAM_ARGS)
 
+.PHONY: SearchInBst
+$(BUILD_DIR)/$(MAIN_PACKAGE)/SearchInBst.class: $(SRC_DIR)/$(MAIN_PACKAGE)/SearchInBst.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/SearchInBst.java"
+SearchInBst: $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchInBst.class
+	$(RUN_CMD) $(MAIN_PACKAGE).SearchInBst $(PROGRAM_ARGS)
+
 .PHONY: SearchInList
 $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchInList.class: $(SRC_DIR)/$(MAIN_PACKAGE)/SearchInList.java $(TEST_FRAMEWORK)
 	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/SearchInList.java"
@@ -1380,11 +1416,11 @@ $(BUILD_DIR)/$(MAIN_PACKAGE)/SortedListsMerge.class: $(SRC_DIR)/$(MAIN_PACKAGE)/
 SortedListsMerge: $(BUILD_DIR)/$(MAIN_PACKAGE)/SortedListsMerge.class
 	$(RUN_CMD) $(MAIN_PACKAGE).SortedListsMerge $(PROGRAM_ARGS)
 
-.PHONY: SpiralOrderingSegments
-$(BUILD_DIR)/$(MAIN_PACKAGE)/SpiralOrderingSegments.class: $(SRC_DIR)/$(MAIN_PACKAGE)/SpiralOrderingSegments.java $(TEST_FRAMEWORK)
-	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/SpiralOrderingSegments.java"
-SpiralOrderingSegments: $(BUILD_DIR)/$(MAIN_PACKAGE)/SpiralOrderingSegments.class
-	$(RUN_CMD) $(MAIN_PACKAGE).SpiralOrderingSegments $(PROGRAM_ARGS)
+.PHONY: SpiralOrdering
+$(BUILD_DIR)/$(MAIN_PACKAGE)/SpiralOrdering.class: $(SRC_DIR)/$(MAIN_PACKAGE)/SpiralOrdering.java $(TEST_FRAMEWORK)
+	$(JAVAC_CMD) "$(SRC_DIR)/$(MAIN_PACKAGE)/SpiralOrdering.java"
+SpiralOrdering: $(BUILD_DIR)/$(MAIN_PACKAGE)/SpiralOrdering.class
+	$(RUN_CMD) $(MAIN_PACKAGE).SpiralOrdering $(PROGRAM_ARGS)
 
 .PHONY: SpreadsheetEncoding
 $(BUILD_DIR)/$(MAIN_PACKAGE)/SpreadsheetEncoding.class: $(SRC_DIR)/$(MAIN_PACKAGE)/SpreadsheetEncoding.java $(TEST_FRAMEWORK)
@@ -1597,6 +1633,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EnumerateBalancedParentheses.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EnumeratePalindromicDecompositions.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EnumerateTrees.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/EuclideanGcd.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EvaluateRpn.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EvenOddArray.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/EvenOddListMerge.class \
@@ -1627,6 +1664,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/IsNumberPalindromic.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringDecomposableIntoWords.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringInMatrix.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringPalindromic.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringPalindromicPunctuation.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/IsStringPermutableToPalindrome.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/IsTreeABst.class \
@@ -1660,6 +1698,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/LowestCommonAncestorWithParent.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/LruCache.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MajorityElement.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/MakingChange.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MatrixConnectedRegions.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MatrixEnclosedRegions.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/MatrixRotation.class \
@@ -1727,6 +1766,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchForMinMaxInArray.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchForMissingElement.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchFrequentItems.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchInBst.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchInList.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchMaze.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SearchRowColSortedMatrix.class \
@@ -1743,7 +1783,7 @@ all: \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SortedArraysMerge.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SortedListToBst.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SortedListsMerge.class \
-    $(BUILD_DIR)/$(MAIN_PACKAGE)/SpiralOrderingSegments.class \
+    $(BUILD_DIR)/$(MAIN_PACKAGE)/SpiralOrdering.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/SpreadsheetEncoding.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/StackWithMax.class \
     $(BUILD_DIR)/$(MAIN_PACKAGE)/StringDecompositionsIntoDictionaryWords.class \

@@ -1,9 +1,11 @@
 
 package epi;
 
+import epi.test_framework.EpiProgramConfig;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
+import epi.test_framework.TestConfig;
 import epi.test_framework.TestFailure;
 
 import java.util.ArrayDeque;
@@ -29,22 +31,14 @@ public class QueueWithMaxUsingDeque {
     }
 
     public T dequeue() {
-      if (!entries.isEmpty()) {
-        T result = entries.remove();
-        if (result.equals(candidatesForMax.peekFirst())) {
-          candidatesForMax.removeFirst();
-        }
-        return result;
+      T result = entries.remove();
+      if (result.equals(candidatesForMax.peekFirst())) {
+        candidatesForMax.removeFirst();
       }
-      throw new NoSuchElementException("Called dequeue() on empty queue.");
+      return result;
     }
 
-    public T max() {
-      if (!candidatesForMax.isEmpty()) {
-        return candidatesForMax.peekFirst();
-      }
-      throw new NoSuchElementException("empty queue");
-    }
+    public T max() { return candidatesForMax.peekFirst(); }
 
     public T head() { return entries.peek(); }
   }
@@ -61,7 +55,7 @@ public class QueueWithMaxUsingDeque {
   }
 
   @EpiTest(testDataFile = "queue_with_max.tsv")
-  public static void queueTest(List<QueueOp> ops) throws TestFailure {
+  public static void queueTester(List<QueueOp> ops) throws TestFailure {
     try {
       QueueWithMax<Integer> q = new QueueWithMax<>();
 
@@ -93,6 +87,11 @@ public class QueueWithMaxUsingDeque {
     } catch (NoSuchElementException e) {
       throw new TestFailure("Unexpected NoSuchElement exception");
     }
+  }
+
+  @EpiProgramConfig
+  public static void programConfig(TestConfig config) {
+    config.analyzeComplexity = false;
   }
 
   public static void main(String[] args) {
