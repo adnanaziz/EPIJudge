@@ -11,9 +11,12 @@ DuplicateAndMissing FindDuplicateMissing(const vector<int>& A) {
   // TODO - you fill in here.
   return {0, 0};
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<DuplicateAndMissing>
-    : UserSerTraits<DuplicateAndMissing, int, int> {};
+struct SerializationTrait<DuplicateAndMissing>
+    : UserSerTrait<DuplicateAndMissing, int, int> {};
+}  // namespace test_framework
 
 bool operator==(const DuplicateAndMissing& lhs,
                 const DuplicateAndMissing& rhs) {

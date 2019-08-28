@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
+#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
 using std::length_error;
 
@@ -38,9 +39,10 @@ struct QueueOp {
   }
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<QueueOp> : UserSerTraits<QueueOp, std::string, int> {
-};
+struct SerializationTrait<QueueOp> : UserSerTrait<QueueOp, std::string, int> {};
+}  // namespace test_framework
 
 void QueueTester(const std::vector<QueueOp>& ops) {
   try {
@@ -74,9 +76,12 @@ void QueueTester(const std::vector<QueueOp>& ops) {
   }
 }
 
+void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
+
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
   return GenericTestMain(args, "queue_with_max.cc", "queue_with_max.tsv",
-                         &QueueTester, DefaultComparator{}, param_names);
+                         &QueueTester, DefaultComparator{}, param_names,
+                         &ProgramConfig);
 }

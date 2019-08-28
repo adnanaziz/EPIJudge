@@ -1,6 +1,7 @@
 #include <string>
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
+#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
 using std::string;
 
@@ -37,10 +38,11 @@ std::ostream& operator<<(std::ostream& out, const Operation& op) {
   return out << FmtStr("{}({}, {})", op.op, op.s_arg, op.i_arg);
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Operation>
-    : UserSerTraits<Operation, std::string, std::string, int> {};
-
+struct SerializationTrait<Operation>
+    : UserSerTrait<Operation, std::string, std::string, int> {};
+}  // namespace test_framework
 void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
   ClientsCreditsInfo cr;
   int op_idx = 0;
@@ -81,10 +83,12 @@ void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
   }
 }
 
+void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
+
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
   return GenericTestMain(args, "adding_credits.cc", "adding_credits.tsv",
                          &ClientsCreditsInfoTester, DefaultComparator{},
-                         param_names);
+                         param_names, &ProgramConfig);
 }

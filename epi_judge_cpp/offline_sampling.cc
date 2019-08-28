@@ -12,6 +12,7 @@ void RandomSampling(int k, vector<int>* A_ptr) {
   return;
 }
 bool RandomSamplingRunner(TimedExecutor& executor, int k, vector<int> A) {
+  using namespace test_framework;
   vector<vector<int>> results;
 
   executor.Run([&] {

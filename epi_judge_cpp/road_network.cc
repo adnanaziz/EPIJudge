@@ -13,9 +13,12 @@ HighwaySection FindBestProposals(const vector<HighwaySection>& H,
   // TODO - you fill in here.
   return {0, 0, 0};
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<HighwaySection>
-    : UserSerTraits<HighwaySection, int, int, int> {};
+struct SerializationTrait<HighwaySection>
+    : UserSerTrait<HighwaySection, int, int, int> {};
+}  // namespace test_framework
 
 bool operator==(const HighwaySection& lhs, const HighwaySection& rhs) {
   return lhs.x == rhs.x && lhs.y == rhs.y && lhs.distance == rhs.distance;

@@ -10,8 +10,11 @@ bool CheckFeasible(const vector<Jug>& jugs, int L, int H) {
   // TODO - you fill in here.
   return true;
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<Jug> : UserSerTraits<Jug, int, int> {};
+struct SerializationTrait<Jug> : UserSerTrait<Jug, int, int> {};
+}  // namespace test_framework
 
 bool operator==(const Jug& lhs, const Jug& rhs) {
   return lhs.low == rhs.low && lhs.high == rhs.high;

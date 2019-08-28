@@ -15,9 +15,10 @@ double HuffmanEncoding(vector<CharWithFrequency>* symbols) {
   return 0.0;
 }
 }  // namespace huffman
+namespace test_framework {
 template <>
-struct SerializationTraits<huffman::CharWithFrequency>
-    : UserSerTraits<huffman::CharWithFrequency, std::string, double> {
+struct SerializationTrait<huffman::CharWithFrequency>
+    : UserSerTrait<huffman::CharWithFrequency, std::string, double> {
   static huffman::CharWithFrequency FromTuple(
       const std::tuple<std::string, double>& values) {
     if (std::get<0>(values).size() != 1) {
@@ -28,6 +29,7 @@ struct SerializationTraits<huffman::CharWithFrequency>
                                       std::get<1>(values)};
   }
 };
+}  // namespace test_framework
 
 double HuffmanEncodingWrapper(vector<huffman::CharWithFrequency> symbols) {
   return huffman::HuffmanEncoding(&symbols);

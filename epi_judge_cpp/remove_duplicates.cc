@@ -19,9 +19,12 @@ void EliminateDuplicate(vector<Name>* names) {
   // TODO - you fill in here.
   return;
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<Name>
-    : UserSerTraits<Name, std::string, std::string> {};
+struct SerializationTrait<Name> : UserSerTrait<Name, std::string, std::string> {
+};
+}  // namespace test_framework
 
 std::ostream& operator<<(std::ostream& out, const Name& n) {
   return out << n.first_name;

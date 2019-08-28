@@ -15,6 +15,7 @@ vector<int> RandomSubset(int n, int k) {
   return {};
 }
 bool RandomSubsetRunner(TimedExecutor& executor, int n, int k) {
+  using namespace test_framework;
   vector<vector<int>> results;
 
   executor.Run([&] {

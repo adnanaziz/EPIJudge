@@ -28,6 +28,7 @@ int PermutationIndex(vector<int> perm) {
 }
 
 bool ComputeRandomPermutationRunner(TimedExecutor& executor, int n) {
+  using namespace test_framework;
   vector<vector<int>> results;
 
   executor.Run([&] {

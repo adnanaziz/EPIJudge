@@ -15,5 +15,5 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> param_names{"tree", "k"};
   return GenericTestMain(args, "k_largest_values_in_bst.cc",
                          "k_largest_values_in_bst.tsv", &FindKLargestInBST,
-                         &UnorderedComparator<std::vector<int>>, param_names);
+                         UnorderedComparator{}, param_names);
 }

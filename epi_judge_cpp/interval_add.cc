@@ -13,8 +13,9 @@ vector<Interval> AddInterval(const vector<Interval>& disjoint_intervals,
   // TODO - you fill in here.
   return {};
 }
+namespace test_framework {
 template <>
-struct SerializationTraits<Interval> : UserSerTraits<Interval, int, int> {
+struct SerializationTrait<Interval> : UserSerTrait<Interval, int, int> {
   static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
     return {FmtStr("length({})", arg_name)};
   }
@@ -23,7 +24,7 @@ struct SerializationTraits<Interval> : UserSerTraits<Interval, int, int> {
     return {x.right - x.left};
   }
 };
-
+}  // namespace test_framework
 bool operator==(const Interval& a, const Interval& b) {
   return a.left == b.left && a.right == b.right;
 }
