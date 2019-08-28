@@ -37,6 +37,7 @@ int FindKthLargestUnknownLengthWrapper(const vector<int>& stream, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"stream", "k"};
-  return GenericTestMain(args, "kth_largest_element_in_long_array.cc", "kth_largest_element_in_long_array.tsv", &FindKthLargestUnknownLengthWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "kth_largest_element_in_long_array.cc", "kth_largest_element_in_long_array.tsv", &FindKthLargestUnknownLengthWrapper, 
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

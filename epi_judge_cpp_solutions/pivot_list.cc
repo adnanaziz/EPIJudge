@@ -4,12 +4,12 @@
 #include <vector>
 
 #include "list_node.h"
-#define main _main
-#include "sorted_lists_merge.cc"  // uses AppendNode()
-#undef main
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
+#define main _main
+#include "sorted_lists_merge.cc"  // uses AppendNode()
+#undef main
 
 using std::shared_ptr;
 

@@ -46,8 +46,10 @@ int FindMaxSimultaneousEvents(const vector<Event>& A) {
   return max_num_simultaneous_events;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Event> : UserSerTraits<Event, int, int> {};
+struct SerializationTrait<Event> : UserSerTrait<Event, int, int> {};
+}  // namespace test_framework
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};

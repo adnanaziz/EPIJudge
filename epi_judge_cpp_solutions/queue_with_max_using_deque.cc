@@ -7,6 +7,7 @@
 
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
+#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
 
 using std::deque;
@@ -26,23 +27,15 @@ class QueueWithMax {
   }
 
   T Dequeue() {
-    if (!empty(entries_)) {
-      T result = entries_.front();
-      if (result == candidates_for_max_.front()) {
-        candidates_for_max_.pop_front();
-      }
-      entries_.pop();
-      return result;
+    T result = entries_.front();
+    if (result == candidates_for_max_.front()) {
+      candidates_for_max_.pop_front();
     }
-    throw length_error("empty queue");
+    entries_.pop();
+    return result;
   }
 
-  const T& Max() const {
-    if (!empty(candidates_for_max_)) {
-      return candidates_for_max_.front();
-    }
-    throw length_error("empty queue");
-  }
+  const T& Max() const { return candidates_for_max_.front(); }
 
   T& Head() { return entries_.front(); }
 
@@ -72,9 +65,10 @@ struct QueueOp {
   }
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<QueueOp> : UserSerTraits<QueueOp, std::string, int> {
-};
+struct SerializationTrait<QueueOp> : UserSerTrait<QueueOp, std::string, int> {};
+}  // namespace test_framework
 
 void QueueTester(const std::vector<QueueOp>& ops) {
   try {
@@ -108,10 +102,15 @@ void QueueTester(const std::vector<QueueOp>& ops) {
   }
 }
 
+void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
+
+// clang-format off
+
+
 int main(int argc, char* argv[]) {
-  std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "queue_with_max_using_deque.cc",
-                         "queue_with_max.tsv", &QueueTester,
-                         DefaultComparator{}, param_names);
+  std::vector<std::string> args {argv + 1, argv + argc};
+  std::vector<std::string> param_names {"ops"};
+  return GenericTestMain(args, "queue_with_max_using_deque.cc", "queue_with_max.tsv", &QueueTester, 
+                         DefaultComparator{}, param_names, &ProgramConfig);
 }
+// clang-format on

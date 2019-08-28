@@ -11,11 +11,15 @@
 
 #include "fmt_print.h"
 #include "generic_test_handler.h"
-#include "json_parser.h"
+#include "json.h"
 #include "platform.h"
+#include "test_complexity.h"
 #include "test_config.h"
 #include "test_timer.h"
 #include "test_utils.h"
+
+namespace test_framework {
+using json = nlohmann::json;
 
 template <typename Function, typename Comparator>
 TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
@@ -25,17 +29,15 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
  * The main test starter.
  */
 template <typename Function, typename Comparator>
-TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
-                           const std::string& test_file,
-                           const std::string& test_data_file,
-                           Function test_func, Comparator comparator,
-                           const std::vector<std::string>& param_names) {
+TestResult GenericTestMain(
+    const std::vector<std::string>& commandline_args,
+    const std::string& test_file, const std::string& test_data_file,
+    Function test_func, Comparator comparator,
+    const std::vector<std::string>& param_names,
+    const std::function<void(TestConfig&)>& program_config = {}) {
   std::ifstream config_data(GetFilePathInJudgeDir("config.json"));
-  std::stringstream buffer;
-  buffer << config_data.rdbuf();
-  std::string err;
-  const json_parser::Json config_override =
-      json_parser::Json::parse(buffer.str(), err);
+  json config_override;
+  config_data >> config_override;
 
   // Enables automatic flushing of the output stream after any output
   // operation.
@@ -44,9 +46,12 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
   try {
     TestConfig config = TestConfig::FromCommandLine(
         test_file, test_data_file,
-        std::chrono::seconds{config_override["timeoutSeconds"].int_value()},
-        (int)config_override["numFailedTestsBeforeStop"].int_value(),
-        commandline_args);
+        std::chrono::seconds{config_override["timeoutSeconds"]},
+        config_override["numFailedTestsBeforeStop"], commandline_args);
+
+    if (program_config) {
+      program_config(config);
+    }
 
     platform::SetOutputOpts(config.tty_mode, config.color_mode);
 
@@ -54,7 +59,7 @@ TestResult GenericTestMain(const std::vector<std::string>& commandline_args,
         test_func, comparator, param_names);
     return RunTests(test_handler, config);
   } catch (std::runtime_error& e) {
-    std::cerr << std::endl << "Critical error: " << e.what() << std::endl;
+    std::cerr << "\nCritical error: " << e.what() << std::endl;
     return RUNTIME_ERROR;
   }
 }
@@ -73,28 +78,21 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
   const std::string kJsEndPattern = ");";
   js_file_str.replace(js_file_str.find(kJsEndPattern), kJsEndPattern.size(),
                       "");
-  const json_parser::Json chapter_to_problem_to_language_solution_mapping =
-      json_parser::Json::parse(js_file_str, err);
+  json chapter_to_problem_to_language_solution_mapping =
+      json::parse(js_file_str);
 
   test_file = "C++: " + test_file;
-  std::string serialized_problem_mapping =
-      chapter_to_problem_to_language_solution_mapping.dump();
-  for (const auto& chapter :
-       chapter_to_problem_to_language_solution_mapping.object_items()) {
-    for (const auto& problem : chapter.second.object_items()) {
-      for (const auto& language : problem.second.object_items()) {
-        if (test_file == language.first) {
-          const std::string format = "\"{}\": {{\"passed\": {},";
-          const std::string pattern = FmtStr(
-              format, test_file, language.second["passed"].int_value());
-          const std::string replacement =
-              FmtStr(format, test_file, tests_passed);
-          serialized_problem_mapping.replace(
-              serialized_problem_mapping.find(pattern), pattern.size(),
-              replacement);
+  for (auto& chapter :
+       chapter_to_problem_to_language_solution_mapping.items()) {
+    for (auto& problem : chapter.value().items()) {
+      for (auto& language_solution_mapping : problem.value().items()) {
+        if (test_file == language_solution_mapping.key()) {
+          language_solution_mapping.value()["passed"] = tests_passed;
           std::ofstream ofs(problem_mapping_file_path);
-          ofs << kJsBeginPattern << serialized_problem_mapping
-              << kJsEndPattern;
+          ofs << kJsBeginPattern;
+          ofs << std::setw(4)
+              << chapter_to_problem_to_language_solution_mapping;
+          ofs << kJsEndPattern;
           ofs.close();
           return;
         }
@@ -109,6 +107,8 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
   std::vector<std::vector<std::string>> test_data =
       SplitTsvFile(config.test_data_dir + config.test_data_file);
   handler.ParseSignature(test_data[0]);
+
+  auto metric_names = config.metric_names_override(handler.MetricNames());
 
   int test_nr = 0;
   int tests_passed = 0;
@@ -130,7 +130,8 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     TestFailure test_failure;
 
     try {
-      test_output = handler.RunTest(config.timeout_seconds, test_case);
+      test_output = handler.RunTest(config.timeout_seconds,
+                                    config.metrics_override, test_case);
       result = PASSED;
       ++tests_passed;
       metrics.emplace_back(test_output.metrics);
@@ -157,16 +158,15 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
                   test_output.timer);
 
     if (result != PASSED) {
-      if (config.verbose) {
-        if (!handler.ExpectedIsVoid()) {
-          test_case.pop_back();
-        }
-        if (test_explanation != "TODO" && !test_explanation.empty()) {
-          test_failure.WithProperty(PropertyName::EXPLANATION,
-                                    test_explanation);
-        }
-        PrintFailedTest(handler.ParamNames(), test_case, test_failure);
+      if (!handler.ExpectedIsVoid()) {
+        test_case.pop_back();
       }
+      if (test_explanation != "TODO" && !test_explanation.empty()) {
+        test_failure.WithProperty(PropertyName::EXPLANATION,
+                                  test_explanation);
+      }
+      PrintFailedTest(handler.ParamNames(), test_case, test_failure);
+
       const int tests_not_passed = test_nr - tests_passed;
       if (tests_not_passed >= config.num_failed_tests_before_stop) {
         break;
@@ -178,11 +178,26 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     UpdateTestPassed(config.test_file, tests_passed);
   }
 
-  std::string complexity;
-
   std::cout << std::endl;
-  if (config.verbose) {
+  if (!durations.empty()) {
+    std::string complexity;
+    if (!metric_names.empty() && !metrics.empty() &&
+        config.analyze_complexity) {
+      std::vector<long long> time;
+      std::transform(
+          durations.begin(), durations.end(), std::back_inserter(time),
+          [](const auto& d) {
+            return std::chrono::duration_cast<std::chrono::nanoseconds>(d)
+                .count();
+          });
+      ShowComplexityNotification();
+      complexity = MinimalLeastSqMultipleParams(metric_names, metrics, time,
+                                                config.complexity_timeout);
+    }
+
     PrintPostRunStats(tests_passed, total_tests, complexity, durations);
   }
   return result;
 }
+}  // namespace test_framework
+using test_framework::GenericTestMain;

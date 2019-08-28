@@ -22,9 +22,10 @@ vector<PairedTasks> OptimumTaskAssignment(vector<int> task_durations) {
   return optimum_assignments;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<PairedTasks> : UserSerTraits<PairedTasks, int, int> {
-};
+struct SerializationTrait<PairedTasks> : UserSerTrait<PairedTasks, int, int> {};
+}  // namespace test_framework
 
 bool operator==(const PairedTasks& lhs, const PairedTasks& rhs) {
   return std::tie(lhs.task_1, lhs.task_2) == std::tie(rhs.task_1, rhs.task_2);

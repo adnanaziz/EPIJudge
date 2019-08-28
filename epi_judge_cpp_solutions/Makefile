@@ -4,7 +4,7 @@ SRC_DIR := .
 TEST_DATA_DIR := ../test_data
 
 # Modify this line if you want to pass custom arguments
-PROGRAM_ARGS := --test-data-dir $(TEST_DATA_DIR)
+PROGRAM_ARGS := --test-data-dir $(TEST_DATA_DIR) 
 
 CXX_COMPILER := g++
 CXX_FLAGS := -std=c++17 -pthread -Werror -Wno-unused-variable -Wno-sign-compare
@@ -431,6 +431,16 @@ enumerate_trees: $(BUILD_DIR)/enumerate_trees
 .PHONY: enumerate_trees
 
 
+# euclidean_gcd.cc
+
+$(BUILD_DIR)/euclidean_gcd: $(SRC_DIR)/euclidean_gcd.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+euclidean_gcd: $(BUILD_DIR)/euclidean_gcd
+	$< $(PROGRAM_ARGS)
+
+.PHONY: euclidean_gcd
+
+
 # evaluate_rpn.cc
 
 $(BUILD_DIR)/evaluate_rpn: $(SRC_DIR)/evaluate_rpn.cc | $(BUILD_DIR)
@@ -729,6 +739,16 @@ is_string_in_matrix: $(BUILD_DIR)/is_string_in_matrix
 	$< $(PROGRAM_ARGS)
 
 .PHONY: is_string_in_matrix
+
+
+# is_string_palindromic.cc
+
+$(BUILD_DIR)/is_string_palindromic: $(SRC_DIR)/is_string_palindromic.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+is_string_palindromic: $(BUILD_DIR)/is_string_palindromic
+	$< $(PROGRAM_ARGS)
+
+.PHONY: is_string_palindromic
 
 
 # is_string_palindromic_punctuation.cc
@@ -1059,6 +1079,16 @@ majority_element: $(BUILD_DIR)/majority_element
 	$< $(PROGRAM_ARGS)
 
 .PHONY: majority_element
+
+
+# making_change.cc
+
+$(BUILD_DIR)/making_change: $(SRC_DIR)/making_change.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+making_change: $(BUILD_DIR)/making_change
+	$< $(PROGRAM_ARGS)
+
+.PHONY: making_change
 
 
 # matrix_connected_regions.cc
@@ -1731,6 +1761,16 @@ search_frequent_items: $(BUILD_DIR)/search_frequent_items
 .PHONY: search_frequent_items
 
 
+# search_in_bst.cc
+
+$(BUILD_DIR)/search_in_bst: $(SRC_DIR)/search_in_bst.cc | $(BUILD_DIR)
+	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
+search_in_bst: $(BUILD_DIR)/search_in_bst
+	$< $(PROGRAM_ARGS)
+
+.PHONY: search_in_bst
+
+
 # search_in_list.cc
 
 $(BUILD_DIR)/search_in_list: $(SRC_DIR)/search_in_list.cc | $(BUILD_DIR)
@@ -1891,14 +1931,14 @@ sorted_lists_merge: $(BUILD_DIR)/sorted_lists_merge
 .PHONY: sorted_lists_merge
 
 
-# spiral_ordering_segments.cc
+# spiral_ordering.cc
 
-$(BUILD_DIR)/spiral_ordering_segments: $(SRC_DIR)/spiral_ordering_segments.cc | $(BUILD_DIR)
+$(BUILD_DIR)/spiral_ordering: $(SRC_DIR)/spiral_ordering.cc | $(BUILD_DIR)
 	$(CXX_COMPILER) $(CXX_FLAGS_DEBUG) -o $@ $<
-spiral_ordering_segments: $(BUILD_DIR)/spiral_ordering_segments
+spiral_ordering: $(BUILD_DIR)/spiral_ordering
 	$< $(PROGRAM_ARGS)
 
-.PHONY: spiral_ordering_segments
+.PHONY: spiral_ordering
 
 
 # spreadsheet_encoding.cc
@@ -2222,6 +2262,7 @@ all: \
     $(BUILD_DIR)/enumerate_balanced_parentheses \
     $(BUILD_DIR)/enumerate_palindromic_decompositions \
     $(BUILD_DIR)/enumerate_trees \
+    $(BUILD_DIR)/euclidean_gcd \
     $(BUILD_DIR)/evaluate_rpn \
     $(BUILD_DIR)/even_odd_array \
     $(BUILD_DIR)/even_odd_list_merge \
@@ -2252,6 +2293,7 @@ all: \
     $(BUILD_DIR)/is_number_palindromic \
     $(BUILD_DIR)/is_string_decomposable_into_words \
     $(BUILD_DIR)/is_string_in_matrix \
+    $(BUILD_DIR)/is_string_palindromic \
     $(BUILD_DIR)/is_string_palindromic_punctuation \
     $(BUILD_DIR)/is_string_permutable_to_palindrome \
     $(BUILD_DIR)/is_tree_a_bst \
@@ -2285,6 +2327,7 @@ all: \
     $(BUILD_DIR)/lowest_common_ancestor_with_parent \
     $(BUILD_DIR)/lru_cache \
     $(BUILD_DIR)/majority_element \
+    $(BUILD_DIR)/making_change \
     $(BUILD_DIR)/matrix_connected_regions \
     $(BUILD_DIR)/matrix_enclosed_regions \
     $(BUILD_DIR)/matrix_rotation \
@@ -2352,6 +2395,7 @@ all: \
     $(BUILD_DIR)/search_for_min_max_in_array \
     $(BUILD_DIR)/search_for_missing_element \
     $(BUILD_DIR)/search_frequent_items \
+    $(BUILD_DIR)/search_in_bst \
     $(BUILD_DIR)/search_in_list \
     $(BUILD_DIR)/search_maze \
     $(BUILD_DIR)/search_row_col_sorted_matrix \
@@ -2368,7 +2412,7 @@ all: \
     $(BUILD_DIR)/sorted_arrays_merge \
     $(BUILD_DIR)/sorted_list_to_bst \
     $(BUILD_DIR)/sorted_lists_merge \
-    $(BUILD_DIR)/spiral_ordering_segments \
+    $(BUILD_DIR)/spiral_ordering \
     $(BUILD_DIR)/spreadsheet_encoding \
     $(BUILD_DIR)/stack_with_max \
     $(BUILD_DIR)/string_decompositions_into_dictionary_words \

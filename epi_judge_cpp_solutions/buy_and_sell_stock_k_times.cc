@@ -11,7 +11,7 @@ using std::vector;
 double UnlimitedPairsProfits(const vector<double> &);
 
 double BuyAndSellStockKTimes(const vector<double> &prices, int k) {
-  if (!k) {
+  if (k == 0) {
     return 0.0;
   } else if (2 * k >= size(prices)) {
     return UnlimitedPairsProfits(prices);

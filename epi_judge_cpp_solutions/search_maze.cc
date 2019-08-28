@@ -1,4 +1,3 @@
-#include <initializer_list>
 #include <istream>
 #include <string>
 #include <vector>
@@ -61,29 +60,28 @@ bool SearchMazeHelper(const Coordinate& cur, const Coordinate& e,
   return false;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Color> : SerializationTraits<int> {
+struct SerializationTrait<Color> : SerializationTrait<int> {
   using serialization_type = Color;
 
-  static serialization_type Parse(const std::string& str) {
+  static serialization_type Parse(const json& json_object) {
     return static_cast<serialization_type>(
-        SerializationTraits<int>::Parse(str));
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    return static_cast<serialization_type>(
-        SerializationTraits<int>::JsonParse(json_object));
+        SerializationTrait<int>::Parse(json_object));
   }
 };
+}  // namespace test_framework
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Coordinate> : UserSerTraits<Coordinate, int, int> {
+struct SerializationTrait<Coordinate> : UserSerTrait<Coordinate, int, int> {
   static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
     return {};
   }
 
   static std::vector<int> GetMetrics(const Coordinate& x) { return {}; }
 };
+}  // namespace test_framework
 
 bool PathElementIsFeasible(const vector<vector<Color>>& maze,
                            const Coordinate& prev, const Coordinate& cur) {

@@ -5,6 +5,7 @@
 
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
+#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
 
 using std::length_error;
@@ -30,9 +31,6 @@ class Queue {
   }
 
   int Dequeue() {
-    if (!num_queue_elements) {
-      throw length_error("empty queue");
-    }
     --num_queue_elements;
     int result = entries_[head_];
     head_ = (head_ + 1) % size(entries_);
@@ -93,9 +91,10 @@ struct QueueOp {
   }
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<QueueOp> : UserSerTraits<QueueOp, std::string, int> {
-};
+struct SerializationTrait<QueueOp> : UserSerTrait<QueueOp, std::string, int> {};
+}  // namespace test_framework
 
 void QueueTester(const std::vector<QueueOp>& ops) {
   Queue q(0);
@@ -104,9 +103,15 @@ void QueueTester(const std::vector<QueueOp>& ops) {
   }
 }
 
+void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
+
+// clang-format off
+
+
 int main(int argc, char* argv[]) {
-  std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "circular_queue.cc", "circular_queue.tsv",
-                         &QueueTester, DefaultComparator{}, param_names);
+  std::vector<std::string> args {argv + 1, argv + argc};
+  std::vector<std::string> param_names {"ops"};
+  return GenericTestMain(args, "circular_queue.cc", "circular_queue.tsv", &QueueTester, 
+                         DefaultComparator{}, param_names, &ProgramConfig);
 }
+// clang-format on

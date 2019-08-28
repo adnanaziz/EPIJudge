@@ -62,9 +62,10 @@ int FindLineWithMostPoints(const vector<Point>& points) {
   return result;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Point> : UserSerTraits<Point, int, int> {};
-
+struct SerializationTrait<Point> : UserSerTrait<Point, int, int> {};
+}  // namespace test_framework
 bool operator==(const Point& lhs, const Point& rhs) {
   return std::tie(lhs.x, lhs.y) == std::tie(rhs.x, rhs.y);
 }

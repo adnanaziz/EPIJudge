@@ -9,7 +9,6 @@
 
 using std::deque;
 using std::initializer_list;
-using std::make_pair;
 using std::pair;
 using std::queue;
 using std::vector;

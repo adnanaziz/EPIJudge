@@ -67,9 +67,11 @@ void FloydWarshall(vector<vector<int>>* G_ptr) {
   }
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<HighwaySection>
-    : UserSerTraits<HighwaySection, int, int, int> {};
+struct SerializationTrait<HighwaySection>
+    : UserSerTrait<HighwaySection, int, int, int> {};
+}  // namespace test_framework
 
 bool operator==(const HighwaySection& lhs, const HighwaySection& rhs) {
   return lhs.x == rhs.x && lhs.y == rhs.y && lhs.distance == rhs.distance;

@@ -56,9 +56,11 @@ struct SerializedNode {
   int jump_index;
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<SerializedNode>
-    : UserSerTraits<SerializedNode, int, int> {};
+struct SerializationTrait<SerializedNode>
+    : UserSerTrait<SerializedNode, int, int> {};
+}  // namespace test_framework
 
 PostingListPtr CreatePostingList(
     const std::vector<SerializedNode>& serialized) {

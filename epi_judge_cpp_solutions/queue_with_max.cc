@@ -1,12 +1,15 @@
 #include <algorithm>
 #include <stdexcept>
-
-#define main _main
-#include "stack_with_max.cc"
-#undef main
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
+#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
+
+#define main _main
+#define ProgramConfig _ProgramConfig
+#include "stack_with_max.cc"
+#undef main
+#undef ProgramConfig
 
 using std::length_error;
 using std::max;
@@ -21,20 +24,15 @@ class QueueWithMax {
         dequeue_.Push(enqueue_.Pop());
       }
     }
-    if (!dequeue_.Empty()) {
-      return dequeue_.Pop();
-    }
-    throw length_error("Cannot get Dequeue() on empty queue.");
+    return dequeue_.Pop();
   }
 
   int Max() const {
     if (!enqueue_.Empty()) {
       return dequeue_.Empty() ? enqueue_.Max()
                               : max(enqueue_.Max(), dequeue_.Max());
-    } else if (!dequeue_.Empty()) {
-      return dequeue_.Max();
     }
-    throw length_error("Cannot get max() on empty queue.");
+    return dequeue_.Max();
   }
 
  private:
@@ -60,9 +58,10 @@ struct QueueOp {
   }
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<QueueOp> : UserSerTraits<QueueOp, std::string, int> {
-};
+struct SerializationTrait<QueueOp> : UserSerTrait<QueueOp, std::string, int> {};
+}  // namespace test_framework
 
 void QueueTester(const std::vector<QueueOp>& ops) {
   try {
@@ -96,9 +95,15 @@ void QueueTester(const std::vector<QueueOp>& ops) {
   }
 }
 
+void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
+
+// clang-format off
+
+
 int main(int argc, char* argv[]) {
-  std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "queue_with_max.cc", "queue_with_max.tsv",
-                         &QueueTester, DefaultComparator{}, param_names);
+  std::vector<std::string> args {argv + 1, argv + argc};
+  std::vector<std::string> param_names {"ops"};
+  return GenericTestMain(args, "queue_with_max.cc", "queue_with_max.tsv", &QueueTester, 
+                         DefaultComparator{}, param_names, &ProgramConfig);
 }
+// clang-format on

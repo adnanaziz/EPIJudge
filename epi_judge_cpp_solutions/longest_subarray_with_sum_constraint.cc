@@ -17,10 +17,9 @@ int FindLongestSubarrayLessEqualK(const vector<int>& A, int k) {
   }
 
   // Builds min_prefix_sum.
-  vector<int> min_prefix_sum(size(A));
-  min_prefix_sum.back() = prefix_sum.back();
+  vector<int> min_prefix_sum = prefix_sum;
   for (int i = size(min_prefix_sum) - 2; i >= 0; --i) {
-    min_prefix_sum[i] = min(prefix_sum[i], min_prefix_sum[i + 1]);
+    min_prefix_sum[i] = min(min_prefix_sum[i], min_prefix_sum[i + 1]);
   }
 
   int a = 0, b = 0, max_length = 0;
@@ -46,6 +45,7 @@ int FindLongestSubarrayLessEqualK(const vector<int>& A, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"A", "k"};
-  return GenericTestMain(args, "longest_subarray_with_sum_constraint.cc", "longest_subarray_with_sum_constraint.tsv", &FindLongestSubarrayLessEqualK, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "longest_subarray_with_sum_constraint.cc", "longest_subarray_with_sum_constraint.tsv", &FindLongestSubarrayLessEqualK, 
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

@@ -80,9 +80,11 @@ struct FlatInterval {
   }
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<FlatInterval>
-    : UserSerTraits<FlatInterval, int, bool, int, bool> {};
+struct SerializationTrait<FlatInterval>
+    : UserSerTrait<FlatInterval, int, bool, int, bool> {};
+}  // namespace test_framework
 
 std::ostream& operator<<(std::ostream& out, const FlatInterval& i) {
   return out << (i.left_is_closed ? '<' : '(') << i.left_val << ", "
