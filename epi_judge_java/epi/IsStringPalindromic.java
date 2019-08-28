@@ -1,20 +1,18 @@
 package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-import java.util.List;
-public class SpiralOrderingSegments {
-  @EpiTest(testDataFile = "spiral_ordering_segments.tsv")
+public class IsStringPalindromic {
+  @EpiTest(testDataFile = "is_string_palindromic.tsv")
 
-  public static List<Integer>
-  matrixInSpiralOrder(List<List<Integer>> squareMatrix) {
+  public static boolean isPalindromic(String s) {
     // TODO - you fill in here.
-    return null;
+    return true;
   }
 
   public static void main(String[] args) {
     System.exit(
         GenericTest
-            .runFromAnnotations(args, "SpiralOrderingSegments.java",
+            .runFromAnnotations(args, "IsStringPalindromic.java",
                                 new Object() {}.getClass().getEnclosingClass())
             .ordinal());
   }

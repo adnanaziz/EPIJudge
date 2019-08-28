@@ -45,8 +45,7 @@ public class KClosestStars {
   @EpiTestExpectedType public static List<Double> expectedType;
 
   @EpiTestComparator
-  public static BiPredicate<List<Double>, List<Star>> comp =
-      (expected, result) -> {
+  public static boolean comp(List<Double> expected, List<Star> result) {
     if (expected.size() != result.size()) {
       return false;
     }
@@ -57,7 +56,7 @@ public class KClosestStars {
       }
     }
     return true;
-  };
+  }
 
   public static void main(String[] args) {
     System.exit(

@@ -5,7 +5,7 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 public class LowestCommonAncestor {
-  public static BinaryTreeNode<Integer> LCA(BinaryTreeNode<Integer> tree,
+  public static BinaryTreeNode<Integer> lca(BinaryTreeNode<Integer> tree,
                                             BinaryTreeNode<Integer> node0,
                                             BinaryTreeNode<Integer> node1) {
     // TODO - you fill in here.
@@ -19,7 +19,7 @@ public class LowestCommonAncestor {
     BinaryTreeNode<Integer> node1 = BinaryTreeUtils.mustFindNode(tree, key1);
 
     BinaryTreeNode<Integer> result =
-        executor.run(() -> LCA(tree, node0, node1));
+        executor.run(() -> lca(tree, node0, node1));
 
     if (result == null) {
       throw new TestFailure("Result can not be null");

@@ -1,7 +1,9 @@
 package epi;
+import epi.test_framework.EpiProgramConfig;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
+import epi.test_framework.TestConfig;
 import epi.test_framework.TestFailure;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,7 +39,7 @@ public class StackWithMax {
   }
 
   @EpiTest(testDataFile = "stack_with_max.tsv")
-  public static void stackTest(List<StackOp> ops) throws TestFailure {
+  public static void stackTester(List<StackOp> ops) throws TestFailure {
     try {
       Stack s = new Stack();
       int result;
@@ -77,6 +79,10 @@ public class StackWithMax {
     } catch (NoSuchElementException e) {
       throw new TestFailure("Unexpected NoSuchElement exception");
     }
+  }
+  @EpiProgramConfig
+  public static void programConfig(TestConfig config) {
+    config.analyzeComplexity = false;
   }
 
   public static void main(String[] args) {

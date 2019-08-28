@@ -2,7 +2,6 @@
 package epi.test_framework.serialization_traits;
 
 import epi.test_framework.EpiUserType;
-import epi.test_framework.minimal_json.Json;
 import epi.test_framework.minimal_json.JsonArray;
 import epi.test_framework.minimal_json.JsonValue;
 
@@ -13,15 +12,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserTypeTraits extends SerializationTraits {
+public class UserTypeTrait extends SerializationTrait {
   private EpiUserType typeInfo;
-  private List<SerializationTraits> ctorParamTraits;
+  private List<SerializationTrait> ctorParamTraits;
   private Constructor<?> ctor;
 
-  public UserTypeTraits(Class<?> userType, EpiUserType userTypeInfo) {
+  public UserTypeTrait(Class<?> userType, EpiUserType userTypeInfo) {
     this.typeInfo = userTypeInfo;
     ctorParamTraits = Arrays.stream(userTypeInfo.ctorParams())
-                          .map(TraitsFactory::getTraits)
+                          .map(TraitsFactory::getTrait)
                           .collect(Collectors.toList());
 
     try {
@@ -39,7 +38,7 @@ public class UserTypeTraits extends SerializationTraits {
 
     sb.append("tuple(");
     boolean first = true;
-    for (SerializationTraits t : ctorParamTraits) {
+    for (SerializationTrait t : ctorParamTraits) {
       if (first) {
         first = false;
       } else {
@@ -52,16 +51,7 @@ public class UserTypeTraits extends SerializationTraits {
   }
 
   @Override
-  public Object parse(String str) {
-    return jsonParse(Json.parse(str));
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
-    if (!jsonObject.isArray()) {
-      throw new RuntimeException("Tuple parser: expected JSON array");
-    }
-
+  public Object parse(JsonValue jsonObject) {
     JsonArray a = jsonObject.asArray();
     if (a.size() != ctorParamTraits.size()) {
       throw new RuntimeException(
@@ -70,7 +60,7 @@ public class UserTypeTraits extends SerializationTraits {
     }
     Object[] params = new Object[ctorParamTraits.size()];
     for (int i = 0; i < ctorParamTraits.size(); i++) {
-      params[i] = ctorParamTraits.get(i).jsonParse(a.get(i));
+      params[i] = ctorParamTraits.get(i).parse(a.get(i));
     }
     try {
       return ctor.newInstance(params);
@@ -82,7 +72,7 @@ public class UserTypeTraits extends SerializationTraits {
 
   @Override
   public List<String> getMetricNames(String argName) {
-    // TODO Find how to provide custom metrics
+    // TODO: Find how to provide custom metrics.
     return Collections.emptyList();
   }
 

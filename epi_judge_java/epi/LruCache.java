@@ -1,7 +1,9 @@
 package epi;
+import epi.test_framework.EpiProgramConfig;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
+import epi.test_framework.TestConfig;
 import epi.test_framework.TestFailure;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class LruCache {
   }
 
   @EpiTest(testDataFile = "lru_cache.tsv")
-  public static void runTest(List<Op> commands) throws TestFailure {
+  public static void lruCacheTester(List<Op> commands) throws TestFailure {
     if (commands.isEmpty() || !commands.get(0).code.equals("LruCache")) {
       throw new RuntimeException("Expected LruCache as first command");
     }
@@ -62,6 +64,11 @@ public class LruCache {
         throw new RuntimeException("Unexpected command " + op.code);
       }
     }
+  }
+
+  @EpiProgramConfig
+  public static void programConfig(TestConfig config) {
+    config.analyzeComplexity = false;
   }
 
   public static void main(String[] args) {

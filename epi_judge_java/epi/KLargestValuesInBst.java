@@ -10,18 +10,17 @@ public class KLargestValuesInBst {
 
   public static List<Integer> findKLargestInBst(BstNode<Integer> tree, int k) {
     // TODO - you fill in here.
-    return null;
+    return Collections.emptyList();
   }
   @EpiTestComparator
-  public static BiPredicate<List<Integer>, List<Integer>> comp =
-      (expected, result) -> {
+  public static boolean comp(List<Integer> expected, List<Integer> result) {
     if (result == null) {
       return false;
     }
     Collections.sort(expected);
     Collections.sort(result);
     return expected.equals(result);
-  };
+  }
 
   public static void main(String[] args) {
     System.exit(

@@ -4,44 +4,32 @@ package epi.test_framework.serialization_traits;
 import epi.BinaryTree;
 import epi.BinaryTreeNode;
 import epi.BstNode;
+import epi.TreeLike;
 import epi.test_framework.BinaryTreeUtils;
-import epi.test_framework.minimal_json.Json;
 import epi.test_framework.minimal_json.JsonArray;
 import epi.test_framework.minimal_json.JsonValue;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BinaryTreeTraits extends SerializationTraits {
+public class BinaryTreeTrait extends SerializationTrait {
   private Class<?> nodeType;
-  private SerializationTraits innerTypeTraits;
+  private SerializationTrait innerTypeTrait;
 
-  public BinaryTreeTraits(Class<?> nodeType,
-                          SerializationTraits innerTypeTraits) {
+  public BinaryTreeTrait(Class<?> nodeType, SerializationTrait innerTypeTrait) {
     this.nodeType = nodeType;
-    this.innerTypeTraits = innerTypeTraits;
+    this.innerTypeTrait = innerTypeTrait;
   }
 
   @Override
   public String name() {
-    return String.format("binary_tree(%s)", innerTypeTraits.name());
+    return String.format("binary_tree(%s)", innerTypeTrait.name());
   }
 
   @Override
-  public Object parse(String str) {
-    return jsonParse(Json.parse(str));
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
-    if (!jsonObject.isArray()) {
-      throw new RuntimeException("Binary Tree parser: expected JSON array");
-    }
-
+  public Object parse(JsonValue jsonObject) {
     if (nodeType.equals(BinaryTreeNode.class)) {
       return buildBinaryTreeNode(jsonObject.asArray());
     } else if (nodeType.equals(BinaryTree.class)) {
@@ -62,23 +50,20 @@ public class BinaryTreeTraits extends SerializationTraits {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public List<Integer> getMetrics(Object x) {
-    return Arrays.asList(BinaryTreeUtils.binaryTreeSize(x),
-                         BinaryTreeUtils.binaryTreeHeight(x));
+    return List.of(BinaryTreeUtils.binaryTreeSize((TreeLike<Object, ?>)x),
+                   BinaryTreeUtils.binaryTreeHeight((TreeLike<Object, ?>)x));
   }
 
   private Object buildBinaryTreeNode(JsonArray data) {
     List<BinaryTreeNode<Object>> nodes = new LinkedList<>();
-    for (JsonValue s : data) {
-      if (!s.isString()) {
-        throw new RuntimeException("Binary Tree parser: expected JSON string");
-      }
-      if (s.asString().equals("null")) {
-        nodes.add(null);
-      } else {
-        nodes.add(new BinaryTreeNode<>(innerTypeTraits.parse(s.asString())));
-      }
+    for (JsonValue node : data) {
+      nodes.add(node.isNull()
+                    ? null
+                    : new BinaryTreeNode<>(innerTypeTrait.parse(node)));
     }
+
     Deque<BinaryTreeNode<Object>> candidateChildren = new LinkedList<>(nodes);
     BinaryTreeNode<Object> root = candidateChildren.removeFirst();
     for (BinaryTreeNode<Object> node : nodes) {
@@ -96,16 +81,9 @@ public class BinaryTreeTraits extends SerializationTraits {
 
   private Object buildBinaryTree(JsonArray data) {
     List<BinaryTree<Object>> nodes = new LinkedList<>();
-
-    for (JsonValue s : data) {
-      if (!s.isString()) {
-        throw new RuntimeException("Binary Tree parser: expected JSON string");
-      }
-      if (s.asString().equals("null")) {
-        nodes.add(null);
-      } else {
-        nodes.add(new BinaryTree<>(innerTypeTraits.parse(s.asString())));
-      }
+    for (JsonValue node : data) {
+      nodes.add(node.isNull() ? null
+                              : new BinaryTree<>(innerTypeTrait.parse(node)));
     }
 
     Deque<BinaryTree<Object>> candidateChildren = new LinkedList<>(nodes);
@@ -114,11 +92,15 @@ public class BinaryTreeTraits extends SerializationTraits {
       if (node != null) {
         if (!candidateChildren.isEmpty()) {
           node.left = candidateChildren.removeFirst();
-          if (node.left != null) node.left.parent = node;
+          if (node.left != null) {
+            node.left.parent = node;
+          }
         }
         if (!candidateChildren.isEmpty()) {
           node.right = candidateChildren.removeFirst();
-          if (node.right != null) node.right.parent = node;
+          if (node.right != null) {
+            node.right.parent = node;
+          }
         }
       }
     }
@@ -127,17 +109,11 @@ public class BinaryTreeTraits extends SerializationTraits {
 
   private Object buildBstNode(JsonArray data) {
     List<BstNode<Object>> nodes = new LinkedList<>();
-
-    for (JsonValue s : data) {
-      if (!s.isString()) {
-        throw new RuntimeException("Binary Tree parser: expected JSON string");
-      }
-      if (s.asString().equals("null")) {
-        nodes.add(null);
-      } else {
-        nodes.add(new BstNode<>(innerTypeTraits.parse(s.asString())));
-      }
+    for (JsonValue node : data) {
+      nodes.add(node.isNull() ? null
+                              : new BstNode<>(innerTypeTrait.parse(node)));
     }
+
     Deque<BstNode<Object>> candidateChildren = new LinkedList<>(nodes);
     BstNode<Object> root = candidateChildren.removeFirst();
     for (BstNode<Object> node : nodes) {

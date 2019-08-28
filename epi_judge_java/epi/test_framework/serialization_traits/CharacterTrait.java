@@ -6,28 +6,20 @@ import epi.test_framework.minimal_json.JsonValue;
 import java.util.Collections;
 import java.util.List;
 
-public class CharacterTraits extends SerializationTraits {
+public class CharacterTrait extends SerializationTrait {
   @Override
   public String name() {
     return "string";
   }
 
   @Override
-  public Object parse(String str) {
-    if (str.length() != 1) {
+  public Object parse(JsonValue jsonObject) {
+    String arg = jsonObject.asString();
+    if (arg.length() != 1) {
       throw new RuntimeException(
           "Character parser: string must contain exactly 1 char");
     }
-    return str.charAt(0);
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
-    if (jsonObject.isString()) {
-      return parse(jsonObject.asString());
-    } else {
-      throw new RuntimeException("Character parser: conversion error");
-    }
+    return arg.charAt(0);
   }
 
   @Override
@@ -39,8 +31,7 @@ public class CharacterTraits extends SerializationTraits {
   public List<Integer> getMetrics(Object x) {
     if (x instanceof Character) {
       return Collections.singletonList((int)(Character)x);
-    } else {
-      throw new RuntimeException("Expected Character");
     }
+    throw new RuntimeException("Expected Character");
   }
 }

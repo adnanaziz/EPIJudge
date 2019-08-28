@@ -1,6 +1,8 @@
 package epi;
+import epi.test_framework.EpiProgramConfig;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
+import epi.test_framework.TestConfig;
 import epi.test_framework.TestFailure;
 public class RunLengthCompression {
 
@@ -21,6 +23,10 @@ public class RunLengthCompression {
     if (!encoding(decoded).equals(encoded)) {
       throw new TestFailure("Encoding failed");
     }
+  }
+  @EpiProgramConfig
+  public static void programConfig(TestConfig config) {
+    config.analyzeComplexity = false;
   }
 
   public static void main(String[] args) {

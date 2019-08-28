@@ -2,33 +2,27 @@
 package epi.test_framework.serialization_traits;
 
 import epi.ListNode;
-import epi.test_framework.minimal_json.Json;
 import epi.test_framework.minimal_json.JsonValue;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
-public class LinkedListTraits extends SerializationTraits {
-  private ListTraits listTraits;
+public class LinkedListTrait extends SerializationTrait {
+  private ListTrait listTrait;
 
-  public LinkedListTraits(SerializationTraits innerTypeTraits) {
-    listTraits = new ListTraits(innerTypeTraits);
+  public LinkedListTrait(SerializationTrait innerTypeTrait) {
+    listTrait = new ListTrait(innerTypeTrait);
   }
 
   @Override
   public String name() {
-    return String.format("linked_list(%s)", listTraits.getInnerTraits().name());
+    return String.format("linked_list(%s)", listTrait.getInnerTrait().name());
   }
 
   @Override
-  public Object parse(String str) {
-    return jsonParse(Json.parse(str));
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
-    List<Object> parsed = listTraits.jsonParse(jsonObject);
+  public Object parse(JsonValue jsonObject) {
+    List<Object> parsed = listTrait.parse(jsonObject);
     ListNode<Object> head = null;
     ListIterator<Object> valuesIt = parsed.listIterator(parsed.size());
     while (valuesIt.hasPrevious()) {
@@ -48,14 +42,13 @@ public class LinkedListTraits extends SerializationTraits {
       return Collections.singletonList(0);
     } else if (x instanceof ListNode) {
       return Collections.singletonList(((ListNode)x).size());
-    } else {
-      throw new RuntimeException("Expected ListNode");
     }
+    throw new RuntimeException("Expected ListNode");
   }
 
   // TODO Custom parser that throws TestFailure with mismatch info
 
-  public SerializationTraits getInnerTraits() {
-    return listTraits.getInnerTraits();
+  public SerializationTrait getInnerTrait() {
+    return listTrait.getInnerTrait();
   }
 }

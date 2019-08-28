@@ -7,24 +7,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class BooleanTraits extends SerializationTraits {
+public class BooleanTrait extends SerializationTrait {
   @Override
   public String name() {
     return "bool";
   }
 
   @Override
-  public Object parse(String str) {
-    return Boolean.parseBoolean(str);
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
-    if (jsonObject.isBoolean()) {
-      return jsonObject.asBoolean();
-    } else {
-      throw new RuntimeException("Boolean parser: conversion error");
-    }
+  public Object parse(JsonValue jsonObject) {
+    return jsonObject.asBoolean();
   }
 
   @Override

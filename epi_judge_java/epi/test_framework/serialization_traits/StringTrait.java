@@ -6,24 +6,15 @@ import epi.test_framework.minimal_json.JsonValue;
 import java.util.Collections;
 import java.util.List;
 
-public class StringTraits extends SerializationTraits {
+public class StringTrait extends SerializationTrait {
   @Override
   public String name() {
     return "string";
   }
 
   @Override
-  public Object parse(String str) {
-    return str;
-  }
-
-  @Override
-  public Object jsonParse(JsonValue jsonObject) {
-    if (jsonObject.isString()) {
-      return jsonObject.asString();
-    } else {
-      throw new RuntimeException("String parser: conversion error");
-    }
+  public Object parse(JsonValue jsonObject) {
+    return jsonObject.asString();
   }
 
   @Override
@@ -35,9 +26,8 @@ public class StringTraits extends SerializationTraits {
   public List<Integer> getMetrics(Object x) {
     if (x instanceof String) {
       return Collections.singletonList(((String)x).length());
-    } else {
-      throw new RuntimeException("Expected String");
     }
+    throw new RuntimeException("Expected String");
   }
 
   // TODO Custom parser that throws TestFailure with mismatch info
