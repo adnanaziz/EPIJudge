@@ -1,10 +1,12 @@
 import itertools
 import operator
+import typing
+from typing import List
 
 from test_framework import generic_test
 
 
-def find_biggest_n_minus_one_product(A):
+def find_biggest_n_minus_one_product(A: List[int]) -> int:
 
     # Builds suffix products.
     suffix_products = list(
@@ -16,11 +18,11 @@ def find_biggest_n_minus_one_product(A):
         suffix_product = suffix_products[i + 1] if i + 1 < len(A) else 1
         max_product = max(max_product, prefix_product * suffix_product)
         prefix_product *= A[i]
-    return max_product
+    return typing.cast(int, max_product)
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("max_product_all_but_one.py",
+        generic_test.generic_test_main('max_product_all_but_one.py',
                                        'max_product_all_but_one.tsv',
                                        find_biggest_n_minus_one_product))

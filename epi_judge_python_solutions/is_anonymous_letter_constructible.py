@@ -3,7 +3,8 @@ import collections
 from test_framework import generic_test
 
 
-def is_letter_constructible_from_magazine(letter_text, magazine_text):
+def is_letter_constructible_from_magazine(letter_text: str,
+                                          magazine_text: str) -> bool:
 
     # Compute the frequencies for all chars in letter_text.
     char_frequency_for_letter = collections.Counter(letter_text)
@@ -26,13 +27,15 @@ def is_letter_constructible_from_magazine(letter_text, magazine_text):
 
 # Pythonic solution that exploits collections.Counter. Note that the
 # subtraction only keeps keys with positive counts.
-def is_letter_constructible_from_magazine_pythonic(letter_text, magazine_text):
+def is_letter_constructible_from_magazine_pythonic(letter_text: str,
+                                                   magazine_text: str) -> bool:
     return (not collections.Counter(letter_text) -
             collections.Counter(magazine_text))
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("is_anonymous_letter_constructible.py",
-                                       'is_anonymous_letter_constructible.tsv',
-                                       is_letter_constructible_from_magazine))
+        generic_test.generic_test_main(
+            'is_anonymous_letter_constructible.py',
+            'is_anonymous_letter_constructible.tsv',
+            is_letter_constructible_from_magazine))

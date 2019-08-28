@@ -1,10 +1,11 @@
 import collections
 import heapq
+from typing import List
 
 from test_framework import generic_test
 
 
-def calculate_bonus(productivity):
+def calculate_bonus(productivity: List[int]) -> int:
 
     # Stores (productivity, index)-pair in min_heap where ordered by
     # productivity.
@@ -19,8 +20,8 @@ def calculate_bonus(productivity):
     while min_heap:
         next_dev = heapq.heappop(min_heap)[1]
         # Handles the left neighbor.
-        if next_dev > 0 and productivity[next_dev] > productivity[next_dev
-                                                                  - 1]:
+        if next_dev > 0 and productivity[next_dev] > productivity[next_dev -
+                                                                  1]:
             tickets[next_dev] = tickets[next_dev - 1] + 1
         # Handles the right neighbor.
         if (next_dev + 1 < len(tickets)
@@ -32,5 +33,5 @@ def calculate_bonus(productivity):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("bonus.py", 'bonus.tsv',
+        generic_test.generic_test_main('bonus.py', 'bonus.tsv',
                                        calculate_bonus))

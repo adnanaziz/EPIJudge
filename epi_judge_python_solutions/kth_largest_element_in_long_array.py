@@ -1,10 +1,11 @@
 import heapq
+from typing import Iterator
 
 from kth_largest_in_array import find_kth_largest
 from test_framework import generic_test
 
 
-def find_kth_largest_unknown_length(stream, k):
+def find_kth_largest_unknown_length(stream: Iterator[int], k: int) -> int:
 
     candidates = []
     for x in stream:
@@ -32,6 +33,6 @@ def find_kth_largest_unknown_length_wrapper(stream, k):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "kth_largest_element_in_long_array.py",
+            'kth_largest_element_in_long_array.py',
             'kth_largest_element_in_long_array.tsv',
             find_kth_largest_unknown_length_wrapper))

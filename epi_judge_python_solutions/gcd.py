@@ -1,7 +1,7 @@
 from test_framework import generic_test
 
 
-def gcd(x, y):
+def gcd(x: int, y: int) -> int:
 
     if x > y:
         return gcd(y, x)
@@ -17,4 +17,4 @@ def gcd(x, y):
 
 
 if __name__ == '__main__':
-    exit(generic_test.generic_test_main("gcd.py", 'gcd.tsv', gcd))
+    exit(generic_test.generic_test_main('gcd.py', 'gcd.tsv', gcd))

@@ -1,9 +1,10 @@
 import functools
+from typing import List
 
 from test_framework import generic_test
 
 
-def expression_synthesis(digits, target):
+def expression_synthesis(digits: List[int], target: int) -> bool:
     def directed_expression_synthesis(digits, current_term):
         def evaluate():
             intermediate_operands = []
@@ -49,12 +50,13 @@ def expression_synthesis(digits, target):
         del operands[-1]
         return False
 
-    operands, operators = [], []
+    operands: List[int] = []
+    operators: List[str] = []
     return directed_expression_synthesis(digits, 0)
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("insert_operators_in_string.py",
-                                       "insert_operators_in_string.tsv",
+        generic_test.generic_test_main('insert_operators_in_string.py',
+                                       'insert_operators_in_string.tsv',
                                        expression_synthesis))

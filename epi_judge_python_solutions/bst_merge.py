@@ -1,3 +1,5 @@
+from typing import Optional
+
 from bst_node import BstNode
 from test_framework import generic_test
 
@@ -68,12 +70,12 @@ def count_length(L):
     return length
 
 
-def merge_two_bsts(A, B):
+def merge_two_bsts(A: BstNode, B: BstNode) -> Optional[BstNode]:
 
     A, B = bst_to_doubly_list(A), bst_to_doubly_list(B)
     A_length, B_length = count_length(A), count_length(B)
-    return build_bst_from_sorted_doubly_list(
-        merge_two_sorted_lists(A, B), A_length + B_length)
+    return build_bst_from_sorted_doubly_list(merge_two_sorted_lists(A, B),
+                                             A_length + B_length)
 
 
 # Merges two sorted doubly linked lists, returns the head of merged list.
@@ -97,5 +99,5 @@ def merge_two_sorted_lists(A, B):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("bst_merge.py", 'bst_merge.tsv',
+        generic_test.generic_test_main('bst_merge.py', 'bst_merge.tsv',
                                        merge_two_bsts))

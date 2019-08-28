@@ -1,4 +1,5 @@
 import math
+from typing import List
 
 import bintrees
 
@@ -19,12 +20,12 @@ class Number:
         return self.val == other.val
 
 
-def generate_first_k_a_b_sqrt2(k):
+def generate_first_k_a_b_sqrt2(k: int) -> List[float]:
 
     # Initial for 0 + 0 * sqrt(2).
     candidates = bintrees.RBTree([(Number(0, 0), None)])
 
-    result = []
+    result: List[float] = []
     while len(result) < k:
         next_smallest = candidates.pop_min()[0]
         result.append(next_smallest.val)
@@ -36,5 +37,5 @@ def generate_first_k_a_b_sqrt2(k):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("a_b_sqrt2.py", 'a_b_sqrt2.tsv',
+        generic_test.generic_test_main('a_b_sqrt2.py', 'a_b_sqrt2.tsv',
                                        generate_first_k_a_b_sqrt2))
