@@ -1,4 +1,4 @@
-#Comile and run by "make <program_name>"
+# Compile and run by "make <program_name>"
 BUILD_DIR := cpp_build
 SRC_DIR := .
 TEST_DATA_DIR := ../test_data
