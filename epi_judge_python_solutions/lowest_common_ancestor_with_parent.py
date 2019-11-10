@@ -12,7 +12,7 @@ def lca(node0: BinaryTreeNode,
         node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
     def get_depth(node):
         depth = 0
-        while node:
+        while node.parent:
             depth += 1
             node = node.parent
         return depth
