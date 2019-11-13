@@ -4,6 +4,7 @@ package epi.test_framework.serialization_traits;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.minimal_json.JsonArray;
 import epi.test_framework.minimal_json.JsonValue;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
