@@ -33,7 +33,7 @@ public class LowestCommonAncestor {
                                   BinaryTreeNode<Integer> node0,
                                   BinaryTreeNode<Integer> node1) {
     if (tree == null) {
-      return new Status(0, null);
+      return new Status(/*numTargetNodes=*/0, /*ancestor=*/null);
     }
 
     Status leftResult = lcaHelper(tree.left, node0, node1);

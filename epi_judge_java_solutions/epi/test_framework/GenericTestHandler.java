@@ -5,7 +5,6 @@ import epi.TreeLike;
 import epi.test_framework.minimal_json.Json;
 import epi.test_framework.serialization_traits.SerializationTrait;
 import epi.test_framework.serialization_traits.TraitsFactory;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

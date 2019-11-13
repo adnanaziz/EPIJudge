@@ -57,8 +57,8 @@ public class IsStringInMatrix {
 
     for (int i = 0; i < grid.size(); ++i) {
       for (int j = 0; j < grid.get(i).size(); ++j) {
-        if (isPatternSuffixContainedStartingAtXY(grid, i, j, pattern, 0,
-                                                 new HashSet<>())) {
+        if (isPatternSuffixContainedStartingAtXY(
+                grid, i, j, pattern, /*offset=*/0, new HashSet<>())) {
           return true;
         }
       }

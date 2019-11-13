@@ -2,7 +2,6 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +14,8 @@ public class TreeFromPreorderInorder {
   binaryTreeFromPreorderInorder(List<Integer> preorder, List<Integer> inorder) {
 
     return binaryTreeFromPreorderInorderHelper(
-        preorder, 0, preorder.size(), 0, inorder.size(),
+        preorder, /*preorderStart=*/0, preorder.size(), /*inorderStart=*/0,
+        inorder.size(),
         IntStream.range(0, inorder.size())
             .boxed()
             .collect(Collectors.toMap(i -> inorder.get(i), i -> i)));

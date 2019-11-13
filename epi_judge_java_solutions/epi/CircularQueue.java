@@ -6,7 +6,6 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestConfig;
 import epi.test_framework.TestFailure;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

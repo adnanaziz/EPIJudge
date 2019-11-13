@@ -2,7 +2,6 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -27,16 +26,19 @@ public class TreeInorder {
     List<Integer> result = new ArrayList<>();
 
     Deque<NodeAndState> inProcess = new ArrayDeque<>();
-    inProcess.addFirst(new NodeAndState(tree, false));
+    inProcess.addFirst(new NodeAndState(tree, /*leftSubtreeTraversed=*/false));
     while (!inProcess.isEmpty()) {
       NodeAndState nodeAndState = inProcess.removeFirst();
       if (nodeAndState.node != null) {
         if (nodeAndState.leftSubtreeTraversed) {
           result.add(nodeAndState.node.data);
         } else {
-          inProcess.addFirst(new NodeAndState(nodeAndState.node.right, false));
-          inProcess.addFirst(new NodeAndState(nodeAndState.node, true));
-          inProcess.addFirst(new NodeAndState(nodeAndState.node.left, false));
+          inProcess.addFirst(new NodeAndState(nodeAndState.node.right,
+                                              /*leftSubtreeTraversed=*/false));
+          inProcess.addFirst(new NodeAndState(nodeAndState.node,
+                                              /*leftSubtreeTraversed=*/true));
+          inProcess.addFirst(new NodeAndState(nodeAndState.node.left,
+                                              /*leftSubtreeTraversed=*/false));
         }
       }
     }

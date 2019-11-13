@@ -2,7 +2,6 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Queue;
@@ -42,8 +41,8 @@ public class StringTransformability {
       for (int i = 0; i < str.length(); ++i) {
         String strStart = i == 0 ? "" : str.substring(0, i);
         String strEnd = i + 1 < str.length() ? str.substring(i + 1) : "";
-        for (int c = 0; c < 26; ++c) { // Iterates through 'a' ~ 'z'.
-          String modStr = strStart + (char)('a' + c) + strEnd;
+        for (char c = 'a'; c <= 'z'; ++c) { // Iterates through 'a' ~ 'z'.
+          String modStr = strStart + c + strEnd;
           if (visited.contains(modStr)) {
             visited.remove(modStr);
             q.add(new StringWithDistance(modStr, f.distance + 1));

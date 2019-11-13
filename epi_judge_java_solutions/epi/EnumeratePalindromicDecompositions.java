@@ -2,9 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
-import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
-
+import epi.test_framework.LexicographicalListComparator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -15,7 +14,8 @@ public class EnumeratePalindromicDecompositions {
   public static List<List<String>> palindromeDecompositions(String text) {
 
     List<List<String>> result = new ArrayList<>();
-    directedPalindromeDecompositions(text, 0, new ArrayList<String>(), result);
+    directedPalindromeDecompositions(text, /*offset=*/0,
+                                     new ArrayList<String>(), result);
     return result;
   }
 

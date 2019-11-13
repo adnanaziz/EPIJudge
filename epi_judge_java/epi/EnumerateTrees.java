@@ -1,7 +1,7 @@
 package epi;
 import epi.test_framework.EpiTest;
-import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
+import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.TimedExecutor;
 import java.util.ArrayList;
 import java.util.Collections;

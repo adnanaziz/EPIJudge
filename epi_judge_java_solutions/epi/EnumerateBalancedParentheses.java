@@ -3,7 +3,6 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
 import epi.test_framework.GenericTest;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +14,8 @@ public class EnumerateBalancedParentheses {
   public static List<String> generateBalancedParentheses(int numPairs) {
 
     List<String> result = new ArrayList<>();
-    directedGenerateBalancedParentheses(numPairs, numPairs, "", result);
+    directedGenerateBalancedParentheses(numPairs, numPairs, /*validPrefix=*/"",
+                                        result);
     return result;
   }
 

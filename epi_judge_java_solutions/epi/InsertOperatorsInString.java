@@ -2,7 +2,6 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -39,8 +38,8 @@ public class InsertOperatorsInString {
     // Tries multiplication operator '*'.
     operands.add(currentTerm);
     operators.add('*');
-    if (directedExpressionSynthesis(digits, target, 0, offset + 1, operands,
-                                    operators)) {
+    if (directedExpressionSynthesis(digits, target, /*currentTerm=*/0,
+                                    offset + 1, operands, operators)) {
       return true;
     }
     operators.remove(operators.size() - 1);
@@ -53,8 +52,8 @@ public class InsertOperatorsInString {
                            .reduce(0, (val, d) -> val * 10 + d);
     if (target - evaluate(operands, operators) <= remainingInt) {
       operators.add('+');
-      if (directedExpressionSynthesis(digits, target, 0, offset + 1, operands,
-                                      operators)) {
+      if (directedExpressionSynthesis(digits, target, /*currentTerm=*/0,
+                                      offset + 1, operands, operators)) {
         return true;
       }
       operators.remove(operators.size() - 1);
