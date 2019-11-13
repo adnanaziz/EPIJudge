@@ -37,7 +37,7 @@ void DirectedCombinations(int n, int k, int offset,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"n", "k"};
-  return GenericTestMain(args, "combinations.cc", "combinations.tsv", &Combinations, 
+  return GenericTestMain(args, "combinations.cc", "combinations.tsv", &Combinations,
                          UnorderedComparator{}, param_names);
 }
 // clang-format on

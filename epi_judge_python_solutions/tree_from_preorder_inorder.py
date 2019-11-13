@@ -29,8 +29,10 @@ def binary_tree_from_preorder_inorder(preorder: List[int],
                 preorder_start + 1 + left_subtree_size, preorder_end,
                 root_inorder_idx + 1, inorder_end))
 
-    return binary_tree_from_preorder_inorder_helper(0, len(preorder), 0,
-                                                    len(inorder))
+    return binary_tree_from_preorder_inorder_helper(preorder_start=0,
+                                                    preorder_end=len(preorder),
+                                                    inorder_start=0,
+                                                    inorder_end=len(inorder))
 
 
 if __name__ == '__main__':

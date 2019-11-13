@@ -53,7 +53,7 @@ void ProgramConfig(TestConfig &config) { config.analyze_complexity = false; }
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"encoded", "decoded"};
-  return GenericTestMain(args, "run_length_compression.cc", "run_length_compression.tsv", &RleTester, 
+  return GenericTestMain(args, "run_length_compression.cc", "run_length_compression.tsv", &RleTester,
                          DefaultComparator{}, param_names, &ProgramConfig);
 }
 // clang-format on

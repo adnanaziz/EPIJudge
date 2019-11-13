@@ -17,9 +17,9 @@ def online_random_sample(stream: Iterator[int], k: int) -> List[int]:
 @enable_executor_hook
 def online_random_sample_wrapper(executor, stream, k):
     def online_random_sample_runner(executor, stream, k):
-        results = executor.run(lambda: [
-            online_random_sample(iter(stream), k) for _ in range(100000)
-        ])
+        results = executor.run(
+            lambda:
+            [online_random_sample(iter(stream), k) for _ in range(100000)])
 
         total_possible_outcomes = binomial_coefficient(len(stream), k)
         stream = sorted(stream)

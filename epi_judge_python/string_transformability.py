@@ -3,7 +3,6 @@ from typing import Set
 from test_framework import generic_test
 
 
-# Uses BFS to find the least steps of transformation.
 def transform_string(D: Set[str], s: str, t: str) -> int:
     # TODO - you fill in here.
     return 0

@@ -20,7 +20,7 @@ def lca(tree: BinaryTreeNode, node0: BinaryTreeNode,
     # it is the LCA.
     def lca_helper(tree, node0, node1):
         if tree is None:
-            return Status(0, None)
+            return Status(num_target_nodes=0, ancestor=None)
 
         left_result = lca_helper(tree.left, node0, node1)
         if left_result.num_target_nodes == 2:

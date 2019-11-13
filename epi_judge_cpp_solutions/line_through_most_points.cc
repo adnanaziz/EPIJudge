@@ -18,14 +18,14 @@ struct Point {
   int x, y;
 };
 
-// Hash function for a pair.
-struct HashPair {
-  size_t operator()(const pair<int, int>& p) const {
-    return static_cast<size_t>(31) * p.first + p.second;
-  }
-};
-
 int FindLineWithMostPoints(const vector<Point>& points) {
+  // Hash function for a pair.
+  struct HashPair {
+    size_t operator()(const pair<int, int>& p) const {
+      return static_cast<size_t>(31) * p.first + p.second;
+    }
+  };
+
   int result = 0;
   for (int i = 0; i < size(points); ++i) {
     unordered_map<pair<int, int>, int, HashPair> slope_table;

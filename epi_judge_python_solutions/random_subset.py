@@ -30,8 +30,8 @@ def random_subset_pythonic(n, k):
 @enable_executor_hook
 def random_subset_wrapper(executor, n, k):
     def random_subset_runner(executor, n, k):
-        results = executor.run(lambda:
-                               [random_subset(n, k) for _ in range(100000)])
+        results = executor.run(
+            lambda: [random_subset(n, k) for _ in range(100000)])
 
         total_possible_outcomes = binomial_coefficient(n, k)
         comb_to_idx = {

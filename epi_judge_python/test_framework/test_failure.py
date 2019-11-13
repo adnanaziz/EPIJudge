@@ -45,7 +45,6 @@ class TestFailure(Exception):
     Tested function may raise this exception
     in order to mark the current test as failed.
     """
-
     def __init__(self, description=''):
         super().__init__()
         self._properties = []

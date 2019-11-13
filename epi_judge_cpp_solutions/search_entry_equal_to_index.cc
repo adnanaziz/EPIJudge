@@ -45,7 +45,7 @@ void SearchEntryEqualToItsIndexWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "A"};
-  return GenericTestMain(args, "search_entry_equal_to_index.cc", "search_entry_equal_to_index.tsv", &SearchEntryEqualToItsIndexWrapper, 
+  return GenericTestMain(args, "search_entry_equal_to_index.cc", "search_entry_equal_to_index.tsv", &SearchEntryEqualToItsIndexWrapper,
                          DefaultComparator{}, param_names);
 }
 // clang-format on

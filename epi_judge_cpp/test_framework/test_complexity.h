@@ -55,29 +55,27 @@ double Factorial(int n) {
 }
 
 // Internal function to calculate the different scalability forms.
-std::function<double(const double&)> FittingCurve(BigO complexity) {
+std::function<double(double)> FittingCurve(BigO complexity) {
   switch (complexity) {
     case N:
-      return [](const double& n) -> double { return n; };
+      return [](double n) -> double { return n; };
     case N_SQUARED:
-      return [](const double& n) -> double { return n * n; };
+      return [](double n) -> double { return n * n; };
     case N_CUBED:
-      return [](const double& n) -> double { return n * n * n; };
+      return [](double n) -> double { return n * n * n; };
     case LOGN:
-      return [](const double& n) { return std::log2(n); };
+      return [](double n) { return std::log2(n); };
     case N_LOGN:
-      return [](const double& n) { return n * std::log2(n); };
+      return [](double n) { return n * std::log2(n); };
     case N_SQUARED_LOGN:
-      return [](const double& n) { return n * n * std::log2(n); };
+      return [](double n) { return n * n * std::log2(n); };
     case TWO_POWER_N:
-      return [](const double& n) { return pow(2, n); };
+      return [](double n) { return pow(2, n); };
     case N_FACTORIAL:
-      return [](const double& n) -> double {
-        return Factorial(static_cast<int>(n));
-      };
+      return [](double n) { return Factorial(static_cast<int>(n)); };
     case ONE:
     default:
-      return [](const double&) { return 1.0; };
+      return [](double) { return 1.0; };
   }
 }
 
@@ -149,7 +147,7 @@ LeastSq MinimalLeastSqWithCurve(const std::vector<double>& n,
   return result;
 }
 
-int FindMaximumPower(const double& max_n) {
+int FindMaximumPower(double max_n) {
   if (max_n > 250000000.0) {
     return static_cast<int>(N);
   } else if (max_n > 2500000.0) {
@@ -239,7 +237,7 @@ void GenerateExpression(const std::vector<int> max_n_for_params,
   }
 }
 
-BigO PowerToComplexity(const double& power) {
+BigO PowerToComplexity(double power) {
   return static_cast<BigO>(2.0 * power);
 }
 
@@ -346,7 +344,7 @@ std::string MinimalLeastSqMultipleParams(
       n.emplace_back(
           test_complexity::ReduceAccordingOper(metric, powers[i], opers[i]));
     }
-    if (std::any_of(n.begin(), n.end(), [](const double& d) {
+    if (std::any_of(n.begin(), n.end(), [](double d) {
           return std::isinf(d) || std::isnan(d);
         })) {
       continue;

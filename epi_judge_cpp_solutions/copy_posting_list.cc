@@ -22,8 +22,8 @@ shared_ptr<PostingListNode> CopyPostingsList(
   //          list to the copied list.
   auto iter = l;
   while (iter) {
-    auto new_node = make_shared<PostingListNode>(
-        PostingListNode{iter->order, iter->next, nullptr});
+    auto new_node =
+        make_shared<PostingListNode>(iter->order, iter->next, nullptr);
     iter->next = new_node;
     iter = new_node->next;
   }

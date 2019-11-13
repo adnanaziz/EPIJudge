@@ -32,7 +32,6 @@ class GenericTestHandler:
     In case of any other exception raised by the tested function,
     the test program is terminated.
     """
-
     def __init__(self, func, comp):
         self._func = func
         self._has_executor_hook = has_executor_hook(func)

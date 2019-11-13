@@ -7,7 +7,7 @@ using std::vector;
 struct Rect {
   int left, right, height;
 };
-typedef vector<Rect> Skyline;
+using Skyline = vector<Rect>;
 
 Skyline ComputeSkyline(const vector<Rect>& buildings) {
   // TODO - you fill in here.

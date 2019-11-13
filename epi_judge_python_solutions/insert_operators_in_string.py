@@ -34,7 +34,7 @@ def expression_synthesis(digits: List[int], target: int) -> bool:
         # Tries multiplication operator '*'.
         operands.append(current_term)
         operators.append('*')
-        if directed_expression_synthesis(digits[1:], 0):
+        if directed_expression_synthesis(digits[1:], current_term=0):
             return True
         del operands[-1]
         del operators[-1]
@@ -44,7 +44,7 @@ def expression_synthesis(digits: List[int], target: int) -> bool:
         if target - evaluate() <= functools.reduce(lambda val, d: val * 10 + d,
                                                    digits[1:], 0):
             operators.append('+')
-            if directed_expression_synthesis(digits[1:], 0):
+            if directed_expression_synthesis(digits[1:], current_term=0):
                 return True
             del operators[-1]
         del operands[-1]
@@ -52,7 +52,7 @@ def expression_synthesis(digits: List[int], target: int) -> bool:
 
     operands: List[int] = []
     operators: List[str] = []
-    return directed_expression_synthesis(digits, 0)
+    return directed_expression_synthesis(digits, current_term=0)
 
 
 if __name__ == '__main__':

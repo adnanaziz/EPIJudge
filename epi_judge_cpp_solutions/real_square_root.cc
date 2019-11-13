@@ -7,7 +7,7 @@ using std::abs;
 using std::max;
 using std::numeric_limits;
 
-typedef enum { kSmaller, kEqual, kLarger } Ordering;
+using Ordering = enum { kSmaller, kEqual, kLarger };
 
 Ordering Compare(double a, double b);
 

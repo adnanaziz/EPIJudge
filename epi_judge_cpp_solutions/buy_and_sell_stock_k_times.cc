@@ -16,7 +16,7 @@ double BuyAndSellStockKTimes(const vector<double> &prices, int k) {
   } else if (2 * k >= size(prices)) {
     return UnlimitedPairsProfits(prices);
   }
-  vector<double> min_prices(k, numeric_limits<double>::max()),
+  vector<double> min_prices(k, numeric_limits<double>::infinity()),
       max_profits(k, 0.0);
   for (double price : prices) {
     for (int i = k - 1; i >= 0; --i) {

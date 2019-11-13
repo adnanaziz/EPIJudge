@@ -13,17 +13,15 @@ def is_balanced_binary_tree(tree: BinaryTreeNode) -> bool:
     # balanced the second value of the return value is the height of tree.
     def check_balanced(tree):
         if not tree:
-            return BalancedStatusWithHeight(True, -1)  # Base case.
+            return BalancedStatusWithHeight(balanced=True, height=-1)
 
         left_result = check_balanced(tree.left)
         if not left_result.balanced:
-            # Left subtree is not balanced.
-            return BalancedStatusWithHeight(False, 0)
+            return left_result
 
         right_result = check_balanced(tree.right)
         if not right_result.balanced:
-            # Right subtree is not balanced.
-            return BalancedStatusWithHeight(False, 0)
+            return right_result
 
         is_balanced = abs(left_result.height - right_result.height) <= 1
         height = max(left_result.height, right_result.height) + 1

@@ -23,7 +23,7 @@ def is_pattern_contained_in_grid(grid: List[List[int]],
             for next_xy in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)))
 
     return any(
-        is_pattern_suffix_contained_starting_at_xy(i, j, 0)
+        is_pattern_suffix_contained_starting_at_xy(i, j, offset=0)
         for i in range(len(grid)) for j in range(len(grid[i])))
 
 

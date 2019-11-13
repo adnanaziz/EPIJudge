@@ -87,7 +87,7 @@ void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"ops"};
-  return GenericTestMain(args, "queue_from_stacks.cc", "queue_from_stacks.tsv", &QueueTester, 
+  return GenericTestMain(args, "queue_from_stacks.cc", "queue_from_stacks.tsv", &QueueTester,
                          DefaultComparator{}, param_names, &ProgramConfig);
 }
 // clang-format on

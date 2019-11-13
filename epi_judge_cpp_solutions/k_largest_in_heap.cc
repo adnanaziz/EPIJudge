@@ -15,13 +15,12 @@ vector<int> KLargestInBinaryHeap(const vector<int>& A, int k) {
   struct HeapEntry {
     int index, value;
   };
+  // The largest element in A is at index 0.
   priority_queue<HeapEntry, vector<HeapEntry>,
                  function<bool(HeapEntry, HeapEntry)>>
-      candidate_max_heap([](const HeapEntry& a, const HeapEntry& b) {
-        return a.value < b.value;
-      });
-  // The largest element in A is at index 0.
-  candidate_max_heap.emplace(HeapEntry{0, A[0]});
+      candidate_max_heap([](const HeapEntry& a,
+                            const HeapEntry& b) { return a.value < b.value; },
+                         {{0, A[0]}});
   vector<int> result;
   for (int i = 0; i < k; ++i) {
     int candidate_idx = candidate_max_heap.top().index;
@@ -46,7 +45,7 @@ vector<int> KLargestInBinaryHeap(const vector<int>& A, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"A", "k"};
-  return GenericTestMain(args, "k_largest_in_heap.cc", "k_largest_in_heap.tsv", &KLargestInBinaryHeap, 
+  return GenericTestMain(args, "k_largest_in_heap.cc", "k_largest_in_heap.tsv", &KLargestInBinaryHeap,
                          UnorderedComparator{}, param_names);
 }
 // clang-format on

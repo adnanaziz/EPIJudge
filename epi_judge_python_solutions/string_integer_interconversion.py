@@ -24,13 +24,13 @@ def int_to_string(x: int) -> str:
 
 def string_to_int(s: str) -> int:
 
-    return functools.reduce(
+    return (-1 if s[0] == '-' else 1) * functools.reduce(
         lambda running_sum, c: running_sum * 10 + string.digits.index(c),
-        s[s[0] == '-':], 0) * (-1 if s[0] == '-' else 1)
+        s[s[0] in '-+':], 0)
 
 
 def wrapper(x, s):
-    if int_to_string(x) != s:
+    if int(int_to_string(x)) != x:
         raise TestFailure('Int to string conversion failed')
     if string_to_int(s) != x:
         raise TestFailure('String to int conversion failed')

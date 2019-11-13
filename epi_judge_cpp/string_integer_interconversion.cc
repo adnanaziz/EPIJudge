@@ -12,7 +12,7 @@ int StringToInt(const string& s) {
   return 0;
 }
 void Wrapper(int x, const string& s) {
-  if (IntToString(x) != s) {
+  if (stoi(IntToString(x)) != x) {
     throw TestFailure("Int to string conversion failed");
   }
 

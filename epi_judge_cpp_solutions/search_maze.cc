@@ -9,7 +9,7 @@
 
 using std::vector;
 
-typedef enum { kWhite, kBlack } Color;
+using Color = enum { kWhite, kBlack };
 
 struct Coordinate;
 bool SearchMazeHelper(const Coordinate&, const Coordinate&,
@@ -48,9 +48,10 @@ bool SearchMazeHelper(const Coordinate& cur, const Coordinate& e,
     return true;
   }
 
-  for (const Coordinate& next_move :
-       {Coordinate{cur.x, cur.y + 1}, Coordinate{cur.x, cur.y - 1},
-        Coordinate{cur.x + 1, cur.y}, Coordinate{cur.x - 1, cur.y}}) {
+  for (const Coordinate& next_move : vector<Coordinate>{{cur.x, cur.y + 1},
+                                                        {cur.x, cur.y - 1},
+                                                        {cur.x + 1, cur.y},
+                                                        {cur.x - 1, cur.y}}) {
     if (SearchMazeHelper(next_move, e, maze_ptr, path_ptr)) {
       return true;
     }

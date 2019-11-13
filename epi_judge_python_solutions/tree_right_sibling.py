@@ -31,14 +31,14 @@ def traverse_next(node):
     while node:
         yield node
         node = node.next
-    raise StopIteration
+    return
 
 
 def traverse_left(node):
     while node:
         yield node
         node = node.left
-    raise StopIteration
+    return
 
 
 def clone_tree(original):

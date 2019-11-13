@@ -38,11 +38,13 @@ def find_missing_element(stream: Iterator[int]) -> int:
     raise ValueError('no missing element')
 
 
-def find_missing_element_wrapper(data):
+def find_missing_element_wrapper(stream):
     try:
-        return find_missing_element(iter(data))
+        res = find_missing_element(iter(stream))
+        if res in stream:
+            raise TestFailure('{} appears in stream'.format(res))
     except ValueError:
-        raise TestFailure('Unexpected no_missing_element exception')
+        raise TestFailure('Unexpected no missing element exception')
 
 
 if __name__ == '__main__':

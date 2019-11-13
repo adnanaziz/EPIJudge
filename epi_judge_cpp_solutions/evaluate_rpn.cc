@@ -17,10 +17,10 @@ int Evaluate(const string& expression) {
   string token;
   const char kDelimiter = ',';
   const unordered_map<string, function<int(int, int)>> kOperators = {
-      {"+", [](int x, int y) -> int { return x + y; }},
-      {"-", [](int x, int y) -> int { return x - y; }},
-      {"*", [](int x, int y) -> int { return x * y; }},
-      {"/", [](int x, int y) -> int { return x / y; }}};
+      {"+", [](int x, int y) { return x + y; }},
+      {"-", [](int x, int y) { return x - y; }},
+      {"*", [](int x, int y) { return x * y; }},
+      {"/", [](int x, int y) { return x / y; }}};
 
   while (getline(ss, token, kDelimiter)) {
     if (kOperators.count(token)) {

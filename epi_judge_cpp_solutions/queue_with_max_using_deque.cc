@@ -110,7 +110,7 @@ void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"ops"};
-  return GenericTestMain(args, "queue_with_max_using_deque.cc", "queue_with_max.tsv", &QueueTester, 
+  return GenericTestMain(args, "queue_with_max_using_deque.cc", "queue_with_max.tsv", &QueueTester,
                          DefaultComparator{}, param_names, &ProgramConfig);
 }
 // clang-format on

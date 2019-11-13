@@ -71,7 +71,7 @@ std::vector<std::vector<int>> ConstructRightSiblingWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "tree"};
-  return GenericTestMain(args, "tree_right_sibling.cc", "tree_right_sibling.tsv", &ConstructRightSiblingWrapper, 
+  return GenericTestMain(args, "tree_right_sibling.cc", "tree_right_sibling.tsv", &ConstructRightSiblingWrapper,
                          DefaultComparator{}, param_names);
 }
 // clang-format on

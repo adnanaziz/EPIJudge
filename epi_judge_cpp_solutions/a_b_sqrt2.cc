@@ -19,10 +19,9 @@ struct Number {
 };
 
 vector<double> GenerateFirstKABSqrt2(int k) {
-  set<Number, function<bool(Number, Number)>> candidates(
-      [](const Number &a, const Number &b) { return a.val < b.val; });
   // Initial for 0 + 0 * sqrt(2).
-  candidates.emplace(0, 0);
+  set<Number, function<bool(Number, Number)>> candidates(
+      {{0, 0}}, [](const Number &a, const Number &b) { return a.val < b.val; });
 
   vector<double> result;
   while (size(result) < k) {

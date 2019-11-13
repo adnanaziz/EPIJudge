@@ -58,7 +58,7 @@ class LruCache {
   }
 
  private:
-  typedef unordered_map<int, pair<list<int>::iterator, int>> Table;
+  using Table = unordered_map<int, pair<list<int>::iterator, int>>;
 
   // Forces this key-value pair to move to the front.
   void MoveToFront(int isbn, const Table::iterator& it) {
@@ -119,7 +119,7 @@ void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"commands"};
-  return GenericTestMain(args, "lru_cache.cc", "lru_cache.tsv", &LruCacheTester, 
+  return GenericTestMain(args, "lru_cache.cc", "lru_cache.tsv", &LruCacheTester,
                          DefaultComparator{}, param_names, &ProgramConfig);
 }
 // clang-format on

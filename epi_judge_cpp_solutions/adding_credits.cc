@@ -51,6 +51,7 @@ class ClientsCreditsInfo {
                ? ""
                : *cbegin(iter->second);
   }
+
   friend std::ostream& operator<<(std::ostream& os,
                                   const ClientsCreditsInfo& info) {
     PrintTo(os, info.credit_to_clients_);
@@ -126,7 +127,7 @@ void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"ops"};
-  return GenericTestMain(args, "adding_credits.cc", "adding_credits.tsv", &ClientsCreditsInfoTester, 
+  return GenericTestMain(args, "adding_credits.cc", "adding_credits.tsv", &ClientsCreditsInfoTester,
                          DefaultComparator{}, param_names, &ProgramConfig);
 }
 // clang-format on

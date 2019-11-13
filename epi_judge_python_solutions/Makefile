@@ -1,3 +1,8 @@
+# Compile and run by "make <program_name>"
+# For example, typing "make parity" in your terminal will compile and run parity.py.
+#
+# You could try "make last" (or simply "make"), this command will compile and run the last modified file.
+# This comes pretty handy while you are working a problem, and then you want to see the result soon without thinking program name.
 BUILD_DIR := python_build
 BUILD_DIR := __pycache__
 SRC_DIR := .
@@ -9,6 +14,7 @@ PROGRAM_ARGS := --test-data-dir $(TEST_DATA_DIR)
 PYTHON_COMPILER := python3
 LAST_MODIFIED_PYTHON_FILE = $(shell ls -rt $(SRC_DIR)/$(MAIN_PACKAGE)/*\.py | tail -1)
 
+# Compile and run the last modified file.
 last: $(notdir $(basename $(LAST_MODIFIED_PYTHON_FILE)))
 
 .PHONY: last

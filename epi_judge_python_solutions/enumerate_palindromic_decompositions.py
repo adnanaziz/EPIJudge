@@ -16,7 +16,7 @@ def palindrome_decompositions(text: str) -> List[List[str]]:
                     i, partial_partition + [prefix])
 
     result: List[List[str]] = []
-    directed_palindrome_decompositions(0, [])
+    directed_palindrome_decompositions(offset=0, partial_partition=[])
     return result
 
 

@@ -9,7 +9,7 @@ using std::numeric_limits;
 using std::vector;
 
 double BuyAndSellStockOnce(const vector<double>& prices) {
-  double min_price_so_far = numeric_limits<double>::max(), max_profit = 0;
+  double min_price_so_far = numeric_limits<double>::infinity(), max_profit = 0;
   for (double price : prices) {
     double max_profit_sell_today = price - min_price_so_far;
     max_profit = max(max_profit, max_profit_sell_today);

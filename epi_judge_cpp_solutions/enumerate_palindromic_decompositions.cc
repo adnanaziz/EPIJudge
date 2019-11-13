@@ -16,8 +16,8 @@ void DirectedPalindromeDecompositions(const string&, int, vector<string>*,
 
 vector<vector<string>> PalindromeDecompositions(const string& text) {
   vector<vector<string>> result;
-  DirectedPalindromeDecompositions(text, 0, make_unique<vector<string>>().get(),
-                                   &result);
+  DirectedPalindromeDecompositions(
+      text, /*offset=*/0, make_unique<vector<string>>().get(), &result);
   return result;
 }
 
@@ -59,7 +59,7 @@ bool Comp(vector<vector<string>> expected, vector<vector<string>> result) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"text"};
-  return GenericTestMain(args, "enumerate_palindromic_decompositions.cc", "enumerate_palindromic_decompositions.tsv", &PalindromeDecompositions, 
+  return GenericTestMain(args, "enumerate_palindromic_decompositions.cc", "enumerate_palindromic_decompositions.tsv", &PalindromeDecompositions,
                          &Comp, param_names);
 }
 // clang-format on

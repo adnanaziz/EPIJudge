@@ -15,7 +15,7 @@ using std::vector;
 double BuyAndSellStockTwice(const vector<double>& prices) {
   double max_total_profit = 0;
   vector<double> first_buy_sell_profits(size(prices), 0);
-  double min_price_so_far = numeric_limits<double>::max();
+  double min_price_so_far = numeric_limits<double>::infinity();
 
   // Forward phase. For each day, we record maximum profit if we
   // sell on that day.
@@ -37,8 +37,8 @@ double BuyAndSellStockTwice(const vector<double>& prices) {
 }
 
 double BuyAndSellStockTwiceConstantSpace(const vector<double>& prices) {
-  array<double, 2> min_prices = {numeric_limits<double>::max(),
-                                 numeric_limits<double>::max()},
+  array<double, 2> min_prices = {numeric_limits<double>::infinity(),
+                                 numeric_limits<double>::infinity()},
                    max_profits = {0.0, 0.0};
   for (double price : prices) {
     for (int i = 1; i >= 0; --i) {

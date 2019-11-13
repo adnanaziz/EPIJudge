@@ -9,6 +9,7 @@ using std::string;
 using std::unordered_set;
 
 // Uses BFS to find the least steps of transformation.
+
 int TransformString(unordered_set<string> D, const string& s, const string& t) {
   struct StringWithDistance {
     string candidate_string;

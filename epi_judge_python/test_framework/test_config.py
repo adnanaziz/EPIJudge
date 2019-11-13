@@ -46,7 +46,6 @@ class TestConfig:
           by default returns identical metrics list
           another function may be set in program_config callback
     """
-
     def __init__(self, test_file, test_data_file, timeout_seconds,
                  num_failed_tests_before_stop):
         self.test_data_dir = ''

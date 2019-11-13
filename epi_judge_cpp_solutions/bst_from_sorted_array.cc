@@ -27,8 +27,8 @@ unique_ptr<BstNode<int>> BuildMinHeightBSTFromSortedSubarray(
   }
   int mid = start + ((end - start) / 2);
   return make_unique<BstNode<int>>(
-      BstNode<int>{A[mid], BuildMinHeightBSTFromSortedSubarray(A, start, mid),
-                   BuildMinHeightBSTFromSortedSubarray(A, mid + 1, end)});
+      A[mid], BuildMinHeightBSTFromSortedSubarray(A, start, mid),
+      BuildMinHeightBSTFromSortedSubarray(A, mid + 1, end));
 }
 
 int BuildMinHeightBSTFromSortedArrayWrapper(TimedExecutor& executor,
@@ -48,7 +48,7 @@ int BuildMinHeightBSTFromSortedArrayWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "A"};
-  return GenericTestMain(args, "bst_from_sorted_array.cc", "bst_from_sorted_array.tsv", &BuildMinHeightBSTFromSortedArrayWrapper, 
+  return GenericTestMain(args, "bst_from_sorted_array.cc", "bst_from_sorted_array.tsv", &BuildMinHeightBSTFromSortedArrayWrapper,
                          DefaultComparator{}, param_names);
 }
 // clang-format on

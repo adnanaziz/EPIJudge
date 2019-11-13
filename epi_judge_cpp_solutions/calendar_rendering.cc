@@ -12,12 +12,12 @@ struct Event {
   int start, finish;
 };
 
-struct Endpoint {
-  int time;
-  bool is_start;
-};
-
 int FindMaxSimultaneousEvents(const vector<Event>& A) {
+  struct Endpoint {
+    int time;
+    bool is_start;
+  };
+
   // Builds an array of all endpoints.
   vector<Endpoint> E;
   for (const Event& event : A) {

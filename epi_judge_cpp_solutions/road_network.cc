@@ -25,8 +25,8 @@ HighwaySection FindBestProposals(const vector<HighwaySection>& H,
     graph[i][i] = 0;
   }
   // Builds an undirected graph graph based on existing highway sections H.
-  for (const HighwaySection& h : H) {
-    graph[h.x][h.y] = graph[h.y][h.x] = h.distance;
+  for (const auto& [x, y, distance] : H) {
+    graph[x][y] = graph[y][x] = distance;
   }
 
   // Performs Floyd Warshall to build the shortest path between vertices.
@@ -35,19 +35,18 @@ HighwaySection FindBestProposals(const vector<HighwaySection>& H,
   // Examines each proposal for shorter distance for all pairs.
   int best_distance_saving = numeric_limits<int>::min();
   HighwaySection best_proposal = {-1, -1, 0};  // Default.
-  for (const HighwaySection& p : P) {
+  for (const auto& [x, y, distance] : P) {
     int proposal_saving = 0;
     for (int a = 0; a < n; ++a) {
       for (int b = 0; b < n; ++b) {
-        int saving =
-            graph[a][b] - min(graph[a][p.x] + p.distance + graph[p.y][b],
-                              graph[a][p.y] + p.distance + graph[p.x][b]);
+        int saving = graph[a][b] - min(graph[a][x] + distance + graph[y][b],
+                                       graph[a][y] + distance + graph[x][b]);
         proposal_saving += max(saving, 0);
       }
     }
     if (proposal_saving > best_distance_saving) {
       best_distance_saving = proposal_saving;
-      best_proposal = p;
+      best_proposal = {x, y, distance};
     }
   }
   return best_proposal;

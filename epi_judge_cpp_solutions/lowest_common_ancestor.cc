@@ -32,7 +32,7 @@ Status LcaHelper(const unique_ptr<BinaryTreeNode<int>>& tree,
                  const unique_ptr<BinaryTreeNode<int>>& node0,
                  const unique_ptr<BinaryTreeNode<int>>& node1) {
   if (tree == nullptr) {
-    return {0, nullptr};
+    return {/*num_target_nodes=*/0, /*ancestor=*/nullptr};
   }
 
   auto left_result = LcaHelper(tree->left, node0, node1);

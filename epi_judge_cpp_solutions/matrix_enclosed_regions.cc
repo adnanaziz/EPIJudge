@@ -21,13 +21,13 @@ void FillSurroundedRegions(vector<vector<char>>* board_ptr) {
   // Identifies the regions that are reachable via white path starting from
   // the first or last columns.
   for (int i = 0; i < size(board); ++i) {
-    MarkBoundaryRegion(i, 0, board_ptr);
+    MarkBoundaryRegion(i, /*j=*/0, board_ptr);
     MarkBoundaryRegion(i, size(board[i]) - 1, board_ptr);
   }
   // Identifies the regions that are reachable via white path starting from
   // the first or last rows.
   for (int j = 0; j < size(board.front()); ++j) {
-    MarkBoundaryRegion(0, j, board_ptr);
+    MarkBoundaryRegion(/*i=*/0, j, board_ptr);
     MarkBoundaryRegion(size(board) - 1, j, board_ptr);
   }
 

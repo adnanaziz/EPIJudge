@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <initializer_list>
 #include <memory>
 #include <tuple>
 #include <unordered_set>
@@ -8,7 +7,6 @@
 
 using std::get;
 using std::hash;
-using std::initializer_list;
 using std::make_tuple;
 using std::make_unique;
 using std::pair;
@@ -33,7 +31,7 @@ bool IsPatternContainedInGrid(const vector<vector<int>>& grid,
   for (int i = 0; i < size(grid); ++i) {
     for (int j = 0; j < size(grid[i]); ++j) {
       if (IsPatternSuffixContainedStartingAtXY(
-              grid, i, j, pattern, 0,
+              grid, i, j, pattern, /*offset=*/0,
               make_unique<unordered_set<tuple<int, int, int>, HashTuple>>()
                   .get())) {
         return true;
@@ -63,8 +61,8 @@ bool IsPatternSuffixContainedStartingAtXY(
     return false;
   }
 
-  for (const auto& [next_x, next_y] : initializer_list<pair<int, int>>{
-           {x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}}) {
+  for (const auto& [next_x, next_y] :
+       vector<pair<int, int>>{{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}}) {
     if (IsPatternSuffixContainedStartingAtXY(grid, next_x, next_y, pattern,
                                              offset + 1, previous_attempts)) {
       return true;

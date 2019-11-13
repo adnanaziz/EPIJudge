@@ -122,7 +122,7 @@ void OverlappingListsWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "l0", "l1", "common", "cycle0", "cycle1"};
-  return GenericTestMain(args, "do_lists_overlap.cc", "do_lists_overlap.tsv", &OverlappingListsWrapper, 
+  return GenericTestMain(args, "do_lists_overlap.cc", "do_lists_overlap.tsv", &OverlappingListsWrapper,
                          DefaultComparator{}, param_names);
 }
 // clang-format on

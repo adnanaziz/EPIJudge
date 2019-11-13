@@ -9,7 +9,7 @@
 using std::swap;
 using std::vector;
 
-typedef enum { kRed, kWhite, kBlue } Color;
+using Color = enum { kRed, kWhite, kBlue };
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
   vector<Color>& A = *A_ptr;

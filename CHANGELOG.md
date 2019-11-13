@@ -6,7 +6,7 @@
   - Run each test case with a timeout
  
  
-## [Beta 5] - 2019-07-??
+## [Beta 5] - 2018-??-??
 
 ### Added
   - Automatically determine solution asymptotic complexity
@@ -14,17 +14,12 @@
     - Some types of problems (like graph problems) are not yet supported
   - Namespace for C++ test framework
   - Python type hints
-  - New programs
-    - Euclidean GCD
-    - Is string palindromic
-    - Making change
   
 ### Changed
   - Changed test data format
     - Now every field is encoded in pure JSON format
 
 ### Fixed
-  - Fixed various naming issues
 
 ### Removed
  

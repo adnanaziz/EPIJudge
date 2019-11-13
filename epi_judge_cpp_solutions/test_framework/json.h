@@ -3570,9 +3570,9 @@ class parser {
     JSON_THROW(parse_error::create(101, m_lexer.get_position(), error_msg));
   }
 
-  private :
-      /// current level of recursion
-      int depth = 0;
+ private:
+  /// current level of recursion
+  int depth = 0;
   /// callback function
   const parser_callback_t callback = nullptr;
   /// the type of the last read token
@@ -9964,7 +9964,9 @@ class basic_json {
           break;
         }
 
-        default: { break; }
+        default: {
+          break;
+        }
       }
     }
   };

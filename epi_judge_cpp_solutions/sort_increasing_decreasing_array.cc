@@ -10,7 +10,7 @@ using std::vector;
 vector<int> SortKIncreasingDecreasingArray(const vector<int>& A) {
   // Decomposes A into a set of sorted arrays.
   vector<vector<int>> sorted_subarrays;
-  typedef enum { kIncreasing, kDecreasing } SubarrayType;
+  using SubarrayType = enum { kIncreasing, kDecreasing };
   SubarrayType subarray_type = kIncreasing;
   int start_idx = 0;
   for (int i = 1; i <= size(A); ++i) {
@@ -37,7 +37,7 @@ vector<int> SortKIncreasingDecreasingArray(const vector<int>& A) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"A"};
-  return GenericTestMain(args, "sort_increasing_decreasing_array.cc", "sort_increasing_decreasing_array.tsv", &SortKIncreasingDecreasingArray, 
+  return GenericTestMain(args, "sort_increasing_decreasing_array.cc", "sort_increasing_decreasing_array.tsv", &SortKIncreasingDecreasingArray,
                          DefaultComparator{}, param_names);
 }
 // clang-format on

@@ -1,4 +1,8 @@
 # Compile and run by "make <program_name>"
+# For example, typing "make parity" in your terminal will compile and run parity.cc.
+#
+# You could try "make last" (or simply "make"), this command will compile and run the last modified file.
+# This comes pretty handy while you are working a problem, and then you want to see the result soon without thinking program name.
 BUILD_DIR := cpp_build
 SRC_DIR := .
 TEST_DATA_DIR := ../test_data
@@ -13,6 +17,7 @@ CXX_FLAGS_DEBUG := $(CXX_FLAGS) -g -O0
 LAST_MODIFIED_CXX_FILE = $(shell ls -rt $(SRC_DIR)/*\.cc | tail -1)
 
 
+# Compile and run the last modified file.
 last: $(notdir $(basename $(LAST_MODIFIED_CXX_FILE)))
 
 .PHONY: last

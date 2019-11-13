@@ -6,7 +6,7 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::vector;
-typedef enum { kWhite, kBlack } Color;
+using Color = enum { kWhite, kBlack };
 struct Coordinate {
   bool operator==(const Coordinate& that) const {
     return x == that.x && y == that.y;

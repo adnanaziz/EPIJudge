@@ -60,7 +60,7 @@ bool Comp(vector<std::string> expected, vector<Name> result) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"names"};
-  return GenericTestMain(args, "remove_duplicates.cc", "remove_duplicates.tsv", &EliminateDuplicateWrapper, 
+  return GenericTestMain(args, "remove_duplicates.cc", "remove_duplicates.tsv", &EliminateDuplicateWrapper,
                          &Comp, param_names);
 }
 // clang-format on
