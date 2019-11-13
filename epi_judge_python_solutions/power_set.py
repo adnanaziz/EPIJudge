@@ -21,4 +21,3 @@ if __name__ == '__main__':
         generic_test.generic_test_main("power_set.py", 'power_set.tsv',
                                        generate_power_set,
                                        test_utils.unordered_compare))
-
