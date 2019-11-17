@@ -15,7 +15,7 @@ def has_cycle(head):
                 return step
 
     fast = slow = head
-    while fast and fast.next and fast.next.next:
+    while fast and fast.next:
         slow, fast = slow.next, fast.next.next
         if slow is fast:
             # Finds the start of the cycle.
