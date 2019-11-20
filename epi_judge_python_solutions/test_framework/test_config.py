@@ -111,7 +111,7 @@ class TestConfig:
                             help='no update problem_mapping.js')
         parser.add_argument('--no-complexity',
                             dest='analyze_complexity',
-                            default=True,
+                            default=False,
                             action='store_false',
                             help='no asymptotic complexity estimation')
         args = parser.parse_args(commandline_args)
