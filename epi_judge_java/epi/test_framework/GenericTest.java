@@ -174,8 +174,8 @@ public class GenericTest {
     Path problemMappingFilePath =
         Paths.get(TestUtils.getFilePathInJudgeDir("problem_mapping.js"));
     JsonValue chapterToProblemToLanguageSolutionMapping = null;
-    final String JS_BEGIN_PATTERN = "run(";
-    final String JS_END_PATTERN = ");";
+    final String JS_BEGIN_PATTERN = "problem_mapping = ";
+    final String JS_END_PATTERN = ";";
     try {
       String jsFileStr = new String(Files.readAllBytes(problemMappingFilePath));
       jsFileStr =

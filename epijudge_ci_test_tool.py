@@ -113,7 +113,7 @@ def check_judge(dir: str, lang: str, mode: str):
 
     for i, f in enumerate(files):
         print(f"[{i + 1}/{len(files)}] {f}")
-        execute_program(['python3', str(f)], mode)
+        execute_program([sys.executable, str(f)], mode)
     print('Success')
 
 

@@ -138,7 +138,7 @@ def run_tests(handler, config, res_printer):
 def update_test_passed(test_file, tests_passed):
     problem_mapping_file_path = get_file_path_in_judge_dir(
         'problem_mapping.js')
-    js_begin_pattern, js_end_pattern = 'run(', ');'
+    js_begin_pattern, js_end_pattern = 'problem_mapping = ', ';'
     with open(problem_mapping_file_path) as problem_mapping_file:
         chapter_to_problem_to_language_solution_mapping = json.loads(
             problem_mapping_file.read().replace(js_begin_pattern, '').replace(

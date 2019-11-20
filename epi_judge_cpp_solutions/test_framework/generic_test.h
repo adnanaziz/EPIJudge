@@ -72,10 +72,10 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
   buffer << problem_mapping_file_data.rdbuf();
   std::string err;
   std::string js_file_str = buffer.str();
-  const std::string kJsBeginPattern = "run(";
+  const std::string kJsBeginPattern = "problem_mapping = ";
   js_file_str.replace(js_file_str.find(kJsBeginPattern),
                       kJsBeginPattern.size(), "");
-  const std::string kJsEndPattern = ");";
+  const std::string kJsEndPattern = "};";
   js_file_str.replace(js_file_str.find(kJsEndPattern), kJsEndPattern.size(),
                       "");
   json chapter_to_problem_to_language_solution_mapping =
