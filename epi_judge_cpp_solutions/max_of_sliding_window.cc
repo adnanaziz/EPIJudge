@@ -35,8 +35,7 @@ vector<TrafficElement> CalculateTrafficVolumes(const vector<TrafficElement>& A,
     while (traffic_info.time - sliding_window.Head().time > w) {
       sliding_window.Dequeue();
     }
-    maximum_volumes.emplace_back(
-        TrafficElement{traffic_info.time, sliding_window.Max().volume});
+    maximum_volumes.push_back({traffic_info.time, sliding_window.Max().volume});
   }
   return maximum_volumes;
 }

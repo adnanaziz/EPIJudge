@@ -28,12 +28,11 @@ vector<int> KLargestInBinaryHeap(const vector<int>& A, int k) {
     candidate_max_heap.pop();
 
     if (int left_child_idx = 2 * candidate_idx + 1; left_child_idx < size(A)) {
-      candidate_max_heap.emplace(HeapEntry{left_child_idx, A[left_child_idx]});
+      candidate_max_heap.push({left_child_idx, A[left_child_idx]});
     }
     if (int right_child_idx = 2 * candidate_idx + 2;
         right_child_idx < size(A)) {
-      candidate_max_heap.emplace(
-          HeapEntry{right_child_idx, A[right_child_idx]});
+      candidate_max_heap.push({right_child_idx, A[right_child_idx]});
     }
   }
   return result;

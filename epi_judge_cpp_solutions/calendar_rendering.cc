@@ -21,8 +21,8 @@ int FindMaxSimultaneousEvents(const vector<Event>& A) {
   // Builds an array of all endpoints.
   vector<Endpoint> E;
   for (const Event& event : A) {
-    E.emplace_back(Endpoint{event.start, true});
-    E.emplace_back(Endpoint{event.finish, false});
+    E.push_back({event.start, true});
+    E.push_back({event.finish, false});
   }
   // Sorts the endpoint array according to the time, breaking ties
   // by putting start times before end times.

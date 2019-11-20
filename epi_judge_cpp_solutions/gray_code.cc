@@ -7,6 +7,7 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
+using std::make_unique;
 using std::unique_ptr;
 using std::unordered_set;
 using std::vector;
@@ -16,9 +17,7 @@ bool DiffersByOneBit(int, int);
 
 vector<int> GrayCode(int num_bits) {
   vector<int> result({0});
-  DirectedGrayCode(
-      num_bits, unique_ptr<unordered_set<int>>{new unordered_set<int>{0}}.get(),
-      &result);
+  DirectedGrayCode(num_bits, make_unique<unordered_set<int>>(0).get(), &result);
   return result;
 }
 
