@@ -45,7 +45,6 @@ def print_test_info(test_result, test_nr, total_tests, diagnostic, timer):
     print_test_result(test_result)
     print(' ({:>{test_nr_w}}/{})'.format(test_nr,
                                          total_tests_str,
-                                         diagnostic,
                                          test_nr_w=len(total_tests_str)),
           end='',
           flush=True)
