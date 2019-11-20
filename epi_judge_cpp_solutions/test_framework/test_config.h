@@ -55,7 +55,7 @@ struct TestConfig {
         update_js(true),
         timeout_seconds(timeout_seconds),
         num_failed_tests_before_stop(num_failed_tests_before_stop),
-        analyze_complexity(true),
+        analyze_complexity(false),
         complexity_timeout(20),
         metric_names_override(
             [](const std::vector<std::string>& names) { return names; }),

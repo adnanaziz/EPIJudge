@@ -77,7 +77,7 @@ public class TestConfig {
     this.updateJs = true;
     this.timeoutSeconds = timeoutSeconds;
     this.numFailedTestsBeforeStop = numFailedTestsBeforeStop;
-    this.analyzeComplexity = true;
+    this.analyzeComplexity = false;
     this.complexityTimeout = 20;
     this.metricNamesOverride = (names) -> names;
     this.metricsOverride = (metrics, funcArgs) -> metrics;

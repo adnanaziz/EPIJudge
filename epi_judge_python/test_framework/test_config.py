@@ -56,7 +56,7 @@ class TestConfig:
         self.update_js = True
         self.timeout_seconds = timeout_seconds
         self.num_failed_tests_before_stop = num_failed_tests_before_stop
-        self.analyze_complexity = True
+        self.analyze_complexity = False
         self.complexity_timeout = 20
         self.metric_names_override = lambda names: names
         self.metrics_override = lambda metrics, *func_args: metrics
