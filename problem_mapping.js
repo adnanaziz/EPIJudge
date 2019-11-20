@@ -1,4 +1,4 @@
-run({
+problem_mapping = {
     "Chapter 04: Primitive Types": {
         "4.00 Bootcamp: Primitive Types": {
             "C++: count_bits.cc": {
@@ -1168,7 +1168,7 @@ run({
                 "total": 3852
             }
         },
-        "9.13 Form a linked list from the leaves of a binary tree": {
+        "9.13 Compute the leaves of a binary tree": {
             "C++: tree_connect_leaves.cc": {
                 "passed": 0,
                 "total": 3852
@@ -3073,4 +3073,4 @@ run({
             }
         }
     }
-});
+};
