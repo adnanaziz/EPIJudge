@@ -68,6 +68,10 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
   const std::string problem_mapping_file_path =
       GetFilePathInJudgeDir("problem_mapping.js");
   std::ifstream problem_mapping_file_data(problem_mapping_file_path);
+  if (!problem_mapping_file_data.is_open()) {
+    std::cerr << "Missing problem_mapping.js\n";
+    return;
+  }
   std::stringstream buffer;
   buffer << problem_mapping_file_data.rdbuf();
   std::string err;
@@ -78,26 +82,31 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
   const std::string kJsEndPattern = "};";
   js_file_str.replace(js_file_str.find(kJsEndPattern), kJsEndPattern.size(),
                       "");
-  json chapter_to_problem_to_language_solution_mapping =
-      json::parse(js_file_str);
+  try {
+    json chapter_to_problem_to_language_solution_mapping =
+        json::parse(js_file_str);
 
-  test_file = "C++: " + test_file;
-  for (auto& chapter :
-       chapter_to_problem_to_language_solution_mapping.items()) {
-    for (auto& problem : chapter.value().items()) {
-      for (auto& language_solution_mapping : problem.value().items()) {
-        if (test_file == language_solution_mapping.key()) {
-          language_solution_mapping.value()["passed"] = tests_passed;
-          std::ofstream ofs(problem_mapping_file_path);
-          ofs << kJsBeginPattern;
-          ofs << std::setw(4)
-              << chapter_to_problem_to_language_solution_mapping;
-          ofs << kJsEndPattern;
-          ofs.close();
-          return;
+    test_file = "C++: " + test_file;
+    for (auto& chapter :
+         chapter_to_problem_to_language_solution_mapping.items()) {
+      for (auto& problem : chapter.value().items()) {
+        for (auto& language_solution_mapping : problem.value().items()) {
+          if (test_file == language_solution_mapping.key()) {
+            language_solution_mapping.value()["passed"] = tests_passed;
+            std::ofstream ofs(problem_mapping_file_path);
+            ofs << kJsBeginPattern;
+            ofs << std::setw(4)
+                << chapter_to_problem_to_language_solution_mapping;
+            ofs << kJsEndPattern;
+            ofs.close();
+            return;
+          }
         }
       }
     }
+  } catch (nlohmann::detail::parse_error& e) {
+    std::cerr << "Error parsing problem_mapping.js: " << e.what() << "\n";
+    return;
   }
 }
 

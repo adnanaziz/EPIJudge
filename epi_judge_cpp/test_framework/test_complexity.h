@@ -238,7 +238,7 @@ void GenerateExpression(const std::vector<int> max_n_for_params,
 }
 
 BigO PowerToComplexity(double power) {
-  return static_cast<BigO>(2.0 * power);
+  return static_cast<BigO>(int(std::round(2.0 * power)));
 }
 
 double ReduceAccordingOper(const std::vector<int>& metric,
