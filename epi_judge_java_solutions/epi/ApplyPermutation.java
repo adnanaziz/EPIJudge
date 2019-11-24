@@ -9,11 +9,16 @@ import java.util.List;
 public class ApplyPermutation {
 
   public static void applyPermutation(List<Integer> perm, List<Integer> A) {
-
-    for (int i = 0; i < A.size(); ++i) {
-      while (perm.get(i) != i) {
-        Collections.swap(A, i, perm.get(i));
-        Collections.swap(perm, i, perm.get(i));
+    int i = 0;
+    while (i < A.size()) {
+      // swap only if the position is changed in perm
+      if (perm.get(i) != i) {
+        // swap elements in both the lists to ensure ordering
+        Collections.swap(A, perm.get(i), i);
+        Collections.swap(perm, perm.get(i), i);
+      } else {
+        // i is in right place, so move to next
+        i++;
       }
     }
   }
