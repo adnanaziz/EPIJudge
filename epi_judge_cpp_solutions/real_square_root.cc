@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+
 #include "test_framework/generic_test.h"
 
 using std::abs;

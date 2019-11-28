@@ -1,6 +1,7 @@
 #include <functional>
 #include <queue>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::greater;

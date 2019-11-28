@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"

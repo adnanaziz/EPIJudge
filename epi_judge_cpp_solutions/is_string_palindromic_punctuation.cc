@@ -1,5 +1,6 @@
 #include <cctype>
 #include <string>
+
 #include "test_framework/generic_test.h"
 
 using std::string;

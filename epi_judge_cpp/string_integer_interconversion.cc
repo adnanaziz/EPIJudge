@@ -1,4 +1,5 @@
 #include <string>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 using std::string;

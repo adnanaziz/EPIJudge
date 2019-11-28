@@ -1,4 +1,5 @@
 #include <cmath>
+
 #include "test_framework/generic_test.h"
 
 bool IsPalindromeNumber(int x) {

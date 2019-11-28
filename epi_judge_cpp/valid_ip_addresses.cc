@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 using std::string;
 using std::vector;
