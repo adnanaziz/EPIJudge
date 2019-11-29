@@ -58,7 +58,7 @@ def execute_program(args: List[str], mode: TestMode) -> None:
         stdout = strip_ascii_codes(result.stdout.decode())
         error_string = f'{mode} > {args_str}: rc == {result.returncode}\nOutput:\n{stdout}'
         if mode == TestMode.STUB:
-            if result.returncode != 1 or 'Test FAILED' not in stdout:
+            if result.returncode not in (1, 2) or 'Test FAILED' not in stdout:
                 raise RuntimeError(error_string)
         elif mode == TestMode.SOLUTION:
             if (result.returncode != 0 or
@@ -85,6 +85,8 @@ def get_exec_args(file: Path, lang: Language, test_data_dir: Path) -> List[str]:
         return [sys.executable, str(file)] + common_args
     if lang == Language.CPP:
         return [str(file)] + common_args
+    if lang == Language.JAVA:
+        return ['make', '-C', str(file.parent.parent), file.with_suffix('').name]  # Ad-hoc version
     raise NotImplementedError()
 
 
@@ -107,6 +109,13 @@ def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
                           if find_str_in_file(f, 'GenericTestMain'))
         EXCLUDED_FILES = ['queue_with_max_using_deque', 'reverse_list']
         return sorted([build_dir / f for f in solution_files if f not in EXCLUDED_FILES])
+    elif lang == Language.JAVA:
+        EXCLUDED_FILES = ['QueueWithMaxUsingDeque.java', 'ReverseList.java']
+        return sorted([f for f in (src_dir / 'epi').glob("*.java")
+                       if (find_str_in_file(f, '@EpiTest')
+                           and f.name not in EXCLUDED_FILES)])
+
+    raise NotImplementedError()
 
 
 @click.command('check_judge', help='A tool for executing all judge programs in of a given kind.')
@@ -125,9 +134,6 @@ def check_judge(test_data_dir: str, build_dir: str, src_dir: str, lang: str, mod
     if build_dir:
         build_dir = Path(build_dir).absolute()
     src_dir = Path(src_dir).absolute()
-
-    if lang == Language.JAVA:
-        raise NotImplementedError()
 
     files = scan_lang_folder(src_dir, build_dir, lang, mode)
     if not files:
