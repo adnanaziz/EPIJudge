@@ -29,6 +29,10 @@ jobs:
       with:
         java-version: '11.0.4'
         java-package: jdk
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install click
     - name: Compile
       run: make -C ${{ matrix.folder }} -j 8 all
     - name: Test 
