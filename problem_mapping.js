@@ -483,15 +483,15 @@ problem_mapping = {
         "6.01 Interconvert strings and integers": {
             "C++: string_integer_interconversion.cc": {
                 "passed": 0,
-                "total": 10001
+                "total": 15002
             },
             "Java: StringIntegerInterconversion.java": {
                 "passed": 0,
-                "total": 10001
+                "total": 15002
             },
             "Python: string_integer_interconversion.py": {
                 "passed": 0,
-                "total": 10001
+                "total": 15002
             }
         },
         "6.02 Base conversion": {
@@ -1357,15 +1357,15 @@ problem_mapping = {
         "11.05 Compute the real square root": {
             "C++: real_square_root.cc": {
                 "passed": 0,
-                "total": 11004
+                "total": 11003
             },
             "Java: RealSquareRoot.java": {
                 "passed": 0,
-                "total": 11004
+                "total": 11003
             },
             "Python: real_square_root.py": {
                 "passed": 0,
-                "total": 11004
+                "total": 11003
             }
         },
         "11.06 Search in a 2D sorted array": {
@@ -2191,15 +2191,15 @@ problem_mapping = {
         "16.04 Compute the binomial coefficients": {
             "C++: binomial_coefficients.cc": {
                 "passed": 0,
-                "total": 8356
+                "total": 5906
             },
             "Java: BinomialCoefficients.java": {
                 "passed": 0,
-                "total": 8356
+                "total": 5906
             },
             "Python: binomial_coefficients.py": {
                 "passed": 0,
-                "total": 8356
+                "total": 5906
             }
         },
         "16.05 Search for a sequence in a 2D array": {
@@ -2219,15 +2219,15 @@ problem_mapping = {
         "16.06 The knapsack problem": {
             "C++: knapsack.cc": {
                 "passed": 0,
-                "total": 57
+                "total": 100
             },
             "Java: Knapsack.java": {
                 "passed": 0,
-                "total": 57
+                "total": 100
             },
             "Python: knapsack.py": {
                 "passed": 0,
-                "total": 57
+                "total": 100
             }
         },
         "16.07 Building a search index for domains": {

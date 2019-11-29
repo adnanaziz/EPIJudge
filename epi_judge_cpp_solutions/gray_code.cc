@@ -17,7 +17,9 @@ bool DiffersByOneBit(int, int);
 
 vector<int> GrayCode(int num_bits) {
   vector<int> result({0});
-  DirectedGrayCode(num_bits, make_unique<unordered_set<int>>(0).get(), &result);
+  DirectedGrayCode(num_bits,
+                   make_unique<unordered_set<int>>(unordered_set<int>{0}).get(),
+                   &result);
   return result;
 }
 

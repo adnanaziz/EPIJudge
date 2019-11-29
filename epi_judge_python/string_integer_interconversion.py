@@ -4,7 +4,7 @@ from test_framework.test_failure import TestFailure
 
 def int_to_string(x: int) -> str:
     # TODO - you fill in here.
-    return ''
+    return '0'
 
 
 def string_to_int(s: str) -> int:
@@ -13,10 +13,7 @@ def string_to_int(s: str) -> int:
 
 
 def wrapper(x, s):
-    try:
-        if int(int_to_string(x)) != x:
-            raise TestFailure('Int to string conversion failed')
-    except ValueError:
+    if int(int_to_string(x)) != x:
         raise TestFailure('Int to string conversion failed')
     if string_to_int(s) != x:
         raise TestFailure('String to int conversion failed')

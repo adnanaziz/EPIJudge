@@ -30,10 +30,7 @@ def string_to_int(s: str) -> int:
 
 
 def wrapper(x, s):
-    try:
-        if int(int_to_string(x)) != x:
-            raise TestFailure('Int to string conversion failed')
-    except ValueError:
+    if int(int_to_string(x)) != x:
         raise TestFailure('Int to string conversion failed')
     if string_to_int(s) != x:
         raise TestFailure('String to int conversion failed')
