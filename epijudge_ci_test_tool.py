@@ -7,7 +7,7 @@ import subprocess
 import sys
 from pathlib import Path
 from subprocess import TimeoutExpired, CompletedProcess
-from typing import List
+from typing import List, Optional
 
 import click
 
@@ -43,16 +43,7 @@ def find_str_in_file(f: Path, s: str) -> bool:
     return f.read_text(encoding='utf-8').find(s) != -1
 
 
-def resolve_lang_path(dir: str, lang: Language, mode: TestMode) -> Path:
-    """Convert run parameters to a language folder.
-    """
-    lang_dir = f"epi_judge_{lang.value}"
-    if mode == TestMode.SOLUTION:
-        lang_dir += '_solutions'
-    return Path(dir).absolute() / lang_dir
-
-
-def execute_program(args: List[str], mode: TestMode):
+def execute_program(args: List[str], mode: TestMode) -> None:
     """Executes given program and checks its output
     for strings specific for either test failure
     (for testing stub programs) or success
@@ -64,16 +55,18 @@ def execute_program(args: List[str], mode: TestMode):
     args_str = ' '.join(args)
 
     def check_output(result: CompletedProcess):
-        stdout = strip_ascii_codes(result.stdout.decode('utf8'))
+        stdout = strip_ascii_codes(result.stdout.decode())
         error_string = f'{mode} > {args_str}: rc == {result.returncode}\nOutput:\n{stdout}'
         if mode == TestMode.STUB:
             if result.returncode != 1 or 'Test FAILED' not in stdout:
                 raise RuntimeError(error_string)
-        else:
-            assert mode == TestMode.SOLUTION
+        elif mode == TestMode.SOLUTION:
             if (result.returncode != 0 or
                     "*** You've passed ALL tests. Congratulations! ***" not in stdout):
                 raise RuntimeError(error_string)
+        else:
+            print('Invalid mode: {}'.format(mode))
+            sys.exit(1)
 
     try:
         result = subprocess.run(args, stdout=subprocess.PIPE, timeout=300)
@@ -86,34 +79,65 @@ def execute_program(args: List[str], mode: TestMode):
         sys.exit(1)
 
 
-def scan_python_folder(folder: Path) -> List[Path]:
+def get_exec_args(file: Path, lang: Language, test_data_dir: Path) -> List[str]:
+    common_args = ['--test-data-dir', str(test_data_dir), '--no-tty']
+    if lang == Language.PYTHON:
+        return [sys.executable, str(file)] + common_args
+    if lang == Language.CPP:
+        return [str(file)] + common_args
+    raise NotImplementedError()
+
+
+def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
+                     lang: Language, mode: TestMode) -> List[Path]:
     """Search for all stab and solution files in the folder.
     """
-    return sorted([f for f in folder.glob("*.py")
-                   if find_str_in_file(f, 'generic_test_main')])
+    lang_dir = f"epi_judge_{lang.value}"
+    if mode == TestMode.SOLUTION:
+        lang_dir += '_solutions'
+    src_dir = src_dir / lang_dir
+
+    if lang == Language.PYTHON:
+        return sorted([f for f in src_dir.glob("*.py")
+                       if find_str_in_file(f, 'generic_test_main')])
+    elif lang == Language.CPP:
+        if not build_dir:
+            raise RuntimeError('Missing --build-dir')
+        solution_files = (f.with_suffix('').name for f in src_dir.glob("*.cc")
+                          if find_str_in_file(f, 'GenericTestMain'))
+        EXCLUDED_FILES = ['queue_with_max_using_deque', 'reverse_list']
+        return sorted([build_dir / f for f in solution_files if f not in EXCLUDED_FILES])
 
 
 @click.command('check_judge', help='A tool for executing all judge programs in of a given kind.')
-@click.option('--dir', help='EPIJudge root folder',
-              type=click.Path(file_okay=False, exists=True), default='.')
+@click.option('--test-data-dir', help='Test data directory', show_default=True,
+              type=click.Path(file_okay=False, exists=True), default='./test_data')
+@click.option('--build-dir', help='Build directory (for C++)',
+              type=click.Path(file_okay=False, exists=True))
 @click.argument('lang',
                 type=click.Choice([Language.CPP.value, Language.JAVA.value, Language.PYTHON.value]))
 @click.argument('mode', type=click.Choice([TestMode.STUB.value, TestMode.SOLUTION.value]))
-def check_judge(dir: str, lang: str, mode: str):
+@click.argument('src_dir', type=click.Path(file_okay=False, exists=True))
+def check_judge(test_data_dir: str, build_dir: str, src_dir: str, lang: str, mode: str) -> None:
     lang = Language(lang)
     mode = TestMode(mode)
-    if lang in (Language.CPP, Language.JAVA):
+    test_data_dir = Path(test_data_dir).absolute()
+    if build_dir:
+        build_dir = Path(build_dir).absolute()
+    src_dir = Path(src_dir).absolute()
+
+    if lang == Language.JAVA:
         raise NotImplementedError()
 
-    lang_dir = resolve_lang_path(dir, lang, mode)
-    files = scan_python_folder(lang_dir)
+    files = scan_lang_folder(src_dir, build_dir, lang, mode)
     if not files:
-        print('Python programs not found')
+        print('Programs are not found')
         exit(1)
 
     for i, f in enumerate(files):
-        print(f"[{i + 1}/{len(files)}] {f}")
-        execute_program([sys.executable, str(f)], mode)
+        print(f"[{i + 1}/{len(files)}] {f}", flush=True)
+        args = get_exec_args(f, lang, test_data_dir)
+        execute_program(args, mode)
     print('Success')
 
 

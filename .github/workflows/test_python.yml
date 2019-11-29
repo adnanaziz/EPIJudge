@@ -25,7 +25,7 @@ jobs:
         pip install bintrees click
     - name: Test stubs
       run: | 
-        python epijudge_ci_test_tool.py python stub
+        python epijudge_ci_test_tool.py python stub .
     - name: Test solutions
       run: | 
-        python epijudge_ci_test_tool.py python solution
+        python epijudge_ci_test_tool.py python solution .

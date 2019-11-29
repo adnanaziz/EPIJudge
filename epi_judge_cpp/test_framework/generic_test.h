@@ -13,7 +13,6 @@
 #include "generic_test_handler.h"
 #include "json.h"
 #include "platform.h"
-#include "test_complexity.h"
 #include "test_config.h"
 #include "test_timer.h"
 #include "test_utils.h"
@@ -79,7 +78,7 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
   const std::string kJsBeginPattern = "problem_mapping = ";
   js_file_str.replace(js_file_str.find(kJsBeginPattern),
                       kJsBeginPattern.size(), "");
-  const std::string kJsEndPattern = "};";
+  const std::string kJsEndPattern = ";";
   js_file_str.replace(js_file_str.find(kJsEndPattern), kJsEndPattern.size(),
                       "");
   try {
@@ -200,8 +199,6 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
                 .count();
           });
       ShowComplexityNotification();
-      complexity = MinimalLeastSqMultipleParams(metric_names, metrics, time,
-                                                config.complexity_timeout);
     }
 
     PrintPostRunStats(tests_passed, total_tests, complexity, durations);

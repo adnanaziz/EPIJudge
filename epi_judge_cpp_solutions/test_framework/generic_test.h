@@ -79,7 +79,7 @@ void UpdateTestPassed(std::string test_file, int tests_passed) {
   const std::string kJsBeginPattern = "problem_mapping = ";
   js_file_str.replace(js_file_str.find(kJsBeginPattern),
                       kJsBeginPattern.size(), "");
-  const std::string kJsEndPattern = "};";
+  const std::string kJsEndPattern = ";";
   js_file_str.replace(js_file_str.find(kJsEndPattern), kJsEndPattern.size(),
                       "");
   try {

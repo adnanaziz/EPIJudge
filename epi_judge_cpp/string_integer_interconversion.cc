@@ -6,7 +6,7 @@ using std::string;
 
 string IntToString(int x) {
   // TODO - you fill in here.
-  return "";
+  return "0";
 }
 int StringToInt(const string& s) {
   // TODO - you fill in here.

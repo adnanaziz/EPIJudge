@@ -15,6 +15,11 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macOS-latest]
         folder: [epi_judge_cpp, epi_judge_cpp_solutions]
+        include:
+          - folder: epi_judge_cpp
+            mode: stub
+          - folder: epi_judge_cpp_solutions
+            mode: solution
 
     steps:
     - uses: actions/checkout@v1
@@ -37,7 +42,9 @@ jobs:
     - name: Build
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build . --config $BUILD_TYPE
 
-    # - name: Test <-- To be added
+    - name: Test
+      working-directory: ${{runner.workspace}}
+      shell: bash
+      run: python epijudge_ci_test_tool.py --build-dir cpp ${{runner.workspace}}/build ${{matrix.mode}} .
