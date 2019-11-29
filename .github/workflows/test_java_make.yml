@@ -34,6 +34,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install click
     - name: Compile
-      run: make -C ${{ matrix.folder }} -j 8 all
+      run: make -C ${{ matrix.folder }} all
     - name: Test 
       run: python epijudge_ci_test_tool.py java ${{ matrix.mode }} .
