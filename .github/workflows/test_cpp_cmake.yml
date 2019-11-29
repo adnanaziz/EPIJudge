@@ -1,4 +1,4 @@
-name: Compile C++ programs with CMake
+name: Test C++ programs
 #  source: https://github.com/actions/starter-workflows/pull/47
 on:
   - push
@@ -14,13 +14,13 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macOS-latest]
-        folder: [epi_judge_cpp, epi_judge_cpp_solutions]
+        mode: [stub, solution]
         include:
-          - folder: epi_judge_cpp
-            mode: stub
-          - folder: epi_judge_cpp_solutions
-            mode: solution
-
+          - mode: stub
+            folder: epi_judge_cpp
+          - mode: solution
+            folder: epi_judge_cpp_solutions
+            
     steps:
     - uses: actions/checkout@v1
 
@@ -47,4 +47,4 @@ jobs:
     - name: Test
       working-directory: ${{runner.workspace}}
       shell: bash
-      run: python epijudge_ci_test_tool.py --build-dir cpp ${{runner.workspace}}/build ${{matrix.mode}} .
+      run: python epijudge_ci_test_tool.py --build-dir ${{runner.workspace}}/build cpp ${{matrix.mode}} .
