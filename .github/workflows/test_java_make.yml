@@ -1,0 +1,31 @@
+name: Run Java programs
+
+on: 
+  - push
+  - pull_request
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 2
+      matrix:
+        mode: [stub, solution]
+        include:
+          - mode: stub
+            folder: epi_judge_java
+          - mode: solution
+            folder: epi_judge_java_solutions
+            
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Java 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11.0.4'
+        java-package: jdk
+    - name: Compile
+      run: make -C ${{ matrix.folder }} all
+    - name: Test 
+      run: python epijudge_ci_test_tool.py java ${{ matrix.mode }} .
