@@ -66,7 +66,7 @@ jobs:
       shell: bash
       run: python epijudge_ci_test_tool.py --build-dir ${{runner.workspace}}/build cpp ${{matrix.mode}} .
 
-  - full_test:
+  full_test:
     name: Full Test
     needs: fast_test
     runs-on: ${{ matrix.os }}
