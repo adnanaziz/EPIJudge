@@ -38,7 +38,7 @@ jobs:
     name: Full Test
     needs: fast_test
     runs-on: ${{ matrix.os }}
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false
 
     strategy:
       max-parallel: 2
