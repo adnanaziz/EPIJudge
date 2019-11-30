@@ -122,7 +122,7 @@ jobs:
       if: runner.os == 'Windows'
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --build . --config $BUILD_TYPE -- /m
+      run: cmake --build . --config $BUILD_TYPE --
 
     - name: Test
       # Mac build should be identical to ubuntu, skip to save resources
