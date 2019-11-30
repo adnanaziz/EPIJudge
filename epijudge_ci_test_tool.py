@@ -119,21 +119,18 @@ def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
 
 
 @click.command('check_judge', help='A tool for executing all judge programs in of a given kind.')
-@click.option('--test-data-dir', help='Test data directory', show_default=True,
-              type=click.Path(file_okay=False, exists=True), default='./test_data')
-@click.option('--build-dir', help='Build directory (for C++)',
-              type=click.Path(file_okay=False, exists=True))
+@click.option('--build-dir', help='Build directory (for C++)')
 @click.argument('lang',
                 type=click.Choice([Language.CPP.value, Language.JAVA.value, Language.PYTHON.value]))
 @click.argument('mode', type=click.Choice([TestMode.STUB.value, TestMode.SOLUTION.value]))
-@click.argument('src_dir', type=click.Path(file_okay=False, exists=True))
-def check_judge(test_data_dir: str, build_dir: str, src_dir: str, lang: str, mode: str) -> None:
+@click.argument('src_dir')
+def check_judge(build_dir: str, src_dir: str, lang: str, mode: str) -> None:
     lang = Language(lang)
     mode = TestMode(mode)
-    test_data_dir = Path(test_data_dir).absolute()
     if build_dir:
         build_dir = Path(build_dir).absolute()
     src_dir = Path(src_dir).absolute()
+    test_data_dir = src_dir / 'test_data'
 
     files = scan_lang_folder(src_dir, build_dir, lang, mode)
     if not files:
@@ -145,7 +142,6 @@ def check_judge(test_data_dir: str, build_dir: str, src_dir: str, lang: str, mod
         args = get_exec_args(f, lang, test_data_dir)
         execute_program(args, mode)
     print('Success')
-
 
 if __name__ == '__main__':
     check_judge()
