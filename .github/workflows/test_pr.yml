@@ -20,7 +20,7 @@ jobs:
 
   test_b:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' and !github.event.deleted
+    if: github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' and github.event.deleted == false
 
     steps:
     - uses: actions/checkout@v1
