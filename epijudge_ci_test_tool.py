@@ -28,9 +28,9 @@ def strip_ascii_codes(s: str) -> str:
         \x1B    # ESC
         [@-_]   # 7-bit C1 Fe
         [0-?]*  # Parameter bytes
-        [ -/]*  # Intermediate bytes
-        [@-~]   # Final byte
-    ''', re.VERBOSE)
+            [ -/]*  # Intermediate bytes
+            [@-~]   # Final byte
+        ''', re.VERBOSE)
     return ansi_escape.sub('', s)
 
 
@@ -119,11 +119,12 @@ def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
 
 
 @click.command('check_judge', help='A tool for executing all judge programs in of a given kind.')
-@click.option('--build-dir', help='Build directory (for C++)')
+@click.option('--build-dir', help='Build directory (for C++)',
+              type=click.Path(file_okay=False, exists=True))
 @click.argument('lang',
                 type=click.Choice([Language.CPP.value, Language.JAVA.value, Language.PYTHON.value]))
 @click.argument('mode', type=click.Choice([TestMode.STUB.value, TestMode.SOLUTION.value]))
-@click.argument('src_dir')
+@click.argument('src_dir', type=click.Path(file_okay=False, exists=True))
 def check_judge(build_dir: str, src_dir: str, lang: str, mode: str) -> None:
     lang = Language(lang)
     mode = TestMode(mode)
@@ -142,6 +143,7 @@ def check_judge(build_dir: str, src_dir: str, lang: str, mode: str) -> None:
         args = get_exec_args(f, lang, test_data_dir)
         execute_program(args, mode)
     print('Success')
+
 
 if __name__ == '__main__':
     check_judge()
