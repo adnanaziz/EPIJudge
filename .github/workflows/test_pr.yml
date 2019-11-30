@@ -3,11 +3,10 @@ name: CI Experiment
 on: pull_request
 
 jobs:
-  full_test:
+  test_a:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
 
-    
     steps:
     - uses: actions/checkout@v1
 
@@ -19,3 +18,19 @@ jobs:
     - name: Test
       shell: bash
       run: echo ${{github.event_name}} ${{github.event.pull_request.labels}}
+
+  test_b:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Test
+      shell: bash
+      run: echo ${{github.event_name}} ${{github.event.pull_request.labels}} ${{contains(github.event.pull_request.labels, 'Full CI')}}      
