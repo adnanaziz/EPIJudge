@@ -1,13 +1,16 @@
 name: Test C++ programs
 
 on:
-  - push
+  push:
     paths-ignore:
     - 'epi_judge_java*/**'
     - 'epi_judge_python*/**'
-  - pull_request:
+    - 'html/**'
+  pull_request:
+    paths-ignore:
     - 'epi_judge_java*/**'
     - 'epi_judge_python*/**'
+    - 'html/**'
 
 env:
   BUILD_TYPE: Debug

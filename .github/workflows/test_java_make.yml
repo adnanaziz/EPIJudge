@@ -1,13 +1,16 @@
 name: Run Java programs
 
-on: 
-  - push
+on:
+  push:
     paths-ignore:
     - 'epi_judge_cpp*/**'
     - 'epi_judge_python*/**'
-  - pull_request:
+    - 'html/**'
+  pull_request:
+    paths-ignore:
     - 'epi_judge_cpp*/**'
     - 'epi_judge_python*/**'
+    - 'html/**'
 
 jobs:
   fast_test:

@@ -1,13 +1,16 @@
 name: Run Python programs
 
-on: 
-  - push
+on:
+  push:
     paths-ignore:
     - 'epi_judge_cpp*/**'
     - 'epi_judge_java*/**'
-  - pull_request:
+    - 'html/**'
+  pull_request:
+    paths-ignore:
     - 'epi_judge_cpp*/**'
     - 'epi_judge_java*/**'
+    - 'html/**'
 
 jobs:
   fast_test:
