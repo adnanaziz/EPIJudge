@@ -64,7 +64,7 @@ jobs:
 
     - name: Test
       shell: bash
-      run: python epijudge_ci_test_tool.py --build-dir "${{runner.workspace}}/build" cpp ${{matrix.mode}} .
+      run: python epijudge_ci_test_tool.py --build-dir "${{runner.workspace}}/build/$BUILD_TYPE" cpp ${{matrix.mode}} .
 
   full_test:
     name: Full Test
