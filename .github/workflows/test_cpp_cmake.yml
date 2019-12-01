@@ -65,53 +65,10 @@ jobs:
     - name: Test
       shell: bash
       run: python epijudge_ci_test_tool.py --build-dir "${{runner.workspace}}/build" cpp ${{matrix.mode}} .
-
-  macos_test:
-    name: macOS Test
-    needs: fast_test
-    runs-on: macOS-latest
-    if: github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false
-
-    strategy:
-      matrix:
-        mode: [stub, solution]
-        include:
-          - mode: stub
-            folder: epi_judge_cpp
-          - mode: solution
-            folder: epi_judge_cpp_solutions
-            
-    steps:
-    - uses: actions/checkout@v1
-
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-      
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install click
-
-    - name: Create Build Environment
-      run: cmake -E make_directory "${{runner.workspace}}/build"
-
-    - name: Configure CMake
-      shell: bash
-      working-directory: ${{runner.workspace}}/build
-      run: cmake "$GITHUB_WORKSPACE/${{matrix.folder}}" -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config $BUILD_TYPE -- -j 8
-
-    # Mac build should be identical to ubuntu, skip testing to save resources
   
   windows_test:
     name: Windows Test
-    needs: macos_test
+    needs: fast_test
     runs-on: windows-latest
     if: github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false
 
@@ -153,4 +110,46 @@ jobs:
     - name: Test
       shell: bash
       run: python epijudge_ci_test_tool.py --build-dir "${{runner.workspace}}/build/$BUILD_TYPE" cpp ${{matrix.mode}} .
+  
+  macos_test:
+    name: macOS Test
+    needs: windows_test
+    runs-on: macOS-latest
+    if: github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false
 
+    strategy:
+      matrix:
+        mode: [stub, solution]
+        include:
+          - mode: stub
+            folder: epi_judge_cpp
+          - mode: solution
+            folder: epi_judge_cpp_solutions
+            
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install click
+
+    - name: Create Build Environment
+      run: cmake -E make_directory "${{runner.workspace}}/build"
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake "$GITHUB_WORKSPACE/${{matrix.folder}}" -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE -- -j 8
+
+    # Mac build should be identical to ubuntu, skip testing to save resources    
