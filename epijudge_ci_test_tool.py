@@ -57,7 +57,7 @@ def execute_program(args: List[str], mode: TestMode) -> None:
 
     def check_output(result: CompletedProcess):
         stdout = strip_ascii_codes(result.stdout.decode())
-        error_string = f'{mode} > {args_str}: rc == {result.returncode}\nOutput:\n{stdout}'
+        error_string = f'{mode} > {args_str}: rc == {result.returncode:X}\nOutput:\n{stdout}'
         if mode == TestMode.STUB:
             if result.returncode not in (1, 2) or 'Test FAILED' not in stdout:
                 raise RuntimeError(error_string)
