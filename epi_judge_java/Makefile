@@ -6,7 +6,7 @@
 BUILD_DIR := java_build
 SRC_DIR := .
 TEST_DATA_DIR := ../test_data
-
+# Dummy change!
 # Modify this line if you want to pass custom arguments
 PROGRAM_ARGS := --test-data-dir $(TEST_DATA_DIR) 
 
