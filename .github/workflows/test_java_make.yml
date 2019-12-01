@@ -14,8 +14,10 @@ on:
 
 jobs:
   fast_test:
-    name: Fast test
+    name: Fast Test
     runs-on: ubuntu-latest
+    # Skip on PR if branch is of the same repo (checks are already enabled by push rule)
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
 
     strategy:
       matrix:
@@ -47,9 +49,10 @@ jobs:
       run: python epijudge_ci_test_tool.py java ${{ matrix.mode }} .
 
   full_test:
-    name: Full test
+    name: Full Test
     needs: fast_test
     runs-on: windows-latest
+    if: github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false
 
     strategy:
       matrix:
@@ -79,3 +82,12 @@ jobs:
       run: make -C ${{ matrix.folder }} all
     - name: Test 
       run: python epijudge_ci_test_tool.py java ${{ matrix.mode }} .  
+
+  dummy_job:
+    name: Empty check
+    runs-on: ubuntu-latest
+    # Add a dummy job to avoid empty job list (otherwise GitHub shows the runs as failed)
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+    steps:
+      - name: This check is triggered by the corresponding push event
+        run: echo 'This check is triggered by the corresponding push event'

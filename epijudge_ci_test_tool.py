@@ -2,6 +2,7 @@
 This tool is intended for automated CI testing.
 """
 import enum
+import os
 import re
 import subprocess
 import sys
@@ -28,9 +29,9 @@ def strip_ascii_codes(s: str) -> str:
         \x1B    # ESC
         [@-_]   # 7-bit C1 Fe
         [0-?]*  # Parameter bytes
-        [ -/]*  # Intermediate bytes
-        [@-~]   # Final byte
-    ''', re.VERBOSE)
+            [ -/]*  # Intermediate bytes
+            [@-~]   # Final byte
+        ''', re.VERBOSE)
     return ansi_escape.sub('', s)
 
 
@@ -56,7 +57,7 @@ def execute_program(args: List[str], mode: TestMode) -> None:
 
     def check_output(result: CompletedProcess):
         stdout = strip_ascii_codes(result.stdout.decode())
-        error_string = f'{mode} > {args_str}: rc == {result.returncode}\nOutput:\n{stdout}'
+        error_string = f'Failure:\nMode: {mode.value}\nCommand: {args_str}\nExit code: {result.returncode:X}\nOutput:\n{stdout}\n'
         if mode == TestMode.STUB:
             if result.returncode not in (1, 2) or 'Test FAILED' not in stdout:
                 raise RuntimeError(error_string)
@@ -108,7 +109,11 @@ def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
         solution_files = (f.with_suffix('').name for f in src_dir.glob("*.cc")
                           if find_str_in_file(f, 'GenericTestMain'))
         EXCLUDED_FILES = ['queue_with_max_using_deque', 'reverse_list']
-        return sorted([build_dir / f for f in solution_files if f not in EXCLUDED_FILES])
+        solution_files = sorted([build_dir / f for f in solution_files if f not in EXCLUDED_FILES])
+        if os.name == 'nt':
+            return [f.with_suffix('.exe') for f in solution_files]
+        else:
+            return solution_files
     elif lang == Language.JAVA:
         EXCLUDED_FILES = ['QueueWithMaxUsingDeque.java', 'ReverseList.java']
         return sorted([f for f in (src_dir / 'epi').glob("*.java")
@@ -119,21 +124,19 @@ def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
 
 
 @click.command('check_judge', help='A tool for executing all judge programs in of a given kind.')
-@click.option('--test-data-dir', help='Test data directory', show_default=True,
-              type=click.Path(file_okay=False, exists=True), default='./test_data')
 @click.option('--build-dir', help='Build directory (for C++)',
               type=click.Path(file_okay=False, exists=True))
 @click.argument('lang',
                 type=click.Choice([Language.CPP.value, Language.JAVA.value, Language.PYTHON.value]))
 @click.argument('mode', type=click.Choice([TestMode.STUB.value, TestMode.SOLUTION.value]))
 @click.argument('src_dir', type=click.Path(file_okay=False, exists=True))
-def check_judge(test_data_dir: str, build_dir: str, src_dir: str, lang: str, mode: str) -> None:
+def check_judge(build_dir: str, src_dir: str, lang: str, mode: str) -> None:
     lang = Language(lang)
     mode = TestMode(mode)
-    test_data_dir = Path(test_data_dir).absolute()
     if build_dir:
         build_dir = Path(build_dir).absolute()
     src_dir = Path(src_dir).absolute()
+    test_data_dir = src_dir / 'test_data'
 
     files = scan_lang_folder(src_dir, build_dir, lang, mode)
     if not files:
