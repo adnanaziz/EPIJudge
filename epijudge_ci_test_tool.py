@@ -2,6 +2,7 @@
 This tool is intended for automated CI testing.
 """
 import enum
+import os
 import re
 import subprocess
 import sys
@@ -108,7 +109,11 @@ def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
         solution_files = (f.with_suffix('').name for f in src_dir.glob("*.cc")
                           if find_str_in_file(f, 'GenericTestMain'))
         EXCLUDED_FILES = ['queue_with_max_using_deque', 'reverse_list']
-        return sorted([build_dir / f for f in solution_files if f not in EXCLUDED_FILES])
+        solution_files = sorted([build_dir / f for f in solution_files if f not in EXCLUDED_FILES])
+        if os.name == 'nt':
+            return [f.with_suffix('.exe') for f in solution_files]
+        else:
+            return solution_files
     elif lang == Language.JAVA:
         EXCLUDED_FILES = ['QueueWithMaxUsingDeque.java', 'ReverseList.java']
         return sorted([f for f in (src_dir / 'epi').glob("*.java")
