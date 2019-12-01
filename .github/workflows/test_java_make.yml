@@ -13,15 +13,6 @@ on:
     - 'html/**'
 
 jobs:
-  dummy_job:
-    name: This check is already trigerred by the corresponding push event
-    runs-on: ubuntu-latest
-    # Add a dummy job to avoid empty job list (otherwise GitHub shows the runs as failed)
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
-    steps:
-      - name: This check is already trigerred by the corresponding push event
-        run: echo 'This check is already trigerred by the corresponding push event'
-
   fast_test:
     name: Fast Test
     runs-on: ubuntu-latest
@@ -91,3 +82,12 @@ jobs:
       run: make -C ${{ matrix.folder }} all
     - name: Test 
       run: python epijudge_ci_test_tool.py java ${{ matrix.mode }} .  
+
+  dummy_job:
+    name: Empty check
+    runs-on: ubuntu-latest
+    # Add a dummy job to avoid empty job list (otherwise GitHub shows the runs as failed)
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+    steps:
+      - name: This check is triggered by the corresponding push event
+        run: echo 'This check is triggered by the corresponding push event'
