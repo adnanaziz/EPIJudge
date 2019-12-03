@@ -83,34 +83,34 @@ The IntelliJ Integrated Development environments described above are best-in-cla
   - C++
     - Linux
       - **GCC** 5.4.1 and newer
-      - **Clang** 4.0 and never
+      - **Clang** 4.0 and newer
     - OS X  
-      - **Apple LLVM Clang** 9.0.0 and never
+      - **Apple LLVM Clang** 9.0.0 and newer
     - Windows
       - **Visual Studio** 2017 and newer
-      - **MinGW** GCC 5.4.0 and never
-      - **LXSS** (Windows Subsystem for Linux) GCC 5.4.0 and never
+      - **MinGW** GCC 5.4.0 and newer
+      - **LXSS** (Windows Subsystem for Linux) GCC 5.4.0 and newer
   - Java     
-    - **Java** 9 and never
+    - **Java** 9 and newer
   - Python
-    - **Python** 3.6 and never
+    - **Python** 3.6 and newer
    
 
 - What compilers are supported for solutions?
   - C++
       - Linux
-        - **GCC** 7.0.0 and never
-        - **Clang** 5.0 and never
+        - **GCC** 7.0.0 and newer
+        - **Clang** 5.0 and newer
       - OS X  
-        - **Apple LLVM Clang** 9.0.0 and never
+        - **Apple LLVM Clang** 9.0.0 and newer
       - Windows
       - **Visual Studio** 2017 and newer
-        - **MinGW** GCC 7.2.0 and never
-        - **LXSS** (Windows Subsystem for Linux) GCC 7.2.0 and never
+        - **MinGW** GCC 7.2.0 and newer
+        - **LXSS** (Windows Subsystem for Linux) GCC 7.2.0 and newer
     - Java     
-      - **Java** 9 and never
+      - **Java** 9 and newer
     - Python
-      - **Python** 3.6 and never 
+      - **Python** 3.6 and newer 
 
 Let us know if you managed to compile with an older version.
 
