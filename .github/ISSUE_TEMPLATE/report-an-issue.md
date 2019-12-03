@@ -26,5 +26,5 @@ By better solution we mean something that is (1.) more **idiomatic**; (2.) **fas
  - Please describe the behavior you see, including screenshots (you can use Google Drive, GitHub, or [Imgur](https://imgur.com/) to upload images and link to them); as well as the expected behavior.
  - For bugs, if possible please provide a reproducible test case that is the bare minimum necessary to generate the problem.
 
-Because of our build process we cannot **directly accept PRs** by merging into the master branch.
+Because of our build process we cannot **directly accept PRs** by merging into the master branch. Instead please send PRs against the dev branch.
   - The reason for this is that we have a single source of truth, which is the complete solution that we annotate with markers that are used to generate the solution that goes inline in the book as well as the skeleton for the judge. (Here is a [snippet](https://imgur.com/nN6nbVL) of a source program, note the markers.)
