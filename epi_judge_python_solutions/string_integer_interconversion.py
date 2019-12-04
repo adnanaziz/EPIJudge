@@ -1,6 +1,3 @@
-import functools
-import string
-
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 
@@ -19,18 +16,21 @@ def int_to_string(x):
             break
 
     # Adds the negative sign back if is_negative
-    return ('-' if is_negative else '') + ''.join(reversed(s))
+    if is_negative:
+        s.append('-')
+    return ''.join(reversed(s))
 
 
 def string_to_int(s):
-
+    import functools
+    import string
     return functools.reduce(
         lambda running_sum, c: running_sum * 10 + string.digits.index(c),
-        s[s[0] == '-':], 0) * (-1 if s[0] == '-' else 1)
+        s[s[0] in {'+', '-'}:], 0) * (-1 if s[0] == '-' else 1)
 
 
 def wrapper(x, s):
-    if int_to_string(x) != s:
+    if int(int_to_string(x)) != int(s):
         raise TestFailure("Int to string conversion failed")
     if string_to_int(s) != x:
         raise TestFailure("String to int conversion failed")
