@@ -22,7 +22,6 @@ def find_missing_element(stream: Iterator[int]) -> int:
     # Finds all IP addresses in the stream whose first 16 bits are equal to
     # candidate_bucket.
     candidates = [0] * bucket_capacity
-    stream = stream_copy
     for x in stream_copy:
         upper_part_x = x >> 16
         if candidate_bucket == upper_part_x:
