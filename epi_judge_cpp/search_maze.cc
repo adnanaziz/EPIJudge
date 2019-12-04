@@ -7,7 +7,7 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::vector;
-using Color = enum { kWhite, kBlack };
+enum class Color { kWhite, kBlack };
 struct Coordinate {
   bool operator==(const Coordinate& that) const {
     return x == that.x && y == that.y;
@@ -47,7 +47,7 @@ struct SerializationTrait<Coordinate> : UserSerTrait<Coordinate, int, int> {
 bool PathElementIsFeasible(const vector<vector<Color>>& maze,
                            const Coordinate& prev, const Coordinate& cur) {
   if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
-        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == kWhite)) {
+        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == Color::kWhite)) {
     return false;
   }
   return cur == Coordinate{prev.x + 1, prev.y} ||

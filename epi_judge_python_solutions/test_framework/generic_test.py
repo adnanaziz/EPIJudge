@@ -4,7 +4,6 @@ import sys
 
 from test_framework.generic_test_handler import GenericTestHandler
 from test_framework.platform import set_output_opts
-from test_framework.test_complexity import minimal_least_sq_multiple_params
 from test_framework.test_config import TestConfig
 from test_framework.test_failure import PropertyName, TestFailure
 from test_framework.test_output import TestOutput
@@ -128,8 +127,6 @@ def run_tests(handler, config, res_printer):
         complexity = ''
         if metric_names and metrics and config.analyze_complexity:
             show_complexity_notification()
-            complexity = minimal_least_sq_multiple_params(
-                metric_names, metrics, durations, config.complexity_timeout)
 
         print_post_run_stats(tests_passed, total_tests, complexity, durations)
     return result

@@ -1,10 +1,8 @@
 package epi;
 
-import epi.test_framework.EpiProgramConfig;
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
-import epi.test_framework.TestConfig;
 import epi.test_framework.TestFailure;
 
 import java.util.HashMap;
@@ -153,11 +151,6 @@ public class AddingCredits {
       }
       opIdx++;
     }
-  }
-
-  @EpiProgramConfig
-  public static void programConfig(TestConfig config) {
-    config.analyzeComplexity = false;
   }
 
   public static void main(String[] args) {

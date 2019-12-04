@@ -159,8 +159,6 @@ public class GenericTest {
       if (!metricNames.isEmpty() && !metrics.isEmpty() &&
           config.analyzeComplexity) {
         TestUtilsConsole.showComplexityNotification();
-        complexity = TestComplexity.minimalLeastSqMultipleParams(
-            metricNames, metrics, durations, config.complexityTimeout);
       }
 
       TestUtilsConsole.printPostRunStats(testsPassed, totalTests, complexity,

@@ -20,7 +20,7 @@ def phone_mnemonic(phone_number: str) -> List[str]:
                 phone_mnemonic_helper(digit + 1)
 
     mnemonics: List[str] = []
-    partial_mnemonic = [0] * len(phone_number)
+    partial_mnemonic = ['0'] * len(phone_number)
     phone_mnemonic_helper(0)
     return mnemonics
 

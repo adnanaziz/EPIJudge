@@ -6,7 +6,6 @@
 
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
 
 using std::list;
@@ -111,8 +110,6 @@ void LruCacheTester(const std::vector<Op>& commands) {
   }
 }
 
-void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
-
 // clang-format off
 
 
@@ -120,6 +117,6 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"commands"};
   return GenericTestMain(args, "lru_cache.cc", "lru_cache.tsv", &LruCacheTester,
-                         DefaultComparator{}, param_names, &ProgramConfig);
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

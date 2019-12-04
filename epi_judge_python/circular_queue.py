@@ -42,13 +42,7 @@ def queue_tester(ops):
             raise RuntimeError('Unsupported queue operation: ' + op)
 
 
-def program_config(config):
-    config.analyze_complexity = False
-
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('circular_queue.py',
-                                       'circular_queue.tsv',
-                                       queue_tester,
-                                       program_config=program_config))
+                                       'circular_queue.tsv', queue_tester))

@@ -44,16 +44,16 @@ void ClearLineIfTty() {
 
 void PrintTestResult(const TestResult& test_result) {
   switch (test_result) {
-    case PASSED:
+    case TestResult::PASSED:
       PrintStdOutColored(ConsoleColor::FG_GREEN, "PASSED");
       break;
-    case FAILED:
+    case TestResult::FAILED:
       PrintStdOutColored(ConsoleColor::FG_RED, "FAILED");
       break;
-    case TIMEOUT:
+    case TestResult::TIMEOUT:
       PrintStdOutColored(ConsoleColor::FG_BLUE, "TIMEOUT");
       break;
-    case UNKNOWN_EXCEPTION:
+    case TestResult::UNKNOWN_EXCEPTION:
       PrintStdOutColored(ConsoleColor::FG_RED, "UNHANDLED EXCEPTION");
       break;
     default:

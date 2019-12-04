@@ -54,13 +54,7 @@ def queue_tester(ops):
         raise TestFailure('Unexpected IndexError exception')
 
 
-def program_config(config):
-    config.analyze_complexity = False
-
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('queue_with_max_using_deque.py',
-                                       'queue_with_max.tsv',
-                                       queue_tester,
-                                       program_config=program_config))
+                                       'queue_with_max.tsv', queue_tester))

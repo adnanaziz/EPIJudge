@@ -50,13 +50,7 @@ def stack_tester(ops):
         raise TestFailure('Unexpected IndexError exception')
 
 
-def program_config(config):
-    config.analyze_complexity = False
-
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('stack_with_max.py',
-                                       'stack_with_max.tsv',
-                                       stack_tester,
-                                       program_config=program_config))
+                                       'stack_with_max.tsv', stack_tester))

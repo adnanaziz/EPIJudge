@@ -9,9 +9,6 @@
 ## [Beta 5] - 2018-??-??
 
 ### Added
-  - Automatically determine solution asymptotic complexity
-    - Please, let us know if complexity analyzer produces strange results
-    - Some types of problems (like graph problems) are not yet supported
   - Namespace for C++ test framework
   - Python type hints
   

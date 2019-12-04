@@ -4,7 +4,6 @@
 
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
 
 using std::length_error;
@@ -80,8 +79,6 @@ void StackTester(const std::vector<StackOp>& ops) {
   }
 }
 
-void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
-
 // clang-format off
 
 
@@ -89,6 +86,6 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"ops"};
   return GenericTestMain(args, "stack_with_max.cc", "stack_with_max.tsv", &StackTester,
-                         DefaultComparator{}, param_names, &ProgramConfig);
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

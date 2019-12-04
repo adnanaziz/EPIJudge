@@ -14,8 +14,8 @@ int FindKthLargestUnknownLength(vector<int>::const_iterator stream_begin,
   while (stream_begin != stream_end) {
     candidates.emplace_back(*stream_begin++);
     if (size(candidates) == 2 * k - 1) {
-      // Reorders elements about median with larger elements appearing before
-      // the median.
+      // Reorders elements about k-th largest element with larger elements
+      // appearing before it.
       nth_element(begin(candidates), begin(candidates) + k - 1, end(candidates),
                   greater<int>());
       // Resize to keep just the k largest elements seen so far.

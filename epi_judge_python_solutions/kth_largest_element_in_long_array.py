@@ -11,8 +11,7 @@ def find_kth_largest_unknown_length(stream: Iterator[int], k: int) -> int:
     for x in stream:
         candidates.append(x)
         if len(candidates) >= 2 * k - 1:
-            # Reorders elements about the kth largest element with
-            # larger elements appearing before it.
+            # Reorders elements about k-th largest element with larger elements appearing before it.
             find_kth_largest(k, candidates)
             # Resize to keep just the k largest elements seen so far.
             del candidates[k:]

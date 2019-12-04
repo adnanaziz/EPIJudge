@@ -43,13 +43,7 @@ def lru_cache_tester(commands):
             raise RuntimeError('Unexpected command ' + cmd[0])
 
 
-def program_config(config):
-    config.analyze_complexity = False
-
-
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main('lru_cache.py',
-                                       'lru_cache.tsv',
-                                       lru_cache_tester,
-                                       program_config=program_config))
+        generic_test.generic_test_main('lru_cache.py', 'lru_cache.tsv',
+                                       lru_cache_tester))

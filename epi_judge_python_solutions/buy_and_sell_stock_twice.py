@@ -21,7 +21,7 @@ def buy_and_sell_stock_twice(prices: List[float]) -> float:
         max_price_so_far = max(max_price_so_far, price)
         max_total_profit = max(
             max_total_profit,
-            max_price_so_far - price + first_buy_sell_profits[i - 1])
+            max_price_so_far - price + first_buy_sell_profits[i])
     return max_total_profit
 
 

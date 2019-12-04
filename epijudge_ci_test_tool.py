@@ -25,7 +25,8 @@ class Language(enum.Enum):
 
 
 def strip_ascii_codes(s: str) -> str:
-    ansi_escape = re.compile(r'''
+    ansi_escape = re.compile(
+        r'''
         \x1B    # ESC
         [@-_]   # 7-bit C1 Fe
         [0-?]*  # Parameter bytes
@@ -87,7 +88,11 @@ def get_exec_args(file: Path, lang: Language, test_data_dir: Path) -> List[str]:
     if lang == Language.CPP:
         return [str(file)] + common_args
     if lang == Language.JAVA:
-        return ['make', '-C', str(file.parent.parent), file.with_suffix('').name]  # Ad-hoc version
+        return [
+            'make', '-C',
+            str(file.parent.parent),
+            file.with_suffix('').name
+        ]  # Ad-hoc version
     raise NotImplementedError()
 
 
@@ -109,22 +114,27 @@ def scan_lang_folder(src_dir: Path, build_dir: Optional[Path],
         solution_files = (f.with_suffix('').name for f in src_dir.glob("*.cc")
                           if find_str_in_file(f, 'GenericTestMain'))
         EXCLUDED_FILES = ['queue_with_max_using_deque', 'reverse_list']
-        solution_files = sorted([build_dir / f for f in solution_files if f not in EXCLUDED_FILES])
+        solution_files = sorted([build_dir / f for f in solution_files 
+                                 if f not in EXCLUDED_FILES])
         if os.name == 'nt':
             return [f.with_suffix('.exe') for f in solution_files]
         else:
             return solution_files
     elif lang == Language.JAVA:
         EXCLUDED_FILES = ['QueueWithMaxUsingDeque.java', 'ReverseList.java']
-        return sorted([f for f in (src_dir / 'epi').glob("*.java")
-                       if (find_str_in_file(f, '@EpiTest')
-                           and f.name not in EXCLUDED_FILES)])
+        return sorted([
+            f for f in (src_dir / 'epi').glob("*.java") if
+            (find_str_in_file(f, '@EpiTest') and f.name not in EXCLUDED_FILES)
+        ])
 
     raise NotImplementedError()
 
 
-@click.command('check_judge', help='A tool for executing all judge programs in of a given kind.')
-@click.option('--build-dir', help='Build directory (for C++)',
+@click.command(
+    'check_judge',
+    help='A tool for executing all judge programs in of a given kind.')
+@click.option('--build-dir',
+              help='Build directory (for C++)',
               type=click.Path(file_okay=False, exists=True))
 @click.argument('lang',
                 type=click.Choice([Language.CPP.value, Language.JAVA.value, Language.PYTHON.value]))

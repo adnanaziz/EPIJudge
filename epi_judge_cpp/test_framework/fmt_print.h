@@ -103,22 +103,22 @@ void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx) {
 template <typename Head, typename... Tail>
 void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx,
                 const Head& next_value, const Tail&... values) {
-  enum { NORMAL, ESCAPE } state = NORMAL;
+  enum class State { NORMAL, ESCAPE } state = State::NORMAL;
 
   for (; idx < fmt.size(); idx++) {
     switch (state) {
-      case NORMAL:
+      case State::NORMAL:
         if (fmt[idx] == '{') {
-          state = ESCAPE;
+          state = State::ESCAPE;
         } else {
           out << fmt[idx];
         }
         break;
 
-      case ESCAPE:
+      case State::ESCAPE:
         if (fmt[idx] == '{') {
           out << fmt[idx];
-          state = NORMAL;
+          state = State::NORMAL;
         } else if (fmt[idx] == '}') {
           PrintTo(out, next_value);
           FmtStrImpl(out, fmt, idx + 1, values...);
@@ -131,7 +131,7 @@ void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx,
     }
   }
 
-  if (state == ESCAPE) {
+  if (state == State::ESCAPE) {
     throw std::runtime_error("FmtStr: fmt=\"" + fmt +
                              "\": unexpected end of fmt string");
   }

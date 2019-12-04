@@ -40,13 +40,8 @@ def rle_tester(encoded, decoded):
         raise TestFailure('Encoding failed')
 
 
-def program_config(config):
-    config.analyze_complexity = False
-
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('run_length_compression.py',
                                        'run_length_compression.tsv',
-                                       rle_tester,
-                                       program_config=program_config))
+                                       rle_tester))

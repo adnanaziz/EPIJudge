@@ -8,7 +8,7 @@ using std::abs;
 using std::max;
 using std::numeric_limits;
 
-using Ordering = enum { kSmaller, kEqual, kLarger };
+enum class Ordering { kSmaller, kEqual, kLarger };
 
 Ordering Compare(double a, double b);
 
@@ -22,9 +22,10 @@ double SquareRoot(double x) {
   }
 
   // Keeps searching as long as left != right, within tolerance.
-  while (Compare(left, right) != kEqual) {
+  while (Compare(left, right) != Ordering::kEqual) {
     double mid = left + 0.5 * (right - left);
-    if (double mid_squared = mid * mid; Compare(mid_squared, x) == kLarger) {
+    if (double mid_squared = mid * mid;
+        Compare(mid_squared, x) == Ordering::kLarger) {
       right = mid;
     } else {
       left = mid;
@@ -37,8 +38,9 @@ Ordering Compare(double a, double b) {
   // Uses normalization for precision problem.
   double diff = (a - b) / max(abs(a), abs(b));
   return diff < -numeric_limits<double>::epsilon()
-             ? kSmaller
-             : diff > numeric_limits<double>::epsilon() ? kLarger : kEqual;
+             ? Ordering::kSmaller
+             : diff > numeric_limits<double>::epsilon() ? Ordering::kLarger
+                                                        : Ordering::kEqual;
 }
 
 int main(int argc, char* argv[]) {

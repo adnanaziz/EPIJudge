@@ -51,13 +51,8 @@ def client_credits_info_tester(ops):
                 raise TestFailure('Lookup: return value mismatch')
 
 
-def program_config(config):
-    config.analyze_complexity = False
-
-
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main('adding_credits.py',
                                        'adding_credits.tsv',
-                                       client_credits_info_tester,
-                                       program_config=program_config))
+                                       client_credits_info_tester))

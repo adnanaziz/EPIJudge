@@ -3,7 +3,6 @@
 
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
-#include "test_framework/test_config.h"
 #include "test_framework/test_failure.h"
 
 #define main _main
@@ -41,18 +40,18 @@ class QueueWithMax {
 };
 
 struct QueueOp {
-  enum { kConstruct, kDequeue, kEnqueue, kMax } op;
+  enum class Operation { kConstruct, kDequeue, kEnqueue, kMax } op;
   int argument;
 
   QueueOp(const std::string& op_string, int arg) : argument(arg) {
     if (op_string == "QueueWithMax") {
-      op = kConstruct;
+      op = Operation::kConstruct;
     } else if (op_string == "dequeue") {
-      op = kDequeue;
+      op = Operation::kDequeue;
     } else if (op_string == "enqueue") {
-      op = kEnqueue;
+      op = Operation::kEnqueue;
     } else if (op_string == "max") {
-      op = kMax;
+      op = Operation::kMax;
     } else {
       throw std::runtime_error("Unsupported queue operation: " + op_string);
     }
@@ -69,9 +68,9 @@ void QueueTester(const std::vector<QueueOp>& ops) {
     QueueWithMax q;
     for (auto& x : ops) {
       switch (x.op) {
-        case QueueOp::kConstruct:
+        case QueueOp::Operation::kConstruct:
           break;
-        case QueueOp::kDequeue: {
+        case QueueOp::Operation::kDequeue: {
           int result = q.Dequeue();
           if (result != x.argument) {
             throw TestFailure("Dequeue: expected " +
@@ -79,10 +78,10 @@ void QueueTester(const std::vector<QueueOp>& ops) {
                               std::to_string(result));
           }
         } break;
-        case QueueOp::kEnqueue:
+        case QueueOp::Operation::kEnqueue:
           q.Enqueue(x.argument);
           break;
-        case QueueOp::kMax: {
+        case QueueOp::Operation::kMax: {
           int s = q.Max();
           if (s != x.argument) {
             throw TestFailure("Max: expected " + std::to_string(x.argument) +
@@ -96,8 +95,6 @@ void QueueTester(const std::vector<QueueOp>& ops) {
   }
 }
 
-void ProgramConfig(TestConfig& config) { config.analyze_complexity = false; }
-
 // clang-format off
 
 
@@ -105,6 +102,6 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"ops"};
   return GenericTestMain(args, "queue_with_max.cc", "queue_with_max.tsv", &QueueTester,
-                         DefaultComparator{}, param_names, &ProgramConfig);
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

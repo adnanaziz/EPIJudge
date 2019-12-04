@@ -9,7 +9,7 @@
 
 using std::vector;
 
-using Color = enum { kWhite, kBlack };
+enum class Color { kWhite, kBlack };
 
 struct Coordinate;
 bool SearchMazeHelper(const Coordinate&, const Coordinate&,
@@ -38,12 +38,12 @@ bool SearchMazeHelper(const Coordinate& cur, const Coordinate& e,
   auto& maze = *maze_ptr;
   // Checks cur is within maze and is a white pixel.
   if (cur.x < 0 || cur.x >= size(maze) || cur.y < 0 ||
-      cur.y >= size(maze[cur.x]) || maze[cur.x][cur.y] != kWhite) {
+      cur.y >= size(maze[cur.x]) || maze[cur.x][cur.y] != Color::kWhite) {
     return false;
   }
   auto& path = *path_ptr;
   path.emplace_back(cur);
-  maze[cur.x][cur.y] = kBlack;
+  maze[cur.x][cur.y] = Color::kBlack;
   if (cur == e) {
     return true;
   }
@@ -87,7 +87,7 @@ struct SerializationTrait<Coordinate> : UserSerTrait<Coordinate, int, int> {
 bool PathElementIsFeasible(const vector<vector<Color>>& maze,
                            const Coordinate& prev, const Coordinate& cur) {
   if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
-        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == kWhite)) {
+        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == Color::kWhite)) {
     return false;
   }
   return cur == Coordinate{prev.x + 1, prev.y} ||

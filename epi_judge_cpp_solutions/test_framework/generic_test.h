@@ -13,7 +13,6 @@
 #include "generic_test_handler.h"
 #include "json.h"
 #include "platform.h"
-#include "test_complexity.h"
 #include "test_config.h"
 #include "test_timer.h"
 #include "test_utils.h"
@@ -29,7 +28,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
  * The main test starter.
  */
 template <typename Function, typename Comparator>
-TestResult GenericTestMain(
+int GenericTestMain(
     const std::vector<std::string>& commandline_args,
     const std::string& test_file, const std::string& test_data_file,
     Function test_func, Comparator comparator,
@@ -57,10 +56,10 @@ TestResult GenericTestMain(
 
     GenericTestHandler<Function, Comparator> test_handler(
         test_func, comparator, param_names);
-    return RunTests(test_handler, config);
+    return static_cast<int>(RunTests(test_handler, config));
   } catch (std::runtime_error& e) {
     std::cerr << "\nCritical error: " << e.what() << std::endl;
-    return RUNTIME_ERROR;
+    return static_cast<int>(TestResult::RUNTIME_ERROR);
   }
 }
 
@@ -124,7 +123,7 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
   const int total_tests = static_cast<int>(test_data.size() - 1);
   std::vector<std::vector<int>> metrics;
   std::vector<std::chrono::microseconds> durations;
-  TestResult result = FAILED;
+  TestResult result = TestResult::FAILED;
 
   for (auto test_case : std::vector<std::vector<std::string>>{
            test_data.begin() + 1, test_data.end()}) {
@@ -141,32 +140,32 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
     try {
       test_output = handler.RunTest(config.timeout_seconds,
                                     config.metrics_override, test_case);
-      result = PASSED;
+      result = TestResult::PASSED;
       ++tests_passed;
       metrics.emplace_back(test_output.metrics);
       durations.emplace_back(test_output.timer.GetMicroseconds());
     } catch (TestFailure& e) {
-      result = FAILED;
+      result = TestResult::FAILED;
       test_failure = e;
     } catch (TimeoutException& e) {
-      result = TIMEOUT;
+      result = TestResult::TIMEOUT;
       test_output.timer = e.GetTimer();
     } catch (std::runtime_error&) {
       throw;
     } catch (std::exception& e) {
-      result = UNKNOWN_EXCEPTION;
+      result = TestResult::UNKNOWN_EXCEPTION;
       test_failure = TestFailure(typeid(e).name())
                          .WithProperty(PropertyName::EXCEPTION_MESSAGE,
                                        std::string(e.what()));
     } catch (...) {
-      result = UNKNOWN_EXCEPTION;
+      result = TestResult::UNKNOWN_EXCEPTION;
       test_failure = TestFailure("Can't get exception information");
     }
 
     PrintTestInfo(result, test_nr, total_tests, test_failure.GetDescription(),
                   test_output.timer);
 
-    if (result != PASSED) {
+    if (result != TestResult::PASSED) {
       if (!handler.ExpectedIsVoid()) {
         test_case.pop_back();
       }
@@ -200,8 +199,6 @@ TestResult RunTests(GenericTestHandler<Function, Comparator>& handler,
                 .count();
           });
       ShowComplexityNotification();
-      complexity = MinimalLeastSqMultipleParams(metric_names, metrics, time,
-                                                config.complexity_timeout);
     }
 
     PrintPostRunStats(tests_passed, total_tests, complexity, durations);
