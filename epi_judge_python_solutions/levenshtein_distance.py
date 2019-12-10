@@ -18,8 +18,8 @@ def levenshtein_distance(A: str, B: str) -> int:
 
         substitute_last = compute_distance_between_prefixes(
             A_idx - 1, B_idx - 1)
-        add_last = compute_distance_between_prefixes(A_idx - 1, B_idx)
-        delete_last = compute_distance_between_prefixes(A_idx, B_idx - 1)
+        add_last = compute_distance_between_prefixes(A_idx, B_idx - 1)
+        delete_last = compute_distance_between_prefixes(A_idx - 1, B_idx)
         return 1 + min(substitute_last, add_last, delete_last)
 
     return compute_distance_between_prefixes(len(A) - 1, len(B) - 1)
