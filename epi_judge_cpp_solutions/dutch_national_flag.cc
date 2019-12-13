@@ -9,7 +9,7 @@
 using std::swap;
 using std::vector;
 
-typedef enum { kRed, kWhite, kBlue } Color;
+enum class Color { kRed, kWhite, kBlue };
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
   vector<Color>& A = *A_ptr;
@@ -50,17 +50,17 @@ void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
 
   int i = 0;
   while (i < colors.size() && colors[i] < pivot) {
-    count[colors[i]]--;
+    count[static_cast<int>(colors[i])]--;
     ++i;
   }
 
   while (i < colors.size() && colors[i] == pivot) {
-    count[colors[i]]--;
+    count[static_cast<int>(colors[i])]--;
     ++i;
   }
 
   while (i < colors.size() && colors[i] > pivot) {
-    count[colors[i]]--;
+    count[static_cast<int>(colors[i])]--;
     ++i;
   }
 

@@ -1,9 +1,10 @@
 import math
+from typing import List
 
 from test_framework import generic_test
 
 
-def is_arbitrage_exist(graph):
+def is_arbitrage_exist(graph: List[List[float]]) -> bool:
     def bellman_ford(graph, source):
         dis_to_source = ([float('inf')] * (source - 1) + [0] + [float('inf')] *
                          (len(graph) - source))
@@ -33,5 +34,5 @@ def is_arbitrage_exist(graph):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("arbitrage.py", "arbitrage.tsv",
+        generic_test.generic_test_main('arbitrage.py', 'arbitrage.tsv',
                                        is_arbitrage_exist))

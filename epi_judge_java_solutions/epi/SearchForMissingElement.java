@@ -53,18 +53,18 @@ public class SearchForMissingElement {
   public static DuplicateAndMissing findDuplicateMissing(List<Integer> A) {
 
     // Compute the XOR of all numbers from 0 to |A| - 1 and all entries in A.
-    int missXORDup = 0;
+    int missXorDup = 0;
     for (int i = 0; i < A.size(); ++i) {
-      missXORDup ^= i ^ A.get(i);
+      missXorDup ^= i ^ A.get(i);
     }
 
-    // We need to find a bit that's set to 1 in missXORDup. Such a bit
+    // We need to find a bit that's set to 1 in missXorDup. Such a bit
     // must exist if there is a single missing number and a single duplicated
     // number in A.
     //
     // The bit-fiddling assignment below sets all of bits in differBit to 0
-    // except for the least significant bit in missXORDup that's 1.
-    int differBit = missXORDup & (~(missXORDup - 1));
+    // except for the least significant bit in missXorDup that's 1.
+    int differBit = missXorDup & (~(missXorDup - 1));
     int missOrDup = 0;
     for (int i = 0; i < A.size(); ++i) {
       // Focus on entries and numbers in which the differBit-th bit is 1.
@@ -80,8 +80,8 @@ public class SearchForMissingElement {
     // missOrDup is in A, missOrDup is the duplicate; otherwise, missOrDup is
     // the missing value.
     return A.contains(missOrDup)
-        ? new DuplicateAndMissing(missOrDup, missOrDup ^ missXORDup)
-        : new DuplicateAndMissing(missOrDup ^ missXORDup, missOrDup);
+        ? new DuplicateAndMissing(missOrDup, missOrDup ^ missXorDup)
+        : new DuplicateAndMissing(missOrDup ^ missXorDup, missOrDup);
   }
 
   public static void main(String[] args) {

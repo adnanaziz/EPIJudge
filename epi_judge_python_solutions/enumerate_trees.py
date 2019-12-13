@@ -1,16 +1,18 @@
 import functools
+from typing import List, Optional
 
 from binary_tree_node import BinaryTreeNode
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
-def generate_all_binary_trees(num_nodes):
+def generate_all_binary_trees(num_nodes: int
+                              ) -> List[Optional[BinaryTreeNode]]:
 
     if num_nodes == 0:  # Empty tree, add as a None.
         return [None]
 
-    result = []
+    result: List[Optional[BinaryTreeNode]] = []
     for num_left_tree_nodes in range(num_nodes):
         num_right_tree_nodes = num_nodes - 1 - num_left_tree_nodes
         left_subtrees = generate_all_binary_trees(num_left_tree_nodes)
@@ -27,8 +29,9 @@ def generate_all_binary_trees_pythonic(num_nodes):
     return [
         BinaryTreeNode(0, left, right)
         for num_left_tree_nodes in range(num_nodes)
-        for left in generate_all_binary_trees(num_left_tree_nodes) for right in
-        generate_all_binary_trees(num_nodes - 1 - num_left_tree_nodes)
+        for left in generate_all_binary_trees(num_left_tree_nodes)
+        for right in generate_all_binary_trees(num_nodes - 1 -
+                                               num_left_tree_nodes)
     ] or [None]
 
 
@@ -54,6 +57,6 @@ def generate_all_binary_trees_wrapper(executor, num_nodes):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("enumerate_trees.py",
+        generic_test.generic_test_main('enumerate_trees.py',
                                        'enumerate_trees.tsv',
                                        generate_all_binary_trees_wrapper))

@@ -82,6 +82,7 @@ void DecomposeIntoDictionaryWordsWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "domain", "dictionary", "decomposable"};
-  return GenericTestMain(args, "is_string_decomposable_into_words.cc", "is_string_decomposable_into_words.tsv", &DecomposeIntoDictionaryWordsWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "is_string_decomposable_into_words.cc", "is_string_decomposable_into_words.tsv", &DecomposeIntoDictionaryWordsWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

@@ -1,6 +1,7 @@
 import collections
 import functools
 import heapq
+from typing import Dict, List
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
@@ -8,7 +9,7 @@ from test_framework.test_utils import enable_executor_hook
 CharWithFrequency = collections.namedtuple('CharWithFrequency', ('c', 'freq'))
 
 
-def huffman_encoding(symbols):
+def huffman_encoding(symbols: List[CharWithFrequency]) -> float:
     class BinaryTree:
         def __init__(self, aggregate_freq, s, left=None, right=None):
             self.aggregate_freq = aggregate_freq
@@ -34,15 +35,16 @@ def huffman_encoding(symbols):
     # Keeps combining two nodes until there is one node left.
     while len(candidates) > 1:
         left, right = heapq.heappop(candidates), heapq.heappop(candidates)
-        heapq.heappush(candidates,
-                       BinaryTree(left.aggregate_freq + right.aggregate_freq,
-                                  None, left, right))
+        heapq.heappush(
+            candidates,
+            BinaryTree(left.aggregate_freq + right.aggregate_freq, None, left,
+                       right))
 
     def assign_huffman_code(tree, code):
         if tree:
             if tree.s:
                 # This node is a leaf.
-                huffman_encoding[tree.s.c] = ''.join(code)
+                char_to_encoding[tree.s.c] = ''.join(code)
             else:  # Non-leaf node.
                 code.append('0')
                 assign_huffman_code(tree.left, code)
@@ -50,10 +52,10 @@ def huffman_encoding(symbols):
                 assign_huffman_code(tree.right, code)
                 del code[-1]
 
-    huffman_encoding = {}
+    char_to_encoding: Dict[str, str] = {}
     # Traverses the binary tree, assigning codes to nodes.
     assign_huffman_code(candidates[0], [])
-    return sum(len(huffman_encoding[s.c]) * s.freq / 100 for s in symbols)
+    return sum(len(char_to_encoding[s.c]) * s.freq / 100 for s in symbols)
 
 
 @enable_executor_hook
@@ -67,6 +69,6 @@ def huffman_encoding_wrapper(executor, symbols):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("huffman_coding.py",
+        generic_test.generic_test_main('huffman_coding.py',
                                        'huffman_coding.tsv',
                                        huffman_encoding_wrapper))

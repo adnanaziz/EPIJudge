@@ -2,6 +2,7 @@
 #include <queue>
 #include <string>
 #include <unordered_set>
+
 #include "test_framework/generic_test.h"
 
 using std::queue;
@@ -9,6 +10,7 @@ using std::string;
 using std::unordered_set;
 
 // Uses BFS to find the least steps of transformation.
+
 int TransformString(unordered_set<string> D, const string& s, const string& t) {
   struct StringWithDistance {
     string candidate_string;
@@ -28,8 +30,8 @@ int TransformString(unordered_set<string> D, const string& s, const string& t) {
     // Tries all possible transformations of f.candidate_string.
     string str = f.candidate_string;
     for (int i = 0; i < size(str); ++i) {
-      for (int c = 0; c < 26; ++c) {  // Iterates through 'a' ~ 'z'.
-        str[i] = 'a' + c;
+      for (char c = 'a'; c <= 'z'; ++c) {  // Iterates through 'a' ~ 'z'.
+        str[i] = c;
         if (auto it = D.find(str); it != end(D)) {
           D.erase(it);
           q.emplace(StringWithDistance{str, f.distance + 1});

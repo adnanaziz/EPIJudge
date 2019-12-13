@@ -1,6 +1,7 @@
 package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
+
 import java.util.List;
 public class IntersectSortedArrays {
   @EpiTest(testDataFile = "intersect_sorted_arrays.tsv")

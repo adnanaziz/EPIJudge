@@ -4,10 +4,10 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 public class RectangleIntersection {
   @EpiUserType(ctorParams = {int.class, int.class, int.class, int.class})
-  public static class Rectangle {
+  public static class Rect {
     int x, y, width, height;
 
-    public Rectangle(int x, int y, int width, int height) {
+    public Rect(int x, int y, int width, int height) {
       this.x = x;
       this.y = y;
       this.width = width;
@@ -23,7 +23,7 @@ public class RectangleIntersection {
         return false;
       }
 
-      Rectangle rectangle = (Rectangle)o;
+      Rect rectangle = (Rect)o;
 
       if (x != rectangle.x) {
         return false;
@@ -52,9 +52,9 @@ public class RectangleIntersection {
     }
   }
   @EpiTest(testDataFile = "rectangle_intersection.tsv")
-  public static Rectangle intersectRectangle(Rectangle R1, Rectangle R2) {
+  public static Rect intersectRectangle(Rect r1, Rect r2) {
     // TODO - you fill in here.
-    return new Rectangle(0, 0, 0, 0);
+    return new Rect(0, 0, 0, 0);
   }
 
   public static void main(String[] args) {

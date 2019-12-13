@@ -1,4 +1,5 @@
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 using std::vector;
@@ -15,9 +16,12 @@ vector<TrafficElement> CalculateTrafficVolumes(const vector<TrafficElement>& A,
   // TODO - you fill in here.
   return {};
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<TrafficElement>
-    : UserSerTraits<TrafficElement, int, double> {};
+struct SerializationTrait<TrafficElement>
+    : UserSerTrait<TrafficElement, int, double> {};
+}  // namespace test_framework
 
 std::ostream& operator<<(std::ostream& out, const TrafficElement& te) {
   return out << '[' << te.time << ", " << te.volume << ']';

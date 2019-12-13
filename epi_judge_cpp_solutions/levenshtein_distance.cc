@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::make_unique;
@@ -41,9 +42,9 @@ int ComputeDistanceBetweenPrefixes(
       int substitute_last = ComputeDistanceBetweenPrefixes(
           A, A_idx - 1, B, B_idx - 1, distance_between_prefixes_ptr);
       int add_last = ComputeDistanceBetweenPrefixes(
-          A, A_idx - 1, B, B_idx, distance_between_prefixes_ptr);
-      int delete_last = ComputeDistanceBetweenPrefixes(
           A, A_idx, B, B_idx - 1, distance_between_prefixes_ptr);
+      int delete_last = ComputeDistanceBetweenPrefixes(
+          A, A_idx - 1, B, B_idx, distance_between_prefixes_ptr);
       distance_between_prefixes[A_idx][B_idx] =
           1 + min({substitute_last, add_last, delete_last});
     }

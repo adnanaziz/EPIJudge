@@ -1,5 +1,6 @@
 import collections
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
@@ -7,7 +8,7 @@ from test_framework.test_utils import enable_executor_hook
 Interval = collections.namedtuple('Interval', ('left', 'right'))
 
 
-def find_minimum_visits(intervals):
+def find_minimum_visits(intervals: List[Interval]) -> int:
     # TODO - you fill in here.
     return 0
 
@@ -20,6 +21,7 @@ def find_minimum_visits_wrapper(executor, A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("minimum_points_covering_intervals.py",
-                                       'minimum_points_covering_intervals.tsv',
-                                       find_minimum_visits_wrapper))
+        generic_test.generic_test_main(
+            'minimum_points_covering_intervals.py',
+            'minimum_points_covering_intervals.tsv',
+            find_minimum_visits_wrapper))

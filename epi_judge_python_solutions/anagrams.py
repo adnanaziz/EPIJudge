@@ -1,11 +1,13 @@
 import collections
+from typing import DefaultDict, List
 
 from test_framework import generic_test, test_utils
 
 
-def find_anagrams(dictionary):
+def find_anagrams(dictionary: List[str]) -> List[List[str]]:
 
-    sorted_string_to_anagrams = collections.defaultdict(list)
+    sorted_string_to_anagrams: DefaultDict[
+        str, List[str]] = collections.defaultdict(list)
     for s in dictionary:
         # Sorts the string, uses it as a key, and then appends the original
         # string as another value into hash table.
@@ -20,7 +22,7 @@ def find_anagrams(dictionary):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "anagrams.py",
-            "anagrams.tsv",
+            'anagrams.py',
+            'anagrams.tsv',
             find_anagrams,
             comparator=test_utils.unordered_compare))

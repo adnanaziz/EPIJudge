@@ -8,7 +8,8 @@
 #include "fmt_print_fwd.h"
 #include "serialization_traits.h"
 
-namespace detail {
+namespace test_framework {
+namespace fmt_print {
 template <typename T>
 void PrintToImpl(std::ostream& out, const T& x, HasOStreamOpTag) {
   out << x;
@@ -24,8 +25,8 @@ void PrintToImpl(std::ostream& out, const T& x, HasNoOStreamOpTag) {
   // Some compilers prepend typename with a length of the string
   auto name_begin = std::find_if_not(type_name.begin(), type_name.end(),
                                      [](char c) { return std::isdigit(c); });
-  out << "<<<missing operator<<(std::ostream&, "
-      << std::string(name_begin, type_name.end()) << ")>>>";
+  out << "// missing operator<<(std::ostream&, "
+      << std::string(name_begin, type_name.end()) << ")";
 }
 
 template <size_t Idx, typename TupleT>
@@ -34,7 +35,8 @@ struct TuplePrintHelper {
     if (Idx < std::tuple_size<TupleT>::value) {
       out << ", ";
     }
-    ::PrintTo(out, std::get<std::tuple_size<TupleT>::value - Idx>(x));
+    test_framework::PrintTo(
+        out, std::get<std::tuple_size<TupleT>::value - Idx>(x));
     TuplePrintHelper<Idx - 1, TupleT>::PrintTo(out, x);
   }
 };
@@ -101,22 +103,22 @@ void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx) {
 template <typename Head, typename... Tail>
 void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx,
                 const Head& next_value, const Tail&... values) {
-  enum { NORMAL, ESCAPE } state = NORMAL;
+  enum class State { NORMAL, ESCAPE } state = State::NORMAL;
 
   for (; idx < fmt.size(); idx++) {
     switch (state) {
-      case NORMAL:
+      case State::NORMAL:
         if (fmt[idx] == '{') {
-          state = ESCAPE;
+          state = State::ESCAPE;
         } else {
           out << fmt[idx];
         }
         break;
 
-      case ESCAPE:
+      case State::ESCAPE:
         if (fmt[idx] == '{') {
           out << fmt[idx];
-          state = NORMAL;
+          state = State::NORMAL;
         } else if (fmt[idx] == '}') {
           PrintTo(out, next_value);
           FmtStrImpl(out, fmt, idx + 1, values...);
@@ -129,7 +131,7 @@ void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx,
     }
   }
 
-  if (state == ESCAPE) {
+  if (state == State::ESCAPE) {
     throw std::runtime_error("FmtStr: fmt=\"" + fmt +
                              "\": unexpected end of fmt string");
   }
@@ -139,7 +141,7 @@ void FmtStrImpl(std::ostream& out, const std::string& fmt, size_t idx,
                              "\": too many values provided");
   }
 }
-}  // namespace detail
+}  // namespace fmt_print
 
 template <typename T>
 std::ostream& PrintTo(std::ostream& out, const T& x) {
@@ -150,13 +152,18 @@ std::ostream& PrintTo(std::ostream& out, const T& x) {
           std::conditional_t<IsBinaryTree<T>::value, IsBinaryTreeTag,
                              HasNoOStreamOpTag>>>;
 
-  detail::PrintToImpl(out, x, Tag());
+  fmt_print::PrintToImpl(out, x, Tag());
   return out;
 }
 
 template <typename... Args>
 std::string FmtStr(const std::string& fmt, const Args&... args) {
   std::stringstream ss;
-  detail::FmtStrImpl(ss, fmt, 0, args..., detail::FormatterArgsTerminator{});
+  fmt_print::FmtStrImpl(ss, fmt, 0, args...,
+                        fmt_print::FormatterArgsTerminator{});
   return ss.str();
 }
+}  // namespace test_framework
+
+using test_framework::FmtStr;
+using test_framework::PrintTo;

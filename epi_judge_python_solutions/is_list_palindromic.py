@@ -1,8 +1,9 @@
-from reverse_linked_list_iterative import reverse_linked_list
+from list_node import ListNode
+from reverse_list import reverse_list
 from test_framework import generic_test
 
 
-def is_linked_list_a_palindrome(L):
+def is_linked_list_a_palindrome(L: ListNode) -> bool:
 
     # Finds the second half of L.
     slow = fast = L
@@ -10,7 +11,7 @@ def is_linked_list_a_palindrome(L):
         fast, slow = fast.next.next, slow.next
 
     # Compares the first half and the reversed second half lists.
-    first_half_iter, second_half_iter = L, reverse_linked_list(slow)
+    first_half_iter, second_half_iter = L, reverse_list(slow)
     while second_half_iter and first_half_iter:
         if second_half_iter.data != first_half_iter.data:
             return False
@@ -21,6 +22,6 @@ def is_linked_list_a_palindrome(L):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("is_list_palindromic.py",
+        generic_test.generic_test_main('is_list_palindromic.py',
                                        'is_list_palindromic.tsv',
                                        is_linked_list_a_palindrome))

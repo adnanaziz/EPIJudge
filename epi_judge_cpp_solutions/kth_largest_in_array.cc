@@ -3,9 +3,11 @@
 #include <random>
 #include <stdexcept>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::default_random_engine;
+using std::function;
 using std::greater;
 using std::length_error;
 using std::less;
@@ -14,10 +16,8 @@ using std::swap;
 using std::uniform_int_distribution;
 using std::vector;
 
-template <typename Compare>
-int FindKth(int, Compare, vector<int>*);
-template <typename Compare>
-int PartitionAroundPivot(int, int, int, Compare, vector<int>*);
+int FindKth(int, function<bool(int, int)>, vector<int>*);
+int PartitionAroundPivot(int, int, int, function<bool(int, int)>, vector<int>*);
 
 // The numbering starts from one, i.e., if A = [3, 1, -1, 2] then
 // FindKthLargest(1, A) returns 3, FindKthLargest(2, A) returns 2,
@@ -33,8 +33,7 @@ int FindKthSmallest(int k, vector<int>* A_ptr) {
   return FindKth(k, less<int>(), A_ptr);
 }
 
-template <typename Compare>
-int FindKth(int k, Compare comp, vector<int>* A_ptr) {
+int FindKth(int k, function<bool(int, int)> comp, vector<int>* A_ptr) {
   vector<int>& A = *A_ptr;
   int left = 0, right = size(A) - 1;
   default_random_engine gen((random_device())());
@@ -65,9 +64,8 @@ int FindKth(int k, Compare comp, vector<int>* A_ptr) {
 // Note: "greater than" and "less than" are defined by the Compare object.
 //
 // Returns the new index of the pivot element after partition.
-template <typename Compare>
-int PartitionAroundPivot(int left, int right, int pivot_idx, Compare comp,
-                         vector<int>* A_ptr) {
+int PartitionAroundPivot(int left, int right, int pivot_idx,
+                         function<bool(int, int)> comp, vector<int>* A_ptr) {
   vector<int>& A = *A_ptr;
   int pivot_value = A[pivot_idx];
   int new_pivot_idx = left;

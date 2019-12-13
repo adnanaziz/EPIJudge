@@ -14,6 +14,8 @@
 
 #include "test_failure.h"
 
+namespace test_framework {
+namespace random_sequence_checker {
 int ComputeDeviationMultiplier(double allowed_false_negative, int num_rvs) {
   const double individual_rv_error = allowed_false_negative / num_rvs;
   std::array<double, 7> kErrorBounds = {
@@ -104,16 +106,7 @@ bool CheckBirthdaySpacings(const std::vector<int>& seq, int n) {
   return kCountTolerance * number_of_subarrays <=
          number_of_subarrays_with_repetitions;
 }
-
-// seq is a sequence of integers, which should be in the range [0,n-1]. We
-// assume n << std::size(seq).
-bool CheckSequenceIsUniformlyRandom(const std::vector<int>& seq, int n,
-                                    double false_negative_tolerance) {
-  return CheckFrequencies(seq, n, false_negative_tolerance) &&
-         CheckPairsFrequencies(seq, n, false_negative_tolerance) &&
-         CheckTriplesFrequencies(seq, n, false_negative_tolerance) &&
-         CheckBirthdaySpacings(seq, n);
-}
+}  // namespace random_sequence_checker
 
 int BinomialCoefficient(int n, int k) {
   if (n < k) {
@@ -123,6 +116,19 @@ int BinomialCoefficient(int n, int k) {
     return 1;
   }
   return BinomialCoefficient(n - 1, k - 1) + BinomialCoefficient(n - 1, k);
+}
+
+// seq is a sequence of integers, which should be in the range [0,n-1]. We
+// assume n << std::size(seq).
+bool CheckSequenceIsUniformlyRandom(const std::vector<int>& seq, int n,
+                                    double false_negative_tolerance) {
+  return random_sequence_checker::CheckFrequencies(
+             seq, n, false_negative_tolerance) &&
+         random_sequence_checker::CheckPairsFrequencies(
+             seq, n, false_negative_tolerance) &&
+         random_sequence_checker::CheckTriplesFrequencies(
+             seq, n, false_negative_tolerance) &&
+         random_sequence_checker::CheckBirthdaySpacings(seq, n);
 }
 
 // Get the mth combination in lexicographical order from A (n elements) chosen
@@ -155,3 +161,4 @@ void RunFuncWithRetries(const std::function<bool()>& func) {
   }
   throw TestFailure("Result is not a random permutation");
 }
+}  // namespace test_framework

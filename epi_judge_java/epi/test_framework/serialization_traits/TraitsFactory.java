@@ -15,57 +15,58 @@ import java.util.Map;
 import java.util.Set;
 
 public class TraitsFactory {
-  private static final Map<Type, SerializationTraits> PRIMITIVE_TYPES_MAPPING;
+  private static final Map<Type, SerializationTrait> PRIMITIVE_TYPES_MAPPING;
 
   static {
     PRIMITIVE_TYPES_MAPPING = new HashMap<>() {
       {
-        put(String.class, new StringTraits());
-        put(Integer.class, new IntegerTraits());
-        put(int.class, new IntegerTraits());
-        put(Short.class, new ShortTraits());
-        put(short.class, new ShortTraits());
-        put(Long.class, new LongTraits());
-        put(long.class, new LongTraits());
-        put(Character.class, new CharacterTraits());
-        put(char.class, new CharacterTraits());
-        put(Boolean.class, new BooleanTraits());
-        put(boolean.class, new BooleanTraits());
-        put(Float.class, new FloatTraits());
-        put(float.class, new FloatTraits());
-        put(Double.class, new DoubleTraits());
-        put(double.class, new DoubleTraits());
+        put(String.class, new StringTrait());
+        put(Integer.class, new IntegerTrait());
+        put(int.class, new IntegerTrait());
+        put(Short.class, new ShortTrait());
+        put(short.class, new ShortTrait());
+        put(Long.class, new LongTrait());
+        put(long.class, new LongTrait());
+        put(Character.class, new CharacterTrait());
+        put(char.class, new CharacterTrait());
+        put(Boolean.class, new BooleanTrait());
+        put(boolean.class, new BooleanTrait());
+        put(Float.class, new FloatTrait());
+        put(float.class, new FloatTrait());
+        put(Double.class, new DoubleTrait());
+        put(double.class, new DoubleTrait());
       }
     };
   }
 
-  public static SerializationTraits getTraits(Type type) {
+  @SuppressWarnings("unchecked")
+  public static SerializationTrait getTrait(Type type) {
     if (type.equals(Void.TYPE)) {
-      return new VoidTraits();
+      return new VoidTrait();
     }
     if (type instanceof ParameterizedType) {
       ParameterizedType pt = (ParameterizedType)type;
       Type ty = pt.getRawType();
       if (ty.equals(List.class)) {
-        return new ListTraits(getTraits(getInnerGenericType(pt, 0)));
+        return new ListTrait(getTrait(getInnerGenericType(pt, 0)));
       }
       if (ty.equals(Iterable.class)) {
-        return new ListTraits(getTraits(getInnerGenericType(pt, 0)));
+        return new ListTrait(getTrait(getInnerGenericType(pt, 0)));
       }
       if (ty.equals(Set.class)) {
-        return new SetTraits(getTraits(getInnerGenericType(pt, 0)));
+        return new SetTrait(getTrait(getInnerGenericType(pt, 0)));
       }
       if (ty.equals(BinaryTreeNode.class) || ty.equals(BinaryTree.class) ||
           ty.equals(BstNode.class)) {
-        return new BinaryTreeTraits((Class<?>)ty,
-                                    getTraits(getInnerGenericType(pt, 0)));
+        return new BinaryTreeTrait((Class<?>)ty,
+                                   getTrait(getInnerGenericType(pt, 0)));
       }
       if (ty.equals(ListNode.class)) {
-        return new LinkedListTraits(getTraits(getInnerGenericType(pt, 0)));
+        return new LinkedListTrait(getTrait(getInnerGenericType(pt, 0)));
       }
     }
 
-    SerializationTraits mapped = PRIMITIVE_TYPES_MAPPING.get(type);
+    SerializationTrait mapped = PRIMITIVE_TYPES_MAPPING.get(type);
     if (mapped != null) {
       return mapped;
     }
@@ -74,7 +75,7 @@ public class TraitsFactory {
       EpiUserType ann =
           (EpiUserType)((Class)type).getAnnotation(EpiUserType.class);
 
-      return new UserTypeTraits((Class)type, ann);
+      return new UserTypeTrait((Class)type, ann);
     }
 
     throw new RuntimeException("Unsupported argument type: " +

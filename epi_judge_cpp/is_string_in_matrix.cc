@@ -1,4 +1,5 @@
 #include <vector>
+
 #include "test_framework/generic_test.h"
 using std::vector;
 bool IsPatternContainedInGrid(const vector<vector<int>>& grid,

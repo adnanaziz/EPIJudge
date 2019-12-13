@@ -1,12 +1,13 @@
 #include <istream>
 #include <string>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::vector;
-typedef enum { kWhite, kBlack } Color;
+enum class Color { kWhite, kBlack };
 struct Coordinate {
   bool operator==(const Coordinate& that) const {
     return x == that.x && y == that.y;
@@ -19,34 +20,34 @@ vector<Coordinate> SearchMaze(vector<vector<Color>> maze, const Coordinate& s,
   // TODO - you fill in here.
   return {};
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<Color> : SerializationTraits<int> {
+struct SerializationTrait<Color> : SerializationTrait<int> {
   using serialization_type = Color;
 
-  static serialization_type Parse(const std::string& str) {
+  static serialization_type Parse(const json& json_object) {
     return static_cast<serialization_type>(
-        SerializationTraits<int>::Parse(str));
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    return static_cast<serialization_type>(
-        SerializationTraits<int>::JsonParse(json_object));
+        SerializationTrait<int>::Parse(json_object));
   }
 };
+}  // namespace test_framework
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Coordinate> : UserSerTraits<Coordinate, int, int> {
+struct SerializationTrait<Coordinate> : UserSerTrait<Coordinate, int, int> {
   static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
     return {};
   }
 
   static std::vector<int> GetMetrics(const Coordinate& x) { return {}; }
 };
+}  // namespace test_framework
 
 bool PathElementIsFeasible(const vector<vector<Color>>& maze,
                            const Coordinate& prev, const Coordinate& cur) {
   if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
-        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == kWhite)) {
+        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == Color::kWhite)) {
     return false;
   }
   return cur == Coordinate{prev.x + 1, prev.y} ||

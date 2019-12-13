@@ -2,6 +2,7 @@
 #include <numeric>
 #include <stack>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::accumulate;
@@ -40,8 +41,8 @@ bool DirectedExpressionSynthesis(const vector<int>& digits, int target,
   }
   // Tries multiplication operator '*'.
   operands->emplace_back(current_term), operators->emplace_back('*');
-  if (DirectedExpressionSynthesis(digits, target, 0, offset + 1, operands,
-                                  operators)) {
+  if (DirectedExpressionSynthesis(digits, target, /*current_term=*/0,
+                                  offset + 1, operands, operators)) {
     return true;
   }
   operands->pop_back(), operators->pop_back();
@@ -52,8 +53,8 @@ bool DirectedExpressionSynthesis(const vector<int>& digits, int target,
       accumulate(begin(digits) + offset + 1, end(digits), 0,
                  [](int val, int d) { return val * 10 + d; })) {
     operators->emplace_back('+');
-    if (DirectedExpressionSynthesis(digits, target, 0, offset + 1, operands,
-                                    operators)) {
+    if (DirectedExpressionSynthesis(digits, target, /*current_term=*/0,
+                                    offset + 1, operands, operators)) {
       return true;
     }
     operators->pop_back();

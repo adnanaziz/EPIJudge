@@ -1,9 +1,24 @@
 ## [Unreleased]
  
-  - Automatically determine solution asymptotic complexity
+  
   - Highlight mismatched items in arrays (when printing test failure explanation)
   - Add HTML file to track progress on exercises (list of exercises with number of passed tests in each language)
   - Run each test case with a timeout
+ 
+ 
+## [Beta 5] - 2018-??-??
+
+### Added
+  - Namespace for C++ test framework
+  - Python type hints
+  
+### Changed
+  - Changed test data format
+    - Now every field is encoded in pure JSON format
+
+### Fixed
+
+### Removed
  
  
 ## [Beta 4] - 2018-05-08
@@ -70,4 +85,3 @@
   - Makefile and CMake (C++ only) projects
   - Test run timing
   - Video tutorials
-

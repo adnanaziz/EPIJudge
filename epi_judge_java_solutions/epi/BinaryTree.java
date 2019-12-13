@@ -1,9 +1,7 @@
 
 package epi;
 
-import epi.test_framework.BinaryTreeUtils; 
-
-public class BinaryTree<T> {
+public class BinaryTree<T> extends TreeLike<T, BinaryTree<T>> {
   public T data;
   public BinaryTree<T> left, right;
   public BinaryTree<T> parent;
@@ -25,7 +23,17 @@ public class BinaryTree<T> {
   }
 
   @Override
-  public String toString() {
-    return BinaryTreeUtils.binaryTreeToString(this);
+  public T getData() {
+    return data;
+  }
+
+  @Override
+  public BinaryTree<T> getLeft() {
+    return left;
+  }
+
+  @Override
+  public BinaryTree<T> getRight() {
+    return right;
   }
 }

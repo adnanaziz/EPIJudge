@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_set>
+
 #include "test_framework/generic_test.h"
 
 using std::string;
@@ -13,7 +14,7 @@ bool CanFormPalindrome(const string& s) {
       chars_with_odd_frequency.erase(c);
     } else {
       // c now has appeared an odd number of times.
-      chars_with_odd_frequency.insert(c);
+      chars_with_odd_frequency.emplace(c);
     }
   }
   // A string can be permuted to form a palindrome if and only if the number

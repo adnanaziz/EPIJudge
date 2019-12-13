@@ -1,7 +1,9 @@
+from typing import List
+
 from test_framework import generic_test
 
 
-def max_subarray_sum_in_circular(A):
+def max_subarray_sum_in_circular(A: List[int]) -> int:
 
     # Calculates the non-circular solution.
     def find_max_subarray():
@@ -28,8 +30,8 @@ def max_subarray_sum_in_circular(A):
         maximum_end = compute_running_maximum(A[::-1])[::-1][1:] + [0]
 
         # Calculates the maximum subarray which is circular.
-        return max(
-            begin + end for begin, end in zip(maximum_begin, maximum_end))
+        return max(begin + end
+                   for begin, end in zip(maximum_begin, maximum_end))
 
     return max(find_max_subarray(), find_circular_max_subarray())
 
@@ -37,6 +39,6 @@ def max_subarray_sum_in_circular(A):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "maximum_subarray_in_circular_array.py",
+            'maximum_subarray_in_circular_array.py',
             'maximum_subarray_in_circular_array.tsv',
             max_subarray_sum_in_circular))

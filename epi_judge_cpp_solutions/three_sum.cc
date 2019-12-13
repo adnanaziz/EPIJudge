@@ -2,10 +2,11 @@
 #include <iterator>
 #include <vector>
 
+#include "test_framework/generic_test.h"
+
 #define main _main
 #include "two_sum.cc"
 #undef main
-#include "test_framework/generic_test.h"
 
 using std::vector;
 

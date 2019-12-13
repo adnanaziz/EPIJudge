@@ -1,4 +1,5 @@
 #include <string>
+
 #include "test_framework/fmt_print.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
@@ -37,10 +38,11 @@ std::ostream& operator<<(std::ostream& out, const Operation& op) {
   return out << FmtStr("{}({}, {})", op.op, op.s_arg, op.i_arg);
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Operation>
-    : UserSerTraits<Operation, std::string, std::string, int> {};
-
+struct SerializationTrait<Operation>
+    : UserSerTrait<Operation, std::string, std::string, int> {};
+}  // namespace test_framework
 void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
   ClientsCreditsInfo cr;
   int op_idx = 0;

@@ -2,8 +2,8 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
-import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
+import epi.test_framework.LexicographicalListComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,8 +36,8 @@ public class Anagrams {
   }
 
   @EpiTestComparator
-  public static BiPredicate<List<List<String>>, List<List<String>>> comp =
-      (expected, result) -> {
+  public static boolean comp(List<List<String>> expected,
+                             List<List<String>> result) {
     if (result == null) {
       return false;
     }
@@ -50,7 +50,7 @@ public class Anagrams {
     }
     result.sort(new LexicographicalListComparator<>());
     return expected.equals(result);
-  };
+  }
 
   public static void main(String[] args) {
     System.exit(

@@ -1,12 +1,15 @@
+import typing
+from typing import List
+
 from test_framework import generic_test
 
 
-def minimum_messiness(words, line_length):
+def minimum_messiness(words: List[str], line_length: int) -> int:
 
     num_remaining_blanks = line_length - len(words[0])
     # min_messiness[i] is the minimum messiness when placing words[0:i + 1].
-    min_messiness = ([num_remaining_blanks**2] + [float('inf')] *
-                     (len(words) - 1))
+    min_messiness = ([num_remaining_blanks**2] +
+                     [typing.cast(int, float('inf'))] * (len(words) - 1))
     for i in range(1, len(words)):
         num_remaining_blanks = line_length - len(words[i])
         min_messiness[i] = min_messiness[i - 1] + num_remaining_blanks**2
@@ -25,5 +28,6 @@ def minimum_messiness(words, line_length):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main(
-            "pretty_printing.py", 'pretty_printing.tsv', minimum_messiness))
+        generic_test.generic_test_main('pretty_printing.py',
+                                       'pretty_printing.tsv',
+                                       minimum_messiness))

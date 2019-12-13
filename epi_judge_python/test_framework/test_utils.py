@@ -1,4 +1,3 @@
-
 import collections
 import os
 import re
@@ -7,13 +6,13 @@ from test_framework.test_failure import PropertyName, TestFailure
 
 
 def split_tsv_file(tsv_file):
-    ROW_DELIM = '\n'
-    FIELD_DELIM = '\t'
+    row_delim = '\n'
+    field_delim = '\t'
 
     try:
         with open(tsv_file) as input_data:
             return [
-                row.replace(ROW_DELIM, '').split(FIELD_DELIM)
+                row.replace(row_delim, '').split(field_delim)
                 for row in input_data
             ]
     except OSError:
@@ -21,10 +20,10 @@ def split_tsv_file(tsv_file):
 
 
 def get_default_test_data_dir_path():
-    MAX_SEARCH_DEPTH = 4
+    max_search_depth = 4
 
     path = 'test_data'
-    for _ in range(MAX_SEARCH_DEPTH):
+    for _ in range(max_search_depth):
         if os.path.isdir(path):
             return path
         path = os.path.join(os.path.pardir, path)
@@ -58,10 +57,10 @@ def assert_all_values_present(reference, result):
         reference_set[x] -= 1
 
     flatten = lambda l: [item for sublist in l for item in sublist]
-    excess_items = flatten(
-        [x] * -count for x, count in reference_set.items() if count < 0)
-    missing_items = flatten(
-        [x] * count for x, count in reference_set.items() if count > 0)
+    excess_items = flatten([x] * -count for x, count in reference_set.items()
+                           if count < 0)
+    missing_items = flatten([x] * count for x, count in reference_set.items()
+                            if count > 0)
 
     if excess_items or missing_items:
         e = TestFailure('Value set changed')\
@@ -98,3 +97,7 @@ def has_executor_hook(func):
 def enable_executor_hook(func):
     func.executor_hook = True
     return func
+
+
+def flatten_list(l):
+    return [item for sublist in l for item in sublist]

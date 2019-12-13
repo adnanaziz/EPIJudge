@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_utils.h"
@@ -22,9 +23,11 @@ vector<Star> FindClosestKStars(vector<Star>::const_iterator stars_begin,
   // TODO - you fill in here.
   return {};
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<Star> : UserSerTraits<Star, double, double, double> {
-};
+struct SerializationTrait<Star> : UserSerTrait<Star, double, double, double> {};
+}  // namespace test_framework
 
 std::ostream& operator<<(std::ostream& out, const Star& s) {
   return out << s.Distance();

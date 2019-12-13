@@ -15,5 +15,5 @@ def swap_bits(x, i, j):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("swap_bits.py", 'swap_bits.tsv',
+        generic_test.generic_test_main('swap_bits.py', 'swap_bits.tsv',
                                        swap_bits))

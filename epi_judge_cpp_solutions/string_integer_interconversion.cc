@@ -24,15 +24,15 @@ string IntToString(int x) {
 }
 
 int StringToInt(const string& s) {
-  return (s[0] == '-' ? -1 : 1) * accumulate(begin(s) + (s[0] == '-'), end(s),
-                                             0, [](int running_sum, char c) {
-                                               return running_sum * 10 + c -
-                                                      '0';
-                                             });
+  return (s[0] == '-' ? -1 : 1) *
+         accumulate(begin(s) + (s[0] == '-' || s[0] == '+'), end(s), 0,
+                    [](int running_sum, char c) {
+                      return running_sum * 10 + c - '0';
+                    });
 }
 
 void Wrapper(int x, const string& s) {
-  if (IntToString(x) != s) {
+  if (stoi(IntToString(x)) != x) {
     throw TestFailure("Int to string conversion failed");
   }
 

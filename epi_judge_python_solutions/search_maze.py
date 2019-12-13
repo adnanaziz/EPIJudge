@@ -1,6 +1,7 @@
 import collections
 import copy
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
@@ -11,7 +12,8 @@ WHITE, BLACK = range(2)
 Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
 
-def search_maze(maze, s, e):
+def search_maze(maze: List[List[int]], s: Coordinate,
+                e: Coordinate) -> List[Coordinate]:
 
     # Perform DFS to find a feasible path.
     def search_maze_helper(cur):
@@ -25,7 +27,8 @@ def search_maze(maze, s, e):
             return True
 
         if any(
-                map(search_maze_helper,
+                map(
+                    search_maze_helper,
                     map(Coordinate, (cur.x - 1, cur.x + 1, cur.x, cur.x),
                         (cur.y, cur.y, cur.y - 1, cur.y + 1)))):
             return True
@@ -33,7 +36,7 @@ def search_maze(maze, s, e):
         del path[-1]
         return False
 
-    path = []
+    path: List[Coordinate] = []
     search_maze_helper(s)
     return path
 
@@ -60,16 +63,16 @@ def search_maze_wrapper(executor, maze, s, e):
         return s == e
 
     if path[0] != s or path[-1] != e:
-        raise TestFailure("Path doesn't lay between start and end points")
+        raise TestFailure('Path doesn\'t lay between start and end points')
 
     for i in range(1, len(path)):
         if not path_element_is_feasible(maze, path[i - 1], path[i]):
-            raise TestFailure("Path contains invalid segments")
+            raise TestFailure('Path contains invalid segments')
 
     return True
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("search_maze.py", 'search_maze.tsv',
+        generic_test.generic_test_main('search_maze.py', 'search_maze.tsv',
                                        search_maze_wrapper))

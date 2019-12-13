@@ -8,7 +8,7 @@ public class SumRootToLeaf {
 
   public static int sumRootToLeaf(BinaryTreeNode<Integer> tree) {
 
-    return sumRootToLeafHelper(tree, 0);
+    return sumRootToLeafHelper(tree, /*partialPathSum=*/0);
   }
 
   private static int sumRootToLeafHelper(BinaryTreeNode<Integer> tree,

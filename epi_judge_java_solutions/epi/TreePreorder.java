@@ -9,23 +9,34 @@ import java.util.Deque;
 import java.util.List;
 
 public class TreePreorder {
-  @EpiTest(testDataFile = "tree_preorder.tsv")
 
+  private static class NodeAndState {
+    public BinaryTreeNode<Integer> node;
+    public Boolean nodeProcessed;
+
+    public NodeAndState(BinaryTreeNode<Integer> node, Boolean nodeProcessed) {
+      this.node = node;
+      this.nodeProcessed = nodeProcessed;
+    }
+  }
+
+  @EpiTest(testDataFile = "tree_preorder.tsv")
   public static List<Integer> preorderTraversal(BinaryTreeNode<Integer> tree) {
 
-    Deque<BinaryTreeNode<Integer>> path = new ArrayDeque<>();
-    if (tree != null) {
-      path.addFirst(tree);
-    }
     List<Integer> result = new ArrayList<>();
-    while (!path.isEmpty()) {
-      BinaryTreeNode<Integer> curr = path.removeFirst();
-      result.add(curr.data);
-      if (curr.right != null) {
-        path.addFirst(curr.right);
-      }
-      if (curr.left != null) {
-        path.addFirst(curr.left);
+
+    Deque<NodeAndState> inProcess = new ArrayDeque<>();
+    inProcess.addFirst(new NodeAndState(tree, false));
+    while (!inProcess.isEmpty()) {
+      NodeAndState nodeAndState = inProcess.removeFirst();
+      if (nodeAndState.node != null) {
+        if (nodeAndState.nodeProcessed) {
+          result.add(nodeAndState.node.data);
+        } else {
+          inProcess.addFirst(new NodeAndState(nodeAndState.node.right, false));
+          inProcess.addFirst(new NodeAndState(nodeAndState.node.left, false));
+          inProcess.addFirst(new NodeAndState(nodeAndState.node, true));
+        }
       }
     }
     return result;

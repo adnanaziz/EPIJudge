@@ -50,6 +50,7 @@ class ClientsCreditsInfo {
                ? ""
                : *cbegin(iter->second);
   }
+
   friend std::ostream& operator<<(std::ostream& os,
                                   const ClientsCreditsInfo& info) {
     PrintTo(os, info.credit_to_clients_);
@@ -72,10 +73,11 @@ std::ostream& operator<<(std::ostream& out, const Operation& op) {
   return out << FmtStr("{}({}, {})", op.op, op.s_arg, op.i_arg);
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Operation>
-    : UserSerTraits<Operation, std::string, std::string, int> {};
-
+struct SerializationTrait<Operation>
+    : UserSerTrait<Operation, std::string, std::string, int> {};
+}  // namespace test_framework
 void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
   ClientsCreditsInfo cr;
   int op_idx = 0;
@@ -116,10 +118,13 @@ void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
   }
 }
 
+// clang-format off
+
+
 int main(int argc, char* argv[]) {
-  std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "adding_credits.cc", "adding_credits.tsv",
-                         &ClientsCreditsInfoTester, DefaultComparator{},
-                         param_names);
+  std::vector<std::string> args {argv + 1, argv + argc};
+  std::vector<std::string> param_names {"ops"};
+  return GenericTestMain(args, "adding_credits.cc", "adding_credits.tsv", &ClientsCreditsInfoTester,
+                         DefaultComparator{}, param_names);
 }
+// clang-format on

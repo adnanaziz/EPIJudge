@@ -97,6 +97,7 @@ int FindSmallestSequentiallyCoveringSubsetWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "paragraph", "keywords"};
-  return GenericTestMain(args, "smallest_subarray_covering_all_values.cc", "smallest_subarray_covering_all_values.tsv", &FindSmallestSequentiallyCoveringSubsetWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "smallest_subarray_covering_all_values.cc", "smallest_subarray_covering_all_values.tsv", &FindSmallestSequentiallyCoveringSubsetWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

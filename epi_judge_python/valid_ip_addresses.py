@@ -1,7 +1,9 @@
+from typing import List
+
 from test_framework import generic_test
 
 
-def get_valid_ip_address(s):
+def get_valid_ip_address(s: str) -> List[str]:
     # TODO - you fill in here.
     return []
 
@@ -12,8 +14,7 @@ def comp(a, b):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main(
-            "valid_ip_addresses.py",
-            'valid_ip_addresses.tsv',
-            get_valid_ip_address,
-            comparator=comp))
+        generic_test.generic_test_main('valid_ip_addresses.py',
+                                       'valid_ip_addresses.tsv',
+                                       get_valid_ip_address,
+                                       comparator=comp))

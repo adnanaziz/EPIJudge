@@ -1,18 +1,17 @@
 
 package epi.test_framework;
 
-import epi.BinaryTree;
-import epi.BinaryTreeNode;
-import epi.BstNode;
+import epi.TreeLike;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class BinaryTreeUtils {
   public static class TreePath {
@@ -32,74 +31,150 @@ public class BinaryTreeUtils {
 
     @Override
     public String toString() {
-      if (prev == null) {
-        return "root";
+      List<String> result = new ArrayList<>();
+      TreePath node = this;
+
+      while (node != null) {
+        result.add(node.toLeft ? "->left" : "->right");
+        node = node.prev;
       }
 
-      return prev.toString() + (toLeft ? "->left" : "->right");
+      Collections.reverse(result);
+      result.set(0, "root");
+
+      return String.join("", result);
     }
   }
 
-  private static void treeGenerateHelper(Object tree, List<Object> result,
-                                         int order) {
-    if (tree != null) {
-      if (order == -1) {
-        result.add(getData(tree));
+  private static class IntRange {
+    private int low;
+    private int high;
+
+    public IntRange(int low, int high) {
+      this.low = low;
+      this.high = high;
+    }
+
+    public IntRange() { this(Integer.MIN_VALUE, Integer.MAX_VALUE); }
+
+    public boolean contains(int value) { return low <= value && value <= high; }
+
+    public IntRange limitFromBottom(int newLow) {
+      if (newLow > low) {
+        return new IntRange(newLow, high);
+      } else {
+        return this;
       }
-      treeGenerateHelper(getLeft(tree), result, order);
-      if (order == 0) {
-        result.add(getData(tree));
+    }
+
+    public IntRange limitFromTop(int newHigh) {
+      if (newHigh < high) {
+        return new IntRange(low, newHigh);
+      } else {
+        return this;
       }
-      treeGenerateHelper(getRight(tree), result, order);
-      if (order == 1) {
-        result.add(getData(tree));
-      }
+    }
+
+    @Override
+    public String toString() {
+      return String.format("range between %d and %d", low, high);
     }
   }
 
-  @SuppressWarnings("unchecked")
-  public static <Node> List<Node> generatePreorder(Object tree) {
-    List<Object> result = new ArrayList<>();
-    treeGenerateHelper(tree, result, -1);
-    return (List<Node>)result;
+  public static <T> List<T> generatePreorder(TreeLike<T, ?> tree) {
+    List<T> result = new ArrayList<>();
+    Stack<TreeLike<T, ?>> s = new Stack<>();
+    s.push(tree);
+
+    while (!s.empty()) {
+      TreeLike<T, ?> node = s.pop();
+      if (node == null) {
+        continue;
+      }
+
+      result.add(node.getData());
+      s.push(node.getRight());
+      s.push(node.getLeft());
+    }
+
+    return result;
   }
 
-  @SuppressWarnings("unchecked")
-  public static <Node> List<Node> generateInorder(Object tree) {
-    List<Object> result = new ArrayList<>();
-    treeGenerateHelper(tree, result, 0);
-    return (List<Node>)result;
+  public static <T> List<T> generateInorder(TreeLike<T, ?> tree) {
+    List<T> result = new ArrayList<>();
+    Stack<TreeLike<T, ?>> s = new Stack<>();
+    s.push(tree);
+    boolean initial = true;
+
+    if (tree == null) {
+      return result;
+    }
+
+    while (!s.empty()) {
+      TreeLike<T, ?> node = s.pop();
+
+      if (initial) {
+        initial = false;
+      } else {
+        result.add(node.getData());
+        node = node.getRight();
+      }
+
+      while (node != null) {
+        s.push(node);
+        node = node.getLeft();
+      }
+    }
+
+    return result;
   }
 
-  @SuppressWarnings("unchecked")
-  public static <Node> List<Node> generatePostorder(Object tree) {
-    List<Object> result = new ArrayList<>();
-    treeGenerateHelper(tree, result, 1);
-    return (List<Node>)result;
+  public static <T> List<T> generatePostorder(TreeLike<T, ?> tree) {
+    List<T> result = new ArrayList<>();
+    Stack<TreeLike<T, ?>> s = new Stack<>();
+    s.push(tree);
+
+    while (!s.empty()) {
+      TreeLike<T, ?> node = s.pop();
+      if (node == null) {
+        continue;
+      }
+
+      result.add(node.getData());
+      s.push(node.getLeft());
+      s.push(node.getLeft());
+    }
+
+    Collections.reverse(result);
+
+    return result;
   }
 
-  private static Object findNode(Object node, Object val) {
-    if (node != null) {
-      if (val.equals(getData(node))) {
+  private static <T, Node extends TreeLike<T, Node>> Node findNode(Node node,
+                                                                   T val) {
+    Stack<Node> s = new Stack<>();
+    s.push(node);
+
+    while (!s.empty()) {
+      node = s.pop();
+      if (node == null) {
+        continue;
+      }
+
+      if (val.equals(node.getData())) {
         return node;
       }
 
-      Object leftResult = findNode(getLeft(node), val);
-      if (leftResult != null) {
-        return leftResult;
-      }
-
-      Object rightResult = findNode(getRight(node), val);
-      if (rightResult != null) {
-        return rightResult;
-      }
+      s.push(node.getLeft());
+      s.push(node.getRight());
     }
 
     return null;
   }
 
-  public static <Node> Node mustFindNode(Node tree, Object val) {
-    @SuppressWarnings("unchecked") Node result = (Node)findNode(tree, val);
+  public static <T, Node extends TreeLike<T, Node>> Node mustFindNode(Node tree,
+                                                                      T val) {
+    Node result = findNode(tree, val);
     if (result == null) {
       throw new RuntimeException(String.valueOf(val) +
                                  " was not found in the tree");
@@ -107,90 +182,131 @@ public class BinaryTreeUtils {
     return result;
   }
 
-  public static boolean isObjectTreeType(Object tree) {
-    return tree != null &&
-        (tree instanceof BinaryTree || tree instanceof BinaryTreeNode ||
-         tree instanceof BstNode);
-  }
+  private static class TwoNodes<T> {
+    public final TreeLike<T, ?> node1;
+    public final TreeLike<T, ?> node2;
 
-  public static boolean equalBinaryTrees(Object node1, Object node2) {
-    if (node1 != null && node2 != null) {
-      return Objects.equals(getData(node1), getData(node2)) &&
-          equalBinaryTrees(getLeft(node1), getLeft(node2)) &&
-          equalBinaryTrees(getRight(node1), getRight(node2));
-    } else {
-      return node1 == null && node2 == null;
+    public TwoNodes(TreeLike<T, ?> node1, TreeLike<T, ?> node2) {
+      this.node1 = node1;
+      this.node2 = node2;
     }
   }
 
-  public static void assertEqualBinaryTrees(Object expected, Object result)
+  public static <T> boolean equalBinaryTrees(TreeLike<T, ?> tree1,
+                                             TreeLike<T, ?> tree2) {
+    Stack<TwoNodes<T>> s = new Stack<>();
+    s.push(new TwoNodes<>(tree1, tree2));
+
+    while (!s.empty()) {
+      TwoNodes<T> nodes = s.pop();
+
+      if ((nodes.node1 == null) != (nodes.node2 == null)) {
+        return false;
+      }
+
+      if (nodes.node1 != null) {
+        if (!Objects.equals(nodes.node1.getData(), nodes.node2.getData())) {
+          return false;
+        }
+        s.push(new TwoNodes<>(nodes.node1.getLeft(), nodes.node2.getLeft()));
+        s.push(new TwoNodes<>(nodes.node1.getRight(), nodes.node2.getRight()));
+      }
+    }
+
+    return true;
+  }
+
+  private static class TwoNodesAndPath<T> extends TwoNodes<T> {
+    public final TreePath path;
+
+    public TwoNodesAndPath(TreeLike<T, ?> tree1, TreeLike<T, ?> tree2,
+                           TreePath path) {
+      super(tree1, tree2);
+      this.path = path;
+    }
+  }
+
+  public static <T> void assertEqualBinaryTrees(TreeLike<T, ?> expected,
+                                                TreeLike<T, ?> result)
       throws TestFailure {
-    try {
-      assertEqualBinaryTreesImpl(expected, result, new TreePath());
-    } catch (TestFailure e) {
-      throw e.withProperty(TestFailure.PropertyName.EXPECTED, expected)
-          .withProperty(TestFailure.PropertyName.RESULT, result);
+    Stack<TwoNodesAndPath<T>> s = new Stack<>();
+    s.push(new TwoNodesAndPath<>(expected, result, new TreePath()));
+
+    while (!s.empty()) {
+      TwoNodesAndPath<T> nodes = s.pop();
+
+      T expectedData = nodes.node1 != null ? nodes.node1.getData() : null;
+      T resultData = nodes.node2 != null ? nodes.node2.getData() : null;
+
+      if (!Objects.equals(expectedData, resultData)) {
+        throw new TestFailure()
+            .withProperty(TestFailure.PropertyName.RESULT, result)
+            .withProperty(TestFailure.PropertyName.EXPECTED, expected)
+            .withMismatchInfo(nodes.path, expectedData, resultData);
+      }
+      if (nodes.node1 != null && nodes.node2 != null) {
+        s.push(new TwoNodesAndPath<>(nodes.node1.getLeft(),
+                                     nodes.node2.getLeft(),
+                                     nodes.path.withLeft()));
+        s.push(new TwoNodesAndPath<>(nodes.node1.getRight(),
+                                     nodes.node2.getRight(),
+                                     nodes.path.withRight()));
+      }
     }
   }
 
-  private static void assertEqualBinaryTreesImpl(Object expected, Object result,
-                                                 TreePath path)
+  private static class TreePathIntRange<T> {
+    public final TreeLike<T, ?> tree;
+    public final TreePath path;
+    public final IntRange range;
+
+    public TreePathIntRange(TreeLike<T, ?> tree, TreePath path,
+                            IntRange range) {
+      this.tree = tree;
+      this.path = path;
+      this.range = range;
+    }
+  }
+
+  public static void assertTreeIsBst(TreeLike<Integer, ?> tree)
       throws TestFailure {
-    Object expectedData = getData(expected);
-    Object resultData = getData(result);
-    if (!Objects.equals(expectedData, resultData)) {
-      throw new TestFailure().withMismatchInfo(path, expectedData, resultData);
-    }
-    if (expected != null && result != null) {
-      assertEqualBinaryTreesImpl(getLeft(expected), getLeft(result),
-                                 path.withLeft());
-      assertEqualBinaryTreesImpl(getRight(expected), getRight(result),
-                                 path.withRight());
+    Stack<TreePathIntRange<Integer>> s = new Stack<>();
+    s.push(new TreePathIntRange<>(tree, new TreePath(), new IntRange()));
+
+    while (!s.empty()) {
+      TreePathIntRange<Integer> node = s.pop();
+      if (node.tree == null) {
+        continue;
+      }
+
+      Integer value = node.tree.getData();
+
+      if (!node.range.contains(value)) {
+        throw new TestFailure("Binary search tree constraints violation")
+            .withProperty(TestFailure.PropertyName.RESULT, tree)
+            .withMismatchInfo(node.path, "Value in " + node.range.toString(),
+                              value);
+      }
+      s.push(new TreePathIntRange<>(node.tree.getLeft(), node.path.withLeft(),
+                                    node.range.limitFromTop(value)));
+      s.push(new TreePathIntRange<>(node.tree.getRight(), node.path.withRight(),
+                                    node.range.limitFromBottom(value)));
     }
   }
 
-  public static void assertTreeIsBst(Object tree) throws TestFailure {
-    try {
-      assertTreeIsBstImpl(tree, new TreePath(), Integer.MIN_VALUE,
-                          Integer.MAX_VALUE);
-    } catch (TestFailure e) {
-      throw e.withProperty(TestFailure.PropertyName.RESULT, tree);
-    }
-  }
-
-  private static void assertTreeIsBstImpl(Object node, TreePath path, int min,
-                                          int max) throws TestFailure {
-    if (node == null) {
-      return;
-    }
-
-    Object data = getData(node);
-    if (!(data instanceof Integer)) {
-      throw new RuntimeException("Only integer keys are supported");
-    }
-
-    @SuppressWarnings("unchecked") int value = (Integer)data;
-    if (value < min || value > max) {
-      throw new TestFailure("Binary search tree constraints violation")
-          .withMismatchInfo(
-              path, String.format("Value between %d and %d", min, max), value);
-    }
-    assertTreeIsBstImpl(getLeft(node), path.withLeft(), min, value);
-    assertTreeIsBstImpl(getRight(node), path.withRight(), value, max);
-  }
-
-  public static String binaryTreeToString(Object tree) {
+  public static <T> String binaryTreeToString(TreeLike<T, ?> tree) {
     StringBuilder result = new StringBuilder();
-    Queue<Object> q = new LinkedList<>();
-    Set<Object> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+    Queue<TreeLike<T, ?>> nodes = new LinkedList<>();
+    Set<TreeLike<T, ?>> visited =
+        Collections.newSetFromMap(new IdentityHashMap<>());
     boolean first = true;
     int nullNodesPending = 0;
 
     result.append("[");
-    q.add(tree);
+    nodes.add(tree);
 
-    while (!q.isEmpty()) {
-      Object node = q.poll();
+    while (!nodes.isEmpty()) {
+      TreeLike<T, ?> node = nodes.poll();
       if (visited.contains(node)) {
         throw new RuntimeException("Detected a cycle in the tree");
       }
@@ -206,11 +322,11 @@ public class BinaryTreeUtils {
           nullNodesPending--;
         }
 
-        result.append('"').append(getData(node)).append('"');
+        result.append('"').append(node.getData()).append('"');
 
         visited.add(node);
-        q.add(getLeft(node));
-        q.add(getRight(node));
+        nodes.add(node.getLeft());
+        nodes.add(node.getRight());
       } else {
         nullNodesPending++;
       }
@@ -220,76 +336,72 @@ public class BinaryTreeUtils {
     return result.toString();
   }
 
-  public static <Node> int binaryTreeHeight(Node tree) {
-    if (tree == null) {
-      return -1;
+  private static class TreeInteger<T> {
+    public final TreeLike<T, ?> tree;
+    public final Integer height;
+
+    public TreeInteger(TreeLike<T, ?> tree, Integer height) {
+      this.tree = tree;
+      this.height = height;
     }
-    return 1 + Math.max(binaryTreeHeight(getLeft(tree)),
-                        binaryTreeHeight(getRight(tree)));
   }
 
-  public static <Node> int binaryTreeSize(Node tree) {
-    if (tree == null) {
-      return 0;
+  public static <T> int binaryTreeHeight(TreeLike<T, ?> tree) {
+    Stack<TreeInteger<T>> s = new Stack<>();
+    s.push(new TreeInteger<>(tree, 1));
+    int height = 0;
+
+    while (!s.empty()) {
+      TreeInteger<T> node = s.pop();
+      if (node.tree == null) {
+        continue;
+      }
+
+      height = Integer.max(height, node.height);
+      s.push(new TreeInteger<>(node.tree.getLeft(), node.height + 1));
+      s.push(new TreeInteger<>(node.tree.getRight(), node.height + 1));
     }
 
-    return 1 + binaryTreeSize(getLeft(tree)) + binaryTreeSize(getRight(tree));
+    return height;
   }
 
-  // Java framework specific methods
+  public static <T> int binaryTreeSize(TreeLike<T, ?> tree) {
+    Stack<TreeLike<T, ?>> s = new Stack<>();
+    s.push(tree);
+    int size = 0;
 
-  /**
-   * Dirty hacks to overcome the fact that binary tree classes don't have a
-   * common interface
-   */
-  private static Object getData(Object tree) {
-    if (tree == null) {
-      return null;
+    while (!s.empty()) {
+      TreeLike<T, ?> node = s.pop();
+      if (node == null) {
+        continue;
+      }
+
+      size++;
+      s.push(node.getLeft());
+      s.push(node.getRight());
     }
-    if (tree instanceof BinaryTreeNode) {
-      return ((BinaryTreeNode<?>)tree).data;
-    }
-    if (tree instanceof BinaryTree) {
-      return ((BinaryTree<?>)tree).data;
-    }
-    if (tree instanceof BstNode) {
-      return ((BstNode<?>)tree).data;
-    }
-    throw new RuntimeException("Unsupported binary tree type: " +
-                               tree.getClass().getName());
+
+    return size;
   }
 
-  private static Object getLeft(Object tree) {
-    if (tree == null) {
-      return null;
-    }
-    if (tree instanceof BinaryTreeNode) {
-      return ((BinaryTreeNode<?>)tree).left;
-    }
-    if (tree instanceof BinaryTree) {
-      return ((BinaryTree<?>)tree).left;
-    }
-    if (tree instanceof BstNode) {
-      return ((BstNode<?>)tree).left;
-    }
-    throw new RuntimeException("Unsupported binary tree type: " +
-                               tree.getClass().getName());
-  }
+  public static <T> int binaryTreeHash(TreeLike<T, ?> tree) {
+    int EMPTY_NODE_HASH = 1000003; // Some random prime
+    int result = 0;
+    Stack<TreeLike<T, ?>> s = new Stack<>();
+    s.push(tree);
 
-  private static Object getRight(Object tree) {
-    if (tree == null) {
-      return null;
+    while (!s.empty()) {
+      TreeLike<T, ?> node = s.pop();
+      if (node == null) {
+        result = Objects.hash(result, EMPTY_NODE_HASH);
+        continue;
+      }
+
+      result = Objects.hash(result, node.getData());
+      s.push(node.getRight());
+      s.push(node.getLeft());
     }
-    if (tree instanceof BinaryTreeNode) {
-      return ((BinaryTreeNode<?>)tree).right;
-    }
-    if (tree instanceof BinaryTree) {
-      return ((BinaryTree<?>)tree).right;
-    }
-    if (tree instanceof BstNode) {
-      return ((BstNode<?>)tree).right;
-    }
-    throw new RuntimeException("Unsupported binary tree type: " +
-                               tree.getClass().getName());
+
+    return result;
   }
 }

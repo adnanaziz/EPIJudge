@@ -1,11 +1,13 @@
+from typing import List
+
 from test_framework import generic_test
 
 
-def n_queens(n):
+def n_queens(n: int) -> List[List[int]]:
     def solve_n_queens(row):
         if row == n:
             # All queens are legally placed.
-            result.append(list(col_placement))
+            result.append(col_placement.copy())
             return
         for col in range(n):
             # Test if a newly placed queen will conflict any earlier queens
@@ -16,7 +18,8 @@ def n_queens(n):
                 col_placement[row] = col
                 solve_n_queens(row + 1)
 
-    result, col_placement = [], [0] * n
+    result: List[List[int]] = []
+    col_placement = [0] * n
     solve_n_queens(0)
     return result
 
@@ -27,5 +30,5 @@ def comp(a, b):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("n_queens.py", 'n_queens.tsv', n_queens,
+        generic_test.generic_test_main('n_queens.py', 'n_queens.tsv', n_queens,
                                        comp))

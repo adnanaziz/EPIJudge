@@ -1,19 +1,18 @@
 from test_framework import generic_test
+from test_framework.test_failure import TestFailure
 
 
 class Queue:
-    def enqueue(self, x):
+    def enqueue(self, x: int) -> None:
         # TODO - you fill in here.
         return
 
-    def dequeue(self):
+    def dequeue(self) -> int:
         # TODO - you fill in here.
         return 0
 
 
 def queue_tester(ops):
-    from test_framework.test_failure import TestFailure
-
     try:
         q = Queue()
 
@@ -25,15 +24,15 @@ def queue_tester(ops):
             elif op == 'dequeue':
                 result = q.dequeue()
                 if result != arg:
-                    raise TestFailure("Dequeue: expected " + str(arg) +
-                                      ", got " + str(result))
+                    raise TestFailure('Dequeue: expected ' + str(arg) +
+                                      ', got ' + str(result))
             else:
-                raise RuntimeError("Unsupported queue operation: " + op)
+                raise RuntimeError('Unsupported queue operation: ' + op)
     except IndexError:
         raise TestFailure('Unexpected IndexError exception')
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("queue_from_stacks.py",
+        generic_test.generic_test_main('queue_from_stacks.py',
                                        'queue_from_stacks.tsv', queue_tester))

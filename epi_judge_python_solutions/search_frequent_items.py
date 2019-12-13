@@ -1,14 +1,15 @@
 import collections
 import itertools
+from typing import Counter, Iterator, List
 
 from test_framework import generic_test, test_utils
 
 
 # Finds the candidates which may occur > n / k times.
-def search_frequent_items(k, stream):
+def search_frequent_items(k: int, stream: Iterator[str]) -> List[str]:
 
     stream, stream_copy = itertools.tee(stream)
-    table = collections.Counter()
+    table: Counter[str] = collections.Counter()
     n = 0  # Count the number of strings.
 
     for buf in stream:
@@ -19,7 +20,7 @@ def search_frequent_items(k, stream):
         if len(table) == k:
             for it in table:
                 table[it] -= 1
-            table = +table  # remove all zero values
+            table = +table  # Removes all zero values.
 
     # Resets table for the following counting.
     for it in table:
@@ -42,6 +43,7 @@ def search_frequent_items_wrapper(k, stream):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main(
-            "search_frequent_items.py", "search_frequent_items.tsv",
-            search_frequent_items_wrapper, test_utils.unordered_compare))
+        generic_test.generic_test_main('search_frequent_items.py',
+                                       'search_frequent_items.tsv',
+                                       search_frequent_items_wrapper,
+                                       test_utils.unordered_compare))

@@ -3,6 +3,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 public class StackWithMax {
@@ -37,7 +38,7 @@ public class StackWithMax {
   }
 
   @EpiTest(testDataFile = "stack_with_max.tsv")
-  public static void stackTest(List<StackOp> ops) throws TestFailure {
+  public static void stackTester(List<StackOp> ops) throws TestFailure {
     try {
       Stack s = new Stack();
       int result;
