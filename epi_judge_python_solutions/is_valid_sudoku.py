@@ -39,7 +39,7 @@ def is_valid_sudoku_pythonic(partial_assignment):
         collections.Counter(k for i, row in enumerate(partial_assignment)
                             for j, c in enumerate(row) if c != 0
                             for k in ((i, str(c)), (str(c), j),
-                                      (i / region_size, j / region_size,
+                                      (i // region_size, j // region_size,
                                        str(c)))).values(),
         default=0) <= 1
 
