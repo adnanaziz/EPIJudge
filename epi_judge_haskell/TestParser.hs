@@ -1,5 +1,14 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
+ module TestParser 
+    (
+        p_tsv
+    ,   Data (..) 
+    ,   testCases
+    ,   time
+    ) where
+
+import System.CPUTime
 import Data.Text hiding (head, take)
 import Text.Parsec hiding ((<|>), many, optional)
 import Text.Parsec.Text
@@ -8,6 +17,10 @@ import Text.Parsec.Combinator hiding (optional)
 import Prelude (
         const
     ,   Maybe
+    ,   (^)
+    ,   (-)
+    ,   div
+    ,   fromIntegral
     ,   Bool( True )
     ,   Char
     ,   String
@@ -24,11 +37,11 @@ import Prelude (
     ,   Int
     ,   read
     ,   return
+    ,   IO
     )
 import Data.Text.IO (readFile)
 import Data.List (head, (++), take)
 import Control.Applicative
-import Debug.Trace
 
 type Name = String
 
@@ -89,9 +102,16 @@ eol   = try (string "\n\r")
     <|> string "\r"
     <?> "End of line"
 
-parseFile fileName = do 
+testCases :: String -> IO [[Data]]
+testCases fileName = do
     contents <- readFile fileName
-    let res  = parse p_tsv "" contents
-    case res of 
-        Left err -> print err 
-        Right (types,cases) -> print (types, take 5 cases)
+    let Right (_,cs)  = parse p_tsv "" contents
+    return cs
+
+time :: IO a -> IO (a, Int)
+time a = do 
+    start <- getCPUTime
+    v     <- a
+    end   <- getCPUTime 
+    let diff = (fromIntegral (end - start)) `div` (10^6)
+    return (v,diff)
