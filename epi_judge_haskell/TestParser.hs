@@ -5,10 +5,8 @@
         p_tsv
     ,   Data (..) 
     ,   testCases
-    ,   time
     ) where
 
-import System.CPUTime
 import Data.Text hiding (head, take)
 import Text.Parsec hiding ((<|>), many, optional)
 import Text.Parsec.Text
@@ -20,6 +18,7 @@ import Prelude (
     ,   (^)
     ,   (-)
     ,   div
+    ,   Eq
     ,   fromIntegral
     ,   Bool( True )
     ,   Char
@@ -37,7 +36,11 @@ import Prelude (
     ,   Int
     ,   read
     ,   return
+    ,   show
     ,   IO
+    ,   (>>)
+    ,   (==)
+    ,   sum
     )
 import Data.Text.IO (readFile)
 import Data.List (head, (++), take)
@@ -107,11 +110,3 @@ testCases fileName = do
     contents <- readFile fileName
     let Right (_,cs)  = parse p_tsv "" contents
     return cs
-
-time :: IO a -> IO (a, Int)
-time a = do 
-    start <- getCPUTime
-    v     <- a
-    end   <- getCPUTime 
-    let diff = (fromIntegral (end - start)) `div` (10^6)
-    return (v,diff)
