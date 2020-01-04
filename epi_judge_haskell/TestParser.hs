@@ -1,50 +1,16 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
- module TestParser 
+module TestParser 
     (
         p_tsv
     ,   Data (..) 
     ,   testCases
     ) where
 
-import Data.Text hiding (head, take)
-import Text.Parsec hiding ((<|>), many, optional)
+import EPIPrelude
 import Text.Parsec.Text
 import Text.Parsec.Char
-import Text.Parsec.Combinator hiding (optional)
-import Prelude (
-        const
-    ,   Maybe
-    ,   (^)
-    ,   (-)
-    ,   div
-    ,   Eq
-    ,   fromIntegral
-    ,   Bool( True )
-    ,   Char
-    ,   String
-    ,   Either( Left )
-    ,   Either( Right )
-    ,   print
-    ,   (.)
-    ,   ($)
-    ,   putStrLn
-    ,   Show
-    ,   Int
-    ,   fst 
-    ,   snd
-    ,   Int
-    ,   read
-    ,   return
-    ,   show
-    ,   IO
-    ,   (>>)
-    ,   (==)
-    ,   sum
-    )
-import Data.Text.IO (readFile)
-import Data.List (head, (++), take)
-import Control.Applicative
+import Text.Parsec hiding ((<|>), many, optional)
 
 type Name = String
 
@@ -56,7 +22,12 @@ data DataType =
 data Data = 
         TupleD DataType [Data]
     |   IntD DataType Int
-    deriving (Show)
+    |   Explanation Text
+
+instance Show Data where 
+    show (TupleD _ ds)   = show ds 
+    show (IntD _ x)      = show x 
+    show (Explanation x) = show x
 
 p_dts :: Parser [DataType]
 p_dts = p_dt `sepBy` tab
@@ -68,17 +39,18 @@ p_dt = choice [
     ]
     <?> "Type"
 
-p_d :: Parser Char -> [DataType] -> Parser [Data] 
-p_d _ [] = return []
-p_d sep (dt@(TupleDT dts _):rest) = do
+p_d :: Bool -> Parser Char -> [DataType] -> Parser [Data] 
+p_d True  _ [] = pure . Explanation . pack <$> (many . noneOf $ "\n\r") 
+p_d False _ [] = return []
+p_d parseExpl sep (dt@(TupleDT dts _):rest) = do
     [x] <- (p_tuple_d dt dts) `manyTill` (try sep)
-    xs  <- p_d sep rest 
+    xs  <- p_d parseExpl sep rest 
     return (x:xs)
-p_d sep (dt@(IntDT _):rest) = do
+p_d parseExpl sep (dt@(IntDT _):rest) = do
     [x] <- case rest of
-        [] -> (\x -> [x]) <$> p_int
+        [] -> pure <$> p_int
         _  -> p_int `manyTill` (try sep)
-    xs  <- spaces *> p_d sep rest 
+    xs  <- spaces *> p_d parseExpl sep rest 
     return (IntD dt (read x):xs)
 
 p_int = (++) <$> option "" (string "-") <*> many1 digit
@@ -89,15 +61,17 @@ p_tuple_dt = TupleDT
     <*> between (char '[') (char ']') (many . noneOf $ "[]")
 
 p_tuple_d dt dts = TupleD dt 
-    <$> between (char '[') (char ']') (p_d (char ',') dts)
+    <$> between (char '[') (char ']') (p_d False (char ',') dts)
 
-p_int_dt = IntDT 
-    <$> (string "int"
-     *> optional (between (char '[') (char ']') (many . noneOf $ "[]")))
+p_int_dt = IntDT <$> 
+    (
+        string "int" 
+    *>  optional (between (char '[') (char ']') (many . noneOf $ "[]"))
+    )
 
 p_tsv = do 
     dts <- p_dts <* eol
-    ds  <- p_d tab dts `endBy` (skipMany (noneOf "\n\r") *> eol) 
+    ds  <- p_d True tab dts `endBy` eol
     return (dts,ds)
 eol   = try (string "\n\r")
     <|> try (string "\r\n")
@@ -108,5 +82,6 @@ eol   = try (string "\n\r")
 testCases :: String -> IO [[Data]]
 testCases fileName = do
     contents <- readFile fileName
-    let Right (_,cs)  = parse p_tsv "" contents
-    return cs
+    case parse p_tsv "" contents of 
+        Left err     -> print err >> return [] 
+        Right (_,cs) -> return cs
