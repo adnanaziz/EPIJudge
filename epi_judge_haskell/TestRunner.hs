@@ -39,8 +39,13 @@ runTests :: (Show a, Eq b, Show b) =>
     -> IO ()
 runTests f fin fout ts = runTests' [] 1 (length ts) f fin fout ts
 
-color_yellow = "\x1b[33m"
-color_end    = "\x1b[0m"
+type Color = String
+
+yellow   = "\x1b[33m"
+colorEnd = "\x1b[0m"
+
+printColored :: Color -> String -> IO () 
+printColored c x = printf "%s%s%s" c x colorEnd
 
 runTests' :: (Show a, Eq b, Show b) =>
         [Int]                    -- Run times of test cases
@@ -64,21 +69,29 @@ runTests' rts i n f fin fout (t:ts) = do
         then do
             printf "\rTest \x1b[32mPASSED\x1b[0m (%5d/%d) [%4d us]" i n rt 
             runTests' (rt:rts) (i+1) n f fin fout ts
-        else printFailure i n t
+        else printFailure i n t expected res
 
-printFailure :: Int -> Int -> TestCase -> IO ()
-printFailure i n t = do 
+printFailure :: (Show b) => Int -> Int -> TestCase -> b -> b -> IO ()
+printFailure i n t expected result = do 
     let Explanation expl = last t
     let ins = dropRight 2 t -- Dropping expected and explanation
     printf "\rTest \x1b[91mFAILED\x1b[0m (%5d/%d)\n" i n
-    printf "%sArguments%s\n" color_yellow color_end
+    printColored yellow "Arguments"
+    printf "\n"
     forM_ ([(1::Int)..] `zip` ins) $ \(idx, x) -> do
-        printf 
-            "\t%sInput%d%s:     " 
-            color_yellow 
-            idx 
-            color_end 
-        putStrLn (pack (replicate 6 ' ') `append` pack (show x))
-    printf "\n%sFailure info%s\n" color_yellow color_end
-    printf "\t%sexplanation%s:" color_yellow color_end
-    putStrLn (pack (replicate 6 ' ') `append` expl)
+        printf "\t"
+        printColored yellow ("Input" ++ show idx)
+        printf ":           "
+        putStrLn (pack (show x))
+    printf "\n"
+    printColored yellow "Failure info"
+    printf "\n\t"
+    printColored yellow "explanation"
+    putStrLn (pack ":      " `append` expl)
+    printf "\t"
+    printColored yellow "expected"
+    printf ":         "
+    printf "%s\n\t" (show expected)
+    printColored yellow "result"
+    printf ":           "
+    printf "%s\n" (show result)
