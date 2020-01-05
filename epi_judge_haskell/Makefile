@@ -1,0 +1,27 @@
+.PHONY: all clean
+
+HC = ghc 
+OPTFLAG = -O2
+BUILD_DIR = build
+
+all: \
+	${BUILD_DIR}/rectangleIntersection
+
+RECTANGLE_INTERSECTION = rectangleIntersection
+
+.PHONY: ${RECTANGLE_INTERSECTION}
+${BUILD_DIR}/${RECTANGLE_INTERSECTION}: ${BUILD_DIR} ${RECTANGLE_INTERSECTION}.hs
+	@echo "Compiling ${RECTANGLE_INTERSECTION}.hs"
+	${HC} ${OPTFLAG} -o ${BUILD_DIR}/${RECTANGLE_INTERSECTION} -odir ${BUILD_DIR} -hidir ${BUILD_DIR} ${RECTANGLE_INTERSECTION}.hs
+${RECTANGLE_INTERSECTION}: ${BUILD_DIR}/${RECTANGLE_INTERSECTION}
+	@echo "Running ${RECTANGLE_INTERSECTION}"
+	${BUILD_DIR}/${RECTANGLE_INTERSECTION}
+
+${BUILD_DIR}: 
+	@echo "Creating build directory"
+	mkdir -p ${BUILD_DIR}
+
+clean:
+	@echo "Cleaning up..."
+	rm -f ${RECTANGLE_INTERSECTION}
+	rm -rf ${BUILD_DIR}/
