@@ -31,7 +31,7 @@ public class LongestSubarrayWithSumConstraint {
     }
 
     int a = 0, b = 0, maxLength = 0;
-    while (a < A.size() && b < A.size()) {
+    while (b < A.size()) {
       int minCurrSum = a > 0 ? minPrefixSum.get(b) - prefixSum.get(a - 1)
                              : minPrefixSum.get(b);
       if (minCurrSum <= k) {
@@ -42,6 +42,9 @@ public class LongestSubarrayWithSumConstraint {
         ++b;
       } else { // minCurrSum > k.
         ++a;
+      }
+      if (a > b) {
+        b++;
       }
     }
     return maxLength;
