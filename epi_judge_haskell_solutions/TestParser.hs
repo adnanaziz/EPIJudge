@@ -6,7 +6,10 @@ module TestParser
     ,   Data (..) 
     ,   testCases
     ,   intData
+    ,   longData
+    ,   tuple3Data
     ,   tuple4Data
+    ,   uncurry2
     ) where
 
 import EPIPrelude
@@ -19,16 +22,19 @@ type Name = String
 data DataType = 
         TupleDT [DataType] Name
     |   IntDT (Maybe Name)
+    |   LongDT (Maybe Name)
     deriving (Show)
 
 data Data = 
         TupleD DataType [Data]
     |   IntD DataType Int
+    |   LongD DataType Integer
     |   Explanation Text
 
 instance Show Data where 
     show (TupleD _ ds)   = show ds 
-    show (IntD _ x)      = show x 
+    show (IntD _ x)      = show x
+    show (LongD _ x)     = show x 
     show (Explanation x) = show x
 
 p_dts :: Parser [DataType]
@@ -38,6 +44,7 @@ p_dt :: Parser DataType
 p_dt = choice [
         p_tuple_dt
     ,   p_int_dt
+    ,   p_long_dt
     ]
     <?> "Type"
 
@@ -54,8 +61,16 @@ p_d parseExpl sep (dt@(IntDT _):rest) = do
         _  -> p_int `manyTill` (try sep)
     xs  <- spaces *> p_d parseExpl sep rest 
     return (IntD dt (read x):xs)
+p_d parseExpl sep (dt@(LongDT _):rest) = do 
+    [x] <- case rest of
+        [] -> pure <$> p_long
+        _  -> p_int `manyTill` (try sep)
+    xs  <- spaces *> p_d parseExpl sep rest 
+    return (LongD dt (read x):xs)
 
 p_int = (++) <$> option "" (string "-") <*> many1 digit
+
+p_long = (++) <$> option "" (string "-") <*> many1 digit
 
 p_tuple_dt = TupleDT
     <$> (string "tuple" 
@@ -68,6 +83,12 @@ p_tuple_d dt dts = TupleD dt
 p_int_dt = IntDT <$> 
     (
         string "int" 
+    *>  optional (between (char '[') (char ']') (many . noneOf $ "[]"))
+    )
+
+p_long_dt = LongDT <$>
+    (
+        string "long"
     *>  optional (between (char '[') (char ']') (many . noneOf $ "[]"))
     )
 
@@ -91,5 +112,14 @@ testCases fileName = do
 intData :: Data -> Int 
 intData (IntD _ x) = x 
 
+longData :: Data -> Integer
+longData (LongD _ x) = x
+
+tuple3Data :: Data -> (Data, Data, Data)
+tuple3Data (TupleD _ [p,q,r]) = (p,q,r)
+
 tuple4Data :: Data -> (Data, Data, Data, Data)
 tuple4Data (TupleD _ [p,q,r,s]) = (p,q,r,s)
+
+uncurry2 :: (a -> b -> c -> d) -> ((a,b,c) -> d)
+uncurry2 f (x,y,z) = f x y z 

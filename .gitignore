@@ -22,3 +22,5 @@ __pycache__/
 cpp_build
 
 epi_judge_java/java_build/
+epi_judge_haskell/build
+epi_judge_haskell_solutions/build
