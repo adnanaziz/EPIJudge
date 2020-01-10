@@ -308,7 +308,7 @@ Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio 
 | Compute an optimum assignment of tasks | task\_pairing.cc | TaskPairing.java | task\_pairing.py | 
 | Schedule to minimize waiting time | minimum\_waiting\_time.cc | MinimumWaitingTime.java | minimum\_waiting\_time.py | 
 | The interval covering problem | minimum\_points\_covering\_intervals.cc | MinimumPointsCoveringIntervals.java | minimum\_points\_covering\_intervals.py | 
-| The interval covering problem | two\_sum.cc | TwoSum.java | two\_sum.py | 
+| The 2-sum problem | two\_sum.cc | TwoSum.java | two\_sum.py | 
 | The 3-sum problem | three\_sum.cc | ThreeSum.java | three\_sum.py | 
 | Find the majority element | majority\_element.cc | MajorityElement.java | majority\_element.py | 
 | The gasup problem | refueling\_schedule.cc | RefuelingSchedule.java | refueling\_schedule.py | 
