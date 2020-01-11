@@ -1,25 +1,22 @@
 ## [Unreleased]
- 
-  
   - Highlight mismatched items in arrays (when printing test failure explanation)
-  - Add HTML file to track progress on exercises (list of exercises with number of passed tests in each language)
   - Run each test case with a timeout
  
  
-## [Beta 5] - 2018-??-??
+## [Beta 5] - 2020-01-11
 
 ### Added
   - Namespace for C++ test framework
   - Python type hints
+  - Added a page to track progress on exercises (list of exercises with number of passed tests in each language)
   
 ### Changed
   - Changed test data format
-    - Now every field is encoded in pure JSON format
+    - Now every field is encoded in pure JSON format  
 
 ### Fixed
-
-### Removed
- 
+  - Numerous fixes found by our users
+  
  
 ## [Beta 4] - 2018-05-08
 
