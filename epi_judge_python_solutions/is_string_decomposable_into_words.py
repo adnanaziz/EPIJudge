@@ -1,11 +1,13 @@
 import functools
+from typing import List, Set
 
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def decompose_into_dictionary_words(domain, dictionary):
+def decompose_into_dictionary_words(domain: str,
+                                    dictionary: Set[str]) -> List[str]:
 
     # When the algorithm finishes, last_length[i] != -1 indicates domain[:i +
     # 1] has a valid decomposition, and the length of the last string in the
@@ -59,6 +61,6 @@ def decompose_into_dictionary_words_wrapper(executor, domain, dictionary,
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "is_string_decomposable_into_words.py",
+            'is_string_decomposable_into_words.py',
             'is_string_decomposable_into_words.tsv',
             decompose_into_dictionary_words_wrapper))

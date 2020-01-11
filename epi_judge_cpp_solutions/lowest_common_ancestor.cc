@@ -9,7 +9,7 @@
 using std::unique_ptr;
 
 struct Status;
-Status LCAHelper(const unique_ptr<BinaryTreeNode<int>>&,
+Status LcaHelper(const unique_ptr<BinaryTreeNode<int>>&,
                  const unique_ptr<BinaryTreeNode<int>>&,
                  const unique_ptr<BinaryTreeNode<int>>&);
 
@@ -18,29 +18,29 @@ struct Status {
   BinaryTreeNode<int>* ancestor;
 };
 
-BinaryTreeNode<int>* LCA(const unique_ptr<BinaryTreeNode<int>>& tree,
+BinaryTreeNode<int>* Lca(const unique_ptr<BinaryTreeNode<int>>& tree,
                          const unique_ptr<BinaryTreeNode<int>>& node0,
                          const unique_ptr<BinaryTreeNode<int>>& node1) {
-  return LCAHelper(tree, node0, node1).ancestor;
+  return LcaHelper(tree, node0, node1).ancestor;
 }
 
 // Returns an object consisting of an int and a node. The int field is
 // 0, 1, or 2 depending on how many of {node0, node1} are present in
 // the tree. If both are present in the tree, when ancestor is
 // assigned to a non-null value, it is the LCA.
-Status LCAHelper(const unique_ptr<BinaryTreeNode<int>>& tree,
+Status LcaHelper(const unique_ptr<BinaryTreeNode<int>>& tree,
                  const unique_ptr<BinaryTreeNode<int>>& node0,
                  const unique_ptr<BinaryTreeNode<int>>& node1) {
   if (tree == nullptr) {
-    return {0, nullptr};
+    return {/*num_target_nodes=*/0, /*ancestor=*/nullptr};
   }
 
-  auto left_result = LCAHelper(tree->left, node0, node1);
+  auto left_result = LcaHelper(tree->left, node0, node1);
   if (left_result.num_target_nodes == 2) {
     // Found both nodes in the left subtree.
     return left_result;
   }
-  auto right_result = LCAHelper(tree->right, node0, node1);
+  auto right_result = LcaHelper(tree->right, node0, node1);
   if (right_result.num_target_nodes == 2) {
     // Found both nodes in the right subtree.
     return right_result;
@@ -57,7 +57,7 @@ int LcaWrapper(TimedExecutor& executor,
   const unique_ptr<BinaryTreeNode<int>>& node0 = MustFindNode(tree, key0);
   const unique_ptr<BinaryTreeNode<int>>& node1 = MustFindNode(tree, key1);
 
-  auto result = executor.Run([&] { return LCA(tree, node0, node1); });
+  auto result = executor.Run([&] { return Lca(tree, node0, node1); });
 
   if (!result) {
     throw TestFailure("Result can not be nullptr");

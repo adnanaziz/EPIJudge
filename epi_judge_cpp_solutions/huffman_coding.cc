@@ -62,28 +62,28 @@ double HuffmanEncoding(vector<CharWithFrequency>* symbols) {
         left->aggregate_freq + right->aggregate_freq, nullptr, left, right});
   }
 
-  unordered_map<char, string> huffman_encoding;
+  unordered_map<char, string> char_to_encoding;
   // Traverses the binary tree, assigning codes to nodes.
-  AssignHuffmanCode(candidates.top(), make_unique<string>(), &huffman_encoding);
+  AssignHuffmanCode(candidates.top(), make_unique<string>(), &char_to_encoding);
   double avg = 0.0;
   for (const CharWithFrequency& s : *symbols) {
-    avg += size(huffman_encoding[s.c]) * s.freq / 100.0;
+    avg += size(char_to_encoding[s.c]) * s.freq / 100.0;
   }
   return avg;
 }
 
 void AssignHuffmanCode(const shared_ptr<BinaryTree>& tree,
                        const unique_ptr<string>& code,
-                       unordered_map<char, string>* huffman_encoding) {
+                       unordered_map<char, string>* char_to_encoding) {
   if (tree) {
     if (tree->s) {
       // This node is a leaf.
-      (*huffman_encoding)[tree->s->c] = *code;
+      (*char_to_encoding)[tree->s->c] = *code;
     } else {  // Non-leaf node.
       code->push_back('0');
-      AssignHuffmanCode(tree->left, code, huffman_encoding);
+      AssignHuffmanCode(tree->left, code, char_to_encoding);
       code->back() = '1';
-      AssignHuffmanCode(tree->right, code, huffman_encoding);
+      AssignHuffmanCode(tree->right, code, char_to_encoding);
       code->pop_back();
     }
   }
@@ -91,9 +91,10 @@ void AssignHuffmanCode(const shared_ptr<BinaryTree>& tree,
 
 }  // namespace huffman
 
+namespace test_framework {
 template <>
-struct SerializationTraits<huffman::CharWithFrequency>
-    : UserSerTraits<huffman::CharWithFrequency, std::string, double> {
+struct SerializationTrait<huffman::CharWithFrequency>
+    : UserSerTrait<huffman::CharWithFrequency, std::string, double> {
   static huffman::CharWithFrequency FromTuple(
       const std::tuple<std::string, double>& values) {
     if (std::get<0>(values).size() != 1) {
@@ -104,6 +105,7 @@ struct SerializationTraits<huffman::CharWithFrequency>
                                       std::get<1>(values)};
   }
 };
+}  // namespace test_framework
 
 double HuffmanEncodingWrapper(vector<huffman::CharWithFrequency> symbols) {
   return huffman::HuffmanEncoding(&symbols);

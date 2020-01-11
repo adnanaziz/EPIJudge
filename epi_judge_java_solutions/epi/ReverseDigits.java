@@ -9,12 +9,13 @@ public class ReverseDigits {
   public static long reverse(int x) {
 
     long result = 0;
-    long xRemaining = Math.abs(x);
-    while (xRemaining != 0) {
-      result = result * 10 + xRemaining % 10;
-      xRemaining /= 10;
+    while (x != 0) {
+      // If x is an negative, x % 10 is the negative of least significant digit.
+      // For example, -256 % 10 = -6.
+      result = result * 10 + (x % 10);
+      x /= 10;
     }
-    return x < 0 ? -result : result;
+    return result;
   }
 
   public static void main(String[] args) {

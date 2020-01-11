@@ -1,5 +1,6 @@
 import collections
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
@@ -7,17 +8,16 @@ from test_framework.test_utils import enable_executor_hook
 # Event is a tuple (start_time, end_time)
 Event = collections.namedtuple('Event', ('start', 'finish'))
 
-# Endpoint is a tuple (start_time, 0) or (end_time, 1) so that if times
-# are equal, start_time comes first
-Endpoint = collections.namedtuple('Endpoint', ('time', 'is_start'))
 
+def find_max_simultaneous_events(A: List[Event]) -> int:
 
-def find_max_simultaneous_events(A):
-
+    # Endpoint is a tuple (start_time, 0) or (end_time, 1) so that if times
+    # are equal, start_time comes first
+    Endpoint = collections.namedtuple('Endpoint', ('time', 'is_start'))
     # Builds an array of all endpoints.
     E = [
-        p for event in A for p in (Endpoint(event.start, True),
-                                   Endpoint(event.finish, False))
+        p for event in A
+        for p in (Endpoint(event.start, True), Endpoint(event.finish, False))
     ]
     # Sorts the endpoint array according to the time, breaking ties by putting
     # start times before end times.
@@ -39,12 +39,12 @@ def find_max_simultaneous_events(A):
 @enable_executor_hook
 def find_max_simultaneous_events_wrapper(executor, events):
     events = [Event(*x) for x in events]
-    return executor.run(
-        functools.partial(find_max_simultaneous_events, events))
+    return executor.run(functools.partial(find_max_simultaneous_events,
+                                          events))
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("calendar_rendering.py",
+        generic_test.generic_test_main('calendar_rendering.py',
                                        'calendar_rendering.tsv',
                                        find_max_simultaneous_events_wrapper))

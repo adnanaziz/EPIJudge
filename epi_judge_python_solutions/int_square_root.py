@@ -1,7 +1,7 @@
 from test_framework import generic_test
 
 
-def square_root(k):
+def square_root(k: int) -> int:
 
     left, right = 0, k
     # Candidate interval [left, right] where everything before left has square
@@ -18,5 +18,5 @@ def square_root(k):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("int_square_root.py",
-                                       "int_square_root.tsv", square_root))
+        generic_test.generic_test_main('int_square_root.py',
+                                       'int_square_root.tsv', square_root))

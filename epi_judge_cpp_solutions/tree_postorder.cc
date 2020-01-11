@@ -5,49 +5,30 @@
 #include "binary_tree_node.h"
 #include "test_framework/generic_test.h"
 
+using std::pair;
 using std::stack;
 using std::unique_ptr;
 using std::vector;
 
-// We use stack and previous node pointer to simulate postorder traversal.
 vector<int> PostorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  if (tree == nullptr) {  // Empty tree.
-    return {};
-  }
+  vector<int> result;
 
-  stack<BinaryTreeNode<int>*> path;
-  BinaryTreeNode<int>* prev = nullptr;
-  path.emplace(tree.get());
-  vector<int> postorder_sequence;
-  while (!empty(path)) {
-    auto curr = path.top();
-    if (prev == nullptr || prev->left.get() == curr ||
-        prev->right.get() == curr) {
-      // We came down to curr from prev.
-      if (curr->left != nullptr) {  // Traverse left.
-        path.emplace(curr->left.get());
-      } else if (curr->right != nullptr) {  // Traverse right.
-        path.emplace(curr->right.get());
-      } else {  // Leaf node, so visit current node.
-        postorder_sequence.emplace_back(curr->data);
-        path.pop();
+  stack<pair<const BinaryTreeNode<int>*, bool>> in_process;
+  in_process.emplace(tree.get(), false);
+  while (!empty(in_process)) {
+    auto [node, subtrees_traversed] = in_process.top();
+    in_process.pop();
+    if (node) {
+      if (subtrees_traversed) {
+        result.emplace_back(node->data);
+      } else {
+        in_process.emplace(node, true);
+        in_process.emplace(node->right.get(), false);
+        in_process.emplace(node->left.get(), false);
       }
-    } else if (curr->left.get() == prev) {
-      // Done with left, so now traverse right.
-      if (curr->right != nullptr) {
-        path.emplace(curr->right.get());
-      } else {  // No right child, so visit curr.
-        postorder_sequence.emplace_back(curr->data);
-        path.pop();
-      }
-    } else {
-      // Finished traversing left and right, so visit curr.
-      postorder_sequence.emplace_back(curr->data);
-      path.pop();
     }
-    prev = curr;
   }
-  return postorder_sequence;
+  return result;
 }
 
 int main(int argc, char* argv[]) {

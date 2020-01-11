@@ -10,22 +10,26 @@ using std::unique_ptr;
 using std::vector;
 
 vector<int> InorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  stack<const BinaryTreeNode<int>*> s;
-  const auto* curr = tree.get();
   vector<int> result;
 
-  while (!empty(s) || curr) {
-    if (curr) {
-      s.push(curr);
-      // Going left.
-      curr = curr->left.get();
-    } else {
-      // Going up.
-      curr = s.top();
-      s.pop();
-      result.emplace_back(curr->data);
-      // Going right.
-      curr = curr->right.get();
+  struct NodeAndState {
+    const BinaryTreeNode<int>* node;
+    bool left_subtree_traversed;
+  };
+  stack<NodeAndState> in_process(
+      {{tree.get(), /*left_subtree_traversed=*/false}});
+  while (!empty(in_process)) {
+    auto [node, left_subtree_traversed] = in_process.top();
+    in_process.pop();
+    if (node) {
+      if (left_subtree_traversed) {
+        result.emplace_back(node->data);
+      } else {
+        in_process.push({node->right.get(), /*left_subtree_traversed=*/false});
+        in_process.push({node, /*left_subtree_traversed=*/true});
+        in_process.push({node->left.get(),
+                         /*left_subtree_traversed=*/false});
+      }
     }
   }
   return result;

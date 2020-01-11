@@ -14,12 +14,7 @@ unsigned long long Multiply(unsigned long long x, unsigned long long y) {
 }
 
 unsigned long long Add(unsigned long long a, unsigned long long b) {
-  while (b) {
-    unsigned long long carry = a & b;
-    a = a ^ b;
-    b = carry << 1;
-  }
-  return a;
+  return b == 0 ? a : Add(a ^ b, (a & b) << 1);
 }
 
 int main(int argc, char* argv[]) {

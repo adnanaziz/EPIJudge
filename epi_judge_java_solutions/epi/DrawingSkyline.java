@@ -11,10 +11,10 @@ import java.util.List;
 public class DrawingSkyline {
   @EpiUserType(ctorParams = {int.class, int.class, int.class})
 
-  public static class Rectangle {
+  public static class Rect {
     public int left, right, height;
 
-    public Rectangle(int left, int right, int height) {
+    public Rect(int left, int right, int height) {
       this.left = left;
       this.right = right;
       this.height = height;
@@ -29,7 +29,7 @@ public class DrawingSkyline {
         return false;
       }
 
-      Rectangle rectangle = (Rectangle)o;
+      Rect rectangle = (Rect)o;
 
       if (left != rectangle.left) {
         return false;
@@ -48,34 +48,34 @@ public class DrawingSkyline {
 
   @EpiTest(testDataFile = "drawing_skyline.tsv")
 
-  public static List<Rectangle> drawingSkylines(List<Rectangle> buildings) {
+  public static List<Rect> drawingSkylines(List<Rect> buildings) {
 
     int minLeft = Integer.MAX_VALUE, maxRight = Integer.MIN_VALUE;
-    for (Rectangle building : buildings) {
+    for (Rect building : buildings) {
       minLeft = Math.min(minLeft, building.left);
       maxRight = Math.max(maxRight, building.right);
     }
 
     List<Integer> heights =
         new ArrayList<>(Collections.nCopies(maxRight - minLeft + 1, 0));
-    for (Rectangle building : buildings) {
+    for (Rect building : buildings) {
       for (int i = building.left; i <= building.right; ++i) {
         heights.set(i - minLeft,
                     Math.max(heights.get(i - minLeft), building.height));
       }
     }
 
-    List<Rectangle> result = new ArrayList<>();
+    List<Rect> result = new ArrayList<>();
     int left = 0;
     for (int i = 1; i < heights.size(); ++i) {
       if (heights.get(i) != heights.get(i - 1)) {
         result.add(
-            new Rectangle(left + minLeft, i - 1 + minLeft, heights.get(i - 1)));
+            new Rect(left + minLeft, i - 1 + minLeft, heights.get(i - 1)));
         left = i;
       }
     }
-    result.add(new Rectangle(left + minLeft, maxRight,
-                             heights.get(heights.size() - 1)));
+    result.add(
+        new Rect(left + minLeft, maxRight, heights.get(heights.size() - 1)));
     return result;
   }
 

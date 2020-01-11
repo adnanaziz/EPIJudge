@@ -26,8 +26,8 @@ vector<unique_ptr<BinaryTreeNode<int>>> GenerateAllBinaryTrees(int num_nodes) {
     // Generates all combinations of left_subtrees and right_subtrees.
     for (auto& left : left_subtrees) {
       for (auto& right : right_subtrees) {
-        result.emplace_back(make_unique<BinaryTreeNode<int>>(
-            BinaryTreeNode<int>{0, Clone(left), Clone(right)}));
+        result.emplace_back(
+            make_unique<BinaryTreeNode<int>>(0, Clone(left), Clone(right)));
       }
     }
   }
@@ -36,8 +36,8 @@ vector<unique_ptr<BinaryTreeNode<int>>> GenerateAllBinaryTrees(int num_nodes) {
 
 unique_ptr<BinaryTreeNode<int>> Clone(
     const unique_ptr<BinaryTreeNode<int>>& tree) {
-  return tree ? make_unique<BinaryTreeNode<int>>(BinaryTreeNode<int>{
-                    0, Clone(tree->left), Clone(tree->right)})
+  return tree ? make_unique<BinaryTreeNode<int>>(0, Clone(tree->left),
+                                                 Clone(tree->right))
               : nullptr;
 }
 
@@ -76,6 +76,7 @@ vector<vector<int>> GenerateAllBinaryTreesWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "num_nodes"};
-  return GenericTestMain(args, "enumerate_trees.cc", "enumerate_trees.tsv", &GenerateAllBinaryTreesWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "enumerate_trees.cc", "enumerate_trees.tsv", &GenerateAllBinaryTreesWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

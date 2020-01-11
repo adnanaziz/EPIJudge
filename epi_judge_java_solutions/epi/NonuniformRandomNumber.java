@@ -1,8 +1,8 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.GenericTest;
+import epi.test_framework.RandomSequenceChecker;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
@@ -22,14 +22,10 @@ public class NonuniformRandomNumber {
     List<Double> prefixSumOfProbabilities = new ArrayList<>();
     // Creating the endpoints for the intervals corresponding to the
     // probabilities.
-    for (double p : probabilities) {
-      prefixSumOfProbabilities.add(
-          (prefixSumOfProbabilities.isEmpty()
-               ? 0
-               : prefixSumOfProbabilities.get(prefixSumOfProbabilities.size() -
-                                              1)) +
-          p);
-    }
+    probabilities.stream().reduce(0.0, (left, right) -> {
+      prefixSumOfProbabilities.add(left + right);
+      return left + right;
+    });
 
     Random r = new Random();
     // Get a random number in [0.0,1.0).

@@ -10,14 +10,14 @@ class ClientsCreditsInfo:
         self._client_to_credit = {}
         self._credit_to_clients = bintrees.RBTree()
 
-    def insert(self, client_id, c):
+    def insert(self, client_id: str, c: int) -> None:
 
         self.remove(client_id)
         self._client_to_credit[client_id] = c - self._offset
         self._credit_to_clients.setdefault(c - self._offset,
                                            set()).add(client_id)
 
-    def remove(self, client_id):
+    def remove(self, client_id: str) -> bool:
 
         credit = self._client_to_credit.get(client_id)
         if credit is not None:
@@ -28,16 +28,16 @@ class ClientsCreditsInfo:
             return True
         return False
 
-    def lookup(self, client_id):
+    def lookup(self, client_id: str) -> int:
 
         credit = self._client_to_credit.get(client_id)
         return -1 if credit is None else credit + self._offset
 
-    def add_all(self, C):
+    def add_all(self, C: int) -> None:
 
         self._offset += C
 
-    def max(self):
+    def max(self) -> str:
 
         if not self._credit_to_clients:
             return ''
@@ -64,9 +64,9 @@ def client_credits_info_tester(ops):
                 raise TestFailure('Remove: return value mismatch')
         elif op == 'insert':
             cr.insert(s_arg, i_arg)
-        elif op == "add_all":
+        elif op == 'add_all':
             cr.add_all(i_arg)
-        elif op == "lookup":
+        elif op == 'lookup':
             result = cr.lookup(s_arg)
             if result != i_arg:
                 raise TestFailure('Lookup: return value mismatch')
@@ -74,6 +74,6 @@ def client_credits_info_tester(ops):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("adding_credits.py",
+        generic_test.generic_test_main('adding_credits.py',
                                        'adding_credits.tsv',
                                        client_credits_info_tester))

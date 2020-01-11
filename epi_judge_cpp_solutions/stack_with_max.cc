@@ -14,17 +14,9 @@ class Stack {
  public:
   bool Empty() const { return empty(element_with_cached_max_); }
 
-  int Max() const {
-    if (Empty()) {
-      throw length_error("Max(): empty stack");
-    }
-    return element_with_cached_max_.top().max;
-  }
+  int Max() const { return element_with_cached_max_.top().max; }
 
   int Pop() {
-    if (Empty()) {
-      throw length_error("Pop(): empty stack");
-    }
     int pop_element = element_with_cached_max_.top().element;
     element_with_cached_max_.pop();
     return pop_element;
@@ -47,9 +39,10 @@ struct StackOp {
   int argument;
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<StackOp> : UserSerTraits<StackOp, std::string, int> {
-};
+struct SerializationTrait<StackOp> : UserSerTrait<StackOp, std::string, int> {};
+}  // namespace test_framework
 
 void StackTester(const std::vector<StackOp>& ops) {
   try {
@@ -86,9 +79,13 @@ void StackTester(const std::vector<StackOp>& ops) {
   }
 }
 
+// clang-format off
+
+
 int main(int argc, char* argv[]) {
-  std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"ops"};
-  return GenericTestMain(args, "stack_with_max.cc", "stack_with_max.tsv",
-                         &StackTester, DefaultComparator{}, param_names);
+  std::vector<std::string> args {argv + 1, argv + argc};
+  std::vector<std::string> param_names {"ops"};
+  return GenericTestMain(args, "stack_with_max.cc", "stack_with_max.tsv", &StackTester,
+                         DefaultComparator{}, param_names);
 }
+// clang-format on

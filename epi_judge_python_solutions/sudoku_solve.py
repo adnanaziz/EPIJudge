@@ -2,13 +2,14 @@ import copy
 import functools
 import itertools
 import math
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def solve_sudoku(partial_assignment):
+def solve_sudoku(partial_assignment: List[List[int]]) -> bool:
     def solve_partial_sudoku(i, j):
         if i == len(partial_assignment):
             i = 0  # Starts a row.
@@ -17,7 +18,7 @@ def solve_sudoku(partial_assignment):
                 return True  # Entire matrix has been filled without conflict.
 
         # Skips nonempty entries.
-        if partial_assignment[i][j] != EMPTY_ENTRY:
+        if partial_assignment[i][j] != empty_entry:
             return solve_partial_sudoku(i + 1, j)
 
         def valid_to_add(i, j, val):
@@ -35,8 +36,8 @@ def solve_sudoku(partial_assignment):
             I = i // region_size
             J = j // region_size
             return not any(
-                val == partial_assignment[region_size * I + a][region_size * J
-                                                               + b]
+                val == partial_assignment[region_size * I +
+                                          a][region_size * J + b]
                 for a, b in itertools.product(range(region_size), repeat=2))
 
         for val in range(1, len(partial_assignment) + 1):
@@ -49,10 +50,10 @@ def solve_sudoku(partial_assignment):
                 partial_assignment[i][j] = val
                 if solve_partial_sudoku(i + 1, j):
                     return True
-        partial_assignment[i][j] = EMPTY_ENTRY  # Undo assignment.
+        partial_assignment[i][j] = empty_entry  # Undo assignment.
         return False
 
-    EMPTY_ENTRY = 0
+    empty_entry = 0
     return solve_partial_sudoku(0, 0)
 
 
@@ -95,14 +96,13 @@ def solve_sudoku_wrapper(executor, partial_assignment):
                 raise TestFailure('Initial cell assignment has been changed')
 
     block_size = int(math.sqrt(len(solved)))
-
-    for i in range(len(solved)):
-        assert_unique_seq(solved[i])
+    for i, solved_row in enumerate(solved):
+        assert_unique_seq(solved_row)
         assert_unique_seq([row[i] for row in solved])
         assert_unique_seq(gather_square_block(solved, block_size, i))
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("sudoku_solve.py", 'sudoku_solve.tsv',
+        generic_test.generic_test_main('sudoku_solve.py', 'sudoku_solve.tsv',
                                        solve_sudoku_wrapper))

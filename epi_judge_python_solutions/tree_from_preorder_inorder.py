@@ -1,8 +1,11 @@
+from typing import List
+
 from binary_tree_node import BinaryTreeNode
 from test_framework import generic_test
 
 
-def binary_tree_from_preorder_inorder(preorder, inorder):
+def binary_tree_from_preorder_inorder(preorder: List[int],
+                                      inorder: List[int]) -> BinaryTreeNode:
 
     node_to_inorder_idx = {data: i for i, data in enumerate(inorder)}
 
@@ -26,12 +29,14 @@ def binary_tree_from_preorder_inorder(preorder, inorder):
                 preorder_start + 1 + left_subtree_size, preorder_end,
                 root_inorder_idx + 1, inorder_end))
 
-    return binary_tree_from_preorder_inorder_helper(0, len(preorder), 0,
-                                                    len(inorder))
+    return binary_tree_from_preorder_inorder_helper(preorder_start=0,
+                                                    preorder_end=len(preorder),
+                                                    inorder_start=0,
+                                                    inorder_end=len(inorder))
 
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("tree_from_preorder_inorder.py",
+        generic_test.generic_test_main('tree_from_preorder_inorder.py',
                                        'tree_from_preorder_inorder.tsv',
                                        binary_tree_from_preorder_inorder))

@@ -1,10 +1,11 @@
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
-def rotate_array(rotate_amount, A):
+def rotate_array(rotate_amount: int, A: List[int]) -> None:
 
     rotate_amount %= len(A)
 
@@ -21,7 +22,7 @@ def rotate_array(rotate_amount, A):
 # Although the following function is very natural way to rotate an array,
 # its use of sublists leads to copy from original list, and therefore
 # linear space complexity.
-def rotate_array_naive(rotate_amount, A):
+def rotate_array_naive(rotate_amount: int, A: List[int]) -> None:
     rotate_amount %= len(A)
     A[:] = A[::-1]  # reverse whole list
     A[:rotate_amount] = A[:rotate_amount][::
@@ -39,5 +40,5 @@ def rotate_array_wrapper(executor, A, rotate_amount):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("rotate_array.py", 'rotate_array.tsv',
+        generic_test.generic_test_main('rotate_array.py', 'rotate_array.tsv',
                                        rotate_array_wrapper))

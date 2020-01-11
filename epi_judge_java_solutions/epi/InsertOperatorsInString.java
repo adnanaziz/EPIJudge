@@ -39,8 +39,8 @@ public class InsertOperatorsInString {
     // Tries multiplication operator '*'.
     operands.add(currentTerm);
     operators.add('*');
-    if (directedExpressionSynthesis(digits, target, 0, offset + 1, operands,
-                                    operators)) {
+    if (directedExpressionSynthesis(digits, target, /*currentTerm=*/0,
+                                    offset + 1, operands, operators)) {
       return true;
     }
     operators.remove(operators.size() - 1);
@@ -53,8 +53,8 @@ public class InsertOperatorsInString {
                            .reduce(0, (val, d) -> val * 10 + d);
     if (target - evaluate(operands, operators) <= remainingInt) {
       operators.add('+');
-      if (directedExpressionSynthesis(digits, target, 0, offset + 1, operands,
-                                      operators)) {
+      if (directedExpressionSynthesis(digits, target, /*currentTerm=*/0,
+                                      offset + 1, operands, operators)) {
         return true;
       }
       operators.remove(operators.size() - 1);

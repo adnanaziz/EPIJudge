@@ -9,7 +9,7 @@ public class LowestCommonAncestorInBst {
   // Input nodes are nonempty and the key at s is less than or equal to that at
   // b.
   public static BstNode<Integer>
-  findLCA(BstNode<Integer> tree, BstNode<Integer> s, BstNode<Integer> b) {
+  findLca(BstNode<Integer> tree, BstNode<Integer> s, BstNode<Integer> b) {
     // TODO - you fill in here.
     return null;
   }
@@ -19,7 +19,7 @@ public class LowestCommonAncestorInBst {
     BstNode<Integer> node0 = BinaryTreeUtils.mustFindNode(tree, key0);
     BstNode<Integer> node1 = BinaryTreeUtils.mustFindNode(tree, key1);
 
-    BstNode<Integer> result = executor.run(() -> findLCA(tree, node0, node1));
+    BstNode<Integer> result = executor.run(() -> findLca(tree, node0, node1));
 
     if (result == null) {
       throw new TestFailure("Result can't be null");

@@ -10,8 +10,7 @@ shared_ptr<ListNode<int>> AddTwoNumbers(shared_ptr<ListNode<int>> L1,
     int val = carry + (L1 ? L1->data : 0) + (L2 ? L2->data : 0);
     L1 = L1 ? L1->next : nullptr;
     L2 = L2 ? L2->next : nullptr;
-    place_iter->next =
-        make_shared<ListNode<int>>(ListNode<int>{val % 10, nullptr});
+    place_iter->next = make_shared<ListNode<int>>(val % 10, nullptr);
     carry = val / 10, place_iter = place_iter->next;
   }
   return dummy_head->next;

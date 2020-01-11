@@ -78,6 +78,7 @@ bool PairIncludesAncestorAndDescendantOfMWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "tree", "possible_anc_or_desc_0", "possible_anc_or_desc_1", "middle"};
-  return GenericTestMain(args, "descendant_and_ancestor_in_bst.cc", "descendant_and_ancestor_in_bst.tsv", &PairIncludesAncestorAndDescendantOfMWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "descendant_and_ancestor_in_bst.cc", "descendant_and_ancestor_in_bst.tsv", &PairIncludesAncestorAndDescendantOfMWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

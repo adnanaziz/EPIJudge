@@ -31,30 +31,7 @@ public class DoListsOverlap {
       temp = temp.next;
     } while (temp != root0 && temp != root1);
 
-    // l0 and l1 do not end in the same cycle.
-    if (temp != root0) {
-      return null; // Cycles are disjoint.
-    }
-
-    // l0 and l1 end in the same cycle, locate the overlapping node if they
-    // first overlap before cycle starts.
-    int stem0Length = distance(l0, root0), stem1Length = distance(l1, root1);
-    if (stem0Length > stem1Length) {
-      l0 = DoTerminatedListsOverlap.advanceListByK(stem0Length - stem1Length,
-                                                   l0);
-    } else {
-      l1 = DoTerminatedListsOverlap.advanceListByK(stem1Length - stem0Length,
-                                                   l1);
-    }
-    while (l0 != l1 && l0 != root0 && l1 != root1) {
-      l0 = l0.next;
-      l1 = l1.next;
-    }
-
-    // If l0 == l1 before reaching root0, it means the overlap first occurs
-    // before the cycle starts; otherwise, the first overlapping node is not
-    // unique, so we can return any node on the cycle.
-    return l0 == l1 ? l0 : root0;
+    return temp == root0 ? root1 : null;
   }
 
   // Calculates the distance between a and b.

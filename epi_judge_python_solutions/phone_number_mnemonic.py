@@ -1,4 +1,5 @@
 import itertools
+from typing import List
 
 from test_framework import generic_test, test_utils
 
@@ -6,8 +7,8 @@ from test_framework import generic_test, test_utils
 MAPPING = ('0', '1', 'ABC', 'DEF', 'GHI', 'JKL', 'MNO', 'PQRS', 'TUV', 'WXYZ')
 
 
-def phone_mnemonic(phone_number):
-    def phone_mnemonic_helper(digit):
+def phone_mnemonic(phone_number: str) -> List[str]:
+    def phone_mnemonic_helper(digit: int) -> None:
         if digit == len(phone_number):
             # All digits are processed, so add partial_mnemonic to mnemonics.
             # (We add a copy since subsequent calls modify partial_mnemonic.)
@@ -18,21 +19,23 @@ def phone_mnemonic(phone_number):
                 partial_mnemonic[digit] = c
                 phone_mnemonic_helper(digit + 1)
 
-    mnemonics, partial_mnemonic = [], [0] * len(phone_number)
+    mnemonics: List[str] = []
+    partial_mnemonic = ['0'] * len(phone_number)
     phone_mnemonic_helper(0)
     return mnemonics
 
 
 # Pythonic solution
-def phone_mnemonic_pythonic(phone_number):
+def phone_mnemonic_pythonic(phone_number: str) -> List[str]:
     return [
-        ''.join(mnemonic) for mnemonic in
-        itertools.product(*(MAPPING[int(digit)] for digit in phone_number))
+        ''.join(mnemonic)
+        for mnemonic in itertools.product(*(MAPPING[int(digit)]
+                                            for digit in phone_number))
     ]
 
 
-def phone_mnemonic_pythonic_another(phone_number):
-    TABLE = {
+def phone_mnemonic_pythonic_another(phone_number: str) -> List[str]:
+    table = {
         '0': '0',
         '1': '1',
         '2': 'ABC',
@@ -45,7 +48,7 @@ def phone_mnemonic_pythonic_another(phone_number):
         '9': 'WXYZ'
     }
     return [
-        a + b for a in TABLE.get(phone_number[:1], '')
+        a + b for a in table.get(phone_number[:1], '')
         for b in phone_mnemonic_pythonic_another(phone_number[1:]) or ['']
     ]
 
@@ -53,7 +56,7 @@ def phone_mnemonic_pythonic_another(phone_number):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "phone_number_mnemonic.py",
+            'phone_number_mnemonic.py',
             'phone_number_mnemonic.tsv',
             phone_mnemonic,
             comparator=test_utils.unordered_compare))

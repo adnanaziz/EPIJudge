@@ -1,5 +1,6 @@
 #include <functional>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
@@ -28,6 +29,7 @@ int PermutationIndex(vector<int> perm) {
 }
 
 bool ComputeRandomPermutationRunner(TimedExecutor& executor, int n) {
+  using namespace test_framework;
   vector<vector<int>> results;
 
   executor.Run([&] {

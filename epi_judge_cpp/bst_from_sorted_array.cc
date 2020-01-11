@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+
 #include "bst_node.h"
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
@@ -15,13 +16,13 @@ unique_ptr<BstNode<int>> BuildMinHeightBSTFromSortedArray(
 }
 int BuildMinHeightBSTFromSortedArrayWrapper(TimedExecutor& executor,
                                             const vector<int>& A) {
-  unique_ptr<BstNode<int>> result =
+  auto result =
       executor.Run([&] { return BuildMinHeightBSTFromSortedArray(A); });
 
-  if (GenerateInorder(result) != A) {
+  if (test_framework::GenerateInorder(result) != A) {
     throw TestFailure("Result binary tree mismatches input array");
   }
-  return BinaryTreeHeight(result);
+  return test_framework::BinaryTreeHeight(result);
 }
 
 int main(int argc, char* argv[]) {

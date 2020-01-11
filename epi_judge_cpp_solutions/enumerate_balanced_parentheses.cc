@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::string;
@@ -10,7 +11,8 @@ void DirectedGenerateBalancedParentheses(int, int, const string&,
 
 vector<string> GenerateBalancedParentheses(int num_pairs) {
   vector<string> result;
-  DirectedGenerateBalancedParentheses(num_pairs, num_pairs, "", &result);
+  DirectedGenerateBalancedParentheses(num_pairs, num_pairs,
+                                      /*valid_prefix=*/"", &result);
   return result;
 }
 
@@ -42,6 +44,7 @@ void DirectedGenerateBalancedParentheses(int num_left_parens_needed,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"num_pairs"};
-  return GenericTestMain(args, "enumerate_balanced_parentheses.cc", "enumerate_balanced_parentheses.tsv", &GenerateBalancedParentheses, &UnorderedComparator<vector<string>>, param_names);
+  return GenericTestMain(args, "enumerate_balanced_parentheses.cc", "enumerate_balanced_parentheses.tsv", &GenerateBalancedParentheses,
+                         UnorderedComparator{}, param_names);
 }
 // clang-format on

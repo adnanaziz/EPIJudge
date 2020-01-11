@@ -43,15 +43,14 @@ public class PhoneNumberMnemonic {
   }
 
   @EpiTestComparator
-  public static BiPredicate<List<String>, List<String>> comp =
-      (expected, result) -> {
+  public static boolean comp(List<String> expected, List<String> result) {
     if (result == null) {
       return false;
     }
     Collections.sort(expected);
     Collections.sort(result);
     return expected.equals(result);
-  };
+  }
 
   public static void main(String[] args) {
     System.exit(

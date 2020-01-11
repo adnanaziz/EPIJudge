@@ -1,12 +1,14 @@
+from typing import List
+
 from test_framework import generic_test
 
 
-def get_valid_ip_address(s):
+def get_valid_ip_address(s: str) -> List[str]:
     def is_valid_part(s):
         # '00', '000', '01', etc. are not valid, but '0' is valid.
         return len(s) == 1 or (s[0] != '0' and int(s) <= 255)
 
-    result, parts = [], [None] * 4
+    result, parts = [], [''] * 4
     for i in range(1, min(4, len(s))):
         parts[0] = s[:i]
         if is_valid_part(parts[0]):
@@ -26,8 +28,7 @@ def comp(a, b):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main(
-            "valid_ip_addresses.py",
-            'valid_ip_addresses.tsv',
-            get_valid_ip_address,
-            comparator=comp))
+        generic_test.generic_test_main('valid_ip_addresses.py',
+                                       'valid_ip_addresses.tsv',
+                                       get_valid_ip_address,
+                                       comparator=comp))

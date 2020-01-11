@@ -1,7 +1,7 @@
 from test_framework import generic_test
 
 
-def snake_string(s):
+def snake_string(s: str) -> str:
 
     result = []
     # Outputs the first row, i.e., s[1], s[5], s[9], ...
@@ -23,5 +23,5 @@ def snake_string_pythonic(s):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("snake_string.py", 'snake_string.tsv',
+        generic_test.generic_test_main('snake_string.py', 'snake_string.tsv',
                                        snake_string))

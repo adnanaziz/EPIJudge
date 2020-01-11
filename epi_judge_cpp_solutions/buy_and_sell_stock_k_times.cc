@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <limits>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::max;
@@ -11,12 +12,12 @@ using std::vector;
 double UnlimitedPairsProfits(const vector<double> &);
 
 double BuyAndSellStockKTimes(const vector<double> &prices, int k) {
-  if (!k) {
+  if (k == 0) {
     return 0.0;
   } else if (2 * k >= size(prices)) {
     return UnlimitedPairsProfits(prices);
   }
-  vector<double> min_prices(k, numeric_limits<double>::max()),
+  vector<double> min_prices(k, numeric_limits<double>::infinity()),
       max_profits(k, 0.0);
   for (double price : prices) {
     for (int i = k - 1; i >= 0; --i) {

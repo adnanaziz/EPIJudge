@@ -1,6 +1,7 @@
 package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
+
 import java.util.List;
 public class LeftRightJustifyText {
   @EpiTest(testDataFile = "left_right_justify_text.tsv")

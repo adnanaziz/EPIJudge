@@ -18,30 +18,30 @@ public class LowestCommonAncestor {
     }
   }
 
-  public static BinaryTreeNode<Integer> LCA(BinaryTreeNode<Integer> tree,
+  public static BinaryTreeNode<Integer> lca(BinaryTreeNode<Integer> tree,
                                             BinaryTreeNode<Integer> node0,
                                             BinaryTreeNode<Integer> node1) {
 
-    return LCAHelper(tree, node0, node1).ancestor;
+    return lcaHelper(tree, node0, node1).ancestor;
   }
 
   // Returns an object consisting of an int and a node. The int field is
   // 0, 1, or 2 depending on how many of {node0, node1} are present in
   // the tree. If both are present in the tree, when ancestor is
   // assigned to a non-null value, it is the LCA.
-  private static Status LCAHelper(BinaryTreeNode<Integer> tree,
+  private static Status lcaHelper(BinaryTreeNode<Integer> tree,
                                   BinaryTreeNode<Integer> node0,
                                   BinaryTreeNode<Integer> node1) {
     if (tree == null) {
-      return new Status(0, null);
+      return new Status(/*numTargetNodes=*/0, /*ancestor=*/null);
     }
 
-    Status leftResult = LCAHelper(tree.left, node0, node1);
+    Status leftResult = lcaHelper(tree.left, node0, node1);
     if (leftResult.numTargetNodes == 2) {
       // Found both nodes in the left subtree.
       return leftResult;
     }
-    Status rightResult = LCAHelper(tree.right, node0, node1);
+    Status rightResult = lcaHelper(tree.right, node0, node1);
     if (rightResult.numTargetNodes == 2) {
       // Found both nodes in the right subtree.
       return rightResult;
@@ -60,7 +60,7 @@ public class LowestCommonAncestor {
     BinaryTreeNode<Integer> node1 = BinaryTreeUtils.mustFindNode(tree, key1);
 
     BinaryTreeNode<Integer> result =
-        executor.run(() -> LCA(tree, node0, node1));
+        executor.run(() -> lca(tree, node0, node1));
 
     if (result == null) {
       throw new TestFailure("Result can not be null");

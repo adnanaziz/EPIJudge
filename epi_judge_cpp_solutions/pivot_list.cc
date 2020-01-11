@@ -4,12 +4,12 @@
 #include <vector>
 
 #include "list_node.h"
-#define main _main
-#include "sorted_lists_merge.cc"  // uses AppendNode()
-#undef main
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
+#define main _main
+#include "sorted_lists_merge.cc"  // uses AppendNode()
+#undef main
 
 using std::shared_ptr;
 
@@ -51,24 +51,24 @@ void ListPivotingWrapper(TimedExecutor& executor,
       executor.Run([&] { return ListPivoting(l, x); });
 
   std::vector<int> pivoted = ListToVector(pivoted_list);
-  enum { kLess, kEq, kGreater } mode = kLess;
+  enum class Mode { kLess, kEq, kGreater } mode = Mode::kLess;
   for (auto& i : pivoted) {
     switch (mode) {
-      case kLess:
+      case Mode::kLess:
         if (i == x) {
-          mode = kEq;
+          mode = Mode::kEq;
         } else if (i > x) {
-          mode = kGreater;
+          mode = Mode::kGreater;
         }
         break;
-      case kEq:
+      case Mode::kEq:
         if (i < x) {
           throw TestFailure("List is not pivoted");
         } else if (i > x) {
-          mode = kGreater;
+          mode = Mode::kGreater;
         }
         break;
-      case kGreater:
+      case Mode::kGreater:
         if (i <= x) {
           throw TestFailure("List is not pivoted");
         }

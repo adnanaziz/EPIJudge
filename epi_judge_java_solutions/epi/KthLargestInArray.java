@@ -12,8 +12,8 @@ import java.util.Random;
 public class KthLargestInArray {
 
   // The numbering starts from one, i.e., if A = [3,1,-1,2] then
-  // findKthLargest(A, 1) returns 3, findKthLargest(A, 2) returns 2,
-  // findKthLargest(A, 3) returns 1, and findKthLargest(A, 4) returns -1.
+  // findKthLargest(1, A) returns 3, findKthLargest(2, A) returns 2,
+  // findKthLargest(3, A) returns 1, and findKthLargest(4, A) returns -1.
   @EpiTest(testDataFile = "kth_largest_in_array.tsv")
   public static int findKthLargest(int k, List<Integer> A) {
 
@@ -21,8 +21,8 @@ public class KthLargestInArray {
   }
 
   // The numbering starts from one, i.e., if A = [3,1,-1,2] then
-  // findKthSmallest(A, 1) returns -1, findKthSmallest(A, 2) returns 1,
-  // findKthSmallest(A, 3) returns 2, and findKthSmallest(A, 4) returns 3.
+  // findKthSmallest(1, A) returns -1, findKthSmallest(2, A) returns 1,
+  // findKthSmallest(3, A) returns 2, and findKthSmallest(4, A) returns 3.
   public static int findKthSmallest(int k, List<Integer> A) {
     return findKth(A, k, (a, b) -> Integer.compare(a, b));
   }

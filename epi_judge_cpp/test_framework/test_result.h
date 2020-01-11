@@ -1,12 +1,14 @@
 
 #pragma once
 
+namespace test_framework {
 // We may not detect STACK_OVERFLOW in C++ (Java and Python detect that).
-enum TestResult {
-  PASSED,
-  FAILED,
-  TIMEOUT,
-  UNKNOWN_EXCEPTION,
+enum class TestResult {
+  PASSED = 0,
+  FAILED = 1,
+  TIMEOUT = 2,
+  UNKNOWN_EXCEPTION = 3,
   /*STACK_OVERFLOW*/
-  RUNTIME_ERROR,
+  RUNTIME_ERROR = 5,
 };
+}  // namespace test_framework

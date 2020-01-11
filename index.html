@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="html/css/material.indigo-pink.css">
+    <link rel="stylesheet" href="html/css/index.css">
+    <title>EPIJudge</title>
+</head>
+<body>
+<script src="html/js/vue.js"></script>
+<script src="html/js/material.js"></script>
+<script src="problem_mapping.js"></script>
+<script src="html/js/helpers.js"></script>
+
+<div id="epijudge-app">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header" style="background-color: #002f6c">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title" style="font-size: xx-large">EPIJudge</span>
+                <div class="mdl-layout-spacer"></div>
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <a class="mdl-navigation__link" style="font-size: x-large" href="https://elementsofprogramminginterviews.com/">Website</a>
+                    <a class="mdl-navigation__link" style="font-size: x-large" href="https://github.com/adnanaziz/EPIJudge">GitHub</a>
+                </nav>
+            </div>
+        </header>
+        <main class="epi_content mdl-layout__content">
+            <div class="chapter-card-block">
+                <chapter-card v-for="chapter in chapters" v-bind:chapter="chapter"></chapter-card>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="html/js/index.js"></script>
+
+</body>
+</html>

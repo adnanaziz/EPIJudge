@@ -4,8 +4,8 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.PriorityQueue;
@@ -80,27 +80,26 @@ public class HuffmanCoding {
                                     null, left, right));
     }
 
-    Map<Character, String> huffmanEncoding = new HashMap<>();
+    Map<Character, String> charToEncoding = new HashMap<>();
     // Traverses the binary tree, assigning codes to nodes.
-    assignHuffmanCode(candidates.peek(), new StringBuilder(), huffmanEncoding);
+    assignHuffmanCode(candidates.peek(), new StringBuilder(), charToEncoding);
     return symbols.stream()
-        .mapToDouble(s -> huffmanEncoding.get(s.c).length() * s.freq / 100.0)
+        .mapToDouble(s -> charToEncoding.get(s.c).length() * s.freq / 100.0)
         .sum();
   }
 
-  private static void
-  assignHuffmanCode(BinaryTree tree, StringBuilder code,
-                    Map<Character, String> huffmanEncoding) {
+  private static void assignHuffmanCode(BinaryTree tree, StringBuilder code,
+                                        Map<Character, String> charToEncoding) {
     if (tree != null) {
       if (tree.s != null) {
         // This node is a leaf.
-        huffmanEncoding.put(tree.s.c, code.toString());
+        charToEncoding.put(tree.s.c, code.toString());
       } else { // Non-leaf node.
         code.append('0');
-        assignHuffmanCode(tree.left, code, huffmanEncoding);
+        assignHuffmanCode(tree.left, code, charToEncoding);
         code.setLength(code.length() - 1);
         code.append('1');
-        assignHuffmanCode(tree.right, code, huffmanEncoding);
+        assignHuffmanCode(tree.right, code, charToEncoding);
         code.setLength(code.length() - 1);
       }
     }
