@@ -6,11 +6,19 @@ on:
     - 'epi_judge_java*/**'
     - 'epi_judge_python*/**'
     - 'html/**'
+    - '.gitignore'
+    - 'index.html'
+    - '*.md'
+    - 'LICENSE'
   pull_request:
     paths-ignore:
     - 'epi_judge_java*/**'
     - 'epi_judge_python*/**'
     - 'html/**'
+    - '.gitignore'
+    - 'index.html'
+    - '*.md'
+    - 'LICENSE'
 
 env:
   BUILD_TYPE: Debug
