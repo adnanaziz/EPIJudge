@@ -9,13 +9,14 @@
   - Namespace for C++ test framework
   - Python type hints
   - Added a page to track progress on exercises (list of exercises with number of passed tests in each language)
-  
+  - Added continuous testing  
+
 ### Changed
   - Changed test data format
     - Now every field is encoded in pure JSON format  
 
 ### Fixed
-  - Numerous fixes found by our users
+  - Numerous fixes sent by our users
   
  
 ## [Beta 4] - 2018-05-08
