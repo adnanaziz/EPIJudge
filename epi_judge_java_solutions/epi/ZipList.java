@@ -21,8 +21,7 @@ public class ZipList {
 
     ListNode<Integer> firstHalfHead = L, secondHalfHead = slow.next;
     slow.next = null; // Splits the list into two lists.
-    secondHalfHead =
-        ReverseLinkedListIterative.reverseLinkedList(secondHalfHead);
+    secondHalfHead = ReverseList.reverseList(secondHalfHead);
 
     // Interleave the first half and the reversed of the second half.
     ListNode<Integer> firstHalfIter = firstHalfHead;

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <functional>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::greater;
@@ -13,8 +14,8 @@ int FindKthLargestUnknownLength(vector<int>::const_iterator stream_begin,
   while (stream_begin != stream_end) {
     candidates.emplace_back(*stream_begin++);
     if (size(candidates) == 2 * k - 1) {
-      // Reorders elements about median with larger elements appearing before
-      // the median.
+      // Reorders elements about k-th largest element with larger elements
+      // appearing before it.
       nth_element(begin(candidates), begin(candidates) + k - 1, end(candidates),
                   greater<int>());
       // Resize to keep just the k largest elements seen so far.
@@ -37,6 +38,7 @@ int FindKthLargestUnknownLengthWrapper(const vector<int>& stream, int k) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"stream", "k"};
-  return GenericTestMain(args, "kth_largest_element_in_long_array.cc", "kth_largest_element_in_long_array.tsv", &FindKthLargestUnknownLengthWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "kth_largest_element_in_long_array.cc", "kth_largest_element_in_long_array.tsv", &FindKthLargestUnknownLengthWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

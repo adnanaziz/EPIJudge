@@ -20,6 +20,8 @@ public class PrimeSieve {
     List<Integer> primes = new ArrayList<>();
     primes.add(2);
     // isPrime.get(i) represents whether (2i + 3) is prime or not.
+    // For example, isPrime.get(0) represents 3 is prime or not,
+    // isPrime.get(1) represents 5, isPrime.get(2) represents 7, etc.
     // Initially, set each to true. Then use sieving to eliminate nonprimes.
     List<Boolean> isPrime = new ArrayList<>(Collections.nCopies(size, true));
     for (long i = 0; i < size; ++i) {

@@ -4,8 +4,8 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 public class KthLargestElementInLongArray {
 
@@ -17,16 +17,15 @@ public class KthLargestElementInLongArray {
       int x = stream.next();
       candidates.add(x);
       if (candidates.size() == 2 * k - 1) {
-        // Reorders elements about median with larger elements appearing before
-        // the median.
+        // Reorders elements about k-th largest element with larger elements
+        // appearing before it.
         KthLargestInArray.findKthLargest(k, candidates);
         // Resize to keep just the k largest elements seen so far.
         candidates.subList(k, candidates.size()).clear();
       }
     }
     // Finds the k-th largest element in candidates.
-    KthLargestInArray.findKthLargest(k, candidates);
-    return candidates.get(k - 1);
+    return KthLargestInArray.findKthLargest(k, candidates);
   }
 
   @EpiTest(testDataFile = "kth_largest_element_in_long_array.tsv")

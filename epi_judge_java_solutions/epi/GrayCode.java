@@ -6,7 +6,6 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -16,21 +15,31 @@ public class GrayCode {
 
   public static List<Integer> grayCode(int numBits) {
 
-    if (numBits == 0) {
-      return new ArrayList<>(List.of(0));
+    List<Integer> result = new ArrayList<>(List.of(0));
+    directedGrayCode(numBits, new HashSet<Integer>(List.of(0)), result);
+    return result;
+  }
+
+  private static boolean directedGrayCode(int numBits, Set<Integer> history,
+                                          List<Integer> result) {
+    if (result.size() == (1 << numBits)) {
+      return differsByOneBit(result.get(0), result.get(result.size() - 1));
     }
 
-    // These implicitly begin with 0 at bit-index (numBits - 1).
-    List<Integer> grayCodeNumBitsMinus1 = grayCode(numBits - 1);
-
-    // Now, add a 1 at bit-index (numBits - 1) to all entries in
-    // grayCodeNumBitsMinus1.
-    int leadingBitOne = 1 << (numBits - 1);
-    // Process in reverse order to achieve reflection of grayCodeNumBitsMinus1.
-    for (int i = grayCodeNumBitsMinus1.size() - 1; i >= 0; --i) {
-      grayCodeNumBitsMinus1.add(leadingBitOne | grayCodeNumBitsMinus1.get(i));
+    for (int i = 0; i < numBits; ++i) {
+      int previousCode = result.get(result.size() - 1);
+      int candidateNextCode = previousCode ^ (1 << i);
+      if (!history.contains(candidateNextCode)) {
+        history.add(candidateNextCode);
+        result.add(candidateNextCode);
+        if (directedGrayCode(numBits, history, result)) {
+          return true;
+        }
+        result.remove(result.size() - 1);
+        history.remove(candidateNextCode);
+      }
     }
-    return grayCodeNumBitsMinus1;
+    return false;
   }
 
   private static boolean differsByOneBit(int x, int y) {

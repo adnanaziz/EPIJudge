@@ -6,7 +6,7 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 public class KthNodeInTree {
-  public static class BinaryTreeNode<T> {
+  public static class BinaryTreeNode<T> extends TreeLike<T, BinaryTreeNode<T>> {
     public T data;
     public BinaryTreeNode<T> left, right;
     public int size;
@@ -17,6 +17,21 @@ public class KthNodeInTree {
       this.left = left;
       this.right = right;
       this.size = size;
+    }
+
+    @Override
+    public T getData() {
+      return data;
+    }
+
+    @Override
+    public BinaryTreeNode<T> getLeft() {
+      return left;
+    }
+
+    @Override
+    public BinaryTreeNode<T> getRight() {
+      return right;
     }
   }
 

@@ -10,13 +10,10 @@ using std::min;
 using std::numeric_limits;
 using std::vector;
 
-struct Rect;
-typedef vector<Rect> Skyline;
-
 struct Rect {
   int left, right, height;
 };
-typedef vector<Rect> Skyline;
+using Skyline = vector<Rect>;
 
 Skyline ComputeSkyline(const vector<Rect>& buildings) {
   int min_left = numeric_limits<int>::max(),
@@ -50,8 +47,10 @@ bool operator==(const Rect& a, const Rect& b) {
   return a.left == b.left && a.right == b.right && a.height == b.height;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Rect> : UserSerTraits<Rect, int, int, int> {};
+struct SerializationTrait<Rect> : UserSerTrait<Rect, int, int, int> {};
+}  // namespace test_framework
 
 std::ostream& operator<<(std::ostream& out, const Rect& r) {
   return PrintTo(out, std::make_tuple(r.left, r.right, r.height));

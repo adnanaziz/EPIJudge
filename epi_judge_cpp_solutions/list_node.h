@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 
+#include "test_framework/fmt_print.h"
 #include "test_framework/serialization_traits.h"
 
 using std::make_shared;
@@ -67,71 +68,61 @@ std::shared_ptr<ListNode<T>> ConvertArrayToLinkedList(
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& out, shared_ptr<ListNode<T>> list) {
+std::ostream& operator<<(std::ostream& out, shared_ptr<ListNode<T>> node) {
   std::set<shared_ptr<ListNode<T>>> visited;
   bool first = true;
 
-  while (list) {
+  while (node) {
     if (first) {
       first = false;
     } else {
       out << " -> ";
     }
 
-    if (visited.count(list)) {
-      // Cycled linked list
-      if (list->next != list) {
-        PrintTo(out, list->data);
+    if (visited.count(node)) {
+      if (node->next != node) {
+        PrintTo(out, node->data);
         out << " -> ... -> ";
       }
-      PrintTo(out, list->data);
+      PrintTo(out, node->data);
       out << " -> ...";
       break;
     } else {
-      PrintTo(out, list->data);
-      visited.insert(list);
+      PrintTo(out, node->data);
+      visited.emplace(node);
     }
-    list = list->next;
+    node = node->next;
   }
 
   return out;
 }
 
 template <typename T>
-int ListSize(shared_ptr<ListNode<T>> list) {
+int ListSize(shared_ptr<ListNode<T>> node) {
   std::set<shared_ptr<ListNode<T>>> visited;
-  int size = 0;
+  int result = 0;
 
-  while (list) {
-    if (visited.count(list)) {
-      // Cycled linked list
-      break;
-    }
-    size++;
-    list = list->next;
+  while (node && !visited.count(node)) {
+    ++result;
+    visited.emplace(node);
+    node = node->next;
   }
-
-  return size;
+  return result;
 }
 
+namespace test_framework {
 template <typename T>
-struct SerializationTraits<shared_ptr<ListNode<T>>> {
+struct SerializationTrait<shared_ptr<ListNode<T>>> {
   using serialization_type = shared_ptr<
-      ListNode<typename SerializationTraits<T>::serialization_type>>;
-
+      ListNode<typename SerializationTrait<T>::serialization_type>>;
   static const char* Name() {
     static std::string s =
-        FmtStr("linked_list({})", SerializationTraits<T>::Name());
+        FmtStr("linked_list({})", SerializationTrait<T>::Name());
     return s.c_str();
   }
 
-  static serialization_type Parse(const std::string& str) {
-    auto v = SerializationTraits<std::vector<T>>::Parse(str);
-    return ConvertArrayToLinkedList(v);
-  }
-
-  static serialization_type JsonParse(std::istream& in) {
-    auto v = SerializationTraits<std::vector<T>>::JsonParse(in);
+  static serialization_type Parse(const json& json_object) {
+    auto v = SerializationTrait<std::vector<T>>::Parse(json_object);
     return ConvertArrayToLinkedList(v);
   }
 
@@ -149,3 +140,4 @@ struct SerializationTraits<shared_ptr<ListNode<T>>> {
     return EqualList(a, b);
   }
 };
+}  // namespace test_framework

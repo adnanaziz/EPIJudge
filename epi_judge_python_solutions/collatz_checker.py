@@ -1,14 +1,16 @@
+from typing import Set
+
 from test_framework import generic_test
 
 
-def test_collatz_conjecture(n):
+def test_collatz_conjecture(n: int) -> bool:
 
     # Stores odd numbers already tested to converge to 1.
-    verified_numbers = set()
+    verified_numbers: Set[int] = set()
 
     # Starts from 3, hypothesis holds trivially for 1.
     for i in range(3, n + 1):
-        sequence = set()
+        sequence: Set[int] = set()
         test_i = i
         while test_i >= i:
             if test_i in sequence:
@@ -30,6 +32,6 @@ def test_collatz_conjecture(n):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("collatz_checker.py",
+        generic_test.generic_test_main('collatz_checker.py',
                                        'collatz_checker.tsv',
                                        test_collatz_conjecture))

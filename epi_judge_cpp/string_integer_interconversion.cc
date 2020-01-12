@@ -1,18 +1,19 @@
 #include <string>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 using std::string;
 
 string IntToString(int x) {
   // TODO - you fill in here.
-  return "";
+  return "0";
 }
 int StringToInt(const string& s) {
   // TODO - you fill in here.
   return 0;
 }
 void Wrapper(int x, const string& s) {
-  if (IntToString(x) != s) {
+  if (stoi(IntToString(x)) != x) {
     throw TestFailure("Int to string conversion failed");
   }
 

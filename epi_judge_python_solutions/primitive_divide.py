@@ -1,7 +1,7 @@
 from test_framework import generic_test
 
 
-def divide(x, y):
+def divide(x: int, y: int) -> int:
 
     result, power = 0, 32
     y_power = y << power
@@ -17,5 +17,5 @@ def divide(x, y):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("primitive_divide.py",
-                                       "primitive_divide.tsv", divide))
+        generic_test.generic_test_main('primitive_divide.py',
+                                       'primitive_divide.tsv', divide))

@@ -24,6 +24,7 @@
 
 #include "tri_bool.h"
 
+namespace test_framework {
 namespace platform {
 
 bool ENABLE_TTY_OUTPUT = false;
@@ -78,3 +79,4 @@ char PathSep() {
 }
 
 }  // namespace platform
+}  // namespace test_framework

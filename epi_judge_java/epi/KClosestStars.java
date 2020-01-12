@@ -4,6 +4,7 @@ import epi.test_framework.EpiTestComparator;
 import epi.test_framework.EpiTestExpectedType;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -45,8 +46,7 @@ public class KClosestStars {
   @EpiTestExpectedType public static List<Double> expectedType;
 
   @EpiTestComparator
-  public static BiPredicate<List<Double>, List<Star>> comp =
-      (expected, result) -> {
+  public static boolean comp(List<Double> expected, List<Star> result) {
     if (expected.size() != result.size()) {
       return false;
     }
@@ -57,7 +57,7 @@ public class KClosestStars {
       }
     }
     return true;
-  };
+  }
 
   public static void main(String[] args) {
     System.exit(

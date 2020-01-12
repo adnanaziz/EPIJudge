@@ -1,5 +1,7 @@
 # EPI Judge
 
+## Beta 5
+
 ## Introduction
 
 EPI Judge consists of the following:
@@ -82,37 +84,35 @@ The IntelliJ Integrated Development environments described above are best-in-cla
 - What compilers are supported for judge?
   - C++
     - Linux
-      - **GCC** 5.4.1
-      - **Clang** 4.0
+      - **GCC** 5.4.1 and newer
+      - **Clang** 4.0 and newer
     - OS X  
-      - **Apple LLVM Clang** 9.0.0
+      - **Apple LLVM Clang** 9.0.0 and newer
     - Windows
-      - **Visual Studio** 2017 15.7.0 Preview 6
-        - Release version of VS2017 contains a bug that makes it impossible to compile judge programs
-      - **MinGW** GCC 5.4.0
-      - **LXSS** (Windows Subsystem for Linux) GCC 5.4.0
+      - **Visual Studio** 2017 and newer
+      - **MinGW** GCC 5.4.0 and newer
+      - **LXSS** (Windows Subsystem for Linux) GCC 5.4.0 and newer
   - Java     
-    - **Java** 9
+    - **Java** 9 and newer
   - Python
-    - **Python** 3.6
+    - **Python** 3.6 and newer
    
 
 - What compilers are supported for solutions?
   - C++
       - Linux
-        - **GCC** 7.0.0
-        - **Clang** 5.0
+        - **GCC** 7.0.0 and newer
+        - **Clang** 5.0 and newer
       - OS X  
-        - **Apple LLVM Clang** 9.0.0
+        - **Apple LLVM Clang** 9.0.0 and newer
       - Windows
-        - **Visual Studio** 2017 15.7.0 Preview 6
-            - Release version of VS2017 contains a bug that makes it impossible to compile judge programs
-        - **MinGW** GCC 7.2.0
-        - **LXSS** (Windows Subsystem for Linux) GCC 7.2.0
+      - **Visual Studio** 2017 and newer
+        - **MinGW** GCC 7.2.0 and newer
+        - **LXSS** (Windows Subsystem for Linux) GCC 7.2.0 and newer
     - Java     
-      - **Java** 9
+      - **Java** 9 and newer
     - Python
-      - **Python** 3.6 
+      - **Python** 3.6 and newer 
 
 Let us know if you managed to compile with an older version.
 

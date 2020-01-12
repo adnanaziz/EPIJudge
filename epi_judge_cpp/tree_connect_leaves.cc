@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+
 #include "binary_tree_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"

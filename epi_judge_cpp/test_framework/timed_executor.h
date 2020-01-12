@@ -7,7 +7,7 @@
 #include "test_timer.h"
 #include "test_utils_meta.h"
 #include "timeout_exception.h"
-
+namespace test_framework {
 class TimedExecutor {
  public:
   explicit TimedExecutor(const std::chrono::seconds& timeout_seconds)
@@ -65,3 +65,6 @@ decltype(auto) InvokeWithExecutor(HasExecutorHookTag, Func& f,
                                   ArgsFwd&&... args) {
   return f(executor, std::forward<ArgsFwd>(args)...);
 }
+}  // namespace test_framework
+
+using test_framework::TimedExecutor;

@@ -11,6 +11,8 @@
 #include "test_utils.h"
 #include "tri_bool.h"
 
+namespace test_framework {
+namespace test_config {
 std::string GetParam(const std::vector<std::string>& commandline_args,
                      size_t i, const char* arg_name) {
   if (i >= commandline_args.size()) {
@@ -25,14 +27,12 @@ void PrintUsageAndExit() {
   const char* usage_string =
       ""
       "usage: <program name> [-h] [--test-data-dir [TEST_DATA_DIR]] "
-      "[--no-verbose]\n"
       "                      [--force-tty] [--no-tty] [--force-color] "
       "[--no-color]\n"
       "\n"
       "optional arguments:\n"
       "  -h, --help            show this help message and exit\n"
       "  --test-data-dir [TEST_DATA_DIR] path to test_data directory\n"
-      "  --no-verbose          suppress failure description on test failure\n"
       "  --force-tty           enable tty features (like printing output on "
       "the same line) even in case stdout is not a tty device\n"
       "  --no-tty              never use tty features\n"
@@ -42,6 +42,7 @@ void PrintUsageAndExit() {
   std::cout << usage_string;
   exit(0);
 }
+}  // namespace test_config
 
 struct TestConfig {
   TestConfig(const std::string& test_file, const std::string& test_data_file,
@@ -51,8 +52,14 @@ struct TestConfig {
         test_data_file(test_data_file),
         tty_mode(TriBool::kIndeterminate),
         color_mode(TriBool::kIndeterminate),
+        update_js(true),
         timeout_seconds(timeout_seconds),
-        num_failed_tests_before_stop(num_failed_tests_before_stop) {}
+        num_failed_tests_before_stop(num_failed_tests_before_stop),
+        analyze_complexity(false),
+        complexity_timeout(20),
+        metric_names_override(
+            [](const std::vector<std::string>& names) { return names; }),
+        metrics_override(nullptr) {}
 
   static TestConfig FromCommandLine(
       const std::string& test_file, const std::string& test_data_file,
@@ -71,9 +78,7 @@ struct TestConfig {
     for (size_t i = 0; i < commandline_args.size(); i++) {
       if (commandline_args[i] == "--test-data-dir") {
         config.test_data_dir =
-            GetParam(commandline_args, ++i, "--test-data-dir");
-      } else if (commandline_args[i] == "--no-verbose") {
-        config.verbose = false;
+            test_config::GetParam(commandline_args, ++i, "--test-data-dir");
       } else if (commandline_args[i] == "--force-tty") {
         config.tty_mode = TriBool::kTrue;
       } else if (commandline_args[i] == "--no-tty") {
@@ -84,9 +89,11 @@ struct TestConfig {
         config.color_mode = TriBool::kFalse;
       } else if (commandline_args[i] == "--no-update-js") {
         config.update_js = false;
+      } else if (commandline_args[i] == "--no-complexity") {
+        config.analyze_complexity = false;
       } else if (commandline_args[i] == "--help" ||
                  commandline_args[i] == "-h") {
-        PrintUsageAndExit();
+        test_config::PrintUsageAndExit();
       } else {
         throw std::runtime_error("CL: Unrecognized argument: " +
                                  commandline_args[i]);
@@ -113,11 +120,27 @@ struct TestConfig {
   std::string test_data_dir;
   std::string test_file;
   std::string test_data_file;
-  bool verbose = true;
-  bool analyze_complexity = false;
   TriBool tty_mode;
   TriBool color_mode;
-  bool update_js = false;
+  bool update_js;
   std::chrono::seconds timeout_seconds;
   int num_failed_tests_before_stop;
+  bool analyze_complexity;
+  std::chrono::seconds complexity_timeout;
+
+  std::function<std::vector<std::string>(const std::vector<std::string>&)>
+      metric_names_override;
+
+  // Real metrics_override signature must be
+  // vector<int> metrics(*)(vector<int> metrics,
+  //                        std::tuple<test function args...>& func_args)
+  // Since TestConfig is unaware of the tested function signature,
+  // we're quite limited on possible storage types
+  // for a functions that directly depends on this signature.
+  using metrics_override_t = std::vector<int> (*)(
+      const std::vector<int>& metrics, const std::tuple<>& func_args);
+  metrics_override_t metrics_override;
 };
+}  // namespace test_framework
+
+using test_framework::TestConfig;

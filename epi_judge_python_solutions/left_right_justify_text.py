@@ -1,9 +1,12 @@
+from typing import List
+
 from test_framework import generic_test
 
 
-def justify_text(words, L):
+def justify_text(words: List[str], L: int) -> List[str]:
 
-    curr_line_length, result, curr_line = 0, [], []
+    curr_line_length, result = 0, []
+    curr_line: List[str] = []
     for word in words:
         if curr_line_length + len(word) + len(curr_line) > L:
             # Distribute equally between words in curr_line.
@@ -19,6 +22,6 @@ def justify_text(words, L):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("left_right_justify_text.py",
+        generic_test.generic_test_main('left_right_justify_text.py',
                                        'left_right_justify_text.tsv',
                                        justify_text))

@@ -39,7 +39,6 @@ public class MinimumDistance3SortedArrays {
     for (List<Integer> arr : sortedArrays) {
       heads.add(0);
     }
-    int result = Integer.MAX_VALUE;
     NavigableSet<ArrayData> currentHeads = new TreeSet<>();
 
     // Adds the minimum element of each array in to currentHeads.
@@ -47,14 +46,15 @@ public class MinimumDistance3SortedArrays {
       currentHeads.add(new ArrayData(i, sortedArrays.get(i).get(heads.get(i))));
     }
 
+    int minDistanceSoFar = Integer.MAX_VALUE;
     while (true) {
-      result =
-          Math.min(result, currentHeads.last().val - currentHeads.first().val);
+      minDistanceSoFar = Math.min(
+          minDistanceSoFar, currentHeads.last().val - currentHeads.first().val);
       int idxNextMin = currentHeads.first().idx;
       // Return if some array has no remaining elements.
       heads.set(idxNextMin, heads.get(idxNextMin) + 1);
       if (heads.get(idxNextMin) >= sortedArrays.get(idxNextMin).size()) {
-        return result;
+        return minDistanceSoFar;
       }
       currentHeads.pollFirst();
       currentHeads.add(new ArrayData(

@@ -1,4 +1,3 @@
-#include <initializer_list>
 #include <istream>
 #include <string>
 #include <vector>
@@ -10,7 +9,7 @@
 
 using std::vector;
 
-typedef enum { kWhite, kBlack } Color;
+enum class Color { kWhite, kBlack };
 
 struct Coordinate;
 bool SearchMazeHelper(const Coordinate&, const Coordinate&,
@@ -39,19 +38,20 @@ bool SearchMazeHelper(const Coordinate& cur, const Coordinate& e,
   auto& maze = *maze_ptr;
   // Checks cur is within maze and is a white pixel.
   if (cur.x < 0 || cur.x >= size(maze) || cur.y < 0 ||
-      cur.y >= size(maze[cur.x]) || maze[cur.x][cur.y] != kWhite) {
+      cur.y >= size(maze[cur.x]) || maze[cur.x][cur.y] != Color::kWhite) {
     return false;
   }
   auto& path = *path_ptr;
   path.emplace_back(cur);
-  maze[cur.x][cur.y] = kBlack;
+  maze[cur.x][cur.y] = Color::kBlack;
   if (cur == e) {
     return true;
   }
 
-  for (const Coordinate& next_move :
-       {Coordinate{cur.x, cur.y + 1}, Coordinate{cur.x, cur.y - 1},
-        Coordinate{cur.x + 1, cur.y}, Coordinate{cur.x - 1, cur.y}}) {
+  for (const Coordinate& next_move : vector<Coordinate>{{cur.x, cur.y + 1},
+                                                        {cur.x, cur.y - 1},
+                                                        {cur.x + 1, cur.y},
+                                                        {cur.x - 1, cur.y}}) {
     if (SearchMazeHelper(next_move, e, maze_ptr, path_ptr)) {
       return true;
     }
@@ -61,34 +61,33 @@ bool SearchMazeHelper(const Coordinate& cur, const Coordinate& e,
   return false;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Color> : SerializationTraits<int> {
+struct SerializationTrait<Color> : SerializationTrait<int> {
   using serialization_type = Color;
 
-  static serialization_type Parse(const std::string& str) {
+  static serialization_type Parse(const json& json_object) {
     return static_cast<serialization_type>(
-        SerializationTraits<int>::Parse(str));
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    return static_cast<serialization_type>(
-        SerializationTraits<int>::JsonParse(json_object));
+        SerializationTrait<int>::Parse(json_object));
   }
 };
+}  // namespace test_framework
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Coordinate> : UserSerTraits<Coordinate, int, int> {
+struct SerializationTrait<Coordinate> : UserSerTrait<Coordinate, int, int> {
   static std::vector<std::string> GetMetricNames(const std::string& arg_name) {
     return {};
   }
 
   static std::vector<int> GetMetrics(const Coordinate& x) { return {}; }
 };
+}  // namespace test_framework
 
 bool PathElementIsFeasible(const vector<vector<Color>>& maze,
                            const Coordinate& prev, const Coordinate& cur) {
   if (!(0 <= cur.x && cur.x < maze.size() && 0 <= cur.y &&
-        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == kWhite)) {
+        cur.y < maze[cur.x].size() && maze[cur.x][cur.y] == Color::kWhite)) {
     return false;
   }
   return cur == Coordinate{prev.x + 1, prev.y} ||

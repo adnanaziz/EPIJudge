@@ -31,8 +31,10 @@ int FindMinimumVisits(vector<Interval> intervals) {
   return num_visits;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Interval> : UserSerTraits<Interval, int, int> {};
+struct SerializationTrait<Interval> : UserSerTrait<Interval, int, int> {};
+}  // namespace test_framework
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};

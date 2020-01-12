@@ -23,6 +23,7 @@ public class StringTransformability {
   @EpiTest(testDataFile = "string_transformability.tsv")
 
   // Uses BFS to find the least steps of transformation.
+
   public static int transformString(Set<String> D, String s, String t) {
 
     Set<String> visited = new HashSet<String>(D);
@@ -42,8 +43,8 @@ public class StringTransformability {
       for (int i = 0; i < str.length(); ++i) {
         String strStart = i == 0 ? "" : str.substring(0, i);
         String strEnd = i + 1 < str.length() ? str.substring(i + 1) : "";
-        for (int c = 0; c < 26; ++c) { // Iterates through 'a' ~ 'z'.
-          String modStr = strStart + (char)('a' + c) + strEnd;
+        for (char c = 'a'; c <= 'z'; ++c) { // Iterates through 'a' ~ 'z'.
+          String modStr = strStart + c + strEnd;
           if (visited.contains(modStr)) {
             visited.remove(modStr);
             q.add(new StringWithDistance(modStr, f.distance + 1));

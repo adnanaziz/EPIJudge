@@ -12,17 +12,17 @@ struct Event {
   int start, finish;
 };
 
-struct Endpoint {
-  int time;
-  bool is_start;
-};
-
 int FindMaxSimultaneousEvents(const vector<Event>& A) {
+  struct Endpoint {
+    int time;
+    bool is_start;
+  };
+
   // Builds an array of all endpoints.
   vector<Endpoint> E;
   for (const Event& event : A) {
-    E.emplace_back(Endpoint{event.start, true});
-    E.emplace_back(Endpoint{event.finish, false});
+    E.push_back({event.start, true});
+    E.push_back({event.finish, false});
   }
   // Sorts the endpoint array according to the time, breaking ties
   // by putting start times before end times.
@@ -46,8 +46,10 @@ int FindMaxSimultaneousEvents(const vector<Event>& A) {
   return max_num_simultaneous_events;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Event> : UserSerTraits<Event, int, int> {};
+struct SerializationTrait<Event> : UserSerTrait<Event, int, int> {};
+}  // namespace test_framework
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};

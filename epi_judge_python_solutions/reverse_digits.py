@@ -1,7 +1,7 @@
 from test_framework import generic_test
 
 
-def reverse(x):
+def reverse(x: int) -> int:
 
     result, x_remaining = 0, abs(x)
     while x_remaining:
@@ -12,5 +12,5 @@ def reverse(x):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("reverse_digits.py",
+        generic_test.generic_test_main('reverse_digits.py',
                                        'reverse_digits.tsv', reverse))

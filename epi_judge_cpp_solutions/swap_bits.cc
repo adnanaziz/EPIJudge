@@ -6,7 +6,7 @@ long long SwapBits(long long x, int i, int j) {
     // i-th and j-th bits differ. We will swap them by flipping their values.
     // Select the bits to flip with bit_mask. Since x^1 = 0 when x = 1 and 1
     // when x = 0, we can perform the flip XOR.
-    unsigned long long bit_mask = (1L << i) | (1L << j);
+    unsigned long long bit_mask = (1ULL << i) | (1ULL << j);
     x ^= bit_mask;
   }
   return x;

@@ -1,7 +1,9 @@
+from typing import List
+
 from test_framework import generic_test
 
 
-def find_element_appears_once(A):
+def find_element_appears_once(A: List[int]) -> int:
 
     counts = [0] * 32
     for x in A:
@@ -17,7 +19,7 @@ def find_element_appears_once(A):
     return handle_negative(sum(1 << i for i, c in enumerate(counts) if c % 3))
 
 
-def find_element_appears_once_alternative(A):
+def find_element_appears_once_alternative(A: List[int]) -> int:
     # ones denotes whether a bit-position has been set once (modulo 3) so far.
     # twos denotes whether a bit-position has been set twice (modulo 3) so far.
     ones = twos = 0
@@ -45,6 +47,6 @@ def find_element_appears_once_alternative(A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("element_appearing_once.py",
+        generic_test.generic_test_main('element_appearing_once.py',
                                        'element_appearing_once.tsv',
                                        find_element_appears_once))

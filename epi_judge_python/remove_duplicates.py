@@ -1,20 +1,21 @@
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
 
 class Name:
-    def __init__(self, first_name, last_name):
+    def __init__(self, first_name: str, last_name: str) -> None:
         self.first_name, self.last_name = first_name, last_name
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         return (self.first_name < other.first_name
                 if self.first_name != other.first_name else
                 self.last_name < other.last_name)
 
 
-def eliminate_duplicate(A):
+def eliminate_duplicate(A: List[Name]) -> None:
     # TODO - you fill in here.
     return
 
@@ -36,6 +37,6 @@ def comp(expected, result):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("remove_duplicates.py",
+        generic_test.generic_test_main('remove_duplicates.py',
                                        'remove_duplicates.tsv',
                                        eliminate_duplicate_wrapper, comp))

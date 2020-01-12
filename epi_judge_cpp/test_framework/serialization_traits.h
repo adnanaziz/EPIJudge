@@ -11,22 +11,23 @@
 #include <vector>
 
 #include "binary_tree_utils.h"
-#include "json_parser.h"
+#include "json.h"
 #include "test_utils_meta.h"
+
+namespace test_framework {
+
+using json = nlohmann::json;
 
 struct NoSpecializationTag {};
 
 /**
- * SerializationTraits defines a mapping between
- * possible types from a function signature and
- * the ones from test data file.
- * It also adds a primitive type reflexion.
+ * SerializationTrait defines a mapping between possible types from a
+ * function signature and the ones from test data file. It also adds a
+ * primitive type reflexion.
  *
- * For adding a new type one should
- * create a template specialization
- * for SerializationTraits structure and
- * implement Name(), Parse(), JsonParse(),
- * and equals() static methods and
+ * For adding a new type one should create a template specialization for
+ * SerializationTrait structure and implement Name(), Parse(),
+ * GetMetricNames(), GetMetrics(), and Equal() static methods and
  * serialization_type typedef.
  *
  * Test data file types: string, integers, floats, multi-level containers
@@ -38,16 +39,12 @@ struct NoSpecializationTag {};
  *  - const and reference modifiers are dropped
  */
 template <typename T, typename SFINAE = void>
-struct SerializationTraits : NoSpecializationTag {
+struct SerializationTrait : NoSpecializationTag {
   using serialization_type = T;
 
   static constexpr const char* Name() { return typeid(T).name(); }
 
-  static void Parse(const std::string& str) {
-    static_assert(sizeof(T) < 0, "Unsupported type");
-  }
-
-  static void JsonParse(const json_parser::Json& json_object) {
+  static void Parse(const json& json_object) {
     static_assert(sizeof(T) < 0, "Unsupported type");
   }
 
@@ -71,25 +68,21 @@ struct SerializationTraits : NoSpecializationTag {
 };
 
 template <typename T>
-using HasSerializationTraitsSpecialization = std::integral_constant<
+using HasSerializationTraitSpecialization = std::integral_constant<
     bool,
-    !std::is_base_of<NoSpecializationTag, SerializationTraits<T>>::value>;
+    !std::is_base_of<NoSpecializationTag, SerializationTrait<T>>::value>;
 
 /**
  * void specialization.
  * It is used when tested function has void return type.
  */
 template <>
-struct SerializationTraits<void, void> {
+struct SerializationTrait<void, void> {
   using serialization_type = void;
 
   static constexpr const char* Name() { return "void"; }
 
-  static void Parse(const std::string& str) {
-    throw std::runtime_error("Can't parse void");
-  }
-
-  static void JsonParse(const json_parser::Json& json_object) {
+  static void Parse(const json& json_object) {
     throw std::runtime_error("Can't parse void");
   }
 
@@ -108,8 +101,8 @@ struct SerializationTraits<void, void> {
  * It is used when tested function has void return type.
  */
 template <>
-struct SerializationTraits<VoidPlaceholder, void>
-    : SerializationTraits<void, void> {
+struct SerializationTrait<VoidPlaceholder, void>
+    : SerializationTrait<void, void> {
   using serialization_type = VoidPlaceholder;
 };
 
@@ -117,29 +110,15 @@ struct SerializationTraits<VoidPlaceholder, void>
  * Signed and unsigned 8-, 16-, and 32-bits integer specialization.
  */
 template <typename T>
-struct SerializationTraits<
+struct SerializationTrait<
     T, std::enable_if_t<std::is_integral<T>::value && sizeof(T) <= 4 &&
                         is_pure_type<T>::value>> {
   using serialization_type = int32_t;
 
   static constexpr const char* Name() { return "int"; }
 
-  static T Parse(const std::string& str) {
-    try {
-      return static_cast<T>(std::stoi(str));
-    } catch (std::invalid_argument&) {
-      throw std::runtime_error("Int parser: conversion error");
-    } catch (std::out_of_range&) {
-      throw std::runtime_error("Int parser: conversion error: out of range");
-    }
-  }
-
-  static T JsonParse(const json_parser::Json& json_object) {
-    if (json_object.is_number()) {
-      return static_cast<T>(json_object.int_value());
-    } else {
-      throw std::runtime_error("Int parser: conversion error");
-    }
+  static T Parse(const json& json_object) {
+    return static_cast<T>(json_object);
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -160,29 +139,15 @@ struct SerializationTraits<
  * Signed 64-bit integer specialization.
  */
 template <typename T>
-struct SerializationTraits<
+struct SerializationTrait<
     T, std::enable_if_t<std::is_integral<T>::value && sizeof(T) == 8 &&
                         std::is_signed<T>::value && is_pure_type<T>::value>> {
   using serialization_type = int64_t;
 
   static constexpr const char* Name() { return "long"; }
 
-  static serialization_type Parse(const std::string& str) {
-    try {
-      return std::stoll(str);
-    } catch (std::invalid_argument&) {
-      throw std::runtime_error("Long parser: conversion error");
-    } catch (std::out_of_range&) {
-      throw std::runtime_error("Long parser: conversion error: out of range");
-    }
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (json_object.is_number()) {
-      return static_cast<serialization_type>(json_object.int_value());
-    } else {
-      throw std::runtime_error("Long parser: conversion error");
-    }
+  static serialization_type Parse(const json& json_object) {
+    return static_cast<serialization_type>(json_object);
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -195,7 +160,8 @@ struct SerializationTraits<
         std::abs(x), std::numeric_limits<int>::max()))};
   }
 
-  static bool Equal(serialization_type a, serialization_type b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return a == b;
   }
 };
@@ -204,7 +170,7 @@ struct SerializationTraits<
  * Unsigned 64-bit integer specialization.
  */
 template <typename T>
-struct SerializationTraits<
+struct SerializationTrait<
     T,
     std::enable_if_t<std::is_integral<T>::value && sizeof(T) == 8 &&
                      !std::is_signed<T>::value && is_pure_type<T>::value>> {
@@ -212,22 +178,8 @@ struct SerializationTraits<
 
   static constexpr const char* Name() { return "long"; }
 
-  static serialization_type Parse(const std::string& str) {
-    try {
-      return std::stoull(str);
-    } catch (std::invalid_argument&) {
-      throw std::runtime_error("Long parser: conversion error");
-    } catch (std::out_of_range&) {
-      throw std::runtime_error("Long parser: conversion error: out of range");
-    }
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (json_object.is_number()) {
-      return static_cast<serialization_type>(json_object.int_value());
-    } else {
-      throw std::runtime_error("Long parser: conversion error");
-    }
+  static serialization_type Parse(const json& json_object) {
+    return static_cast<serialization_type>(json_object);
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -240,7 +192,8 @@ struct SerializationTraits<
         std::min<serialization_type>(x, std::numeric_limits<int>::max()))};
   }
 
-  static bool Equal(serialization_type a, serialization_type b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     return a == b;
   }
 };
@@ -249,28 +202,13 @@ struct SerializationTraits<
  * Float specialization.
  */
 template <>
-struct SerializationTraits<float, void> {
+struct SerializationTrait<float, void> {
   using serialization_type = float;
 
   static constexpr const char* Name() { return "float"; }
 
-  static serialization_type Parse(const std::string& str) {
-    try {
-      return std::stof(str);
-    } catch (std::invalid_argument&) {
-      throw std::runtime_error("Float parser: conversion error");
-    } catch (std::out_of_range&) {
-      throw std::runtime_error(
-          "Float parser: conversion error: out of range");
-    }
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (json_object.is_number()) {
-      return static_cast<serialization_type>(json_object.number_value());
-    } else {
-      throw std::runtime_error("Float parser: conversion error");
-    }
+  static serialization_type Parse(const json& json_object) {
+    return static_cast<serialization_type>(json_object);
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -283,7 +221,8 @@ struct SerializationTraits<float, void> {
         std::abs(x), std::numeric_limits<int>::max()))};
   }
 
-  static bool Equal(serialization_type a, serialization_type b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     constexpr float eps = 1E-4f;
     constexpr float abs_eps = 1E-10f;
     return std::abs(a - b) <=
@@ -295,28 +234,13 @@ struct SerializationTraits<float, void> {
  * Double specialization.
  */
 template <>
-struct SerializationTraits<double, void> {
+struct SerializationTrait<double, void> {
   using serialization_type = double;
 
   static constexpr const char* Name() { return "float"; }
 
-  static serialization_type Parse(const std::string& str) {
-    try {
-      return std::stod(str);
-    } catch (std::invalid_argument&) {
-      throw std::runtime_error("Double parser: conversion error");
-    } catch (std::out_of_range&) {
-      throw std::runtime_error(
-          "Double parser: conversion error: out of range");
-    }
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (json_object.is_number()) {
-      return json_object.number_value();
-    } else {
-      throw std::runtime_error("Double parser: conversion error");
-    }
+  static serialization_type Parse(const json& json_object) {
+    return static_cast<serialization_type>(json_object);
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -329,7 +253,8 @@ struct SerializationTraits<double, void> {
         std::abs(x), std::numeric_limits<int>::max()))};
   }
 
-  static bool Equal(serialization_type a, serialization_type b) {
+  static bool Equal(const serialization_type& a,
+                    const serialization_type& b) {
     constexpr double eps = 1E-6;
     constexpr double abs_eps = 1E-20;
     return std::abs(a - b) <=
@@ -341,32 +266,17 @@ struct SerializationTraits<double, void> {
  * Boolean specialization.
  */
 template <>
-struct SerializationTraits<bool, void> {
+struct SerializationTrait<bool, void> {
   using serialization_type = bool;
 
   static constexpr const char* Name() { return "bool"; }
 
-  static serialization_type Parse(const std::string& str) {
-    if (str == "true" || str == "True") {
-      return true;
-    }
-    if (str == "false" || str == "False") {
-      return false;
-    }
-    throw std::runtime_error("Bool parser: conversion error from " + str);
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (json_object.is_bool()) {
-      return json_object.bool_value();
-    } else {
-      throw std::runtime_error("Bool parser: conversion error");
-    }
+  static serialization_type Parse(const json& json_object) {
+    return json_object;
   }
 
   static std::vector<std::string> GetMetricNames(
       const std::string& arg_name) {
-    // TODO Should we generate any metric for booleans at all?
     return {};
   }
 
@@ -383,19 +293,13 @@ struct SerializationTraits<bool, void> {
  * std::string specialization.
  */
 template <>
-struct SerializationTraits<std::string, void> {
+struct SerializationTrait<std::string, void> {
   using serialization_type = std::string;
 
   static constexpr const char* Name() { return "string"; }
 
-  static const std::string& Parse(const std::string& str) { return str; }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (json_object.is_string()) {
-      return json_object.string_value();
-    } else {
-      throw std::runtime_error("String parser: conversion error");
-    }
+  static serialization_type Parse(const json& json_object) {
+    return json_object;
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -417,38 +321,21 @@ struct SerializationTraits<std::string, void> {
  * std::vector specialization.
  */
 template <typename Inner>
-struct SerializationTraits<std::vector<Inner>, void> {
-  using inner_traits = SerializationTraits<Inner>;
+struct SerializationTrait<std::vector<Inner>, void> {
+  using inner_type_trait = SerializationTrait<Inner>;
   using serialization_type =
-      std::vector<typename inner_traits::serialization_type>;
+      std::vector<typename inner_type_trait::serialization_type>;
 
   static const char* Name() {
-    static std::string s = FmtStr("array({})", inner_traits::Name());
+    static std::string s = FmtStr("array({})", inner_type_trait::Name());
     return s.c_str();
   }
 
-  static serialization_type Parse(const std::string& str) {
-    std::string err;
-
-    auto json_object = json_parser::Json::parse(str, err);
-    if (!err.empty()) {
-      throw std::runtime_error("Array parser: JSON: " + err);
-    }
-
-    return JsonParse(json_object);
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (!json_object.is_array()) {
-      throw std::runtime_error("Array parser: expected array");
-    }
-
+  static serialization_type Parse(const json& json_object) {
     serialization_type result;
-
-    for (auto& inner : json_object.array_items()) {
-      result.push_back(inner_traits::JsonParse(inner));
-    }
-
+    std::transform(
+        json_object.begin(), json_object.end(), std::back_inserter(result),
+        [](const auto& inner) { return inner_type_trait::Parse(inner); });
     return result;
   }
 
@@ -464,7 +351,7 @@ struct SerializationTraits<std::vector<Inner>, void> {
   static bool Equal(const serialization_type& a,
                     const serialization_type& b) {
     return std::equal(std::begin(a), std::end(a), std::begin(b), std::end(b),
-                      inner_traits::Equal);
+                      inner_type_trait::Equal);
   }
 };
 
@@ -472,16 +359,11 @@ struct SerializationTraits<std::vector<Inner>, void> {
  * Helper class for container specializations.
  */
 template <template <typename...> class Container, typename Inner>
-struct ArrayBasedTypeSerTraits : SerializationTraits<std::vector<Inner>> {
+struct ArrayBasedTypeSerTrait : SerializationTrait<std::vector<Inner>> {
   using serialization_type = Container<Inner>;
 
-  static serialization_type Parse(const std::string& str) {
-    auto v = SerializationTraits<std::vector<Inner>>::Parse(str);
-    return FromVector(v);
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    auto v = SerializationTraits<std::vector<Inner>>::JsonParse(json_object);
+  static serialization_type Parse(const json& json_object) {
+    auto v = SerializationTrait<std::vector<Inner>>::Parse(json_object);
     return FromVector(v);
   }
 
@@ -501,7 +383,7 @@ struct ArrayBasedTypeSerTraits : SerializationTraits<std::vector<Inner>> {
   static bool Equal(const serialization_type& a,
                     const serialization_type& b) {
     return std::equal(std::begin(a), std::end(a), std::begin(b), std::end(b),
-                      SerializationTraits<Inner>::Equal);
+                      SerializationTrait<Inner>::Equal);
   }
 };
 
@@ -509,20 +391,19 @@ struct ArrayBasedTypeSerTraits : SerializationTraits<std::vector<Inner>> {
  * std::deque specialization.
  */
 template <typename Inner>
-struct SerializationTraits<std::deque<Inner>, void>
-    : ArrayBasedTypeSerTraits<std::deque, Inner> {};
+struct SerializationTrait<std::deque<Inner>, void>
+    : ArrayBasedTypeSerTrait<std::deque, Inner> {};
 
 /**
  * std::set specialization.
  */
 template <typename Inner>
-struct SerializationTraits<std::set<Inner>, void>
-    : ArrayBasedTypeSerTraits<std::set, Inner> {
-  using inner_traits = SerializationTraits<Inner>;
+struct SerializationTrait<std::set<Inner>, void>
+    : ArrayBasedTypeSerTrait<std::set, Inner> {
+  using inner_type_trait = SerializationTrait<Inner>;
 
   static const char* Name() {
-    static std::string s = FmtStr("set({})", inner_traits::Name());
-    ;
+    static std::string s = FmtStr("set({})", inner_type_trait::Name());
     return s.c_str();
   }
 };
@@ -531,13 +412,12 @@ struct SerializationTraits<std::set<Inner>, void>
  * std::unordered_set specialization.
  */
 template <typename Inner>
-struct SerializationTraits<std::unordered_set<Inner>, void>
-    : ArrayBasedTypeSerTraits<std::unordered_set, Inner> {
-  using inner_traits = SerializationTraits<Inner>;
+struct SerializationTrait<std::unordered_set<Inner>, void>
+    : ArrayBasedTypeSerTrait<std::unordered_set, Inner> {
+  using inner_type_trait = SerializationTrait<Inner>;
 
   static const char* Name() {
-    static std::string s = FmtStr("set({})", inner_traits::Name());
-    ;
+    static std::string s = FmtStr("set({})", inner_type_trait::Name());
     return s.c_str();
   }
 };
@@ -546,10 +426,10 @@ struct SerializationTraits<std::unordered_set<Inner>, void>
  * std::tuple specialization
  */
 template <typename... TupleTypes>
-struct SerializationTraits<std::tuple<TupleTypes...>, void> {
+struct SerializationTrait<std::tuple<TupleTypes...>, void> {
   using tuple_type = std::tuple<TupleTypes...>;
   using serialization_type = std::tuple<
-      typename SerializationTraits<TupleTypes>::serialization_type...>;
+      typename SerializationTrait<TupleTypes>::serialization_type...>;
 
   template <size_t Begin, size_t End>
   using this_sub_tuple_t = sub_tuple_t<tuple_type, Begin, End>;
@@ -561,38 +441,20 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
   using ith_item_t = std::tuple_element_t<I, tuple_type>;
 
   template <size_t I>
-  using ith_item_trait = SerializationTraits<ith_item_t<I>>;
+  using ith_item_trait = SerializationTrait<ith_item_t<I>>;
 
   static const char* Name() {
     static std::string s = FmtStr("tuple({})", InnerTypesName());
     return s.c_str();
   }
 
-  static serialization_type Parse(const std::string& str) {
-    std::string err;
-
-    auto json_object = json_parser::Json::parse(str, err);
-    if (!err.empty()) {
-      throw std::runtime_error("Tuple parser: JSON: " + err);
-    }
-
-    return JsonParse(json_object);
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    if (!json_object.is_array()) {
-      throw std::runtime_error("Tuple parser: expected array");
-    }
-
-    auto& arr = json_object.array_items();
-
-    if (arr.size() != this_tuple_size::value) {
+  static serialization_type Parse(const json& json_object) {
+    if (json_object.size() != this_tuple_size::value) {
       throw std::runtime_error(
           FmtStr("Tuple parser: invalid item count: expected {}, actual {}",
-                 this_tuple_size::value, arr.size()));
+                 this_tuple_size::value, json_object.size()));
     }
-
-    return JsonArrayToTuple(arr, index_sequence());
+    return JsonArrayToTuple(json_object, index_sequence());
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -611,7 +473,7 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
 
  private:
   static std::string InnerTypesName() {
-    return Concatenate(",", SerializationTraits<TupleTypes>::Name()...);
+    return Concatenate(",", SerializationTrait<TupleTypes>::Name()...);
   }
 
   template <size_t... I>
@@ -630,9 +492,8 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
 
   template <size_t... I>
   static serialization_type JsonArrayToTuple(
-      const typename json_parser::Json::array& json_arr,
-      std::index_sequence<I...> /*unused*/) {
-    return std::make_tuple(ith_item_trait<I>::JsonParse(json_arr[I])...);
+      const json& json_arr, std::index_sequence<I...> /*unused*/) {
+    return std::make_tuple(ith_item_trait<I>::Parse(json_arr[I])...);
   };
 
   template <size_t... I>
@@ -648,21 +509,18 @@ struct SerializationTraits<std::tuple<TupleTypes...>, void> {
  * Helper class for binary tree parser.
  */
 template <bool HasParent>
-struct BinaryTreeSerializationTraitsHelper {
+struct BinaryTreeSerializationTraitHelper {
   template <typename Node, typename Parent>
   static void InitParent(const Node& n, const Parent& p) {}
 };
 
 template <>
-struct BinaryTreeSerializationTraitsHelper<true> {
+struct BinaryTreeSerializationTraitHelper<true> {
   template <typename Node, typename Parent>
   static void InitParent(Node& n, Parent& p) {
     n->parent = p;
   }
 };
-
-template <typename T, bool HasParent>
-struct BinaryTreeSerializationTraits;
 
 /**
  * Common implementation for binary tree specializations.
@@ -672,29 +530,56 @@ struct BinaryTreeSerializationTraits;
  * @tparam KeyT - node key type.
  * @tparam HasParent - affects the parent pointer initialization.
  */
-template <template <typename...> class SmartPtrT,
-          template <typename...> class NodeT, typename KeyT, bool HasParent,
-          typename... MsvcWorkaround>
-struct BinaryTreeSerializationTraits<
-    SmartPtrT<NodeT<KeyT>, MsvcWorkaround...>, HasParent> {
-  using key_traits = SerializationTraits<KeyT>;
-  using node_type = NodeT<typename key_traits::serialization_type>;
-  using serialization_type = SmartPtrT<node_type>;
+template <typename NodePtrT, bool HasParent>
+struct BinaryTreeSerializationTrait {
+  using serialization_type = NodePtrT;
+
+  using node_t = template_param_by_index_t<NodePtrT, 0>;
+  using key_t = template_param_by_index_t<node_t, 0>;
+  using inner_type_trait = SerializationTrait<key_t>;
 
   static const char* Name() {
-    static std::string s = FmtStr("binary_tree({})", key_traits::Name());
+    static std::string s =
+        FmtStr("binary_tree({})", inner_type_trait::Name());
     return s.c_str();
   }
 
-  static serialization_type Parse(const std::string& str) {
-    auto v = SerializationTraits<std::vector<std::string>>::Parse(str);
-    return BuildTreeFromVector(v);
-  }
+  static serialization_type Parse(const json& json_object) {
+    std::vector<node_t*> nodes;
+    for (const auto& x : json_object) {
+      nodes.emplace_back(
+          x.is_null() ? nullptr : new node_t{inner_type_trait::Parse(x)});
+    }
+    std::vector<node_t*> candidate_children(std::rbegin(nodes),
+                                            std::rend(nodes));
+    auto root = serialization_type(candidate_children.back());
+    candidate_children.pop_back();
 
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    auto v =
-        SerializationTraits<std::vector<std::string>>::JsonParse(json_object);
-    return BuildTreeFromVector(v);
+    using trait_helper = BinaryTreeSerializationTraitHelper<HasParent>;
+
+    for (const auto& node : nodes) {
+      if (node) {
+        if (!candidate_children.empty()) {
+          node->left = serialization_type(candidate_children.back());
+          if (node->left) {
+            trait_helper::InitParent(node->left, node);
+          }
+          candidate_children.pop_back();
+        } else {
+          node->left = nullptr;
+        }
+        if (!candidate_children.empty()) {
+          node->right = serialization_type(candidate_children.back());
+          if (node->right) {
+            trait_helper::InitParent(node->right, node);
+          }
+          candidate_children.pop_back();
+        } else {
+          node->right = nullptr;
+        }
+      }
+    }
+    return root;
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -706,50 +591,6 @@ struct BinaryTreeSerializationTraits<
     return {BinaryTreeSize(x), BinaryTreeHeight(x)};
   }
 
-  static serialization_type BuildTreeFromVector(
-      const std::vector<std::string>& data) {
-    if (data.empty()) {
-      throw std::runtime_error("Tree parser: missing data");
-    }
-
-    std::vector<node_type*> nodes;
-
-    for (auto& x : data) {
-      nodes.emplace_back(x == "null" ? nullptr
-                                     : new node_type{key_traits::Parse(x)});
-    }
-    std::vector<node_type*> candidate_children(std::rbegin(nodes),
-                                               std::rend(nodes));
-    auto root = serialization_type(candidate_children.back());
-    candidate_children.pop_back();
-
-    using traits_helper = BinaryTreeSerializationTraitsHelper<HasParent>;
-
-    for (const auto& node : nodes) {
-      if (node) {
-        if (!candidate_children.empty()) {
-          node->left = serialization_type(candidate_children.back());
-          if (node->left) {
-            traits_helper::InitParent(node->left, node);
-          }
-          candidate_children.pop_back();
-        } else {
-          node->left = nullptr;
-        }
-        if (!candidate_children.empty()) {
-          node->right = serialization_type(candidate_children.back());
-          if (node->right) {
-            traits_helper::InitParent(node->right, node);
-          }
-          candidate_children.pop_back();
-        } else {
-          node->right = nullptr;
-        }
-      }
-    }
-    return root;
-  }
-
   static bool Equal(const serialization_type& a,
                     const serialization_type& b) {
     return EqualBinaryTrees(a, b);
@@ -757,13 +598,15 @@ struct BinaryTreeSerializationTraits<
 };
 
 #define DECLARE_BINARY_TREE_TYPE(KeyType, NodePtrType, HasParent) \
+  namespace test_framework {                                      \
   template <typename KeyType>                                     \
-  struct SerializationTraits<NodePtrType>                         \
-      : BinaryTreeSerializationTraits<NodePtrType, HasParent> {}; \
-  namespace detail {                                              \
+  struct SerializationTrait<NodePtrType>                          \
+      : BinaryTreeSerializationTrait<NodePtrType, HasParent> {};  \
+  namespace meta {                                                \
   template <typename KeyType>                                     \
   struct IsBinaryTreeImpl<NodePtrType> : std::true_type {};       \
-  }  // namespace
+  }                                                               \
+  }
 
 /**
  * A specialization for handling types with modifiers.
@@ -771,9 +614,9 @@ struct BinaryTreeSerializationTraits<
  * a certain specialization won't be picked up by compiler
  * if the type has an additional modifier (reference, for example).
  *
- * So, having SerializationTraits<std::string> specialization,
+ * So, having SerializationTrait<std::string> specialization,
  * it would be dropped if we try to instantiate
- * SerializationTraits<const std::string&>.
+ * SerializationTrait<const std::string&>.
  *
  * This partial specialization solves the following problem
  * by instructing a compiler that serialization traits
@@ -783,8 +626,8 @@ struct BinaryTreeSerializationTraits<
  * is disabled by enable_if.
  */
 template <typename T>
-struct SerializationTraits<T, std::enable_if_t<!is_pure_type<T>::value>>
-    : SerializationTraits<remove_ref_cv_t<T>> {};
+struct SerializationTrait<T, std::enable_if_t<!is_pure_type<T>::value>>
+    : SerializationTrait<remove_ref_cv_t<T>> {};
 
 /**
  * Helper function for writing a serialization traits specialization
@@ -795,15 +638,15 @@ struct SerializationTraits<T, std::enable_if_t<!is_pure_type<T>::value>>
  * Usage example:
  * struct Point {int x, y;};
  * template <>
- * struct SerializationTraits<Point>:
- *     UserSerTraits<Point, int, int> {};
+ * struct SerializationTrait<Point>:
+ *     UserSerTrait<Point, int, int> {};
  *
  * At first, data is parsed into std::tuple.
  * Then the target object is constructed from tuple
- * (@see UserSerTraits::FromTuple).
- * If the default implementation of UserSerTraits::FromTuple is not suitable,
+ * (@see UserSerTrait::FromTuple).
+ * If the default implementation of UserSerTrait::FromTuple is not suitable,
  * one can provide their own implementation
- * in the SerializationTraits<UserType> specialization.
+ * in the SerializationTrait<UserType> specialization.
  * It will be picked up using CRTP technique.
  *
  * @tparam UserType - target user type.
@@ -812,18 +655,12 @@ struct SerializationTraits<T, std::enable_if_t<!is_pure_type<T>::value>>
  * either by calling a constructor or using aggregate initialization.
  */
 template <typename UserType, typename... Members>
-struct UserSerTraits : SerializationTraits<std::tuple<Members...>> {
+struct UserSerTrait : SerializationTrait<std::tuple<Members...>> {
   using serialization_type = UserType;
 
-  static serialization_type Parse(const std::string& str) {
-    auto t = SerializationTraits<std::tuple<Members...>>::Parse(str);
-    return SerializationTraits<UserType>::FromTuple(t);
-  }
-
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    auto t =
-        SerializationTraits<std::tuple<Members...>>::JsonParse(json_object);
-    return SerializationTraits<UserType>::FromTuple(t);
+  static serialization_type Parse(const json& json_object) {
+    auto t = SerializationTrait<std::tuple<Members...>>::Parse(json_object);
+    return SerializationTrait<UserType>::FromTuple(t);
   }
 
   static std::vector<std::string> GetMetricNames(
@@ -855,3 +692,7 @@ struct UserSerTraits : SerializationTraits<std::tuple<Members...>> {
     return a == b;
   }
 };
+}  // namespace test_framework
+
+using test_framework::SerializationTrait;
+using test_framework::UserSerTrait;

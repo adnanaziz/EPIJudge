@@ -4,7 +4,7 @@
 int SumRootToLeafHelper(const unique_ptr<BinaryTreeNode<int>>&, int);
 
 int SumRootToLeaf(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  return SumRootToLeafHelper(tree, 0);
+  return SumRootToLeafHelper(tree, /*partial_path_sum=*/0);
 }
 
 int SumRootToLeafHelper(const unique_ptr<BinaryTreeNode<int>>& tree,

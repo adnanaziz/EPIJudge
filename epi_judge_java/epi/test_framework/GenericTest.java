@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,13 +19,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.function.Consumer;
 
 public class GenericTest {
   /**
    * The main test starter. Is intended to be called from {@link
    * #runFromAnnotations(String[], String, Class)}.
-   *
-   * @param commandlineArgs - command-line options
+   *  @param commandlineArgs - command-line options
    * @param testFile        - name of the file we are running
    * @param testDataFile    - name of the file containing header and test data
    *                          without path prefix
@@ -33,12 +34,12 @@ public class GenericTest {
    *                          The 1st argument is expected value,
    *                          the 2nd is the computed result
    * @param expectedType    - optional custom expected value type if it doesn't
-   *                          match m return type
    */
-  private static TestResult genericTestMain(
-      String[] commandlineArgs, String testFile, String testDataFile,
-      Method testFunc, BiPredicate<Object, Object> comparator,
-      Field expectedType) {
+  private static TestResult
+  genericTestMain(String[] commandlineArgs, String testFile,
+                  String testDataFile, Method testFunc,
+                  BiPredicate<Object, Object> comparator, Field expectedType,
+                  Consumer<TestConfig> programConfig) {
     JsonObject configOverride = null;
     try {
       configOverride =
@@ -54,6 +55,10 @@ public class GenericTest {
           testFile, testDataFile, configOverride.get("timeoutSeconds").asInt(),
           configOverride.get("numFailedTestsBeforeStop").asInt(),
           commandlineArgs);
+
+      if (programConfig != null) {
+        programConfig.accept(config);
+      }
 
       Platform.setOutputOpts(config.ttyMode, config.colorMode);
 
@@ -74,6 +79,9 @@ public class GenericTest {
         Paths.get(config.testDataDir, config.testDataFile));
     handler.parseSignature(testData.get(0));
 
+    List<String> metricNames =
+        config.metricNamesOverride.apply(handler.metricNames());
+
     int testNr = 0;
     int testsPassed = 0;
     final int totalTests = testData.size() - 1;
@@ -93,7 +101,8 @@ public class GenericTest {
       TestFailure testFailure = new TestFailure();
 
       try {
-        testOutput = handler.runTest(config.timeoutSeconds, testCase);
+        testOutput = handler.runTest(config.timeoutSeconds,
+                                     config.metricsOverride, testCase);
         result = TestResult.PASSED;
         testsPassed++;
         metrics.add(testOutput.metrics);
@@ -121,18 +130,16 @@ public class GenericTest {
                                      testOutput.timer);
 
       if (result != TestResult.PASSED) {
-        if (config.verbose) {
-          if (!handler.expectedIsVoid()) {
-            testCase = testCase.subList(0, testCase.size() - 1);
-          }
-          if (!testExplanation.equals("") && !testExplanation.equals("TODO")) {
-            testFailure.withProperty(TestFailure.PropertyName.EXPLANATION,
-                                     testExplanation);
-          }
-
-          TestUtilsConsole.printFailedTest(handler.paramNames(), testCase,
-                                           testFailure);
+        if (!handler.expectedIsVoid()) {
+          testCase = testCase.subList(0, testCase.size() - 1);
         }
+        if (!testExplanation.equals("") && !testExplanation.equals("TODO")) {
+          testFailure.withProperty(TestFailure.PropertyName.EXPLANATION,
+                                   testExplanation);
+        }
+
+        TestUtilsConsole.printFailedTest(handler.paramNames(), testCase,
+                                         testFailure);
 
         final int testsNotPassed = testNr - testsPassed;
         if (testsNotPassed >= config.numFailedTestsBeforeStop) {
@@ -145,11 +152,15 @@ public class GenericTest {
       updateTestPassed(config.testFile, testsPassed);
     }
 
-    String complexity = "";
-    
     System.out.println();
 
-    if (!durations.isEmpty() && config.verbose) {
+    if (!durations.isEmpty()) {
+      String complexity = "";
+      if (!metricNames.isEmpty() && !metrics.isEmpty() &&
+          config.analyzeComplexity) {
+        TestUtilsConsole.showComplexityNotification();
+      }
+
       TestUtilsConsole.printPostRunStats(testsPassed, totalTests, complexity,
                                          durations);
     }
@@ -161,8 +172,8 @@ public class GenericTest {
     Path problemMappingFilePath =
         Paths.get(TestUtils.getFilePathInJudgeDir("problem_mapping.js"));
     JsonValue chapterToProblemToLanguageSolutionMapping = null;
-    final String JS_BEGIN_PATTERN = "run(";
-    final String JS_END_PATTERN = ");";
+    final String JS_BEGIN_PATTERN = "problem_mapping = ";
+    final String JS_END_PATTERN = ";";
     try {
       String jsFileStr = new String(Files.readAllBytes(problemMappingFilePath));
       jsFileStr =
@@ -198,12 +209,11 @@ public class GenericTest {
   /**
    * This method prepares arguments for
    * {@link #genericTestMain(String[], String, String, Method, BiPredicate,
-   * Field)} method and consequently invokes it for each * method in the class,
-   * marked with {@link EpiTest} annotation.
-   * It scans the * provided class for custom result comparator
-   * (marked with {@link EpiTestComparator} annotation)
-   * and for custom expected value type
-   * (marked with {@link EpiTestExpectedType} annotation)
+   * Field, Consumer)} method and consequently invokes it for each * method in
+   * the class, marked with {@link EpiTest} annotation. It scans the * provided
+   * class for custom result comparator (marked with {@link EpiTestComparator}
+   * annotation) and for custom expected value type (marked with {@link
+   * EpiTestExpectedType} annotation)
    */
   @SuppressWarnings("unchecked")
   public static TestResult runFromAnnotations(String[] commandlineArgs,
@@ -211,50 +221,73 @@ public class GenericTest {
                                               Class testClass) {
     BiPredicate<Object, Object> comparator =
         findCustomComparatorByAnnotation(testClass);
-
     Field expectedType = findCustomExpectedTypeByAnnotation(testClass);
+    Consumer<TestConfig> programConfig =
+        findProgramConfigByAnnotation(testClass);
 
-    TestResult result = TestResult.FAILED;
-    for (Method m : testClass.getMethods()) {
-      EpiTest annotation = m.getAnnotation(EpiTest.class);
-      if (annotation != null) {
-        result = genericTestMain(commandlineArgs, testFile,
-                                 annotation.testDataFile(), m, comparator,
-                                 expectedType);
-      }
-    }
-    return result;
-  }
-
-  @SuppressWarnings("unchecked")
-  private static BiPredicate<Object, Object> findCustomComparatorByAnnotation(
-      Class testClass) {
-    for (Field f : testClass.getFields()) {
-      Annotation annotation = f.getAnnotation(EpiTestComparator.class);
-      if (annotation != null) {
-        if (!f.getType().equals(BiPredicate.class)) {
-          throw new RuntimeException(
-              "EpiTestComparator type mismatch. Expected " +
-              BiPredicate.class.getName() + ", got: " + f.getType().getName());
-        }
-        try {
-          return (BiPredicate<Object, Object>)f.get(null);
-        } catch (IllegalAccessException e) {
-          throw new RuntimeException(e.getMessage());
-        }
-      }
+    Method testFunc = findMethodWithAnnotation(testClass, EpiTest.class);
+    if (testFunc == null) {
+      throw new RuntimeException("Missing method with EpiTest annotation");
     }
 
-    return null;
+    return genericTestMain(commandlineArgs, testFile,
+                           testFunc.getAnnotation(EpiTest.class).testDataFile(),
+                           testFunc, comparator, expectedType, programConfig);
   }
 
-  private static Field findCustomExpectedTypeByAnnotation(Class testClass) {
+  private static Field
+  findFieldWithAnnotation(Class testClass,
+                          Class<? extends Annotation> annotationClass) {
     for (Field f : testClass.getFields()) {
-      if (f.getAnnotation(EpiTestExpectedType.class) != null) {
+      if (f.getAnnotation(annotationClass) != null) {
         return f;
       }
     }
-
     return null;
+  }
+
+  private static Method
+  findMethodWithAnnotation(Class testClass,
+                           Class<? extends Annotation> annotationClass) {
+    for (Method m : testClass.getMethods()) {
+      if (m.getAnnotation(annotationClass) != null) {
+        return m;
+      }
+    }
+    return null;
+  }
+
+  private static BiPredicate<Object, Object>
+  findCustomComparatorByAnnotation(Class testClass) {
+    Method m = findMethodWithAnnotation(testClass, EpiTestComparator.class);
+    if (m == null) {
+      return null;
+    }
+    return (expected, result) -> {
+      try {
+        return (Boolean)m.invoke(null, expected, result);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        throw new RuntimeException(e);
+      }
+    };
+  }
+
+  private static Consumer<TestConfig>
+  findProgramConfigByAnnotation(Class testClass) {
+    Method m = findMethodWithAnnotation(testClass, EpiProgramConfig.class);
+    if (m == null) {
+      return null;
+    }
+    return (config) -> {
+      try {
+        m.invoke(null, config);
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        throw new RuntimeException(e);
+      }
+    };
+  }
+
+  private static Field findCustomExpectedTypeByAnnotation(Class testClass) {
+    return findFieldWithAnnotation(testClass, EpiTestExpectedType.class);
   }
 }

@@ -2,6 +2,7 @@
 #include <iterator>
 #include <queue>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::greater;
@@ -9,35 +10,29 @@ using std::next;
 using std::priority_queue;
 using std::vector;
 
-struct IteratorCurrentAndEnd {
-  bool operator>(const IteratorCurrentAndEnd& that) const {
-    return *current > *that.current;
-  }
-
-  vector<int>::const_iterator current;
-  vector<int>::const_iterator end;
-};
-
 vector<int> MergeSortedArrays(const vector<vector<int>>& sorted_arrays) {
-  priority_queue<IteratorCurrentAndEnd, vector<IteratorCurrentAndEnd>,
-                 greater<>>
-      min_heap;
+  struct IteratorCurrentAndEnd {
+    bool operator<(const IteratorCurrentAndEnd& that) const {
+      return *current > *that.current;
+    }
+
+    vector<int>::const_iterator current, end;
+  };
+  priority_queue<IteratorCurrentAndEnd> min_heap;
 
   for (const vector<int>& sorted_array : sorted_arrays) {
     if (!empty(sorted_array)) {
-      min_heap.emplace(
-          IteratorCurrentAndEnd{cbegin(sorted_array), cend(sorted_array)});
+      min_heap.push({cbegin(sorted_array), cend(sorted_array)});
     }
   }
 
   vector<int> result;
   while (!empty(min_heap)) {
-    IteratorCurrentAndEnd smallest_array = min_heap.top();
+    auto [current, end] = min_heap.top();
     min_heap.pop();
-    result.emplace_back(*smallest_array.current);
-    if (next(smallest_array.current) != smallest_array.end) {
-      min_heap.emplace(IteratorCurrentAndEnd{next(smallest_array.current),
-                                             smallest_array.end});
+    result.emplace_back(*current);
+    if (next(current) != end) {
+      min_heap.push({next(current), end});
     }
   }
   return result;

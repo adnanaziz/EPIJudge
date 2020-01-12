@@ -1,10 +1,6 @@
-
 import collections
-import sys
 
 from test_framework.test_failure import PropertyName, TestFailure
-
-sys.setrecursionlimit(15500)
 
 
 class TreePath:
@@ -19,53 +15,91 @@ class TreePath:
         return TreePath(self, False)
 
     def __str__(self):
-        if self._prev is None:
-            return 'root'
-        return str(self._prev) + '->left' if self._to_left else '->right'
+        result = []
+        node = self
 
+        while node:
+            result.append('->left' if node._to_left else '->right')
+            node = node._prev
 
-def tree_generate_helper(tree, result, order):
-    if tree:
-        if order == -1:
-            result.append(tree.data)
-        tree_generate_helper(tree.left, result, order)
-        if order == 0:
-            result.append(tree.data)
-        tree_generate_helper(tree.right, result, order)
-        if order == 1:
-            result.append(tree.data)
+        result.reverse()
+        result[0] = 'root'
+
+        return ''.join(result)
 
 
 def generate_preorder(tree):
     result = []
-    tree_generate_helper(tree, result, -1)
+    s = [tree]
+
+    while s:
+        node = s.pop()
+        if not node:
+            continue
+
+        result.append(node.data)
+        s.append(node.right)
+        s.append(node.left)
+
     return result
 
 
 def generate_inorder(tree):
     result = []
-    tree_generate_helper(tree, result, 0)
+    s = [tree]
+    initial = True
+
+    if not tree:
+        return result
+
+    while s:
+        node = s.pop()
+
+        if initial:
+            initial = False
+        else:
+            result.append(node.data)
+            node = node.right
+
+        while node:
+            s.append(node)
+            node = node.left
+
     return result
 
 
 def generate_postorder(tree):
     result = []
-    tree_generate_helper(tree, result, 1)
+    s = [tree]
+
+    while s:
+        node = s.pop()
+        if not node:
+            continue
+
+        result.append(node.data)
+        s.append(node.left)
+        s.append(node.right)
+
+    result.reverse()
+
     return result
 
 
 def find_node(tree, val):
-    if tree:
-        if tree.data == val:
-            return tree
+    s = [tree]
 
-        left_result = find_node(tree.left, val)
-        if left_result:
-            return left_result
+    while s:
+        node = s.pop()
 
-        right_result = find_node(tree.right, val)
-        if right_result:
-            return right_result
+        if not node:
+            continue
+
+        if node.data == val:
+            return node
+
+        s.append(node.left)
+        s.append(node.right)
 
     return None
 
@@ -77,78 +111,56 @@ def must_find_node(tree, val):
     return result
 
 
-def is_object_tree_type(tree):
-    # TODO(THL): Move this import to top by breaking the cyclic import.
-    import binary_tree_node
-    import binary_tree_with_parent_prototype
-    import bst_node
-    return tree is not None and \
-           (isinstance(tree, binary_tree_node.BinaryTreeNode) or
-           isinstance(tree, binary_tree_with_parent_prototype.BinaryTreeNode) or
-           isinstance(tree, bst_node.BstNode))
+def equal_binary_trees(tree1, tree2):
+    s = [(tree1, tree2)]
 
+    while s:
+        node1, node2 = s.pop()
 
-def equal_binary_trees(node1, node2):
-    if node1 and node2:
-        return (node1.data == node2.data
-                and equal_binary_trees(node1.left, node2.left)
-                and equal_binary_trees(node1.right, node2.right))
+        if (node1 is None) != (node2 is None):
+            return False
 
-    else:
-        return not node1 and not node2
+        if node1:
+            if node1.data != node2.data:
+                return False
+            s.append((node1.left, node2.left))
+            s.append((node1.right, node2.right))
+
+    return True
 
 
 def assert_equal_binary_trees(expected, result):
-    def impl(expected, result, path):
+    s = [(expected, result, TreePath())]
+
+    while s:
+        expected, result, path = s.pop()
+
         expected_data = expected.data if expected is not None else None
         result_data = result.data if result is not None else None
+
         if expected_data != result_data:
-            raise TestFailure()\
+            raise TestFailure() \
+                .with_property(PropertyName.RESULT, result) \
+                .with_property(PropertyName.EXPECTED, expected) \
                 .with_mismatch_info(path, expected_data, result_data)
 
         if expected is not None and result is not None:
-            impl(expected.left, result.left, path.with_left())
-            impl(expected.right, result.right, path.with_right())
-
-    try:
-        impl(expected, result, TreePath())
-    except TestFailure as e:
-        raise e\
-            .with_property(PropertyName.EXPECTED, expected)\
-            .with_property(PropertyName.RESULT, result)
-
-
-def assert_tree_is_bst(tree):
-    def impl(node, path, min, max):
-        if node is None:
-            return
-        value = node.data
-        if not type(value) is int:
-            raise RuntimeError('Only integer keys are supported')
-        if value < min or value > max:
-            raise TestFailure('Binary search tree constraints violation')\
-                .with_mismatch_info(path, 'Value between {} and {}'.format(min, max), value)
-        impl(node.left, path.with_left(), min, value)
-        impl(node.right, path.with_right(), value, max)
-
-    try:
-        impl(tree, TreePath(), -sys.maxsize, sys.maxsize)
-    except TestFailure as e:
-        raise e.with_property(PropertyName.RESULT, tree)
+            s.append((expected.left, result.left, path.with_left()))
+            s.append((expected.right, result.right, path.with_right()))
 
 
 def binary_tree_to_string(tree):
     result = ''
-    q = collections.deque()
+    nodes = collections.deque()
     visited = set()
     first = True
     null_nodes_pending = 0
 
     result += '['
-    q.append(tree)
+    nodes.append(tree)
 
-    while q:
-        node = q.popleft()
+    while nodes:
+        node = nodes.popleft()
         if id(node) in visited:
             raise RuntimeError('Detected a cycle in the tree')
         if node:
@@ -164,8 +176,8 @@ def binary_tree_to_string(tree):
             result += '"{}"'.format(node.data)
 
             visited.add(id(node))
-            q.append(node.left)
-            q.append(node.right)
+            nodes.append(node.left)
+            nodes.append(node.right)
         else:
             null_nodes_pending += 1
 
@@ -174,33 +186,82 @@ def binary_tree_to_string(tree):
 
 
 def binary_tree_height(tree):
-    if not tree:
-        return -1
-    return 1 + max(
-        binary_tree_height(tree.left), binary_tree_height(tree.right))
+    s = [(tree, 1)]
+    height = 0
+
+    while s:
+        node, node_height = s.pop()
+        if not node:
+            continue
+
+        height = max(height, node_height)
+        s.append((node.right, node_height + 1))
+        s.append((node.left, node_height + 1))
+
+    return height
+
+
+def binary_tree_size(tree):
+    s = [tree]
+    size = 0
+
+    while s:
+        node = s.pop()
+        if not node:
+            continue
+
+        size += 1
+        s.append(node.right)
+        s.append(node.left)
+
+    return size
 
 
 # Python framework specific functions
 
 
-def convert_binary_tree_to_binary_tree_with_parent(tree):
-    def add_parent_link(node, parent):
-        if not node:
-            return None
-        node.parent = parent
-        add_parent_link(node.left, node)
-        add_parent_link(node.right, node)
+def is_object_tree_type(tree):
+    return tree and hasattr(tree, 'data') and \
+           hasattr(tree, 'left') and hasattr(tree, 'right')
 
-    add_parent_link(tree, None)
+
+def convert_binary_tree_to_binary_tree_with_parent(tree):
+    s = [(tree, None)]
+
+    while s:
+        node, parent = s.pop()
+        if not node:
+            continue
+
+        node.parent = parent
+        s.append((node.right, node))
+        s.append((node.left, node))
+
     return tree
 
 
 def strip_parent_link(tree):
-    nodes = [tree]
-    while nodes:
-        n = nodes.pop()
-        if n is None:
+    s = [tree]
+
+    while s:
+        node = s.pop()
+        if node is None:
             continue
-        n.parent = None
-        nodes.append(n.left)
-        nodes.append(n.right)
+
+        node.parent = None
+        s.append(node.left)
+        s.append(node.right)
+
+
+if __name__ == '__main__':
+    from binary_tree_node import BinaryTreeNode as N
+
+    tree = N(1, N(2, N(4), N(5, N(8), None)),
+             N(3, N(6, None, N(9)), N(7, None, N(10, N(11), N(12)))))
+
+    assert generate_inorder(tree) == [4, 2, 8, 5, 1, 6, 9, 3, 7, 11, 10, 12]
+    assert generate_preorder(tree) == [1, 2, 4, 5, 8, 3, 6, 9, 7, 10, 11, 12]
+    assert generate_postorder(tree) == [4, 8, 5, 2, 9, 6, 11, 12, 10, 7, 3, 1]
+
+    path = TreePath().with_left().with_left().with_right().with_left()
+    assert str(path) == "root->left->left->right->left"

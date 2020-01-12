@@ -1,5 +1,6 @@
 import collections
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_failure import PropertyName
@@ -9,7 +10,8 @@ HighwaySection = collections.namedtuple('HighwaySection',
                                         ('x', 'y', 'distance'))
 
 
-def find_best_proposals(H, P, n):
+def find_best_proposals(H: List[HighwaySection], P: List[HighwaySection],
+                        n: int) -> HighwaySection:
     # TODO - you fill in here.
     return HighwaySection(0, 0, 0)
 
@@ -34,8 +36,7 @@ def res_printer(prop, value):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main(
-            "road_network.py",
-            'road_network.tsv',
-            find_best_proposals_wrapper,
-            res_printer=res_printer))
+        generic_test.generic_test_main('road_network.py',
+                                       'road_network.tsv',
+                                       find_best_proposals_wrapper,
+                                       res_printer=res_printer))

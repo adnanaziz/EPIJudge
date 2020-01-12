@@ -1,11 +1,13 @@
 import functools
+from typing import Optional
 
+from list_node import ListNode
 from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def list_pivoting(l, x):
+def list_pivoting(l: ListNode, x: int) -> Optional[ListNode]:
     # TODO - you fill in here.
     return None
 
@@ -47,5 +49,5 @@ def list_pivoting_wrapper(executor, l, x):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("pivot_list.py", 'pivot_list.tsv',
+        generic_test.generic_test_main('pivot_list.py', 'pivot_list.tsv',
                                        list_pivoting_wrapper))

@@ -43,10 +43,11 @@ public class PickingUpCoins {
   }
 
   private static int maximumRevenueAlternative(List<Integer> coins) {
-    List<Integer> prefixSum = new ArrayList<>(coins);
-    for (int i = 0; i < coins.size(); ++i) {
-      prefixSum.set(i, prefixSum.get(i) + (i > 0 ? prefixSum.get(i - 1) : 0));
-    }
+    List<Integer> prefixSum = new ArrayList<>();
+    coins.stream().reduce(0, (left, right) -> {
+      prefixSum.add(left + right);
+      return left + right;
+    });
     List<List<Integer>> maximumRevenueForRange = new ArrayList<>(coins.size());
     for (int i = 0; i < coins.size(); ++i) {
       maximumRevenueForRange.add(

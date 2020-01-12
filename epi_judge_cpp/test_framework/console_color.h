@@ -13,9 +13,9 @@
 
 #include "platform.h"
 
-namespace console_color {
-
+namespace test_framework {
 enum class ConsoleColor { FG_RED, FG_GREEN, FG_BLUE, FG_YELLOW, FG_DEFAULT };
+namespace console_color {
 
 short GetColorCodeWin(ConsoleColor color) {
   switch (color) {
@@ -49,6 +49,7 @@ const char* GetColorCodeUnix(ConsoleColor color) {
   }
 }
 
+}  // namespace console_color
 template <typename T>
 void PrintStdOutColored(ConsoleColor color, const T& value) {
   if (!platform::UseColorOutput()) {
@@ -62,16 +63,17 @@ void PrintStdOutColored(ConsoleColor color, const T& value) {
   const WORD old_text_attr = buffer_info.wAttributes;
 
   fflush(stdout);
-  SetConsoleTextAttribute(stdout_handle, GetColorCodeWin(color));
+  SetConsoleTextAttribute(stdout_handle,
+                          console_color::GetColorCodeWin(color));
 
   std::cout << value;
 
   fflush(stdout);
   SetConsoleTextAttribute(stdout_handle, old_text_attr);
 #else
-  std::cout << GetColorCodeUnix(color) << value
-            << GetColorCodeUnix(ConsoleColor::FG_DEFAULT);
+  std::cout << console_color::GetColorCodeUnix(color) << value
+            << console_color::GetColorCodeUnix(ConsoleColor::FG_DEFAULT);
 #endif
 }
 
-}  // namespace console_color
+}  // namespace test_framework

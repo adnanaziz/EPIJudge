@@ -1,8 +1,10 @@
 #include <memory>
 
 #include "list_node.h"
-#include "reverse_linked_list_iterative.h"
 #include "test_framework/generic_test.h"
+#define main _main
+#include "reverse_list.cc"
+#undef main
 
 using std::shared_ptr;
 
@@ -21,7 +23,7 @@ shared_ptr<ListNode<int>> ZippingLinkedList(
   auto first_half_head = L, second_half_head = slow->next;
   slow->next = nullptr;  // Splits the list into two lists.
 
-  second_half_head = ReverseLinkedList(second_half_head);
+  second_half_head = ReverseList(second_half_head);
 
   // Interleave the first half and the reversed of the second half.
   auto first_half_iter = first_half_head, second_half_iter = second_half_head;

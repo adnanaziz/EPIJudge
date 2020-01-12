@@ -14,13 +14,13 @@ public class MatrixEnclosedRegions {
     // Identifies the regions that are reachable via white path starting from
     // the first or last columns.
     for (int i = 0; i < board.size(); ++i) {
-      markBoundaryRegion(i, 0, board);
+      markBoundaryRegion(i, /*j=*/0, board);
       markBoundaryRegion(i, board.get(i).size() - 1, board);
     }
     // Identifies the regions that are reachable via white path starting from
     // the first or last rows.
     for (int j = 0; j < board.get(0).size(); ++j) {
-      markBoundaryRegion(0, j, board);
+      markBoundaryRegion(/*i=*/0, j, board);
       markBoundaryRegion(board.size() - 1, j, board);
     }
 

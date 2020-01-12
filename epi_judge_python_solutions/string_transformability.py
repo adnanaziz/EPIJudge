@@ -1,11 +1,13 @@
 import collections
 import string
+from typing import Set
 
 from test_framework import generic_test
 
-
 # Uses BFS to find the least steps of transformation.
-def transform_string(D, s, t):
+
+
+def transform_string(D: Set[str], s: str, t: str) -> int:
 
     StringWithDistance = collections.namedtuple(
         'StringWithDistance', ('candidate_string', 'distance'))
@@ -46,6 +48,6 @@ def transform_string_pythonic(D, s, t):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("string_transformability.py",
+        generic_test.generic_test_main('string_transformability.py',
                                        'string_transformability.tsv',
                                        transform_string))

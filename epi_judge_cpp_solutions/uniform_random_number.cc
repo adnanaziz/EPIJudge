@@ -32,6 +32,7 @@ int UniformRandom(int lower_bound, int upper_bound) {
 
 bool UniformRandomRunner(TimedExecutor& executor, int lower_bound,
                          int upper_bound) {
+  using namespace test_framework;
   vector<int> result;
   executor.Run([&] {
     std::generate_n(back_inserter(result), 100000,

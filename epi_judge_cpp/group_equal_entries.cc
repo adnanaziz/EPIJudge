@@ -2,6 +2,7 @@
 #include <set>
 #include <string>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
@@ -18,8 +19,11 @@ void GroupByAge(vector<Person>* people) {
   // TODO - you fill in here.
   return;
 }
+
+namespace test_framework {
 template <>
-struct SerializationTraits<Person> : UserSerTraits<Person, int, string> {};
+struct SerializationTrait<Person> : UserSerTrait<Person, int, string> {};
+}  // namespace test_framework
 
 void GroupByAgeWrapper(TimedExecutor& executor, vector<Person>& people) {
   if (people.empty()) {
@@ -35,10 +39,11 @@ void GroupByAgeWrapper(TimedExecutor& executor, vector<Person>& people) {
   if (people.empty()) {
     throw TestFailure("Empty result");
   }
+
   std::set<int> ages;
   int last_age = people[0].age;
   for (auto& x : people) {
-    if (ages.count(x.age) != 0) {
+    if (ages.count(x.age)) {
       throw TestFailure("Entries are not grouped by age");
     }
     if (x.age != last_age) {

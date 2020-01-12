@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::for_each;
@@ -66,6 +67,7 @@ vector<string> SearchFrequentItemsWrapper(int k, vector<string>& stream) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"k", "stream"};
-  return GenericTestMain(args, "search_frequent_items.cc", "search_frequent_items.tsv", &SearchFrequentItemsWrapper, &UnorderedComparator<std::vector<std::string>>, param_names);
+  return GenericTestMain(args, "search_frequent_items.cc", "search_frequent_items.tsv", &SearchFrequentItemsWrapper,
+                         UnorderedComparator{}, param_names);
 }
 // clang-format on

@@ -61,6 +61,7 @@ unique_ptr<BinaryTreeNode<int>> ReconstructPreorderWrapper(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "preorder"};
-  return GenericTestMain(args, "tree_from_preorder_with_null.cc", "tree_from_preorder_with_null.tsv", &ReconstructPreorderWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "tree_from_preorder_with_null.cc", "tree_from_preorder_with_null.tsv", &ReconstructPreorderWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

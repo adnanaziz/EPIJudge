@@ -1,6 +1,8 @@
 
 #pragma once
 
+namespace test_framework {
+
 // MinGW defines TRUE and FALSE macros, that's why we use prefix here
 enum class TriBool { kFalse, kTrue, kIndeterminate };
 
@@ -15,3 +17,4 @@ bool GetTriBoolOrDefault(TriBool tb, bool default_value) {
       return default_value;
   }
 }
+}  // namespace test_framework

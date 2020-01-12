@@ -77,6 +77,7 @@ void OverlappingNoCycleListsWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "l0", "l1", "common"};
-  return GenericTestMain(args, "do_terminated_lists_overlap.cc", "do_terminated_lists_overlap.tsv", &OverlappingNoCycleListsWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "do_terminated_lists_overlap.cc", "do_terminated_lists_overlap.tsv", &OverlappingNoCycleListsWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

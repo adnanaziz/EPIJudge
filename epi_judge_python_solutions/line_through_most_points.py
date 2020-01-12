@@ -1,18 +1,20 @@
 import collections
 import functools
 import math
+from typing import DefaultDict, List, Tuple
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
-Point = collections.namedtuple("Point", ("x", "y"))
+Point = collections.namedtuple('Point', ('x', 'y'))
 
 
-def find_line_with_most_points(points):
+def find_line_with_most_points(points: List[Point]) -> int:
 
     result = 0
     for i, p1 in enumerate(points):
-        slope_table = collections.defaultdict(int)
+        slope_table: DefaultDict[Tuple[int, int],
+                                 int] = collections.defaultdict(int)
         overlap_points = 1
         for p2 in points[i + 1:]:
             if p1 == p2:
@@ -40,6 +42,6 @@ def find_line_with_most_points_wrapper(executor, points):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("line_through_most_points.py",
+        generic_test.generic_test_main('line_through_most_points.py',
                                        'line_through_most_points.tsv',
                                        find_line_with_most_points_wrapper))

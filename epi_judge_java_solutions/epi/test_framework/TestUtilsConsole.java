@@ -20,25 +20,25 @@ public class TestUtilsConsole {
 
   public static void printTestResult(TestResult testResult) {
     switch (testResult) {
-      case PASSED:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_GREEN, "PASSED");
-        break;
-      case FAILED:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED, "FAILED");
-        break;
-      case TIMEOUT:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_BLUE, "TIMEOUT");
-        break;
-      case UNKNOWN_EXCEPTION:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
-                                        "UNHANDLED EXCEPTION");
-        break;
-      case STACK_OVERFLOW:
-        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
-                                        "STACK OVERFLOW");
-        break;
-      default:
-        throw new RuntimeException("Unknown TestResult");
+    case PASSED:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_GREEN, "PASSED");
+      break;
+    case FAILED:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED, "FAILED");
+      break;
+    case TIMEOUT:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_BLUE, "TIMEOUT");
+      break;
+    case UNKNOWN_EXCEPTION:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
+                                      "UNHANDLED EXCEPTION");
+      break;
+    case STACK_OVERFLOW:
+      ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_RED,
+                                      "STACK OVERFLOW");
+      break;
+    default:
+      throw new RuntimeException("Unknown TestResult");
     }
   }
 
@@ -95,16 +95,23 @@ public class TestUtilsConsole {
     }
 
     List<TestFailure.Property> properties = testFailure.getProperties();
-
-    ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
-                                    "\nFailure info\n");
-    for (TestFailure.Property prop : properties) {
-      System.out.print("\t");
+    if (!properties.isEmpty()) {
       ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
-                                      prop.name());
-      System.out.printf(": %s%s\n",
-                        genSpaces(maxColSize - prop.name().length()),
-                        escapeNewline(String.valueOf(prop.value())));
+                                      "\nFailure info\n");
+      for (TestFailure.Property prop : properties) {
+        System.out.print("\t");
+        ConsoleColor.printStdOutColored(ConsoleColor.Color.FG_YELLOW,
+                                        prop.name());
+        System.out.printf(": %s%s\n",
+                          genSpaces(maxColSize - prop.name().length()),
+                          escapeNewline(String.valueOf(prop.value())));
+      }
+    }
+  }
+
+  public static void showComplexityNotification() {
+    if (Platform.useTtyOutput()) {
+      System.out.print("Time complexity:\r");
     }
   }
 
