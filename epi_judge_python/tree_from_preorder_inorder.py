@@ -1,11 +1,11 @@
-from typing import List
+from typing import List, Optional
 
 from binary_tree_node import BinaryTreeNode
 from test_framework import generic_test
 
 
 def binary_tree_from_preorder_inorder(preorder: List[int],
-                                      inorder: List[int]) -> BinaryTreeNode:
+                                      inorder: List[int]) -> Optional[BinaryTreeNode]:
     # TODO - you fill in here.
     return BinaryTreeNode()
 
