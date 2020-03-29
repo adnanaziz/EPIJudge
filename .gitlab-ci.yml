@@ -1,0 +1,15 @@
+image: alpine:latest
+
+pages:
+  stage: deploy
+  script:
+  - mkdir public
+  - cp index.html public/
+  - cp -r epi_judge_python/ public/
+  - cp -r html/ public/
+  - cp problem_mapping.js public/
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
