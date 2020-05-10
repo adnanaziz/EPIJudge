@@ -48,7 +48,7 @@ problem_mapping = {
                 "total": 10000
             },
             "Java: ReverseBits.java": {
-                "passed": 0,
+                "passed": 10000,
                 "total": 10000
             },
             "Python: reverse_bits.py": {
