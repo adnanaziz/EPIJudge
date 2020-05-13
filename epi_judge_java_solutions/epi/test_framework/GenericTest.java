@@ -39,7 +39,7 @@ public class GenericTest {
   genericTestMain(String[] commandlineArgs, String testFile,
                   String testDataFile, Method testFunc,
                   BiPredicate<Object, Object> comparator, Field expectedType,
-                  Consumer<TestConfig> programConfig) {
+                  Consumer<TestConfig> programConfig, boolean treatTestDataUnsigned) {
     JsonObject configOverride = null;
     try {
       configOverride =
@@ -63,7 +63,7 @@ public class GenericTest {
       Platform.setOutputOpts(config.ttyMode, config.colorMode);
 
       GenericTestHandler testHandler =
-          new GenericTestHandler(testFunc, comparator, expectedType);
+          new GenericTestHandler(testFunc, comparator, expectedType, treatTestDataUnsigned);
       return runTests(testHandler, config);
     } catch (RuntimeException e) {
       System.err.printf("\nCritical error(%s): %s\n", e.getClass().getName(),
@@ -232,7 +232,8 @@ public class GenericTest {
 
     return genericTestMain(commandlineArgs, testFile,
                            testFunc.getAnnotation(EpiTest.class).testDataFile(),
-                           testFunc, comparator, expectedType, programConfig);
+                           testFunc, comparator, expectedType, programConfig, 
+                           testFunc.getAnnotation(EpiTest.class).treatTestDataUnsigned());
   }
 
   private static Field

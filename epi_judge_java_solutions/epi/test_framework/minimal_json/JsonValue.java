@@ -334,6 +334,9 @@ public abstract class JsonValue implements Serializable {
     throw new UnsupportedOperationException("Not a number: " + toString());
   }
 
+  public long asLongUnsigned() {
+    throw new UnsupportedOperationException("Not a number: " + toString());
+  }
   /**
    * Returns this JSON value as a <code>float</code> value, assuming that this
    * value represents a

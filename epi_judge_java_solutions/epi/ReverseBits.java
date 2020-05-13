@@ -19,7 +19,7 @@ public class ReverseBits {
     }
   }
 
-  @EpiTest(testDataFile = "reverse_bits.tsv")
+  @EpiTest(testDataFile = "reverse_bits.tsv",treatTestDataUnsigned = true)
   public static long reverseBits(long x) {
 
     final int MASK_SIZE = 16;

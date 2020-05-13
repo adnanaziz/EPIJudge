@@ -16,8 +16,29 @@ import java.util.Set;
 
 public class TraitsFactory {
   private static final Map<Type, SerializationTrait> PRIMITIVE_TYPES_MAPPING;
+  private static final Map<Type, SerializationTrait> PRIMITIVE_UNSIGNED_TYPES_MAPPING;
 
   static {
+    PRIMITIVE_UNSIGNED_TYPES_MAPPING = new HashMap<>() {
+      {
+        put(String.class, new StringTrait());
+        put(Integer.class, new IntegerTrait());
+        put(int.class, new IntegerTrait());
+        put(Short.class, new ShortTrait());
+        put(short.class, new ShortTrait());
+        put(Long.class, new LongUnsignedTrait());
+        put(long.class, new LongUnsignedTrait());
+        put(Character.class, new CharacterTrait());
+        put(char.class, new CharacterTrait());
+        put(Boolean.class, new BooleanTrait());
+        put(boolean.class, new BooleanTrait());
+        put(Float.class, new FloatTrait());
+        put(float.class, new FloatTrait());
+        put(Double.class, new DoubleTrait());
+        put(double.class, new DoubleTrait());
+      }
+    };
+
     PRIMITIVE_TYPES_MAPPING = new HashMap<>() {
       {
         put(String.class, new StringTrait());
@@ -37,10 +58,19 @@ public class TraitsFactory {
         put(double.class, new DoubleTrait());
       }
     };
+}
+
+  public static SerializationTrait getTrait(Type type) {
+      return TraitsFactory.getTrait(type, false);
   }
 
+  public static SerializationTrait getUnsignedTrait(Type type) {
+      return TraitsFactory.getTrait(type, true);
+  }
+    
   @SuppressWarnings("unchecked")
-  public static SerializationTrait getTrait(Type type) {
+  public static SerializationTrait getTrait(Type type, boolean treatUnsigned)
+  {
     if (type.equals(Void.TYPE)) {
       return new VoidTrait();
     }
@@ -66,7 +96,15 @@ public class TraitsFactory {
       }
     }
 
-    SerializationTrait mapped = PRIMITIVE_TYPES_MAPPING.get(type);
+      SerializationTrait mapped;
+    if(treatUnsigned)
+    {
+        mapped = PRIMITIVE_UNSIGNED_TYPES_MAPPING.get(type);
+    }
+    else
+    {
+        mapped = PRIMITIVE_TYPES_MAPPING.get(type);
+    }
     if (mapped != null) {
       return mapped;
     }

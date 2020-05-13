@@ -61,7 +61,7 @@ public class GenericTestHandler {
    *                       types for expected and result arguments.
    */
   public GenericTestHandler(Method func, BiPredicate<Object, Object> comp,
-                            Field expectedType) {
+                            Field expectedType, boolean treattestDataUnsigned) {
     this.func = func;
     this.comp = comp;
     hasExecutorHook = false;
@@ -77,9 +77,18 @@ public class GenericTestHandler {
       throw new RuntimeException("This program uses deprecated TestTimer hook");
     }
 
+    if (treattestDataUnsigned)
+    {
+    paramTraits = paramTypes.stream()
+                      .map(TraitsFactory::getUnsignedTrait)
+                      .collect(Collectors.toList());
+    }
+    else
+    {
     paramTraits = paramTypes.stream()
                       .map(TraitsFactory::getTrait)
                       .collect(Collectors.toList());
+    }
     paramNames = Arrays.stream(func.getParameters())
                      .map(Parameter::getName)
                      .collect(Collectors.toList());
@@ -88,9 +97,23 @@ public class GenericTestHandler {
     }
 
     if (expectedType == null) {
-      retValueTrait = TraitsFactory.getTrait(func.getGenericReturnType());
+      if (treattestDataUnsigned)
+      {
+        retValueTrait = TraitsFactory.getUnsignedTrait(func.getGenericReturnType());
+      }
+      else
+      {
+        retValueTrait = TraitsFactory.getTrait(func.getGenericReturnType());
+      }
     } else {
-      retValueTrait = TraitsFactory.getTrait(expectedType.getGenericType());
+      if (treattestDataUnsigned)
+      {
+        retValueTrait = TraitsFactory.getUnsignedTrait(expectedType.getGenericType());
+      }
+      else
+      {
+        retValueTrait = TraitsFactory.getTrait(expectedType.getGenericType());
+      }
     }
 
     customExpectedType = expectedType != null;

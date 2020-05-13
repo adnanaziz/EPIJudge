@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 
 public @interface EpiTest {
   String testDataFile();
+  boolean treatTestDataUnsigned() default false;
 }
