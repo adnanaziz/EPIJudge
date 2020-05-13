@@ -30,7 +30,7 @@ import java.io.IOException;
 class JsonNumber extends JsonValue {
   private final String string;
 
-  JsonNumber(String string) {
+  JsonNumber(final String string) {
     if (string == null) {
       throw new NullPointerException("string is null");
     }
@@ -43,7 +43,7 @@ class JsonNumber extends JsonValue {
   }
 
   @Override
-  void write(JsonWriter writer) throws IOException {
+  void write(final JsonWriter writer) throws IOException {
     writer.writeNumber(string);
   }
 
@@ -63,6 +63,12 @@ class JsonNumber extends JsonValue {
   }
 
   @Override
+  public long asLongUnsigned() {
+    return Long.parseUnsignedLong(string, 10);
+  }
+  
+
+  @Override
   public float asFloat() {
     return Float.parseFloat(string);
   }
@@ -78,7 +84,7 @@ class JsonNumber extends JsonValue {
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(final Object object) {
     if (this == object) {
       return true;
     }
@@ -88,7 +94,7 @@ class JsonNumber extends JsonValue {
     if (getClass() != object.getClass()) {
       return false;
     }
-    JsonNumber other = (JsonNumber)object;
+    final JsonNumber other = (JsonNumber)object;
     return string.equals(other.string);
   }
 }
