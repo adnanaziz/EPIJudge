@@ -22,10 +22,7 @@ public class QueueWithMax {
         dequeue.push(enqueue.pop());
       }
     }
-    if (!dequeue.empty()) {
-      return dequeue.pop();
-    }
-    throw new NoSuchElementException("Cannot get dequeue() on empty queue.");
+    return dequeue.pop();
   }
 
   public Integer max() {
@@ -33,10 +30,8 @@ public class QueueWithMax {
     if (!enqueue.empty()) {
       return dequeue.empty() ? enqueue.max()
                              : Math.max(enqueue.max(), dequeue.max());
-    } else if (!dequeue.empty()) {
-      return dequeue.max();
     }
-    throw new NoSuchElementException("Cannot get max() on empty queue.");
+    return dequeue.max();
   }
 
   @EpiUserType(ctorParams = {String.class, int.class})
@@ -51,7 +46,7 @@ public class QueueWithMax {
   }
 
   @EpiTest(testDataFile = "queue_with_max.tsv")
-  public static void queueTest(List<QueueOp> ops) throws TestFailure {
+  public static void queueTester(List<QueueOp> ops) throws TestFailure {
     try {
       QueueWithMax q = new QueueWithMax();
 

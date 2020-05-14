@@ -1,7 +1,7 @@
 from test_framework import generic_test
 
 
-def is_match(regex, s):
+def is_match(regex: str, s: str) -> bool:
     def is_match_here(regex, s):
         if not regex:
             # Case (1.): Empty regex matches all strings.
@@ -35,5 +35,5 @@ def is_match(regex, s):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("regular_expression.py",
+        generic_test.generic_test_main('regular_expression.py',
                                        'regular_expression.tsv', is_match))

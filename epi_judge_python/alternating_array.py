@@ -1,11 +1,12 @@
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_failure import PropertyName, TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def rearrange(A):
+def rearrange(A: List[int]) -> None:
     # TODO - you fill in here.
     return
 
@@ -46,6 +47,6 @@ def rearrange_wrapper(executor, A):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("alternating_array.py",
+        generic_test.generic_test_main('alternating_array.py',
                                        'alternating_array.tsv',
                                        rearrange_wrapper))

@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 using std::string;
 using std::vector;
@@ -13,6 +14,5 @@ int main(int argc, char* argv[]) {
   std::vector<std::string> param_names{"phone_number"};
   return GenericTestMain(args, "phone_number_mnemonic.cc",
                          "phone_number_mnemonic.tsv", &PhoneMnemonic,
-                         &UnorderedComparator<std::vector<std::string>>,
-                         param_names);
+                         UnorderedComparator{}, param_names);
 }

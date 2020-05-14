@@ -1,5 +1,6 @@
 #include <map>
 #include <memory>
+
 #include "posting_list_node.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
@@ -20,9 +21,11 @@ struct SerializedNode {
   int jump_index;
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<SerializedNode>
-    : UserSerTraits<SerializedNode, int, int> {};
+struct SerializationTrait<SerializedNode>
+    : UserSerTrait<SerializedNode, int, int> {};
+}  // namespace test_framework
 
 PostingListPtr CreatePostingList(
     const std::vector<SerializedNode>& serialized) {

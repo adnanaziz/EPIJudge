@@ -28,9 +28,8 @@ public class BuyAndSellStockTwice {
     double maxPriceSoFar = Double.MIN_VALUE;
     for (int i = prices.size() - 1; i > 0; --i) {
       maxPriceSoFar = Math.max(maxPriceSoFar, prices.get(i));
-      maxTotalProfit =
-          Math.max(maxTotalProfit, maxPriceSoFar - prices.get(i) +
-                                       firstBuySellProfits.get(i - 1));
+      maxTotalProfit = Math.max(maxTotalProfit, maxPriceSoFar - prices.get(i) +
+                                                    firstBuySellProfits.get(i));
     }
     return maxTotalProfit;
   }

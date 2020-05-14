@@ -2,12 +2,13 @@
 #include <functional>
 #include <vector>
 
-#define main _main
-#include "offline_sampling.cc"
-#undef main
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
+
+#define main _main
+#include "offline_sampling.cc"
+#undef main
 
 using std::bind;
 using std::vector;
@@ -39,6 +40,7 @@ int PermutationIndex(vector<int> perm) {
 }
 
 bool ComputeRandomPermutationRunner(TimedExecutor& executor, int n) {
+  using namespace test_framework;
   vector<vector<int>> results;
 
   executor.Run([&] {
@@ -65,6 +67,7 @@ void ComputeRandomPermutationWrapper(TimedExecutor& executor, int n) {
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "n"};
-  return GenericTestMain(args, "random_permutation.cc", "random_permutation.tsv", &ComputeRandomPermutationWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "random_permutation.cc", "random_permutation.tsv", &ComputeRandomPermutationWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

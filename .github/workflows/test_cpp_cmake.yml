@@ -1,0 +1,174 @@
+name: Test C++ programs
+
+on:
+  push:
+    paths-ignore:
+    - 'epi_judge_java*/**'
+    - 'epi_judge_python*/**'
+    - 'html/**'
+    - '.gitignore'
+    - 'index.html'
+    - '*.md'
+    - 'LICENSE'
+  pull_request:
+    paths-ignore:
+    - 'epi_judge_java*/**'
+    - 'epi_judge_python*/**'
+    - 'html/**'
+    - '.gitignore'
+    - 'index.html'
+    - '*.md'
+    - 'LICENSE'
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  fast_test:
+    name: Fast Test
+    runs-on: ubuntu-latest
+    # Skip on PR if branch is of the same repo (checks are already enabled by push rule)
+    if: github.repository == 'adnanaziz/EPIJudge' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name)
+
+    strategy:
+      matrix:
+        mode: [stub, solution]
+        include:
+          - mode: stub
+            folder: epi_judge_cpp
+          - mode: solution
+            folder: epi_judge_cpp_solutions
+            
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install click
+
+    - name: Create Build Environment
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      # Note the current convention is to use the -S and -B options here to specify source
+      # and build directories, but this is only available with CMake 3.13 and higher.
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: cmake $GITHUB_WORKSPACE/${{matrix.folder}} -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE -- -j 8
+
+    - name: Test
+      shell: bash
+      run: python epijudge_ci_test_tool.py --build-dir "${{runner.workspace}}/build" cpp ${{matrix.mode}} .
+  
+  windows_test:
+    name: Windows Test
+    needs: fast_test
+    runs-on: windows-latest
+    if: github.repository == 'adnanaziz/EPIJudge' && (github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false)
+
+    strategy:
+      matrix:
+        mode: [stub, solution]
+        include:
+          - mode: stub
+            folder: epi_judge_cpp
+          - mode: solution
+            folder: epi_judge_cpp_solutions
+            
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install click
+
+    - name: Create Build Environment
+      run: cmake -E make_directory "${{runner.workspace}}/build"
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake "$GITHUB_WORKSPACE/${{matrix.folder}}" -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE
+
+    - name: Test
+      shell: bash
+      run: python epijudge_ci_test_tool.py --build-dir "${{runner.workspace}}/build/$BUILD_TYPE" cpp ${{matrix.mode}} .
+  
+  macos_test:
+    name: macOS Test
+    needs: windows_test
+    runs-on: macOS-latest
+    if: github.repository == 'adnanaziz/EPIJudge' && (github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false)
+
+    strategy:
+      matrix:
+        mode: [stub, solution]
+        include:
+          - mode: stub
+            folder: epi_judge_cpp
+          - mode: solution
+            folder: epi_judge_cpp_solutions
+            
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install click
+
+    - name: Create Build Environment
+      run: cmake -E make_directory "${{runner.workspace}}/build"
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake "$GITHUB_WORKSPACE/${{matrix.folder}}" -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE -- -j 8
+
+    # Mac build should be identical to ubuntu, skip testing to save resources    
+        
+  dummy_job:
+    name: Empty check
+    runs-on: ubuntu-latest
+    # Add a dummy job to avoid empty job list (otherwise GitHub shows the runs as failed)
+    if: github.repository != 'adnanaziz/EPIJudge' || github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+    steps:
+      - name: This check is triggered by the corresponding push event
+        run: echo 'This check is triggered by the corresponding push event'

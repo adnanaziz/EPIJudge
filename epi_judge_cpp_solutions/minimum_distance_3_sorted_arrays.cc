@@ -3,6 +3,7 @@
 #include <limits>
 #include <map>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 
 using std::min;
@@ -13,8 +14,6 @@ using std::vector;
 
 int FindClosestElementsInSortedArrays(
     const vector<vector<int>>& sorted_arrays) {
-  int min_distance_so_far = numeric_limits<int>::max();
-
   struct IterTail {
     vector<int>::const_iterator iter, tail;
   };
@@ -26,6 +25,7 @@ int FindClosestElementsInSortedArrays(
                           IterTail{cbegin(sorted_array), cend(sorted_array)});
   }
 
+  int min_distance_so_far = numeric_limits<int>::max();
   while (true) {
     int min_value = cbegin(iter_and_tail)->first,
         max_value = crbegin(iter_and_tail)->first;
@@ -47,6 +47,7 @@ int FindClosestElementsInSortedArrays(
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"sorted_arrays"};
-  return GenericTestMain(args, "minimum_distance_3_sorted_arrays.cc", "minimum_distance_3_sorted_arrays.tsv", &FindClosestElementsInSortedArrays, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "minimum_distance_3_sorted_arrays.cc", "minimum_distance_3_sorted_arrays.tsv", &FindClosestElementsInSortedArrays,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

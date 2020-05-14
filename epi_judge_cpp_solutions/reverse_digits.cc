@@ -1,13 +1,16 @@
 #include <cstdlib>
+
 #include "test_framework/generic_test.h"
 
 long long Reverse(int x) {
-  long long result = 0, x_remaining = abs(x);
-  while (x_remaining) {
-    result = result * 10 + x_remaining % 10;
-    x_remaining /= 10;
+  long long result = 0;
+  while (x) {
+    // If x is an negative, x % 10 is the negative of least significant digit.
+    // For example, -256 % 10 = -6.
+    result = result * 10 + x % 10;
+    x /= 10;
   }
-  return x < 0 ? -result : result;
+  return result;
 }
 
 int main(int argc, char* argv[]) {

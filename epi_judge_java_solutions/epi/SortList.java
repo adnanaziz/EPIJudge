@@ -21,8 +21,9 @@ public class SortList {
       slow = slow.next;
     }
 
-    preSlow.next = null; // Splits the list into two equal-sized lists.
-
+    if (preSlow != null) {
+      preSlow.next = null; // Splits the list into two equal-sized lists.
+    }
     return SortedListsMerge.mergeTwoSortedLists(stableSortList(L),
                                                 stableSortList(slow));
   }

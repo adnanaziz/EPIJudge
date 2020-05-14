@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/timed_executor.h"
@@ -19,8 +20,10 @@ struct Edge {
   int to;
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Edge> : UserSerTraits<Edge, int, int> {};
+struct SerializationTrait<Edge> : UserSerTrait<Edge, int, int> {};
+}  // namespace test_framework
 
 bool IsAnyPlacementFeasibleWrapper(TimedExecutor& executor, int k,
                                    const vector<Edge>& edges) {

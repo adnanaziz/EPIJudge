@@ -3,6 +3,7 @@
 #include <iterator>
 #include <numeric>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
 #include "test_framework/timed_executor.h"
@@ -15,6 +16,7 @@ vector<int> RandomSubset(int n, int k) {
   return {};
 }
 bool RandomSubsetRunner(TimedExecutor& executor, int n, int k) {
+  using namespace test_framework;
   vector<vector<int>> results;
 
   executor.Run([&] {

@@ -1,11 +1,12 @@
 #include <queue>
 #include <vector>
 
+#include "test_framework/generic_test.h"
+#include "test_framework/serialization_traits.h"
+
 #define main _main
 #include "queue_with_max_using_deque.cc"
 #undef main
-#include "test_framework/generic_test.h"
-#include "test_framework/serialization_traits.h"
 
 using std::queue;
 using std::vector;
@@ -35,15 +36,16 @@ vector<TrafficElement> CalculateTrafficVolumes(const vector<TrafficElement>& A,
     while (traffic_info.time - sliding_window.Head().time > w) {
       sliding_window.Dequeue();
     }
-    maximum_volumes.emplace_back(
-        TrafficElement{traffic_info.time, sliding_window.Max().volume});
+    maximum_volumes.push_back({traffic_info.time, sliding_window.Max().volume});
   }
   return maximum_volumes;
 }
 
+namespace test_framework {
 template <>
-struct SerializationTraits<TrafficElement>
-    : UserSerTraits<TrafficElement, int, double> {};
+struct SerializationTrait<TrafficElement>
+    : UserSerTrait<TrafficElement, int, double> {};
+}  // namespace test_framework
 
 std::ostream& operator<<(std::ostream& out, const TrafficElement& te) {
   return out << '[' << te.time << ", " << te.volume << ']';

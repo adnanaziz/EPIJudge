@@ -1,10 +1,12 @@
+from typing import Dict, List
+
 from test_framework import generic_test
 
 
-def longest_subarray_with_distinct_entries(A):
+def longest_subarray_with_distinct_entries(A: List[int]) -> int:
 
     # Records the most recent occurrences of each entry.
-    most_recent_occurrence = {}
+    most_recent_occurrence: Dict[int, int] = {}
     longest_dup_free_subarray_start_idx = result = 0
     for i, a in enumerate(A):
         # Defer updating dup_idx until we see a duplicate.
@@ -22,6 +24,6 @@ def longest_subarray_with_distinct_entries(A):
 if __name__ == '__main__':
     exit(
         generic_test.generic_test_main(
-            "longest_subarray_with_distinct_values.py",
+            'longest_subarray_with_distinct_values.py',
             'longest_subarray_with_distinct_values.tsv',
             longest_subarray_with_distinct_entries))

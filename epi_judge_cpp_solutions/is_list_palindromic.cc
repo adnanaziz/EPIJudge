@@ -1,6 +1,8 @@
 #include "list_node.h"
-#include "reverse_linked_list_iterative.h"
 #include "test_framework/generic_test.h"
+#define main _main
+#include "reverse_list.cc"
+#undef main
 
 bool IsLinkedListAPalindrome(shared_ptr<ListNode<int>> L) {
   // Finds the second half of L.
@@ -10,7 +12,7 @@ bool IsLinkedListAPalindrome(shared_ptr<ListNode<int>> L) {
   }
 
   // Compares the first half and the reversed second half lists.
-  auto first_half_iter = L, second_half_iter = ReverseLinkedList(slow);
+  auto first_half_iter = L, second_half_iter = ReverseList(slow);
   while (second_half_iter && first_half_iter) {
     if (second_half_iter->data != first_half_iter->data) {
       return false;

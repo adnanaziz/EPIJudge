@@ -2,13 +2,12 @@ package epi;
 
 import epi.test_framework.EpiTest;
 import epi.test_framework.EpiTestComparator;
-import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
+import epi.test_framework.LexicographicalListComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BiPredicate;
 
 public class Permutations {
   @EpiTest(testDataFile = "permutations.tsv")
@@ -16,18 +15,29 @@ public class Permutations {
   public static List<List<Integer>> permutations(List<Integer> A) {
 
     List<List<Integer>> result = new ArrayList<>();
-    // Generate the first permutation in dictionary order.
-    Collections.sort(A);
-    do {
-      result.add(new ArrayList<>(A));
-      A = NextPermutation.nextPermutation(A);
-    } while (!A.isEmpty());
+    directedPermutations(0, A, result);
     return result;
   }
 
+  private static void directedPermutations(int i, List<Integer> A,
+                                           List<List<Integer>> result) {
+    if (i == A.size() - 1) {
+      result.add(new ArrayList<>(A));
+      return;
+    }
+
+    // Try every possibility for A[i].
+    for (int j = i; j < A.size(); ++j) {
+      Collections.swap(A, i, j);
+      // Generate all permutations for A.subList(i + 1, A.size()).
+      directedPermutations(i + 1, A, result);
+      Collections.swap(A, i, j);
+    }
+  }
+
   @EpiTestComparator
-  public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
-      (expected, result) -> {
+  public static boolean comp(List<List<Integer>> expected,
+                             List<List<Integer>> result) {
     if (result == null) {
       return false;
     }
@@ -40,7 +50,7 @@ public class Permutations {
     }
     result.sort(new LexicographicalListComparator<>());
     return expected.equals(result);
-  };
+  }
 
   public static void main(String[] args) {
     System.exit(

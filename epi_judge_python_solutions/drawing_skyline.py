@@ -1,13 +1,14 @@
 import collections
 import functools
+from typing import List
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
 
-Rectangle = collections.namedtuple('Rectangle', ('left', 'right', 'height'))
+Rect = collections.namedtuple('Rect', ('left', 'right', 'height'))
 
 
-def compute_skyline(buildings):
+def compute_skyline(buildings: List[Rect]) -> List[Rect]:
 
     min_left = min(buildings, key=lambda b: b.left).left
     max_right = max(buildings, key=lambda b: b.right).right
@@ -22,14 +23,14 @@ def compute_skyline(buildings):
     for i in range(1, len(heights)):
         if heights[i] != heights[i - 1]:
             result.append(
-                Rectangle(left + min_left, i - 1 + min_left, heights[i - 1]))
+                Rect(left + min_left, i - 1 + min_left, heights[i - 1]))
             left = i
-    return result + [Rectangle(left + min_left, max_right, heights[-1])]
+    return result + [Rect(left + min_left, max_right, heights[-1])]
 
 
 @enable_executor_hook
 def compute_skyline_wrapper(executor, buildings):
-    buildings = [Rectangle(*x) for x in buildings]
+    buildings = [Rect(*x) for x in buildings]
 
     result = executor.run(functools.partial(compute_skyline, buildings))
 
@@ -38,6 +39,6 @@ def compute_skyline_wrapper(executor, buildings):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("drawing_skyline.py",
+        generic_test.generic_test_main('drawing_skyline.py',
                                        'drawing_skyline.tsv',
                                        compute_skyline_wrapper))

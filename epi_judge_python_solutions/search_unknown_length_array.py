@@ -1,7 +1,9 @@
+from typing import List
+
 from test_framework import generic_test
 
 
-def binary_search_unknown_length(A, k):
+def binary_search_unknown_length(A: List[int], k: int) -> int:
 
     # Find the possible range where k exists.
     p = 0
@@ -34,6 +36,6 @@ def binary_search_unknown_length(A, k):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("search_unknown_length_array.py",
+        generic_test.generic_test_main('search_unknown_length_array.py',
                                        'search_unknown_length_array.tsv',
                                        binary_search_unknown_length))

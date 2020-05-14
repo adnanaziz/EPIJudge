@@ -29,11 +29,11 @@ unique_ptr<BstNode<int>> RebuildBSTFromPreorderHelper(
       cbegin(preorder_sequence),
       find_if_not(cbegin(preorder_sequence) + start, cend(preorder_sequence),
                   [&](int a) { return a <= preorder_sequence[start]; }));
-  return make_unique<BstNode<int>>(BstNode<int>{
+  return make_unique<BstNode<int>>(
       preorder_sequence[start],
       RebuildBSTFromPreorderHelper(preorder_sequence, start + 1,
                                    transition_point),
-      RebuildBSTFromPreorderHelper(preorder_sequence, transition_point, end)});
+      RebuildBSTFromPreorderHelper(preorder_sequence, transition_point, end));
 }
 
 int main(int argc, char* argv[]) {

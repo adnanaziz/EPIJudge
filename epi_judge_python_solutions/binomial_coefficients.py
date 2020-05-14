@@ -1,19 +1,17 @@
+import functools
+
 from test_framework import generic_test
 
 
-def compute_binomial_coefficient(n, k):
-    def compute_x_choose_y(x, y):
-        if y in (0, x):
-            return 1
+@functools.lru_cache(None)
+def compute_binomial_coefficient(n: int, k: int) -> int:
 
-        if x_choose_y[x][y] == 0:
-            without_y = compute_x_choose_y(x - 1, y)
-            with_y = compute_x_choose_y(x - 1, y - 1)
-            x_choose_y[x][y] = without_y + with_y
-        return x_choose_y[x][y]
+    if k in (0, n):
+        return 1
 
-    x_choose_y = [[0] * (k + 1) for _ in range(n + 1)]
-    return compute_x_choose_y(n, k)
+    without_k = compute_binomial_coefficient(n - 1, k)
+    with_k = compute_binomial_coefficient(n - 1, k - 1)
+    return without_k + with_k
 
 
 def compute_binomial_coefficients_space_efficient(n, k):
@@ -28,6 +26,6 @@ def compute_binomial_coefficients_space_efficient(n, k):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("binomial_coefficients.py",
+        generic_test.generic_test_main('binomial_coefficients.py',
                                        'binomial_coefficients.tsv',
                                        compute_binomial_coefficient))

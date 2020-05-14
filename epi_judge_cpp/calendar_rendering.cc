@@ -1,4 +1,5 @@
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 using std::vector;
@@ -10,8 +11,10 @@ int FindMaxSimultaneousEvents(const vector<Event>& A) {
   // TODO - you fill in here.
   return 0;
 }
+namespace test_framework {
 template <>
-struct SerializationTraits<Event> : UserSerTraits<Event, int, int> {};
+struct SerializationTrait<Event> : UserSerTrait<Event, int, int> {};
+}  // namespace test_framework
 
 int main(int argc, char* argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};

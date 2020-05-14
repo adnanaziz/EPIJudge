@@ -1,11 +1,12 @@
 import heapq
+from typing import List, Tuple
 
 from test_framework import generic_test
 
 
-def merge_sorted_arrays(sorted_arrays):
+def merge_sorted_arrays(sorted_arrays: List[List[int]]) -> List[int]:
 
-    min_heap = []
+    min_heap: List[Tuple[int, int]] = []
     # Builds a list of iterators for each array in sorted_arrays.
     sorted_arrays_iters = [iter(x) for x in sorted_arrays]
 
@@ -33,6 +34,6 @@ def merge_sorted_arrays_pythonic(sorted_arrays):
 
 if __name__ == '__main__':
     exit(
-        generic_test.generic_test_main("sorted_arrays_merge.py",
-                                       "sorted_arrays_merge.tsv",
+        generic_test.generic_test_main('sorted_arrays_merge.py',
+                                       'sorted_arrays_merge.tsv',
                                        merge_sorted_arrays))

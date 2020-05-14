@@ -17,8 +17,7 @@ public class IsListPalindromic {
 
     // Compare the first half and the reversed second half lists.
     ListNode<Integer> firstHalfIter = L;
-    ListNode<Integer> secondHalfIter =
-        ReverseLinkedListIterative.reverseLinkedList(slow);
+    ListNode<Integer> secondHalfIter = ReverseList.reverseList(slow);
     while (secondHalfIter != null && firstHalfIter != null) {
       if (!secondHalfIter.data.equals(firstHalfIter.data)) {
         return false;

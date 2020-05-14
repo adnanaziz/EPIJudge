@@ -2,6 +2,7 @@
 #include <queue>
 #include <unordered_set>
 #include <vector>
+
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
@@ -48,8 +49,7 @@ void CheckGraph(GraphVertex* node, const vector<GraphVertex>& graph) {
       throw TestFailure("Edges mismatch");
     }
     for (GraphVertex* e : vertex->edges) {
-      if (!vertex_set.count(e)) {
-        vertex_set.emplace(e);
+      if (vertex_set.emplace(e).second) {
         q.emplace(e);
       }
     }
@@ -64,8 +64,10 @@ struct Edge {
   int to;
 };
 
+namespace test_framework {
 template <>
-struct SerializationTraits<Edge> : UserSerTraits<Edge, int, int> {};
+struct SerializationTrait<Edge> : UserSerTrait<Edge, int, int> {};
+}  // namespace test_framework
 
 void CloneGraphTest(int k, const vector<Edge>& edges) {
   vector<GraphVertex> graph;

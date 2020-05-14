@@ -58,8 +58,8 @@ public class IsStringInMatrix {
 
     for (int i = 0; i < grid.size(); ++i) {
       for (int j = 0; j < grid.get(i).size(); ++j) {
-        if (isPatternSuffixContainedStartingAtXY(grid, i, j, pattern, 0,
-                                                 new HashSet<>())) {
+        if (isPatternSuffixContainedStartingAtXY(
+                grid, i, j, pattern, /*offset=*/0, new HashSet<>())) {
           return true;
         }
       }
@@ -78,22 +78,21 @@ public class IsStringInMatrix {
       // Nothing left to complete.
       return true;
     }
-    // Check if (x, y) lies outside the grid.
+    // Early return if (x, y) lies outside the grid or the character does not
+    // match or we have already tried this combination.
     if (x < 0 || x >= grid.size() || y < 0 || y >= grid.get(x).size() ||
         previousAttempts.contains(new Attempt(x, y, offset)) ||
         !grid.get(x).get(y).equals(pattern.get(offset))) {
       return false;
     }
 
-    if (isPatternSuffixContainedStartingAtXY(grid, x - 1, y, pattern,
-                                             offset + 1, previousAttempts) ||
-        isPatternSuffixContainedStartingAtXY(grid, x + 1, y, pattern,
-                                             offset + 1, previousAttempts) ||
-        isPatternSuffixContainedStartingAtXY(grid, x, y - 1, pattern,
-                                             offset + 1, previousAttempts) ||
-        isPatternSuffixContainedStartingAtXY(grid, x, y + 1, pattern,
-                                             offset + 1, previousAttempts)) {
-      return true;
+    for (List<Integer> nextXY : List.of(List.of(x - 1, y), List.of(x + 1, y),
+                                        List.of(x, y - 1), List.of(x, y + 1))) {
+      if (isPatternSuffixContainedStartingAtXY(grid, nextXY.get(0),
+                                               nextXY.get(1), pattern,
+                                               offset + 1, previousAttempts)) {
+        return true;
+      }
     }
     previousAttempts.add(new Attempt(x, y, offset));
     return false;

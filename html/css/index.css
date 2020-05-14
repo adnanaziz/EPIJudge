@@ -1,0 +1,104 @@
+
+.fade-enter-active {
+    transition: opacity 0.5s;
+}
+
+.fade-leave-active {
+    transition: opacity 0s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+    height: 0;
+}
+
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.5s;
+  max-height: 1500px;
+}
+.expand-enter,
+.expand-leave-to
+{
+  opacity: 0;
+  max-height: 0;
+}
+
+.chapter-card-block {
+}
+
+.problem-card-block {
+
+}
+
+.problem-name {
+    flex-grow: 1;
+    font-size: medium;
+    margin-right: 10px;
+}
+
+.chapter-card-wide.mdl-card {
+    width: 612px;
+    margin: 20px auto auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.chapter-card-wide > .mdl-card__title {
+    color: #000000;
+    height: 60px;
+}
+
+.problem-card-wide > .mdl-card__title {
+    color: #000000;
+    height: 20px;
+}
+
+.problem-card-wide.mdl-card {
+    width: 592px;
+    margin: 5px auto auto;
+    position: relative;
+    left: 10px;
+    min-height: 95px;
+    padding-left: 10px;
+}
+
+.centered {
+    margin: auto;
+    display: block;
+}
+
+.problem-card-content {
+    display: flex;
+    align-items: center;
+    height: 70px;
+}
+
+.epi_content {
+    background-color: #efefef;
+    font-family: "Roboto Light", sans-serif;
+    padding-bottom: 40px;
+}
+
+.chapter-plot {
+    margin: 0 4px;
+    display: inline-block;
+}
+
+.chapter-plot p {
+    text-align: center;
+    margin: 0;
+}
+
+.problem-plot {
+    .chapter-plot;
+    margin: 0 3px;
+}
+
+.problem-plot p {
+    text-align: center;
+    font-size: 11px;
+    line-height: 14px;
+    margin: 0;
+}

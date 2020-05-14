@@ -45,6 +45,7 @@ vector<int> OnlineRandomSample(vector<int>::const_iterator stream_begin,
 
 bool OnlineRandomSamplingRunner(TimedExecutor& executor, vector<int> stream,
                                 int k) {
+  using namespace test_framework;
   vector<vector<int>> results;
 
   executor.Run([&] {

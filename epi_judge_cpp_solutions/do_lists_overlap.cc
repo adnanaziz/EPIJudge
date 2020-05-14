@@ -1,16 +1,17 @@
 #include <set>
 #include <stdexcept>
 
+#include "list_node.h"
+#include "test_framework/generic_test.h"
+#include "test_framework/test_failure.h"
+#include "test_framework/timed_executor.h"
+
 #define main _main
 #include "do_terminated_lists_overlap.cc"
 #undef main
 #define main __main
 #include "is_list_cyclic.cc"
 #undef main
-#include "list_node.h"
-#include "test_framework/generic_test.h"
-#include "test_framework/test_failure.h"
-#include "test_framework/timed_executor.h"
 
 int Distance(shared_ptr<ListNode<int>> a, shared_ptr<ListNode<int>> b);
 
@@ -32,24 +33,7 @@ shared_ptr<ListNode<int>> OverlappingLists(shared_ptr<ListNode<int>> l0,
     temp = temp->next;
   } while (temp != root0 && temp != root1);
 
-  // l0 and l1 do not end in the same cycle.
-  if (temp != root0) {
-    return nullptr;  // Cycles are disjoint.
-  }
-
-  // l0 and l1 end in the same cycle, locate the overlapping node if they
-  // first overlap before cycle starts.
-  int stem0_length = Distance(l0, root0), stem1_length = Distance(l1, root1);
-  AdvanceListByK(abs(stem0_length - stem1_length),
-                 stem0_length > stem1_length ? &l0 : &l1);
-  while (l0 != l1 && l0 != root0 && l1 != root1) {
-    l0 = l0->next, l1 = l1->next;
-  }
-
-  // If l0 == l1 before reaching root0, it means the overlap first occurs
-  // before the cycle starts; otherwise, the first overlapping node is not
-  // unique, so we can return any node on the cycle.
-  return l0 == l1 ? l0 : root0;
+  return temp == root0 ? root1 : nullptr;
 }
 
 // Calculates the distance between a and b.
@@ -139,6 +123,7 @@ void OverlappingListsWrapper(TimedExecutor& executor,
 int main(int argc, char* argv[]) {
   std::vector<std::string> args {argv + 1, argv + argc};
   std::vector<std::string> param_names {"executor", "l0", "l1", "common", "cycle0", "cycle1"};
-  return GenericTestMain(args, "do_lists_overlap.cc", "do_lists_overlap.tsv", &OverlappingListsWrapper, DefaultComparator{}, param_names);
+  return GenericTestMain(args, "do_lists_overlap.cc", "do_lists_overlap.tsv", &OverlappingListsWrapper,
+                         DefaultComparator{}, param_names);
 }
 // clang-format on

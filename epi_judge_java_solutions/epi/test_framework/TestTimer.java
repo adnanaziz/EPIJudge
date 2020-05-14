@@ -5,48 +5,38 @@ import java.util.Collections;
 import java.util.List;
 
 public class TestTimer {
-  private long start;
-  private long stop;
+  private long start = 0;
+  private long durationUs = 0;
 
   public TestTimer() {}
 
-  public TestTimer(long durationMs) {
-    stop = System.nanoTime();
-    start = stop - durationMs * 1000000;
+  public TestTimer(long durationSeconds) {
+    final long SECOND_TO_MICRO = 1000000;
+    this.durationUs = durationSeconds * SECOND_TO_MICRO;
   }
 
   public void start() { start = System.nanoTime(); }
 
   public void stop() {
-    if (!stopped()) {
-      stop = System.nanoTime();
-    }
+    final double NANO_TO_MICRO = 0.001;
+    durationUs += (long)((System.nanoTime() - start) * NANO_TO_MICRO);
   }
 
-  public boolean started() { return start != 0; }
-
-  public boolean stopped() { return stop != 0; }
-
-  public long getMicroseconds() {
-    final long NANO_TO_MICRO = 1000;
-    return (stop - start) / NANO_TO_MICRO;
-  }
-
-  public boolean hasValidResult() { return started() && stop != 0; }
+  public long getMicroseconds() { return durationUs; }
 
   public static String durationToString(long dur) {
-    final long MICRO_TO_MILLI = 1000;
-    final long MICRO_TO_SECOND = MICRO_TO_MILLI * 1000;
-    final String FORMAT = "%4d";
+    final long MILLI_TO_MICRO = 1000;
+    final long SECOND_TO_MICRO = MILLI_TO_MICRO * 1000;
+    final String DURATION_FORMAT = "%4d";
 
     if (dur == 0) {
       return "  <1 us";
-    } else if (dur < MICRO_TO_MILLI) {
-      return String.format(FORMAT + " us", dur);
-    } else if (dur < MICRO_TO_SECOND) {
-      return String.format(FORMAT + " ms", dur / MICRO_TO_MILLI);
+    } else if (dur < MILLI_TO_MICRO) {
+      return String.format(DURATION_FORMAT + " us", dur);
+    } else if (dur < SECOND_TO_MICRO) {
+      return String.format(DURATION_FORMAT + " ms", dur / MILLI_TO_MICRO);
     } else {
-      return String.format(FORMAT + "  s", dur / MICRO_TO_SECOND);
+      return String.format(DURATION_FORMAT + "  s", dur / SECOND_TO_MICRO);
     }
   }
 

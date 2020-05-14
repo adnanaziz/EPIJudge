@@ -4,6 +4,7 @@ import epi.test_framework.EpiTestComparator;
 import epi.test_framework.EpiTestExpectedType;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -56,8 +57,7 @@ public class RemoveDuplicates {
   }
 
   @EpiTestComparator
-  public static BiPredicate<List<String>, List<Name>> comp =
-      (expected, result) -> {
+  public static boolean comp(List<String> expected, List<Name> result) {
     if (result == null) {
       return false;
     }
@@ -72,7 +72,7 @@ public class RemoveDuplicates {
       }
     }
     return true;
-  };
+  }
 
   @EpiTestExpectedType public static List<String> expectedType;
 

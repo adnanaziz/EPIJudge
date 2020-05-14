@@ -2,11 +2,13 @@
 #include <memory>
 #include <string>
 #include <vector>
+
 #include "test_framework/binary_tree_utils.h"
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 using std::unique_ptr;
+using test_framework::BinaryTreeSerializationTrait;
 template <typename T>
 struct BinaryTreeNode {
   T data;
@@ -19,39 +21,38 @@ const BinaryTreeNode<int>* FindKthNodeBinaryTree(
   // TODO - you fill in here.
   return nullptr;
 }
+namespace test_framework {
 template <typename KeyT>
-struct SerializationTraits<std::unique_ptr<BinaryTreeNode<KeyT>>>
-    : BinaryTreeSerializationTraits<std::unique_ptr<BinaryTreeNode<KeyT>>,
-                                    false> {
+struct SerializationTrait<std::unique_ptr<BinaryTreeNode<KeyT>>>
+    : BinaryTreeSerializationTrait<std::unique_ptr<BinaryTreeNode<KeyT>>,
+                                   false> {
   using serialization_type = std::unique_ptr<BinaryTreeNode<KeyT>>;
   using base =
-      BinaryTreeSerializationTraits<std::unique_ptr<BinaryTreeNode<KeyT>>,
-                                    false>;
-  static serialization_type Parse(const std::string& str) {
-    auto tree = base::Parse(str);
-    InitSize(tree);
-    return std::move(tree);
-  }
+      BinaryTreeSerializationTrait<std::unique_ptr<BinaryTreeNode<KeyT>>,
+                                   false>;
 
-  static serialization_type JsonParse(const json_parser::Json& json_object) {
-    auto tree = base::JsonParse(json_object);
+  static serialization_type Parse(const json& json_object) {
+    auto tree = base::Parse(json_object);
     InitSize(tree);
     return std::move(tree);
   }
 
  private:
   static int InitSize(const serialization_type& node) {
-    if (!node) return 0;
+    if (!node) {
+      return 0;
+    }
     node->size = 1 + InitSize(node->left) + InitSize(node->right);
     return node->size;
   }
 };
 
-namespace detail {
+namespace meta {
 template <typename KeyT>
 struct IsBinaryTreeImpl<std::unique_ptr<BinaryTreeNode<KeyT>>>
     : std::true_type {};
-}  // namespace detail
+}  // namespace meta
+}  // namespace test_framework
 
 int FindKthNodeBinaryTreeWrapper(const unique_ptr<BinaryTreeNode<int>>& tree,
                                  int k) {

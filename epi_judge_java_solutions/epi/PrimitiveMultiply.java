@@ -21,12 +21,7 @@ public class PrimitiveMultiply {
   }
 
   private static long add(long a, long b) {
-    while (b != 0) {
-      long carry = a & b;
-      a = a ^ b;
-      b = carry << 1;
-    }
-    return a;
+    return b == 0 ? a : add(a ^ b, (a & b) << 1);
   }
 
   public static void main(String[] args) {

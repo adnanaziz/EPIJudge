@@ -1,0 +1,101 @@
+name: Run Java programs
+
+on:
+  push:
+    paths-ignore:
+    - 'epi_judge_cpp*/**'
+    - 'epi_judge_python*/**'
+    - 'html/**'
+    - '.gitignore'
+    - 'index.html'
+    - '*.md'
+    - 'LICENSE'
+  pull_request:
+    paths-ignore:
+    - 'epi_judge_cpp*/**'
+    - 'epi_judge_python*/**'
+    - 'html/**'
+    - '.gitignore'
+    - 'index.html'
+    - '*.md'
+    - 'LICENSE'
+
+jobs:
+  fast_test:
+    name: Fast Test
+    runs-on: ubuntu-latest
+    # Skip on PR if branch is of the same repo (checks are already enabled by push rule)
+    if: github.repository == 'adnanaziz/EPIJudge' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name)
+
+    strategy:
+      matrix:
+        mode: [stub, solution]
+        include:
+          - mode: stub
+            folder: epi_judge_java
+          - mode: solution
+            folder: epi_judge_java_solutions
+            
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Set up Java 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11.0.4'
+        java-package: jdk
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install click
+    - name: Compile
+      run: make -C ${{ matrix.folder }} all
+    - name: Test 
+      run: python epijudge_ci_test_tool.py java ${{ matrix.mode }} .
+
+  full_test:
+    name: Full Test
+    needs: fast_test
+    runs-on: windows-latest
+    if: github.repository == 'adnanaziz/EPIJudge' && (github.event_name == 'push' && github.event.ref == 'refs/tags/full-ci' && github.event.deleted == false)
+
+    strategy:
+      matrix:
+        mode: [stub, solution]
+        include:
+          - mode: stub
+            folder: epi_judge_java
+          - mode: solution
+            folder: epi_judge_java_solutions
+            
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Set up Java 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11.0.4'
+        java-package: jdk
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install click
+    - name: Compile
+      run: make -C ${{ matrix.folder }} all
+    - name: Test 
+      run: python epijudge_ci_test_tool.py java ${{ matrix.mode }} .  
+
+  dummy_job:
+    name: Empty check
+    runs-on: ubuntu-latest
+    # Add a dummy job to avoid empty job list (otherwise GitHub shows the runs as failed)
+    if: github.repository != 'adnanaziz/EPIJudge' || github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+    steps:
+      - name: This check is triggered by the corresponding push event
+        run: echo 'This check is triggered by the corresponding push event'

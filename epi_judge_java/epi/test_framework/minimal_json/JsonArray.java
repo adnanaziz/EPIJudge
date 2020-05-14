@@ -45,7 +45,7 @@ import java.util.List;
  * This class is <strong>not supposed to be extended</strong> by clients.
  * </p>
  */
-@SuppressWarnings("serial")  // use default serial UID
+@SuppressWarnings("serial") // use default serial UID
 public class JsonArray extends JsonValue implements Iterable<JsonValue> {
   private final List<JsonValue> values;
 

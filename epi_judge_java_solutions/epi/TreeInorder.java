@@ -9,25 +9,38 @@ import java.util.Deque;
 import java.util.List;
 
 public class TreeInorder {
-  @EpiTest(testDataFile = "tree_inorder.tsv")
 
+  private static class NodeAndState {
+    public BinaryTreeNode<Integer> node;
+    public Boolean leftSubtreeTraversed;
+
+    public NodeAndState(BinaryTreeNode<Integer> node,
+                        Boolean leftSubtreeTraversed) {
+      this.node = node;
+      this.leftSubtreeTraversed = leftSubtreeTraversed;
+    }
+  }
+
+  @EpiTest(testDataFile = "tree_inorder.tsv")
   public static List<Integer> inorderTraversal(BinaryTreeNode<Integer> tree) {
 
-    Deque<BinaryTreeNode<Integer>> s = new ArrayDeque<>();
-    BinaryTreeNode<Integer> curr = tree;
     List<Integer> result = new ArrayList<>();
 
-    while (!s.isEmpty() || curr != null) {
-      if (curr != null) {
-        s.addFirst(curr);
-        // Going left.
-        curr = curr.left;
-      } else {
-        // Going up.
-        curr = s.removeFirst();
-        result.add(curr.data);
-        // Going right.
-        curr = curr.right;
+    Deque<NodeAndState> inProcess = new ArrayDeque<>();
+    inProcess.addFirst(new NodeAndState(tree, /*leftSubtreeTraversed=*/false));
+    while (!inProcess.isEmpty()) {
+      NodeAndState nodeAndState = inProcess.removeFirst();
+      if (nodeAndState.node != null) {
+        if (nodeAndState.leftSubtreeTraversed) {
+          result.add(nodeAndState.node.data);
+        } else {
+          inProcess.addFirst(new NodeAndState(nodeAndState.node.right,
+                                              /*leftSubtreeTraversed=*/false));
+          inProcess.addFirst(new NodeAndState(nodeAndState.node,
+                                              /*leftSubtreeTraversed=*/true));
+          inProcess.addFirst(new NodeAndState(nodeAndState.node.left,
+                                              /*leftSubtreeTraversed=*/false));
+        }
       }
     }
     return result;

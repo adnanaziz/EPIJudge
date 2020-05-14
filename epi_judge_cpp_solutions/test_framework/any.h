@@ -6,8 +6,10 @@
 #include <utility>
 
 #include "fmt_print.h"
-#include "test_utils_meta.h"
 #include "serialization_traits.h"
+#include "test_utils_meta.h"
+
+namespace test_framework {
 
 namespace any {
 class AnyBase {
@@ -15,7 +17,9 @@ class AnyBase {
   virtual ~AnyBase() = default;
 
   virtual std::type_index Typeid() const = 0;
+
   virtual std::string TypeName() const = 0;
+
   virtual void Print(std::ostream&) const = 0;
 
   template <typename T>
@@ -31,12 +35,14 @@ class AnyBase {
   const T& Cast() const {
     const T* ptr = TryCast<T>();
     if (!ptr) {
-      throw std::runtime_error(FmtStr("Any: expected type {}, got {}", TypeName(), typeid(T).name()));
+      throw std::runtime_error(FmtStr("Any: expected type {}, got {}",
+                                      TypeName(), typeid(T).name()));
     }
     return *ptr;
   }
 
   virtual void* MemberPtr() = 0;
+
   virtual const void* MemberPtr() const = 0;
 };
 
@@ -56,22 +62,24 @@ class AnySpecialization : public AnyBase {
   void Print(std::ostream& out) const override { PrintTo(out, value_); }
 
   void* MemberPtr() override { return &value_; }
+
   const void* MemberPtr() const override { return &value_; }
 
  private:
   T value_;
 };
+}  // namespace any
 
 class Any {
-  std::shared_ptr<AnyBase> ptr_;
+  std::shared_ptr<any::AnyBase> ptr_;
 
   template <typename T>
-  using AnySpecialization = AnySpecialization<remove_ref_cv_t<T>>;
+  using AnySpecialization = any::AnySpecialization<remove_ref_cv_t<T>>;
 
  public:
   template <typename FwdT>
   Any(FwdT&& value)
-      : ptr_(std::static_pointer_cast<AnyBase>(
+      : ptr_(std::static_pointer_cast<any::AnyBase>(
             std::make_shared<AnySpecialization<FwdT>>(
                 std::forward<FwdT>(value)))) {}
 
@@ -90,4 +98,4 @@ class Any {
     return out;
   }
 };
-}  // namespace any
+}  // namespace test_framework

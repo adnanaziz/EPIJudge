@@ -1,4 +1,3 @@
-
 import sys
 
 ENABLE_TTY_OUTPUT = False
@@ -29,18 +28,18 @@ def running_on_win():
     return sys.platform == 'win32'
 
 
-if running_on_win():
+if sys.platform == 'win32':
     try:
         import ctypes
         from ctypes import LibraryLoader
 
-        windll = LibraryLoader(ctypes.WinDLL)
+        windll = LibraryLoader(ctypes.WinDLL)  # mypy: ignore
         from ctypes import wintypes
     except (AttributeError, ImportError):
         ENABLE_COLOR_OUTPUT = False
 
     else:
-        from ctypes import byref, Structure, c_char, POINTER
+        from ctypes import POINTER, Structure, byref
 
         COORD = wintypes._COORD
 
@@ -79,7 +78,7 @@ if running_on_win():
 
         def get_console_screen_buffer_info():
             csbi = ConsoleScreenBufferInfo()
-            success = _GetConsoleScreenBufferInfo(stdout_handle, byref(csbi))
+            _GetConsoleScreenBufferInfo(stdout_handle, byref(csbi))
             return csbi
 
         def set_console_text_attribute(attrs):
