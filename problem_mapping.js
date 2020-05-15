@@ -38,7 +38,7 @@ problem_mapping = {
                 "total": 10001
             },
             "Python: swap_bits.py": {
-                "passed": 0,
+                "passed": 10001,
                 "total": 10001
             }
         },
