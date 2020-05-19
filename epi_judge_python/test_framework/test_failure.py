@@ -3,6 +3,7 @@ from enum import Enum, auto
 
 class PropertyName(Enum):
     EXCEPTION_MESSAGE = auto()  # message of unhandled exception
+    EXCEPTION_TRACEBACK = auto()  # Full stack trace of the unhandled exception
     EXPLANATION = auto()  # explanation from TSV file
     COMMAND = auto(
     )  # last command, that caused the error, in API-testing programs

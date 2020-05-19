@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import traceback
 
 from test_framework.generic_test_handler import GenericTestHandler
 from test_framework.platform import set_output_opts
@@ -101,7 +102,8 @@ def run_tests(handler, config, res_printer):
         except Exception as exc:
             result = TestResult.UNKNOWN_EXCEPTION
             test_failure = TestFailure(exc.__class__.__name__).with_property(
-                PropertyName.EXCEPTION_MESSAGE, str(exc))
+                PropertyName.EXCEPTION_MESSAGE, str(exc)).with_property(
+                PropertyName.EXCEPTION_TRACEBACK, traceback.format_exc())
 
         print_test_info(result, test_nr, total_tests,
                         test_failure.get_description(), test_output.timer)
