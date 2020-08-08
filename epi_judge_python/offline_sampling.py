@@ -19,9 +19,12 @@ def random_sampling_wrapper(executor, k, A):
         result = []
 
         def populate_random_sampling_result():
+            nonlocal A
+            B = list(A)
             for _ in range(100000):
                 random_sampling(k, A)
                 result.append(A[:k])
+                A = list(B)
 
         executor.run(populate_random_sampling_result)
 
