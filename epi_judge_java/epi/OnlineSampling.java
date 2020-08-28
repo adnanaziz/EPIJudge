@@ -32,8 +32,7 @@ public class OnlineSampling {
         RandomSequenceChecker.binomialCoefficient(A.size(), k);
     Collections.sort(A);
     List<List<Integer>> combinations = new ArrayList<>();
-    for (int i = 0; i < RandomSequenceChecker.binomialCoefficient(A.size(), k);
-         ++i) {
+    for (int i = 0; i < totalPossibleOutcomes; ++i) {
       combinations.add(
           RandomSequenceChecker.computeCombinationIdx(A, A.size(), k, i));
     }
