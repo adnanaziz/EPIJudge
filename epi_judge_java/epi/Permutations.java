@@ -19,13 +19,7 @@ public class Permutations {
     if (result == null) {
       return false;
     }
-    for (List<Integer> l : expected) {
-      Collections.sort(l);
-    }
     expected.sort(new LexicographicalListComparator<>());
-    for (List<Integer> l : result) {
-      Collections.sort(l);
-    }
     result.sort(new LexicographicalListComparator<>());
     return expected.equals(result);
   }
