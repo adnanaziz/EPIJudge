@@ -90,14 +90,14 @@ public class SmallestSubarrayCoveringAllValues {
     if (result.start < 0) {
       throw new TestFailure("Subarray start index is negative");
     }
+    if (result.end >= paragraph.size()) {
+      throw new TestFailure("Subarray end index exceeds array size");
+    }
     int paraIdx = result.start;
 
     while (kwIdx < keywords.size()) {
-      if (paraIdx >= paragraph.size()) {
+      if (paraIdx > result.end) {
         throw new TestFailure("Not all keywords are in the generated subarray");
-      }
-      if (paraIdx >= paragraph.size()) {
-        throw new TestFailure("Subarray end index exceeds array size");
       }
       if (paragraph.get(paraIdx).equals(keywords.get(kwIdx))) {
         kwIdx++;
