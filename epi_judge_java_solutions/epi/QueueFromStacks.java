@@ -49,7 +49,7 @@ public class QueueFromStacks {
 
       for (QueueOp op : ops) {
         switch (op.op) {
-        case "QueueWithMax":
+        case "Queue":
           q = new Queue();
           break;
         case "enqueue":
