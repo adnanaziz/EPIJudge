@@ -51,7 +51,7 @@ public class SortedListToBst {
     compareVectorAndTree(tree.prev, it);
 
     if (!it.hasNext()) {
-      throw new TestFailure("Too few values in the tree");
+      throw new TestFailure("Too many values in the tree");
     }
     if (it.next() != tree.data) {
       throw new TestFailure("Unexpected value");
@@ -78,7 +78,7 @@ public class SortedListToBst {
     Iterator<Integer> current = l.iterator();
     compareVectorAndTree(inputList, current);
     if (current.hasNext()) {
-      throw new TestFailure("Too many l in the tree");
+      throw new TestFailure("Too few values in the tree");
     }
   }
 
