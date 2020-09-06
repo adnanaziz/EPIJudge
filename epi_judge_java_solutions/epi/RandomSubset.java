@@ -63,7 +63,7 @@ public class RandomSubset {
       A.add(i);
     }
     List<List<Integer>> combinations = new ArrayList<>();
-    for (int i = 0; i < RandomSequenceChecker.binomialCoefficient(n, k); ++i) {
+    for (int i = 0; i < totalPossibleOutcomes; ++i) {
       combinations.add(RandomSequenceChecker.computeCombinationIdx(A, n, k, i));
     }
     List<Integer> sequence = new ArrayList<>();
