@@ -1,0 +1,11 @@
+[package]
+name = "epi_judge_rust"
+version = "0.1.0"
+authors = ["dragfire <asem.devajit@gmail.com>"]
+edition = "2018"
+
+[lib]
+doctest = false
+
+[dependencies]
+csv = "1.1"
