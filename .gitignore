@@ -25,5 +25,10 @@ build
 epi_judge_java/java_build/
 *.class
 
+epi_judge_java/rust/target
+epi_judge_java/rust/request/target
+epi_judge_java/rust/data
+epi_judge_java/rust/Cargo.lock
+
 # OS X specific files
 .DS_Store
