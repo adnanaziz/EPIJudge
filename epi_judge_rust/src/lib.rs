@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 mod anagrams;
+mod is_anonymous_letter_constructible;
 mod is_string_permutable_to_palindrome;
 
 use std::io::{BufRead, BufReader};
@@ -43,9 +44,9 @@ enum ExecStatus {
     TimedOut,
 }
 
-pub fn run_tests<F>(func: F)
+pub fn run_tests<F>(filename: &'static str, func: F)
 where
-    F: 'static + FnOnce() + Send,
+    F: 'static + Fn(Vec<String>) + Send,
 {
     // TODO measure elapsed time, improve
     // TODO handle errors: RuntimeError, TimeLimitExceeded, OtherError
@@ -54,7 +55,10 @@ where
     let then = Instant::now();
 
     thread::spawn(move || {
-        func();
+        let test_data = read_test_data(filename).unwrap();
+        for data in test_data {
+            func(data);
+        }
         sender.send(ExecStatus::Done).unwrap();
     });
 
