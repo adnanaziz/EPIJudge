@@ -1453,6 +1453,10 @@ problem_mapping = {
                 "passed": 0,
                 "total": 9
             }
+            "Rust: anagrams.rs": {
+                "passed": 0,
+                "total": 9
+            }
         },
         "12.01 Test for palindromic permutations": {
             "C++: is_string_permutable_to_palindrome.cc": {
@@ -1464,6 +1468,10 @@ problem_mapping = {
                 "total": 305
             },
             "Python: is_string_permutable_to_palindrome.py": {
+                "passed": 0,
+                "total": 305
+            }
+            "Rust: is_string_permutable_to_palindrome.rs": {
                 "passed": 0,
                 "total": 305
             }
