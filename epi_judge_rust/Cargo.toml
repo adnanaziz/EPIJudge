@@ -7,6 +7,18 @@ edition = "2018"
 [lib]
 doctest = false
 
+[[bin]]
+name = "anagrams"
+path = "src/bin/anagrams.rs"
+
+[[bin]]
+name = "is_anonymous_letter_constructible"
+path = "src/bin/is_anonymous_letter_constructible.rs"
+
+[[bin]]
+name = "is_string_permutable_to_palindrome"
+path = "src/bin/is_string_permutable_to_palindrome.rs"
+
 [dependencies]
 csv = "1.1"
 serde = { version = "1.0", features = ["derive"] }

@@ -17,9 +17,8 @@ fn anagrams(dictionary: Vec<String>) -> Vec<Vec<String>> {
         .collect::<Vec<Vec<String>>>()
 }
 
-#[test]
-fn test() {
-    crate::run_tests("anagrams.tsv", |data| {
+fn main() {
+    epi_judge_rust::run_tests("anagrams.tsv", |data| -> epi_judge_rust::Result<()> {
         let dictionary = serde_json::from_str::<Vec<String>>(&data[0]).unwrap();
         let mut expected = serde_json::from_str::<Vec<Vec<String>>>(&data[1]).unwrap();
         let mut actual = anagrams(dictionary);
@@ -27,6 +26,6 @@ fn test() {
         actual.sort();
         expected.sort();
 
-        assert_eq!(actual, expected);
+        epi_judge_rust::try_assert!(actual, expected)
     });
 }
