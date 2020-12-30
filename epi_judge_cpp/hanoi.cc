@@ -25,10 +25,11 @@ void ComputeTowerHanoiWrapper(TimedExecutor& executor, int num_rings) {
 
   for (const vector<int>& operation : result) {
     int from_peg = operation[0], to_peg = operation[1];
-    if (!pegs[to_peg].empty() && pegs[from_peg].top() >= pegs[to_peg].top()) {
+    if (pegs[from_peg].empty() || (!pegs[to_peg].empty() &&
+				   pegs[from_peg].top() >= pegs[to_peg].top())) {
       throw TestFailure("Illegal move from " +
-                        std::to_string(pegs[from_peg].top()) + " to " +
-                        std::to_string(pegs[to_peg].top()));
+                        std::to_string(from_peg) + " to " +
+                        std::to_string(to_peg));
     }
     pegs[to_peg].push(pegs[from_peg].top());
     pegs[from_peg].pop();
