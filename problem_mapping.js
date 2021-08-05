@@ -65,7 +65,7 @@ problem_mapping = {
                 "passed": 0,
                 "total": 10000
             },
-            "Python: closest_int_same_weight.py": { 
+            "Python: closest_int_same_weight.py": {
                 "passed": 0,
                 "total": 10000
             }
@@ -2594,7 +2594,7 @@ problem_mapping = {
                 "total": 1001
             },
             "Python: first_missing_positive_entry.py": {
-                "passed": 0,
+                "passed": 1001,
                 "total": 1001
             }
         },
@@ -3040,7 +3040,7 @@ problem_mapping = {
                 "total": 102
             },
             "Python: longest_subarray_with_sum_constraint.py": {
-                "passed": 0,
+                "passed": 1,
                 "total": 102
             }
         },
