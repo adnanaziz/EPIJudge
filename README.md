@@ -1,3 +1,7 @@
+# Fork Information
+
+This is a repository for me to follow along the problems and exercises from the book Elements of Programming Interviews in Python, by Adnan Aziz, Tsung-Hsien Lee and Amit Prakash. This is a fork of the judge which is provided by the authors to test code and track progress.
+
 # EPI Judge
 
 ## Beta 5
@@ -42,26 +46,26 @@ Check out these one minute videos to see how easy it is to get started with the 
 
 #### Java
 
-Use the [`Makefile`](https://github.com/adnanaziz/EPIJudge/blob/master/epi_judge_java/Makefile). 
+Use the [`Makefile`](https://github.com/adnanaziz/EPIJudge/blob/master/epi_judge_java/Makefile).
 
 Compile and run a specific program:
 
-    $ make <program_name> 
+    $ make <program_name>
 Example:
 
     $ make Anagrams
 Compile and run the last program that you edited:
 
-	$ make
+    $ make
 
 ### C++
 
-You can manually compile and run all programs by directly invoking GCC and Clang. 
+You can manually compile and run all programs by directly invoking GCC and Clang.
 
     $ g++ -pthread -std=c++14 -O3 -o anagrams anagrams.cc
-You can also use the provided Makefile: `make <program_name>`. You can also use CMake with the provided CMakeLists.txt file. 
+You can also use the provided Makefile: `make <program_name>`. You can also use CMake with the provided CMakeLists.txt file.
 
-	$ make 
+    $ make
 The default Makefile target is the last edited file.
 
     $ make anagrams
@@ -69,7 +73,7 @@ The default Makefile target is the last edited file.
 
 ## FAQ
 
-- How can I contact the authors? 
+- How can I contact the authors?
 
 Please feel free to send us questions and feedback -  `adnan.aziz@gmail.com` and `tsung.hsien.lee@gmail.com`
 
@@ -86,33 +90,33 @@ The IntelliJ Integrated Development environments described above are best-in-cla
     - Linux
       - **GCC** 5.4.1 and newer
       - **Clang** 4.0 and newer
-    - OS X  
+    - OS X
       - **Apple LLVM Clang** 9.0.0 and newer
     - Windows
       - **Visual Studio** 2017 and newer
       - **MinGW** GCC 5.4.0 and newer
       - **LXSS** (Windows Subsystem for Linux) GCC 5.4.0 and newer
-  - Java     
+  - Java
     - **Java** 9 and newer
   - Python
     - **Python** 3.7 and newer
-   
+
 
 - What compilers are supported for solutions?
   - C++
       - Linux
         - **GCC** 7.0.0 and newer
         - **Clang** 5.0 and newer
-      - OS X  
+      - OS X
         - **Apple LLVM Clang** 9.0.0 and newer
       - Windows
       - **Visual Studio** 2017 and newer
         - **MinGW** GCC 7.2.0 and newer
         - **LXSS** (Windows Subsystem for Linux) GCC 7.2.0 and newer
-    - Java     
+    - Java
       - **Java** 9 and newer
     - Python
-      - **Python** 3.6 and newer 
+      - **Python** 3.6 and newer
 
 Let us know if you managed to compile with an older version.
 
