@@ -4,8 +4,19 @@
 using std::vector;
 
 double FindSalaryCap(int target_payroll, vector<int> current_salaries) {
-  // TODO - you fill in here.
-  return 0.0;
+    std::sort(current_salaries.begin(), current_salaries.end());
+
+    double unadjusted_salary = 0;
+    
+    for (int i = 0; i < current_salaries.size(); i++) {
+        double adjusted_salary = (current_salaries[i]) * (current_salaries.size() - i);
+
+        if (target_payroll >= adjusted_salary + unadjusted_salary) {
+            return (target_payroll - unadjusted_salary) / (adjusted_salary);
+        }
+        unadjusted_salary += current_salaries[i];
+    }
+    return -1.0;
 }
 
 int main(int argc, char* argv[]) {

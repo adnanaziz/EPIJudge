@@ -11,9 +11,25 @@ struct Interval {
 
 vector<Interval> AddInterval(const vector<Interval>& disjoint_intervals,
                              Interval new_interval) {
-  // TODO - you fill in here.
-  return {};
+    vector<Interval> results;
+    int indx = 0;
+    while(indx < disjoint_intervals.size() && new_interval.left > disjoint_intervals[indx].right) {
+        results.emplace_back(disjoint_intervals[indx++]);
+    }
+
+    while (indx < disjoint_intervals.size() && new_interval.right >= disjoint_intervals[indx].left) {
+        new_interval = { std::min(new_interval.left, disjoint_intervals[indx].left),
+                            std::max(new_interval.right, disjoint_intervals[indx].right) };
+        indx++;
+    }
+
+    results.emplace_back(new_interval);
+
+    results.insert(results.end(), disjoint_intervals.begin() + indx, disjoint_intervals.end());
+
+    return results;
 }
+
 namespace test_framework {
 template <>
 struct SerializationTrait<Interval> : UserSerTrait<Interval, int, int> {

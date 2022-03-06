@@ -15,10 +15,41 @@ struct Coordinate {
 
   int x, y;
 };
+
+bool isValidMove(const Coordinate& next, vector<vector<Color>>& maze) {
+    return next.x>=0 && next.x < maze.size() && 
+        next.y >= 0 && next.y < maze[next.x].size() && maze[next.x][next.y] == Color::kWhite;
+
+}
+
+bool SearchMazeHelper(const Coordinate& curr,
+    const Coordinate& e, vector<vector<Color>>& maze, vector<Coordinate>& path){
+    std::array<std::array<int, 2>, 4> adjancent = {{{0,1}, {0,-1}, {1,0}, {-1,0}}};
+    
+    for (std::array<int, 2> d :adjancent) {
+        Coordinate next = { curr.x + d[0], curr.y + d[1] };
+        if (isValidMove(next, maze)) {
+            path.emplace_back(next);
+            maze[next.x][next.y] = Color::kBlack;
+            if (SearchMazeHelper(next, e, maze, path))
+                return true;
+            path.pop_back();
+        }
+    }
+    return false;
+}
+
 vector<Coordinate> SearchMaze(vector<vector<Color>> maze, const Coordinate& s,
                               const Coordinate& e) {
-  // TODO - you fill in here.
-  return {};
+    vector<Coordinate> path;
+    path.emplace_back(s);
+
+    maze[s.x][s.y] = Color::kBlack;
+    if (SearchMazeHelper(s, e, maze, path))
+        return path;
+
+    path.pop_back();
+    return path;
 }
 
 namespace test_framework {

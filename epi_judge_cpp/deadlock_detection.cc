@@ -7,13 +7,36 @@
 using std::vector;
 
 struct GraphVertex {
-  vector<GraphVertex*> edges;
+    enum Color {white, gray, black} color = white;
+    vector<GraphVertex*> edges;
 };
 
-bool IsDeadlocked(vector<GraphVertex>* graph) {
-  // TODO - you fill in here.
-  return true;
+bool HasCycle(GraphVertex* curr, GraphVertex* prev) {
+    if (curr->color == GraphVertex::Color::gray) {
+        return true;
+    }
+    curr->color = GraphVertex::Color::gray;
+
+    for (GraphVertex*& next : curr->edges) {
+        if (/*next != prev && */ next->color != GraphVertex::Color::black) {
+            if (HasCycle(next, curr)) {
+                return true;
+            }
+        }
+    }
+
+    curr->color = GraphVertex::Color::black;
+    return false;
 }
+
+bool IsDeadlocked(vector<GraphVertex>* graph) {
+    for (GraphVertex& g : *(graph)) {
+        if (g.color == GraphVertex::Color::white && HasCycle(&g, nullptr))
+            return true;
+    }
+    return false;
+}
+
 struct Edge {
   int from;
   int to;

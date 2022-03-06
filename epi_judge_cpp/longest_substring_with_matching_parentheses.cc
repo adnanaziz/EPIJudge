@@ -6,8 +6,23 @@ using std::string;
 using std::vector;
 
 int LongestMatchingParentheses(const string& s) {
-  // TODO - you fill in here.
-  return 0;
+    int max_len = 0, end = -1;
+    std::stack<int> longest_paran_indx;
+    for (int i = 0; i < s.size(); i++) {
+        if (s[i] == '(') {
+            longest_paran_indx.emplace(i);
+        }
+        else if(longest_paran_indx.empty()){
+            end = i;
+        }
+        else {
+            longest_paran_indx.pop();
+            int start = longest_paran_indx.empty() ? end : longest_paran_indx.top();
+            max_len = std::max(max_len, i - start);
+        }
+    }
+
+    return max_len;
 }
 
 int main(int argc, char* argv[]) {

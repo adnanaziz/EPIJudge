@@ -9,10 +9,62 @@
 using std::begin;
 using std::end;
 using std::vector;
-bool SolveSudoku(vector<vector<int>>* partial_assignment) {
-  // TODO - you fill in here.
-  return true;
+
+const int kEmptyEntry = 0;
+
+bool isValidValue(int i, int j, vector<vector<int>>& partial_assignment, int val) {
+    
+    for (int k = 0; k < partial_assignment.size(); k++) {
+        if (partial_assignment[k][j] == val)
+            return false;
+    }
+
+    for (int k = 0; k < partial_assignment.size(); k++) {
+        if (partial_assignment[i][k] == val)
+            return false;
+    }
+
+    int region_size = std::sqrt(partial_assignment.size());
+    int I = i / region_size;
+    int J = j / region_size;
+
+    for (int a = 0; a < region_size; a++) {
+        for (int b = 0; b < region_size; b++) {
+            if (val == partial_assignment[I * region_size + a][J * region_size + b])
+                return false;
+        }
+
+    }
+
+    return true;
 }
+
+bool SolvePartialSudoku(int i, int j, vector<vector<int>>* partial_assignment) {
+    if (partial_assignment->size() == i) {
+        i = 0;
+        if (++j == (*partial_assignment)[i].size())
+            return true;
+    }
+
+    if ((*partial_assignment)[i][j] != kEmptyEntry) {
+        return SolvePartialSudoku(i + 1, j, partial_assignment);
+    }
+
+    for (int val = 1; val <= partial_assignment->size(); val++) {
+        if (isValidValue(i, j, (*partial_assignment), val)) {
+            (*partial_assignment)[i][j] = val;
+            if (SolvePartialSudoku(i + 1, j, partial_assignment))
+                return true;
+        }
+    }
+    (*partial_assignment)[i][j] = kEmptyEntry;
+    return false;
+}
+
+bool SolveSudoku(vector<vector<int>>* partial_assignment) {
+    return SolvePartialSudoku(0, 0, partial_assignment);
+}
+
 vector<int> GatherColumn(const vector<vector<int>>& data, size_t i) {
   vector<int> result;
   for (auto& row : data) {

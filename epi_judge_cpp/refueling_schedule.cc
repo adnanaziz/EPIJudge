@@ -10,8 +10,23 @@ const int kMPG = 20;
 // gallons[i] is the amount of gas in city i, and distances[i] is the distance
 // city i to the next city.
 int FindAmpleCity(const vector<int>& gallons, const vector<int>& distances) {
-  // TODO - you fill in here.
-  return 0;
+    struct City_n_Remainiing_Gallon{
+        int city = 0;
+        int remaining_gallon = 0;
+    };
+
+    City_n_Remainiing_Gallon city_remaining_gln;
+    int num_city = gallons.size();
+
+    int remaining_gallon = 0;
+    for (int i = 1; i < num_city; i++) {
+        remaining_gallon += gallons[i-1] - distances[i-1] / kMPG;
+        if (city_remaining_gln.remaining_gallon > remaining_gallon) {
+            city_remaining_gln = City_n_Remainiing_Gallon{ i, remaining_gallon };
+        }
+    }
+
+    return city_remaining_gln.city;
 }
 void FindAmpleCityWrapper(TimedExecutor& executor, const vector<int>& gallons,
                           const vector<int>& distances) {

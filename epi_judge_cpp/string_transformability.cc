@@ -6,8 +6,38 @@ using std::string;
 using std::unordered_set;
 
 int TransformString(unordered_set<string> D, const string& s, const string& t) {
-  // TODO - you fill in here.
-  return 0;
+    struct StringAndDistance {
+        string word;
+        int distance;
+    };
+
+    std::queue<StringAndDistance> q;
+    q.emplace(StringAndDistance{ s, 0 });
+    D.erase(s);
+
+    while (!q.empty()) {
+        StringAndDistance sd = q.front();
+        if (sd.word == t) {
+            return sd.distance;
+        }
+
+        string str = sd.word;
+        for (int i = 0; i < str.size(); i++) {
+            for (int j = 0; j < 26; j++) {
+                str[i] = 'a' + j;
+                auto iter(D.find(str));
+                
+                if (iter != D.end()) {
+                    q.emplace(StringAndDistance{*iter, sd.distance+1});
+                    D.erase(iter);
+                }
+            }
+
+            str[i] = sd.word[i];
+        }
+        q.pop();
+    }
+    return -1;
 }
 
 int main(int argc, char* argv[]) {

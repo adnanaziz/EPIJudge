@@ -5,8 +5,22 @@ using std::vector;
 
 // A is passed by value argument, since we change it.
 int FindFirstMissingPositive(vector<int> A) {
-  // TODO - you fill in here.
-  return 0;
+    size_t i = 0;
+    while (i < A.size()) {
+        if (A[i] > 0 && A[i] <= A.size() && A[A[i]-1] != A[i]) {
+            std::swap(A[i], A[A[i]-1]);
+        }
+        else {
+            i++;
+        }
+    }
+
+    for (i = 0; i < A.size();i++) {
+        if (A[i] != i + 1) 
+            return i + 1;
+    }
+
+    return A.size()+1;
 }
 
 int main(int argc, char* argv[]) {

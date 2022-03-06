@@ -8,8 +8,33 @@ struct Subarray {
 };
 
 Subarray FindLongestIncreasingSubarray(const vector<int>& A) {
-  // TODO - you fill in here.
-  return {};
+    Subarray ans;
+    int max_len = 1;
+    int i = 0;
+    
+    while (i < A.size() - max_len) {
+        bool isBig = false;
+
+        int j = i+max_len;
+        while(j > i) {
+            if (A[j - 1] >= A[j]) {
+                isBig = true;
+                i = j;
+                break;
+            }
+            j--;
+        }
+
+        if (!isBig) {
+            i += max_len;
+            while (i < A.size() && A[i - 1] < A[i]) {
+                i++;
+                max_len++;
+            }
+            ans = Subarray{ i - max_len, i - 1 };
+        }
+    }
+    return ans;
 }
 int FindLongestIncreasingSubarrayWrapper(const vector<int>& A) {
   Subarray result = FindLongestIncreasingSubarray(A);

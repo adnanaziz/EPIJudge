@@ -65,7 +65,7 @@ problem_mapping = {
                 "passed": 0,
                 "total": 10000
             },
-            "Python: closest_int_same_weight.py": { 
+            "Python: closest_int_same_weight.py": {
                 "passed": 0,
                 "total": 10000
             }
@@ -1214,7 +1214,7 @@ problem_mapping = {
     "Chapter 10: Heaps": {
         "10.01 Merge sorted files": {
             "C++: sorted_arrays_merge.cc": {
-                "passed": 0,
+                "passed": 152,
                 "total": 152
             },
             "Java: SortedArraysMerge.java": {
@@ -1228,7 +1228,7 @@ problem_mapping = {
         },
         "10.02 Sort an increasing-decreasing array": {
             "C++: sort_increasing_decreasing_array.cc": {
-                "passed": 0,
+                "passed": 203,
                 "total": 203
             },
             "Java: SortIncreasingDecreasingArray.java": {
@@ -1242,7 +1242,7 @@ problem_mapping = {
         },
         "10.03 Sort an almost-sorted array": {
             "C++: sort_almost_sorted_array.cc": {
-                "passed": 0,
+                "passed": 101,
                 "total": 101
             },
             "Java: SortAlmostSortedArray.java": {
@@ -1256,7 +1256,7 @@ problem_mapping = {
         },
         "10.04 Compute the k closest stars": {
             "C++: k_closest_stars.cc": {
-                "passed": 0,
+                "passed": 51,
                 "total": 51
             },
             "Java: KClosestStars.java": {
@@ -1270,7 +1270,7 @@ problem_mapping = {
         },
         "10.05 Compute the median of online data": {
             "C++: online_median.cc": {
-                "passed": 0,
+                "passed": 55,
                 "total": 55
             },
             "Java: OnlineMedian.java": {
@@ -1284,7 +1284,7 @@ problem_mapping = {
         },
         "10.06 Compute the k largest elements in a max-heap": {
             "C++: k_largest_in_heap.cc": {
-                "passed": 0,
+                "passed": 102,
                 "total": 102
             },
             "Java: KLargestInHeap.java": {
@@ -1300,7 +1300,7 @@ problem_mapping = {
     "Chapter 11: Searching": {
         "11.01 Search a sorted array for first occurrence of k": {
             "C++: search_first_key.cc": {
-                "passed": 0,
+                "passed": 314,
                 "total": 314
             },
             "Java: SearchFirstKey.java": {
@@ -1314,7 +1314,7 @@ problem_mapping = {
         },
         "11.02 Search a sorted array for entry equal to its index": {
             "C++: search_entry_equal_to_index.cc": {
-                "passed": 0,
+                "passed": 501,
                 "total": 501
             },
             "Java: SearchEntryEqualToIndex.java": {
@@ -1328,7 +1328,7 @@ problem_mapping = {
         },
         "11.03 Search a cyclically sorted array": {
             "C++: search_shifted_sorted_array.cc": {
-                "passed": 0,
+                "passed": 307,
                 "total": 307
             },
             "Java: SearchShiftedSortedArray.java": {
@@ -1342,7 +1342,7 @@ problem_mapping = {
         },
         "11.04 Compute the integer square root": {
             "C++: int_square_root.cc": {
-                "passed": 0,
+                "passed": 2000,
                 "total": 2000
             },
             "Java: IntSquareRoot.java": {
@@ -1356,7 +1356,7 @@ problem_mapping = {
         },
         "11.05 Compute the real square root": {
             "C++: real_square_root.cc": {
-                "passed": 0,
+                "passed": 11003,
                 "total": 11003
             },
             "Java: RealSquareRoot.java": {
@@ -1370,7 +1370,7 @@ problem_mapping = {
         },
         "11.06 Search in a 2D sorted array": {
             "C++: search_row_col_sorted_matrix.cc": {
-                "passed": 0,
+                "passed": 194,
                 "total": 194
             },
             "Java: SearchRowColSortedMatrix.java": {
@@ -1384,7 +1384,7 @@ problem_mapping = {
         },
         "11.07 Find the min and max simultaneously": {
             "C++: search_for_min_max_in_array.cc": {
-                "passed": 0,
+                "passed": 501,
                 "total": 501
             },
             "Java: SearchForMinMaxInArray.java": {
@@ -1398,7 +1398,7 @@ problem_mapping = {
         },
         "11.08 Find the kth largest element": {
             "C++: kth_largest_in_array.cc": {
-                "passed": 0,
+                "passed": 503,
                 "total": 503
             },
             "Java: KthLargestInArray.java": {
@@ -1412,7 +1412,7 @@ problem_mapping = {
         },
         "11.09 Find the missing IP address": {
             "C++: absent_value_array.cc": {
-                "passed": 0,
+                "passed": 100,
                 "total": 100
             },
             "Java: AbsentValueArray.java": {
@@ -1426,7 +1426,7 @@ problem_mapping = {
         },
         "11.10 Find the duplicate and missing elements": {
             "C++: search_for_missing_element.cc": {
-                "passed": 0,
+                "passed": 50,
                 "total": 50
             },
             "Java: SearchForMissingElement.java": {
@@ -1456,7 +1456,7 @@ problem_mapping = {
         },
         "12.01 Test for palindromic permutations": {
             "C++: is_string_permutable_to_palindrome.cc": {
-                "passed": 0,
+                "passed": 305,
                 "total": 305
             },
             "Java: IsStringPermutableToPalindrome.java": {
@@ -1470,7 +1470,7 @@ problem_mapping = {
         },
         "12.02 Is an anonymous letter constructible?": {
             "C++: is_anonymous_letter_constructible.cc": {
-                "passed": 0,
+                "passed": 212,
                 "total": 212
             },
             "Java: IsAnonymousLetterConstructible.java": {
@@ -1484,7 +1484,7 @@ problem_mapping = {
         },
         "12.03 Implement an ISBN cache": {
             "C++: lru_cache.cc": {
-                "passed": 0,
+                "passed": 101,
                 "total": 101
             },
             "Java: LruCache.java": {
@@ -1498,7 +1498,7 @@ problem_mapping = {
         },
         "12.04 Compute the LCA, optimizing for close ancestors": {
             "C++: lowest_common_ancestor_close_ancestor.cc": {
-                "passed": 0,
+                "passed": 948,
                 "total": 948
             },
             "Java: LowestCommonAncestorCloseAncestor.java": {
@@ -1512,7 +1512,7 @@ problem_mapping = {
         },
         "12.05 Find the nearest repeated entries in an array": {
             "C++: nearest_repeated_entries.cc": {
-                "passed": 0,
+                "passed": 505,
                 "total": 505
             },
             "Java: NearestRepeatedEntries.java": {
@@ -1526,7 +1526,7 @@ problem_mapping = {
         },
         "12.06 Find the smallest subarray covering all values": {
             "C++: smallest_subarray_covering_set.cc": {
-                "passed": 0,
+                "passed": 904,
                 "total": 904
             },
             "Java: SmallestSubarrayCoveringSet.java": {
@@ -1540,7 +1540,7 @@ problem_mapping = {
         },
         "12.07 Find smallest subarray sequentially covering all values": {
             "C++: smallest_subarray_covering_all_values.cc": {
-                "passed": 0,
+                "passed": 629,
                 "total": 629
             },
             "Java: SmallestSubarrayCoveringAllValues.java": {
@@ -1554,7 +1554,7 @@ problem_mapping = {
         },
         "12.08 Find the longest subarray with distinct entries": {
             "C++: longest_subarray_with_distinct_values.cc": {
-                "passed": 0,
+                "passed": 987,
                 "total": 987
             },
             "Java: LongestSubarrayWithDistinctValues.java": {
@@ -1568,7 +1568,7 @@ problem_mapping = {
         },
         "12.09 Find the length of a longest contained interval": {
             "C++: longest_contained_interval.cc": {
-                "passed": 0,
+                "passed": 203,
                 "total": 203
             },
             "Java: LongestContainedInterval.java": {
@@ -1582,7 +1582,7 @@ problem_mapping = {
         },
         "12.10 Compute all string decompositions": {
             "C++: string_decompositions_into_dictionary_words.cc": {
-                "passed": 0,
+                "passed": 171,
                 "total": 171
             },
             "Java: StringDecompositionsIntoDictionaryWords.java": {
@@ -1596,7 +1596,7 @@ problem_mapping = {
         },
         "12.11 Test the Collatz conjecture": {
             "C++: collatz_checker.cc": {
-                "passed": 0,
+                "passed": 7,
                 "total": 7
             },
             "Java: CollatzChecker.java": {
@@ -1612,7 +1612,7 @@ problem_mapping = {
     "Chapter 13: Sorting": {
         "13.01 Compute the intersection of two sorted arrays": {
             "C++: intersect_sorted_arrays.cc": {
-                "passed": 0,
+                "passed": 202,
                 "total": 202
             },
             "Java: IntersectSortedArrays.java": {
@@ -1626,7 +1626,7 @@ problem_mapping = {
         },
         "13.02 Merge two sorted arrays": {
             "C++: two_sorted_arrays_merge.cc": {
-                "passed": 0,
+                "passed": 201,
                 "total": 201
             },
             "Java: TwoSortedArraysMerge.java": {
@@ -1654,7 +1654,7 @@ problem_mapping = {
         },
         "13.04 Remove first-name duplicates": {
             "C++: remove_duplicates.cc": {
-                "passed": 0,
+                "passed": 202,
                 "total": 202
             },
             "Java: RemoveDuplicates.java": {
@@ -1682,7 +1682,7 @@ problem_mapping = {
         },
         "13.06 Render a calendar": {
             "C++: calendar_rendering.cc": {
-                "passed": 0,
+                "passed": 97,
                 "total": 97
             },
             "Java: CalendarRendering.java": {
@@ -1696,7 +1696,7 @@ problem_mapping = {
         },
         "13.07 Merging intervals": {
             "C++: interval_add.cc": {
-                "passed": 0,
+                "passed": 103,
                 "total": 103
             },
             "Java: IntervalAdd.java": {
@@ -1710,7 +1710,7 @@ problem_mapping = {
         },
         "13.08 Compute the union of intervals": {
             "C++: intervals_union.cc": {
-                "passed": 0,
+                "passed": 191,
                 "total": 191
             },
             "Java: IntervalsUnion.java": {
@@ -1724,7 +1724,7 @@ problem_mapping = {
         },
         "13.09 Partitioning and sorting an array with many repeated entries": {
             "C++: group_equal_entries.cc": {
-                "passed": 0,
+                "passed": 33,
                 "total": 33
             },
             "Java: GroupEqualEntries.java": {
@@ -1738,7 +1738,7 @@ problem_mapping = {
         },
         "13.10 Team photo day---1": {
             "C++: is_array_dominated.cc": {
-                "passed": 0,
+                "passed": 3,
                 "total": 105
             },
             "Java: IsArrayDominated.java": {
@@ -1752,7 +1752,7 @@ problem_mapping = {
         },
         "13.11 Implement a fast sorting algorithm for lists": {
             "C++: sort_list.cc": {
-                "passed": 0,
+                "passed": 209,
                 "total": 209
             },
             "Java: SortList.java": {
@@ -1796,7 +1796,7 @@ problem_mapping = {
         },
         "14.01 Test if a binary tree satisfies the BST property": {
             "C++: is_tree_a_bst.cc": {
-                "passed": 0,
+                "passed": 3139,
                 "total": 3139
             },
             "Java: IsTreeABst.java": {
@@ -1810,7 +1810,7 @@ problem_mapping = {
         },
         "14.02 Find the first key greater than a given value in a BST": {
             "C++: search_first_greater_value_in_bst.cc": {
-                "passed": 0,
+                "passed": 949,
                 "total": 949
             },
             "Java: SearchFirstGreaterValueInBst.java": {
@@ -1824,7 +1824,7 @@ problem_mapping = {
         },
         "14.03 Find the k largest elements in a BST": {
             "C++: k_largest_values_in_bst.cc": {
-                "passed": 0,
+                "passed": 949,
                 "total": 949
             },
             "Java: KLargestValuesInBst.java": {
@@ -1838,7 +1838,7 @@ problem_mapping = {
         },
         "14.04 Compute the LCA in a BST": {
             "C++: lowest_common_ancestor_in_bst.cc": {
-                "passed": 0,
+                "passed": 951,
                 "total": 951
             },
             "Java: LowestCommonAncestorInBst.java": {
@@ -1852,7 +1852,7 @@ problem_mapping = {
         },
         "14.05 Reconstruct a BST from traversal data": {
             "C++: bst_from_preorder.cc": {
-                "passed": 0,
+                "passed": 950,
                 "total": 950
             },
             "Java: BstFromPreorder.java": {
@@ -1866,7 +1866,7 @@ problem_mapping = {
         },
         "14.06 Find the closest entries in three sorted arrays": {
             "C++: minimum_distance_3_sorted_arrays.cc": {
-                "passed": 0,
+                "passed": 51,
                 "total": 51
             },
             "Java: MinimumDistance3SortedArrays.java": {
@@ -1880,7 +1880,7 @@ problem_mapping = {
         },
         "14.07 Enumerate extended integers": {
             "C++: a_b_sqrt2.cc": {
-                "passed": 0,
+                "passed": 13,
                 "total": 13
             },
             "Java: ABSqrt2.java": {
@@ -1894,7 +1894,7 @@ problem_mapping = {
         },
         "14.08 Build a minimum height BST from a sorted array": {
             "C++: bst_from_sorted_array.cc": {
-                "passed": 0,
+                "passed": 87,
                 "total": 87
             },
             "Java: BstFromSortedArray.java": {
@@ -1922,7 +1922,7 @@ problem_mapping = {
         },
         "14.10 The range lookup problem": {
             "C++: range_lookup_in_bst.cc": {
-                "passed": 0,
+                "passed": 954,
                 "total": 954
             },
             "Java: RangeLookupInBst.java": {
@@ -1936,7 +1936,7 @@ problem_mapping = {
         },
         "14.11 Add credits": {
             "C++: adding_credits.cc": {
-                "passed": 0,
+                "passed": 201,
                 "total": 201
             },
             "Java: AddingCredits.java": {
@@ -1952,7 +1952,7 @@ problem_mapping = {
     "Chapter 15: Recursion": {
         "15.00 Bootcamp: Recursion": {
             "C++: euclidean_gcd.cc": {
-                "passed": 0,
+                "passed": 10034,
                 "total": 10034
             },
             "Java: EuclideanGcd.java": {
@@ -1966,7 +1966,7 @@ problem_mapping = {
         },
         "15.01 The Towers of Hanoi problem": {
             "C++: hanoi.cc": {
-                "passed": 0,
+                "passed": 10,
                 "total": 10
             },
             "Java: Hanoi.java": {
@@ -1994,7 +1994,7 @@ problem_mapping = {
         },
         "15.03 Generate all nonattacking placements of n-Queens": {
             "C++: n_queens.cc": {
-                "passed": 0,
+                "passed": 10,
                 "total": 10
             },
             "Java: NQueens.java": {
@@ -2008,7 +2008,7 @@ problem_mapping = {
         },
         "15.04 Generate permutations": {
             "C++: permutations.cc": {
-                "passed": 0,
+                "passed": 8,
                 "total": 8
             },
             "Java: Permutations.java": {
@@ -2022,7 +2022,7 @@ problem_mapping = {
         },
         "15.05 Generate the power set": {
             "C++: power_set.cc": {
-                "passed": 0,
+                "passed": 15,
                 "total": 15
             },
             "Java: PowerSet.java": {
@@ -2036,7 +2036,7 @@ problem_mapping = {
         },
         "15.06 Generate all subsets of size k": {
             "C++: combinations.cc": {
-                "passed": 0,
+                "passed": 120,
                 "total": 120
             },
             "Java: Combinations.java": {
@@ -2050,7 +2050,7 @@ problem_mapping = {
         },
         "15.07 Generate strings of matched parens": {
             "C++: enumerate_balanced_parentheses.cc": {
-                "passed": 0,
+                "passed": 11,
                 "total": 11
             },
             "Java: EnumerateBalancedParentheses.java": {
@@ -2064,7 +2064,7 @@ problem_mapping = {
         },
         "15.08 Generate palindromic decompositions": {
             "C++: enumerate_palindromic_decompositions.cc": {
-                "passed": 0,
+                "passed": 522,
                 "total": 522
             },
             "Java: EnumeratePalindromicDecompositions.java": {
@@ -2078,7 +2078,7 @@ problem_mapping = {
         },
         "15.09 Generate binary trees": {
             "C++: enumerate_trees.cc": {
-                "passed": 0,
+                "passed": 10,
                 "total": 10
             },
             "Java: EnumerateTrees.java": {
@@ -2092,7 +2092,7 @@ problem_mapping = {
         },
         "15.10 Implement a Sudoku solver": {
             "C++: sudoku_solve.cc": {
-                "passed": 0,
+                "passed": 400,
                 "total": 400
             },
             "Java: SudokuSolve.java": {
@@ -2106,7 +2106,7 @@ problem_mapping = {
         },
         "15.11 Compute a Gray code": {
             "C++: gray_code.cc": {
-                "passed": 0,
+                "passed": 10,
                 "total": 10
             },
             "Java: GrayCode.java": {
@@ -2148,7 +2148,7 @@ problem_mapping = {
         },
         "16.01 Count the number of score combinations": {
             "C++: number_of_score_combinations.cc": {
-                "passed": 0,
+                "passed": 1003,
                 "total": 1003
             },
             "Java: NumberOfScoreCombinations.java": {
@@ -2162,7 +2162,7 @@ problem_mapping = {
         },
         "16.02 Compute the Levenshtein distance": {
             "C++: levenshtein_distance.cc": {
-                "passed": 0,
+                "passed": 100,
                 "total": 100
             },
             "Java: LevenshteinDistance.java": {
@@ -2176,7 +2176,7 @@ problem_mapping = {
         },
         "16.03 Count the number of ways to traverse a 2D array": {
             "C++: number_of_traversals_matrix.cc": {
-                "passed": 0,
+                "passed": 1775,
                 "total": 1775
             },
             "Java: NumberOfTraversalsMatrix.java": {
@@ -2190,7 +2190,7 @@ problem_mapping = {
         },
         "16.04 Compute the binomial coefficients": {
             "C++: binomial_coefficients.cc": {
-                "passed": 0,
+                "passed": 5906,
                 "total": 5906
             },
             "Java: BinomialCoefficients.java": {
@@ -2204,7 +2204,7 @@ problem_mapping = {
         },
         "16.05 Search for a sequence in a 2D array": {
             "C++: is_string_in_matrix.cc": {
-                "passed": 0,
+                "passed": 186,
                 "total": 186
             },
             "Java: IsStringInMatrix.java": {
@@ -2218,7 +2218,7 @@ problem_mapping = {
         },
         "16.06 The knapsack problem": {
             "C++: knapsack.cc": {
-                "passed": 0,
+                "passed": 100,
                 "total": 100
             },
             "Java: Knapsack.java": {
@@ -2232,7 +2232,7 @@ problem_mapping = {
         },
         "16.07 Building a search index for domains": {
             "C++: is_string_decomposable_into_words.cc": {
-                "passed": 0,
+                "passed": 41,
                 "total": 41
             },
             "Java: IsStringDecomposableIntoWords.java": {
@@ -2246,7 +2246,7 @@ problem_mapping = {
         },
         "16.08 Find the minimum weight path in a triangle": {
             "C++: minimum_weight_path_in_a_triangle.cc": {
-                "passed": 0,
+                "passed": 101,
                 "total": 101
             },
             "Java: MinimumWeightPathInATriangle.java": {
@@ -2260,7 +2260,7 @@ problem_mapping = {
         },
         "16.09 Pick up coins for maximum gain": {
             "C++: picking_up_coins.cc": {
-                "passed": 0,
+                "passed": 162,
                 "total": 162
             },
             "Java: PickingUpCoins.java": {
@@ -2274,7 +2274,7 @@ problem_mapping = {
         },
         "16.10 Count the number of moves to climb stairs": {
             "C++: number_of_traversals_staircase.cc": {
-                "passed": 0,
+                "passed": 546,
                 "total": 546
             },
             "Java: NumberOfTraversalsStaircase.java": {
@@ -2288,7 +2288,7 @@ problem_mapping = {
         },
         "16.11 The pretty printing problem": {
             "C++: pretty_printing.cc": {
-                "passed": 0,
+                "passed": 102,
                 "total": 102
             },
             "Java: PrettyPrinting.java": {
@@ -2302,7 +2302,7 @@ problem_mapping = {
         },
         "16.12 Find the longest nondecreasing subsequence": {
             "C++: longest_nondecreasing_subsequence.cc": {
-                "passed": 0,
+                "passed": 200,
                 "total": 200
             },
             "Java: LongestNondecreasingSubsequence.java": {
@@ -2332,7 +2332,7 @@ problem_mapping = {
         },
         "17.01 Compute an optimum assignment of tasks": {
             "C++: task_pairing.cc": {
-                "passed": 0,
+                "passed": 500,
                 "total": 500
             },
             "Java: TaskPairing.java": {
@@ -2346,7 +2346,7 @@ problem_mapping = {
         },
         "17.02 Schedule to minimize waiting time": {
             "C++: minimum_waiting_time.cc": {
-                "passed": 0,
+                "passed": 501,
                 "total": 501
             },
             "Java: MinimumWaitingTime.java": {
@@ -2360,7 +2360,7 @@ problem_mapping = {
         },
         "17.03 The interval covering problem": {
             "C++: minimum_points_covering_intervals.cc": {
-                "passed": 0,
+                "passed": 103,
                 "total": 103
             },
             "C++: two_sum.cc": {
@@ -2386,7 +2386,7 @@ problem_mapping = {
         },
         "17.04 The 3-sum problem": {
             "C++: three_sum.cc": {
-                "passed": 0,
+                "passed": 1008,
                 "total": 1008
             },
             "Java: ThreeSum.java": {
@@ -2400,7 +2400,7 @@ problem_mapping = {
         },
         "17.05 Find the majority element": {
             "C++: majority_element.cc": {
-                "passed": 0,
+                "passed": 201,
                 "total": 201
             },
             "Java: MajorityElement.java": {
@@ -2414,7 +2414,7 @@ problem_mapping = {
         },
         "17.06 The gasup problem": {
             "C++: refueling_schedule.cc": {
-                "passed": 0,
+                "passed": 202,
                 "total": 202
             },
             "Java: RefuelingSchedule.java": {
@@ -2428,7 +2428,7 @@ problem_mapping = {
         },
         "17.07 Compute the maximum water trapped by a pair of vertical lines": {
             "C++: max_trapped_water.cc": {
-                "passed": 0,
+                "passed": 204,
                 "total": 204
             },
             "Java: MaxTrappedWater.java": {
@@ -2442,7 +2442,7 @@ problem_mapping = {
         },
         "17.08 Compute the largest rectangle under the skyline": {
             "C++: largest_rectangle_under_skyline.cc": {
-                "passed": 0,
+                "passed": 1004,
                 "total": 1004
             },
             "Java: LargestRectangleUnderSkyline.java": {
@@ -2472,7 +2472,7 @@ problem_mapping = {
         },
         "18.02 Paint a Boolean matrix": {
             "C++: matrix_connected_regions.cc": {
-                "passed": 0,
+                "passed": 50,
                 "total": 50
             },
             "Java: MatrixConnectedRegions.java": {
@@ -2486,7 +2486,7 @@ problem_mapping = {
         },
         "18.03 Compute enclosed regions": {
             "C++: matrix_enclosed_regions.cc": {
-                "passed": 0,
+                "passed": 51,
                 "total": 51
             },
             "Java: MatrixEnclosedRegions.java": {
@@ -2500,7 +2500,7 @@ problem_mapping = {
         },
         "18.04 Deadlock detection": {
             "C++: deadlock_detection.cc": {
-                "passed": 0,
+                "passed": 71,
                 "total": 71
             },
             "Java: DeadlockDetection.java": {
@@ -2514,7 +2514,7 @@ problem_mapping = {
         },
         "18.05 Clone a graph": {
             "C++: graph_clone.cc": {
-                "passed": 0,
+                "passed": 91,
                 "total": 91
             },
             "Java: GraphClone.java": {
@@ -2528,7 +2528,7 @@ problem_mapping = {
         },
         "18.06 Making wired connections": {
             "C++: is_circuit_wirable.cc": {
-                "passed": 0,
+                "passed": 85,
                 "total": 85
             },
             "Java: IsCircuitWirable.java": {
@@ -2542,7 +2542,7 @@ problem_mapping = {
         },
         "18.07 Transform one string to another": {
             "C++: string_transformability.cc": {
-                "passed": 0,
+                "passed": 48,
                 "total": 48
             },
             "Java: StringTransformability.java": {
@@ -2586,7 +2586,7 @@ problem_mapping = {
         },
         "24.02 Find the first missing positive entry": {
             "C++: first_missing_positive_entry.cc": {
-                "passed": 0,
+                "passed": 1001,
                 "total": 1001
             },
             "Java: FirstMissingPositiveEntry.java": {
@@ -2614,7 +2614,7 @@ problem_mapping = {
         },
         "24.04 Compute the maximum product of all entries but one": {
             "C++: max_product_all_but_one.cc": {
-                "passed": 0,
+                "passed": 35,
                 "total": 35
             },
             "Java: MaxProductAllButOne.java": {
@@ -2628,7 +2628,7 @@ problem_mapping = {
         },
         "24.05 Compute the longest contiguous increasing subarray": {
             "C++: longest_increasing_subarray.cc": {
-                "passed": 0,
+                "passed": 100,
                 "total": 100
             },
             "Java: LongestIncreasingSubarray.java": {
@@ -2642,7 +2642,7 @@ problem_mapping = {
         },
         "24.06 Rotate an array": {
             "C++: rotate_array.cc": {
-                "passed": 0,
+                "passed": 101,
                 "total": 101
             },
             "Java: RotateArray.java": {
@@ -2656,7 +2656,7 @@ problem_mapping = {
         },
         "24.07 Identify positions attacked by rooks": {
             "C++: rook_attack.cc": {
-                "passed": 0,
+                "passed": 30,
                 "total": 201
             },
             "Java: RookAttack.java": {
@@ -2670,7 +2670,7 @@ problem_mapping = {
         },
         "24.08 Justify text": {
             "C++: left_right_justify_text.cc": {
-                "passed": 0,
+                "passed": 30,
                 "total": 30
             },
             "Java: LeftRightJustifyText.java": {
@@ -2684,7 +2684,7 @@ problem_mapping = {
         },
         "24.09 Implement list zipping": {
             "C++: zip_list.cc": {
-                "passed": 0,
+                "passed": 51,
                 "total": 51
             },
             "Java: ZipList.java": {
@@ -2698,7 +2698,7 @@ problem_mapping = {
         },
         "24.10 Copy a postings list": {
             "C++: copy_posting_list.cc": {
-                "passed": 0,
+                "passed": 32,
                 "total": 34
             },
             "Java: CopyPostingList.java": {
@@ -2712,7 +2712,7 @@ problem_mapping = {
         },
         "24.11 Compute the longest substring with matching parens": {
             "C++: longest_substring_with_matching_parentheses.cc": {
-                "passed": 0,
+                "passed": 342,
                 "total": 342
             },
             "Java: LongestSubstringWithMatchingParentheses.java": {
@@ -2726,7 +2726,7 @@ problem_mapping = {
         },
         "24.12 Compute the maximum of a sliding window": {
             "C++: max_of_sliding_window.cc": {
-                "passed": 0,
+                "passed": 149,
                 "total": 149
             },
             "Java: MaxOfSlidingWindow.java": {
@@ -2740,7 +2740,7 @@ problem_mapping = {
         },
         "24.13 Compute fair bonuses": {
             "C++: bonus.cc": {
-                "passed": 0,
+                "passed": 106,
                 "total": 106
             },
             "Java: Bonus.java": {
@@ -2754,7 +2754,7 @@ problem_mapping = {
         },
         "24.14 Search a sorted array of unknown length": {
             "C++: search_unknown_length_array.cc": {
-                "passed": 0,
+                "passed": 206,
                 "total": 206
             },
             "Java: SearchUnknownLengthArray.java": {
@@ -2768,7 +2768,7 @@ problem_mapping = {
         },
         "24.15 Search in two sorted arrays": {
             "C++: kth_largest_element_in_two_sorted_arrays.cc": {
-                "passed": 0,
+                "passed": 201,
                 "total": 201
             },
             "Java: KthLargestElementInTwoSortedArrays.java": {
@@ -2782,7 +2782,7 @@ problem_mapping = {
         },
         "24.16 Find the kth largest element---large n, small k": {
             "C++: kth_largest_element_in_long_array.cc": {
-                "passed": 0,
+                "passed": 503,
                 "total": 503
             },
             "Java: KthLargestElementInLongArray.java": {
@@ -2796,7 +2796,7 @@ problem_mapping = {
         },
         "24.17 Find an element that appears only once": {
             "C++: element_appearing_once.cc": {
-                "passed": 0,
+                "passed": 102,
                 "total": 102
             },
             "Java: ElementAppearingOnce.java": {
@@ -2824,7 +2824,7 @@ problem_mapping = {
         },
         "24.19 Convert a sorted doubly linked list into a BST": {
             "C++: sorted_list_to_bst.cc": {
-                "passed": 0,
+                "passed": 100,
                 "total": 100
             },
             "Java: SortedListToBst.java": {
@@ -2838,7 +2838,7 @@ problem_mapping = {
         },
         "24.20 Convert a BST to a sorted doubly linked list": {
             "C++: bst_to_sorted_list.cc": {
-                "passed": 0,
+                "passed": 950,
                 "total": 950
             },
             "Java: BstToSortedList.java": {
@@ -2852,7 +2852,7 @@ problem_mapping = {
         },
         "24.21 Merge two BSTs": {
             "C++: bst_merge.cc": {
-                "passed": 0,
+                "passed": 474,
                 "total": 474
             },
             "Java: BstMerge.java": {

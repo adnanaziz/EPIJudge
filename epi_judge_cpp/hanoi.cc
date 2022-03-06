@@ -10,10 +10,36 @@ using std::array;
 using std::stack;
 using std::vector;
 const int kNumPegs = 3;
-vector<vector<int>> ComputeTowerHanoi(int num_rings) {
-  // TODO - you fill in here.
-  return {};
+
+void ComputeTowerHanoiHelper(int num_rings, array<std::stack<int>, kNumPegs>& pegs,
+    int from, int to, int use, vector<vector<int>>& vectPegs) {
+    vector<int> From_To;
+    if (num_rings > 0) {
+        ComputeTowerHanoiHelper(num_rings - 1, pegs, from, use, to, vectPegs);
+        pegs[to].push(pegs[from].top());
+        pegs[from].pop();
+        
+        From_To.push_back(from);
+        From_To.push_back(to);
+        vectPegs.push_back(From_To);        
+        
+        ComputeTowerHanoiHelper(num_rings - 1, pegs, use, to, from, vectPegs);
+    }
+
 }
+
+vector<vector<int>> ComputeTowerHanoi(int num_rings) {
+    array<std::stack<int>, kNumPegs> pegs;
+  
+    vector<vector<int>> vectPegs;
+    for (int i = num_rings; i >= 1; i--){
+        pegs[0].push(i);
+    }
+
+    ComputeTowerHanoiHelper(num_rings, pegs, 0, 1, 2, vectPegs);
+    return vectPegs;
+}
+
 void ComputeTowerHanoiWrapper(TimedExecutor& executor, int num_rings) {
   array<stack<int>, kNumPegs> pegs;
   for (int i = num_rings; i >= 1; --i) {

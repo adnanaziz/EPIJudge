@@ -12,9 +12,46 @@ struct GraphVertex {
   int max_distance = 0;
 };
 
+void DFS(GraphVertex* cur, std::stack<GraphVertex*>* topo_order) {
+    cur->max_distance = 1;
+    for (GraphVertex* next : cur->edges) {
+        if (next->max_distance == 0) {
+            DFS(next, topo_order);
+        }
+    }
+    topo_order->push(cur);
+
+}
+
+std::stack<GraphVertex*> BuildTopologicalOrder(vector<GraphVertex>* graph) {
+    std::stack<GraphVertex*> topo_order;
+    
+    for(auto& g : *graph) {
+        if (g.max_distance == 0) {
+           DFS(&g, &topo_order);
+        }
+    }
+    return topo_order;
+}
+
+int CalculateLargestNumberOfTeams(std::stack<GraphVertex*>* topo_order){
+    int max_distance = 0;
+
+    while (!topo_order->empty()) {
+        GraphVertex* u = topo_order->top();
+        max_distance = std::max(max_distance, u->max_distance);
+        for(GraphVertex* v : u->edges) {
+            v->max_distance = std::max(v->max_distance, u->max_distance + 1);
+        }
+        topo_order->pop();
+    }
+
+    return max_distance;
+}
+
 int FindLargestNumberTeams(vector<GraphVertex>* graph) {
-  // TODO - you fill in here.
-  return 0;
+    std::stack<GraphVertex*> topo_order(BuildTopologicalOrder(graph));
+    return CalculateLargestNumberOfTeams(&topo_order);
 }
 struct Edge {
   int from;

@@ -1,6 +1,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include <unordered_map>
 
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
@@ -15,8 +16,35 @@ struct Subarray {
 
 Subarray FindSmallestSubarrayCoveringSet(
     const vector<string> &paragraph, const unordered_set<string> &keywords) {
-  // TODO - you fill in here.
-  return {0, 0};
+    Subarray result{-1, -1};
+    std::unordered_map<string, int> keywords_count;
+
+    for (const string& keyword : keywords) {
+        ++keywords_count[keyword];
+    }
+    
+    int number_of_keywords = keywords_count.size();
+    for (int left = 0, right = 0; right < paragraph.size(); right++) {
+        
+        if (keywords.count(paragraph[right]) &&
+            --keywords_count[paragraph[right]] >= 0)
+            --number_of_keywords;
+    
+        while (number_of_keywords == 0) {
+            if((result.start == -1 && result.end == -1) ||
+                (right - left) < (result.end - result.start)) {
+                result = {left, right};
+            }
+        
+            if (keywords.count(paragraph[left]) &&
+                ++keywords_count[paragraph[left]] >= 1)
+                ++number_of_keywords;
+
+            ++left;
+        }
+    }
+
+    return result;
 }
 int FindSmallestSubarrayCoveringSetWrapper(
     TimedExecutor &executor, const vector<string> &paragraph,

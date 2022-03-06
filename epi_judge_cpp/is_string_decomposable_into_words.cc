@@ -11,8 +11,38 @@ using std::vector;
 
 vector<string> DecomposeIntoDictionaryWords(
     const string& domain, const unordered_set<string>& dictionary) {
-  // TODO - you fill in here.
-  return {};
+    vector<int> last_len(domain.size(), -1);
+
+    for (int i = 0; i < domain.size(); i++) {
+
+        if (dictionary.find(domain.substr(0, i+1)) != dictionary.cend())
+        {
+            last_len[i] = i + 1;
+        }
+
+        if (last_len[i] == -1) {
+            for (int j = 0; j < i; j++) {
+                if (last_len[j] != -1 && dictionary.find(domain.substr(j+1, i- j)) != dictionary.cend()) {
+                    last_len[i] = i - j;
+                    break;
+                }
+            }
+        }
+    }
+
+
+    vector<string> decomposition;
+    if (last_len[domain.size() - 1] != -1) {
+        int idx = domain.size() - 1;
+        
+        while (idx>=0) {
+            decomposition.emplace_back(domain.substr(idx - last_len[idx]+1, last_len[idx]));
+            idx -= last_len[idx];
+        }
+        std::reverse(decomposition.begin(), decomposition.end());
+    }
+    
+    return decomposition;
 }
 void DecomposeIntoDictionaryWordsWrapper(
     TimedExecutor& executor, const string& domain,

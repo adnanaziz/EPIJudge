@@ -4,8 +4,21 @@
 using std::vector;
 
 int GetMaxTrappedWater(const vector<int>& heights) {
-  // TODO - you fill in here.
-  return 0;
+    int maxWater = 0;
+    int i = 0, j = heights.size() - 1;
+    while (i < j) {
+        maxWater = std::max(maxWater, (j - i) * std::min(heights[i], heights[j]));
+        if(heights[i]>heights[j]){ 
+            j--;
+        }
+        else if (heights[i] < heights[j]) {
+            i++;
+        }
+        else {
+            i++; j--;
+        }
+    }
+    return maxWater;
 }
 
 int main(int argc, char* argv[]) {

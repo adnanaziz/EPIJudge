@@ -11,10 +11,39 @@ struct GraphVertex {
   vector<GraphVertex*> edges;
 };
 
-bool IsAnyPlacementFeasible(vector<GraphVertex>* graph) {
-  // TODO - you fill in here.
-  return true;
+bool BSF(GraphVertex* g) {
+    std::queue<GraphVertex*> q;
+
+    q.emplace(g);
+
+    while (!q.empty()) {
+        for (GraphVertex* v : q.front()->edges) {
+            if (v->d == -1) {
+                v->d = q.front()->d + 1;
+                q.emplace(v);
+            }
+            else if (v->d == q.front()->d){    
+                return false;
+            }
+        }
+
+        q.pop();
+    }
+    return true;
 }
+
+bool IsAnyPlacementFeasible(vector<GraphVertex>* graph) {
+
+    for (GraphVertex& g : (*graph)) {
+        if (g.d == -1)
+            g.d = 0;
+
+        if(!BSF(&g))
+            return false;
+    }
+    return true;
+}
+
 struct Edge {
   int from;
   int to;

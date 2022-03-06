@@ -16,8 +16,24 @@ struct GraphVertex {
 };
 
 GraphVertex* CloneGraph(GraphVertex* graph) {
-  // TODO - you fill in here.
-  return new GraphVertex{0};
+    std::map<GraphVertex*, GraphVertex*> map_graph;
+    std::queue<GraphVertex*> q;
+
+    q.emplace(graph);
+    map_graph.emplace(graph, new GraphVertex{ graph->label});
+    while (!q.empty()) {
+        auto& v = q.front();
+        for (GraphVertex* e: v->edges) {
+            if (map_graph.find(e) == map_graph.end()) {
+                map_graph.emplace(e, new GraphVertex{ e->label });
+                q.emplace(e);
+            }
+            map_graph[v]->edges.emplace_back(map_graph[e]);
+        }
+        q.pop();
+    }
+
+    return map_graph[graph];
 }
 vector<int> CopyLabels(const vector<GraphVertex*>& edges) {
   vector<int> labels;

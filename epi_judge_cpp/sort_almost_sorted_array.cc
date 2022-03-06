@@ -5,8 +5,27 @@ using std::vector;
 vector<int> SortApproximatelySortedData(
     vector<int>::const_iterator sequence_begin,
     const vector<int>::const_iterator& sequence_end, int k) {
-  // TODO - you fill in here.
-  return {};
+    
+    std::priority_queue<int, vector<int>, std::greater<>> min_heap;
+    vector<int>::const_iterator iter = sequence_begin;
+    
+    for (int count = 0; count < k && iter != sequence_end; iter++, count++)
+        min_heap.emplace(*iter);
+
+    vector<int> results;
+    while (iter != sequence_end) {
+        results.emplace_back(min_heap.top());
+        min_heap.pop();
+        min_heap.emplace(*iter);
+        iter++;
+    }
+    
+    while (!min_heap.empty()) {
+        results.emplace_back(min_heap.top());
+        min_heap.pop();
+    }
+
+    return results;
 }
 vector<int> SortApproximatelySortedDataWrapper(const vector<int>& sequence,
                                                int k) {

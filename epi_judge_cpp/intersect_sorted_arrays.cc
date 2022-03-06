@@ -5,8 +5,22 @@ using std::vector;
 
 vector<int> IntersectTwoSortedArrays(const vector<int>& A,
                                      const vector<int>& B) {
-  // TODO - you fill in here.
-  return {};
+    vector<int> interSectedArray;
+    int i = 0, j = 0;
+    while (i < A.size() && j < B.size()) {
+        if (A[i] == B[j] && (i == 0 || A[i-1] != A[i])) {
+            interSectedArray.emplace_back(A[i]);
+            i++;
+            j++;
+        }
+        else if (A[i] < B[j]) {
+            i++;
+        }
+        else {
+            j++;
+        }
+    }
+    return interSectedArray;
 }
 
 int main(int argc, char* argv[]) {

@@ -11,12 +11,35 @@ struct Interval {
     int val;
   };
 
+  bool operator < (const Interval& i) {
+      return (left.val != i.left.val) ? left.val < i.left.val : (left.is_closed && !i.left.is_closed);
+  }
+
   Endpoint left, right;
 };
 
 vector<Interval> UnionOfIntervals(vector<Interval> intervals) {
-  // TODO - you fill in here.
-  return {};
+    vector<Interval> results;
+
+    std::sort(intervals.begin() , intervals.end());
+    Interval curr(intervals.front());
+    
+    for (int i = 1; i < intervals.size(); i++) {
+        if (curr.right.val > intervals[i].left.val ||
+            (curr.right.val == intervals[i].left.val && (curr.right.is_closed || intervals[i].left.is_closed))) {
+            if (curr.right.val < intervals[i].right.val ||
+                (curr.right.val == intervals[i].right.val && (intervals[i].right.is_closed))) {
+                curr.right = intervals[i].right;
+            }
+        }
+        else {
+            results.emplace_back(curr);
+            curr = intervals[i];
+        }
+    }
+
+    results.emplace_back(curr);
+    return results;
 }
 struct FlatInterval {
   int left_val;
