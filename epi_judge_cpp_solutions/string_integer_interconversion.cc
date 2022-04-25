@@ -8,10 +8,7 @@ using std::accumulate;
 using std::string;
 
 string IntToString(int x) {
-  bool is_negative = false;
-  if (x < 0) {
-    is_negative = true;
-  }
+  bool is_negative = x < 0;
 
   string s;
   do {
