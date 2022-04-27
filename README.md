@@ -139,12 +139,6 @@ After installing CMake, open your terminal, go to `epi_judge_cpp` folder and run
 
 Then just open `epi_judge_cpp/vs/epi_judge_cpp.sln` solution with Visual Studio and it will load all EPI programs.
 
-## Tracking your progress
-
-The file [index.html](https://github.com/adnanaziz/EPIJudge/blob/master/index.html) in the root of this project tracks your progress through the problems. Specifically, there's an expanding tab for each chapter. Click on it, and you will see your progress, e.g., as below. This file gets updated each time you execute a program. You can **use this file to map book problems to stub programs**.
-
-<img src="https://i.imgur.com/xjf7Z32.png" width="600px"></img>
-
 ## Acknowledgments
 
 A big shout-out to the hundreds of users who tried out the release over the past couple of months. As always, we never fail to be impressed by the enthusiasm and commitment our readers have; it has served to bring out the best in us.
