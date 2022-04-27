@@ -2138,7 +2138,7 @@ problem_mapping = {
                 "total": 1001
             },
             "Python: fibonacci.py": {
-                "passed": 0,
+                "passed": 46,
                 "total": 46
             },
             "Python: max_sum_subarray.py": {
