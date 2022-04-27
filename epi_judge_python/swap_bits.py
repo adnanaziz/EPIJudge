@@ -2,9 +2,17 @@ from test_framework import generic_test
 
 
 def swap_bits(x, i, j):
-    # TODO - you fill in here.
+    lst = []
+
     return 0
 
+def count_bits(x: int) -> int:
+    ret = []
+    while x > 0:
+        if x % 2 == 1:
+            ret += 1
+        x //= 2
+    return ret
 
 if __name__ == '__main__':
     exit(
