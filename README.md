@@ -6,7 +6,7 @@
 
 EPI Judge is meant to serve as a companion to our book Elements of Programming Interviews. Specifically, this project consists of the following:
 
-- **Stub programs** for each problem in our book in Python, Java, and C++
+- **Stub programs** for each problem in our book in Python, Java, and C++, and Typescript
 - **Test-cases** that cover common corner-case and performance bugs
 - A **framework** for running these tests on your implementation on your machine
 
@@ -32,6 +32,10 @@ Check out these one minute videos to see how easy it is to get started with the 
 ### C++
 
 [CLion](https://youtu.be/aHPDApyyYEg), [Visual Studio 2017](https://youtu.be/hgd8IIQpBEE)
+
+### Typescript
+
+[Deno](https://deno.land/), [Visual Studio Code](https://code.visualstudio.com/)
 
 
 ## Running the judge from the command line
@@ -66,6 +70,9 @@ The default Makefile target is the last edited file.
 
     $ make anagrams
 
+### Typescript
+
+    deno test <program_name>.ts
 
 ## FAQ
 
@@ -96,6 +103,8 @@ The IntelliJ Integrated Development environments described above are best-in-cla
     - **Java** 9 and newer
   - Python
     - **Python** 3.7 and newer
+  - Deno
+    - **Deno** 1.24.0 and newer
    
 
 - What compilers are supported for solutions?
@@ -113,6 +122,8 @@ The IntelliJ Integrated Development environments described above are best-in-cla
       - **Java** 9 and newer
     - Python
       - **Python** 3.6 and newer 
+    - Deno
+      - **Deno** 1.24.0 and newer
 
 Let us know if you managed to compile with an older version.
 
