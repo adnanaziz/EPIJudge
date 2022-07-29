@@ -34,11 +34,15 @@ def transform_string_pythonic(D, s, t):
     if s == t:
         return 0
     length = 1
-    running = set([s])
+    running = {s}
     while running:
-        running = D & set(cand[:i] + c + cand[i + 1:] for cand in running
-                          for i in range(len(cand))
-                          for c in string.ascii_lowercase)
+        running = D & {
+            cand[:i] + c + cand[i + 1 :]
+            for cand in running
+            for i in range(len(cand))
+            for c in string.ascii_lowercase
+        }
+
         if t in running:
             return length
         length += 1

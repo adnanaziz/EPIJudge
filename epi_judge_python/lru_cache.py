@@ -30,17 +30,15 @@ def lru_cache_tester(commands):
         if cmd[0] == 'lookup':
             result = cache.lookup(cmd[1])
             if result != cmd[2]:
-                raise TestFailure('Lookup: expected ' + str(cmd[2]) +
-                                  ', got ' + str(result))
+                raise TestFailure((f'Lookup: expected {str(cmd[2])}' + ', got ') + str(result))
         elif cmd[0] == 'insert':
             cache.insert(cmd[1], cmd[2])
         elif cmd[0] == 'erase':
             result = 1 if cache.erase(cmd[1]) else 0
             if result != cmd[2]:
-                raise TestFailure('Erase: expected ' + str(cmd[2]) + ', got ' +
-                                  str(result))
+                raise TestFailure((f'Erase: expected {str(cmd[2])}, got ' + str(result)))
         else:
-            raise RuntimeError('Unexpected command ' + cmd[0])
+            raise RuntimeError(f'Unexpected command {cmd[0]}')
 
 
 if __name__ == '__main__':

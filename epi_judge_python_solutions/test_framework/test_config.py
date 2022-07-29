@@ -125,8 +125,9 @@ class TestConfig:
         if config.test_data_dir:
             if not os.path.isdir(config.test_data_dir):
                 raise RuntimeError(
-                    'CL: --test-data-dir argument ({}) is not a directory'.
-                    format(config.test_data_dir))
+                    f'CL: --test-data-dir argument ({config.test_data_dir}) is not a directory'
+                )
+
         else:
             config.test_data_dir = get_default_test_data_dir_path()
 

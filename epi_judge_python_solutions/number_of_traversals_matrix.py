@@ -22,7 +22,7 @@ def number_of_ways_space_efficient(n, m):
         n, m = m, n
 
     table = [1] * m
-    for i in range(1, n):
+    for _ in range(1, n):
         prev_res = 0
         for j in range(m):
             table[j] += prev_res

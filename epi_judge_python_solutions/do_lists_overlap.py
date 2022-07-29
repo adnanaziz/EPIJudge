@@ -17,7 +17,7 @@ def overlapping_lists(l0: ListNode, l1: ListNode) -> Optional[ListNode]:
     if not root0 and not root1:
         # Both lists don't have cycles.
         return overlapping_no_cycle_lists(l0, l1)
-    elif (root0 and not root1) or (not root0 and root1):
+    elif root0 and not root1 or not root0:
         # One list has cycle, one list has no cycle.
         return None
     # Both lists have cycles.
@@ -79,7 +79,7 @@ def overlapping_lists_wrapper(executor, l0, l1, common, cycle0, cycle1):
 
     result = executor.run(functools.partial(overlapping_lists, l0, l1))
 
-    if not (id(result) in common_nodes or (not common_nodes and not result)):
+    if id(result) not in common_nodes and (common_nodes or result):
         raise TestFailure('Invalid result')
 
 

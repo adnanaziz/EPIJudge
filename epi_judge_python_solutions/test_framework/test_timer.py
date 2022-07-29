@@ -29,10 +29,10 @@ def duration_to_string(dur):
     if dur == 0:
         return '  <1 us'
     elif dur < milli_to_micro:
-        return str(duration_format + ' us').format(dur)
+        return str(f'{duration_format} us').format(dur)
     elif dur < second_to_micro:
-        return str(duration_format + ' ms').format(dur // milli_to_micro)
-    return str(duration_format + '  s').format(dur // second_to_micro)
+        return str(f'{duration_format} ms').format(dur // milli_to_micro)
+    return str(f'{duration_format}  s').format(dur // second_to_micro)
 
 
 def avg_and_median_from_durations(durations):

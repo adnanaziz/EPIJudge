@@ -14,8 +14,11 @@ def is_pattern_contained_in_grid(grid: List[List[int]],
 
         # Early return if (x, y) lies outside the grid or the character
         # does not match or we have already tried this combination.
-        if (not (0 <= x < len(grid) and 0 <= y < len(grid[x]))
-                or grid[x][y] != pattern[offset]):
+        if (
+            not 0 <= x < len(grid)
+            or not 0 <= y < len(grid[x])
+            or grid[x][y] != pattern[offset]
+        ):
             return False
 
         return any(

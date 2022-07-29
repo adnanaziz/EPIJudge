@@ -13,7 +13,7 @@ def list_pivoting(l: ListNode, x: int) -> Optional[ListNode]:
 
 
 def linked_to_list(l):
-    v = list()
+    v = []
     while l is not None:
         v.append(l.data)
         l = l.next
@@ -29,20 +29,19 @@ def list_pivoting_wrapper(executor, l, x):
     pivoted = linked_to_list(l)
     mode = -1
     for i in pivoted:
-        if mode == -1:
-            if i == x:
-                mode = 0
-            elif i > x:
-                mode = 1
-        elif mode == 0:
-            if i < x:
-                raise TestFailure('List is not pivoted')
-            elif i > x:
-                mode = 1
-        else:
-            if i <= x:
-                raise TestFailure('List is not pivoted')
-
+        if mode == -1 and i == x:
+            mode = 0
+        elif (
+            mode == -1
+            and i > x
+            or mode != -1
+            and mode == 0
+            and i >= x
+            and i > x
+        ):
+            mode = 1
+        elif mode != -1 and (mode != 0 or i < x) and (mode == 0 or i <= x):
+            raise TestFailure('List is not pivoted')
     if sorted(original) != sorted(pivoted):
         raise TestFailure('Result list contains different values')
 

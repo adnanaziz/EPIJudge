@@ -6,11 +6,12 @@ def has_path_sum(tree: BinaryTreeNode, remaining_weight: int) -> bool:
 
     if not tree:
         return False
-    if not tree.left and not tree.right:  # Leaf.
+    if tree.left or tree.right:
+        # Non-leaf.
+        return (has_path_sum(tree.left, remaining_weight - tree.data)
+                or has_path_sum(tree.right, remaining_weight - tree.data))
+    else:  # Leaf.
         return remaining_weight == tree.data
-    # Non-leaf.
-    return (has_path_sum(tree.left, remaining_weight - tree.data)
-            or has_path_sum(tree.right, remaining_weight - tree.data))
 
 
 if __name__ == '__main__':

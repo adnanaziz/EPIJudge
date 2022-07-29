@@ -40,7 +40,7 @@ def serialize_structure(tree):
     q = [tree]
     while q:
         a = q.pop(0)
-        result.append(0 if not a else 1)
+        result.append(1 if a else 0)
         if a:
             q.append(a.left)
             q.append(a.right)

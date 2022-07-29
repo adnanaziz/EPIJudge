@@ -13,7 +13,7 @@ def copy_postings_list(L: PostingListNode) -> Optional[PostingListNode]:
 
 
 def assert_lists_equal(orig, copy):
-    node_mapping = dict()
+    node_mapping = {}
     o_it = orig
     c_it = copy
     while o_it:
@@ -38,10 +38,9 @@ def assert_lists_equal(orig, copy):
             if c_it.jump is not None:
                 raise TestFailure(
                     'Jump link points to a different nodes in the copied list')
-        else:
-            if not node_mapping[o_it.jump] is c_it.jump:
-                raise TestFailure(
-                    'Jump link points to a different nodes in the copied list')
+        elif node_mapping[o_it.jump] is not c_it.jump:
+            raise TestFailure(
+                'Jump link points to a different nodes in the copied list')
         o_it = o_it.next
         c_it = c_it.next
 
@@ -49,7 +48,7 @@ def assert_lists_equal(orig, copy):
 @enable_executor_hook
 def copy_postings_list_wrapper(executor, l):
     def create_posting_list(serialized):
-        key_mapping = dict()
+        key_mapping = {}
         head = None
         for (order, _) in reversed(serialized):
             head = PostingListNode(order, head)
@@ -58,7 +57,7 @@ def copy_postings_list_wrapper(executor, l):
         list_it = head
         for (_, jump_index) in serialized:
             if jump_index != -1:
-                list_it.jump = key_mapping.get(jump_index, None)
+                list_it.jump = key_mapping.get(jump_index)
                 if not list_it.jump:
                     raise RuntimeError('Jump index out of range')
 

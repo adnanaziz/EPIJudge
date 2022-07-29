@@ -30,9 +30,9 @@ def eliminate_duplicate_wrapper(executor, names):
 
 
 def comp(expected, result):
-    return all([
+    return all(
         e == r.first_name for (e, r) in zip(sorted(expected), sorted(result))
-    ])
+    )
 
 
 if __name__ == '__main__':

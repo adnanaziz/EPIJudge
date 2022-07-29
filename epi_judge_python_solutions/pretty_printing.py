@@ -19,7 +19,7 @@ def minimum_messiness(words: List[str], line_length: int) -> int:
             if num_remaining_blanks < 0:
                 # Not enough space to add more words.
                 break
-            first_j_messiness = 0 if j - 1 < 0 else min_messiness[j - 1]
+            first_j_messiness = 0 if j < 1 else min_messiness[j - 1]
             current_line_messiness = num_remaining_blanks**2
             min_messiness[i] = min(min_messiness[i],
                                    first_j_messiness + current_line_messiness)

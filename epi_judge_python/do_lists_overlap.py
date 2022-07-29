@@ -61,7 +61,7 @@ def overlapping_lists_wrapper(executor, l0, l1, common, cycle0, cycle1):
 
     result = executor.run(functools.partial(overlapping_lists, l0, l1))
 
-    if not (id(result) in common_nodes or (not common_nodes and not result)):
+    if id(result) not in common_nodes and (common_nodes or result):
         raise TestFailure('Invalid result')
 
 

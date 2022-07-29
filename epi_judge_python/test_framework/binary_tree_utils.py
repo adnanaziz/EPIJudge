@@ -107,7 +107,7 @@ def find_node(tree, val):
 def must_find_node(tree, val):
     result = find_node(tree, val)
     if result is None:
-        raise RuntimeError('{} was not found in the tree'.format(val))
+        raise RuntimeError(f'{val} was not found in the tree')
     return result
 
 
@@ -150,13 +150,12 @@ def assert_equal_binary_trees(expected, result):
 
 
 def binary_tree_to_string(tree):
-    result = ''
     nodes = collections.deque()
     visited = set()
     first = True
     null_nodes_pending = 0
 
-    result += '['
+    result = '' + '['
     nodes.append(tree)
 
     while nodes:
@@ -173,7 +172,7 @@ def binary_tree_to_string(tree):
                 result += 'null, '
                 null_nodes_pending -= 1
 
-            result += '"{}"'.format(node.data)
+            result += f'"{node.data}"'
 
             visited.add(id(node))
             nodes.append(node.left)

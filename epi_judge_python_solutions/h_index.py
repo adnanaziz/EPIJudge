@@ -7,10 +7,7 @@ def h_index(citations: List[int]) -> int:
 
     citations.sort()
     n = len(citations)
-    for i, c in enumerate(citations):
-        if c >= n - i:
-            return n - i
-    return 0
+    return next((n - i for i, c in enumerate(citations) if c >= n - i), 0)
 
 
 if __name__ == '__main__':

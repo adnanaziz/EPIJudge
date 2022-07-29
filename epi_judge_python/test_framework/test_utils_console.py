@@ -50,14 +50,12 @@ def print_test_info(test_result, test_nr, total_tests, diagnostic, timer):
           flush=True)
 
     if timer is not None:
-        print(' [{}]'.format(duration_to_string(timer.get_microseconds())),
-              end='',
-              flush=True)
+        print(f' [{duration_to_string(timer.get_microseconds())}]', end='', flush=True)
 
     print_test_info.caret_at_line_start = False
 
     if test_result != TestResult.PASSED:
-        print(' {}'.format(diagnostic), flush=True)
+        print(f' {diagnostic}', flush=True)
         print_test_info.caret_at_line_start = True
 
 
@@ -75,15 +73,12 @@ def print_failed_test(param_names, arguments, test_failure, res_printer):
     print_std_out_colored(ConsoleColor.FG_YELLOW, 'Arguments')
     print()
 
-    for (name, value) in zip(param_names, arguments):
+    for name, value in zip(param_names, arguments):
         print('\t', end='')
         print_std_out_colored(ConsoleColor.FG_YELLOW, name)
-        print(': {}{}'.format(gen_spaces(max_col_size - len(name)),
-                              escape_newline(str(value))))
+        print(f': {gen_spaces(max_col_size - len(name))}{escape_newline(str(value))}')
 
-    properties = test_failure.get_properties()
-
-    if properties:
+    if properties := test_failure.get_properties():
         print_std_out_colored(ConsoleColor.FG_YELLOW, '\nFailure info\n')
 
         for prop in properties:
@@ -93,8 +88,7 @@ def print_failed_test(param_names, arguments, test_failure, res_printer):
                 value = prop.value()
             print('\t', end='')
             print_std_out_colored(ConsoleColor.FG_YELLOW, prop.name())
-            print(': {}{}'.format(gen_spaces(max_col_size - len(prop.name())),
-                                  value))
+            print(f': {gen_spaces(max_col_size - len(prop.name()))}{value}')
 
 
 def show_complexity_notification():
@@ -105,16 +99,15 @@ def show_complexity_notification():
 def print_post_run_stats(tests_passed, total_tests, complexity, durations):
     if durations:
         if complexity:
-            print('Time complexity: {}'.format(complexity))
+            print(f'Time complexity: {complexity}')
 
         avg_median = avg_and_median_from_durations(durations)
-        print('Average running time: {}\n'
-              'Median running time:  {}\n'.format(
-                  duration_to_string(avg_median[0]),
-                  duration_to_string(avg_median[1])),
-              end='')
+        print(
+            f'Average running time: {duration_to_string(avg_median[0])}\nMedian running time:  {duration_to_string(avg_median[1])}\n',
+            end='',
+        )
+
     if tests_passed < total_tests:
-        print('*** You\'ve passed {}/{} tests. ***'.format(
-            tests_passed, total_tests))
+        print(f"*** You\'ve passed {tests_passed}/{total_tests} tests. ***")
     else:
         print('*** You\'ve passed ALL tests. Congratulations! ***')

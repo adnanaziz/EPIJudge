@@ -12,9 +12,7 @@ def k_largest_in_binary_heap(A: List[int], k: int) -> List[int]:
     # Stores the (-value, index)-pair in candidate_max_heap. This heap is
     # ordered by value field. Uses the negative of value to get the effect of
     # a max heap.
-    candidate_max_heap = []
-    # The largest element in A is at index 0.
-    candidate_max_heap.append((-A[0], 0))
+    candidate_max_heap = [(-A[0], 0)]
     result = []
     for _ in range(k):
         candidate_idx = candidate_max_heap[0][1]

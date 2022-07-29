@@ -52,8 +52,7 @@ def generic_test_main(test_file,
         test_handler = GenericTestHandler(test_func, comparator)
         return run_tests(test_handler, config, res_printer)
     except RuntimeError as e:
-        print('\nCritical error({}): {}'.format(e.__class__.__name__, e),
-              file=sys.stderr)
+        print(f'\nCritical error({e.__class__.__name__}): {e}', file=sys.stderr)
         return TestResult.RUNTIME_ERROR
 
 
@@ -141,7 +140,7 @@ def update_test_passed(test_file, tests_passed):
             problem_mapping_file.read().replace(js_begin_pattern, '').replace(
                 js_end_pattern, ''))
 
-    test_file = 'Python: ' + test_file
+    test_file = f'Python: {test_file}'
     for chapter in chapter_to_problem_to_language_solution_mapping.values():
         for _, language_solution_mapping in chapter.items():
             if test_file in language_solution_mapping:
