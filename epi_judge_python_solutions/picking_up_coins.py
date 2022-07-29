@@ -32,10 +32,18 @@ def maximum_revenue_alternative(coins):
             return coins[a]
 
         return max(
-            coins[a] + prefix_sum[b] - (prefix_sum[a] if a + 1 > 0 else 0) -
-            compute_maximum_revenue_for_range(a + 1, b), coins[b] +
-            prefix_sum[b - 1] - (prefix_sum[a - 1] if a > 0 else 0) -
-            compute_maximum_revenue_for_range(a, b - 1))
+            (
+                coins[a]
+                + prefix_sum[b]
+                - (prefix_sum[a] if a > -1 else 0)
+                - compute_maximum_revenue_for_range(a + 1, b)
+            ),
+            coins[b]
+            + prefix_sum[b - 1]
+            - (prefix_sum[a - 1] if a > 0 else 0)
+            - compute_maximum_revenue_for_range(a, b - 1),
+        )
+
 
     prefix_sum = list(itertools.accumulate(coins))
     return compute_maximum_revenue_for_range(0, len(coins) - 1)

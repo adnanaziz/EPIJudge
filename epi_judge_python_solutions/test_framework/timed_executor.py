@@ -22,14 +22,13 @@ class TimedExecutor:
         if self._timeout_seconds == 0:
             # Timeout is disabled.
             return self._timed_call(func)
-        else:
-            try:
-                with futures.ThreadPoolExecutor() as executor:
-                    return next(
-                        executor.map(self._timed_call, (func, ),
-                                     timeout=self._timeout_seconds))
-            except futures.TimeoutError:
-                raise TimeoutException(self._timeout_seconds)
+        try:
+            with futures.ThreadPoolExecutor() as executor:
+                return next(
+                    executor.map(self._timed_call, (func, ),
+                                 timeout=self._timeout_seconds))
+        except futures.TimeoutError:
+            raise TimeoutException(self._timeout_seconds)
 
     def get_timer(self):
         return self._timer

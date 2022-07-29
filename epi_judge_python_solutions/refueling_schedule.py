@@ -36,7 +36,7 @@ def find_ample_city_wrapper(executor, gallons, distances):
         city = (result + i) % num_cities
         tank += gallons[city] * MPG - distances[city]
         if tank < 0:
-            raise TestFailure('Out of gas on city {}'.format(i))
+            raise TestFailure(f'Out of gas on city {i}')
 
 
 if __name__ == '__main__':

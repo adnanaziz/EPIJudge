@@ -35,10 +35,12 @@ def solve_sudoku(partial_assignment: List[List[int]]) -> bool:
             region_size = int(math.sqrt(len(partial_assignment)))
             I = i // region_size
             J = j // region_size
-            return not any(
-                val == partial_assignment[region_size * I +
-                                          a][region_size * J + b]
-                for a, b in itertools.product(range(region_size), repeat=2))
+            return all(
+                val
+                != partial_assignment[region_size * I + a][region_size * J + b]
+                for a, b in itertools.product(range(region_size), repeat=2)
+            )
+
 
         for val in range(1, len(partial_assignment) + 1):
             # It's substantially quicker to check if entry val with any of the
@@ -92,7 +94,7 @@ def solve_sudoku_wrapper(executor, partial_assignment):
         if len(br) != len(sr):
             raise TestFailure('Initial cell assignment has been changed')
         for (bcell, scell) in zip(br, sr):
-            if bcell != 0 and bcell != scell:
+            if bcell not in [0, scell]:
                 raise TestFailure('Initial cell assignment has been changed')
 
     block_size = int(math.sqrt(len(solved)))

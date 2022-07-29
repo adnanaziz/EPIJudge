@@ -25,9 +25,7 @@ def rabin_karp(t: str, s: str) -> int:
         t_hash = t_hash * base + ord(t[i])
 
     # Tries to match s and t[-len(s):].
-    if t_hash == s_hash and t[-len(s):] == s:
-        return len(t) - len(s)
-    return -1  # s is not a substring of t.
+    return len(t) - len(s) if t_hash == s_hash and t[-len(s):] == s else -1
 
 
 if __name__ == '__main__':

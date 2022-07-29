@@ -79,10 +79,7 @@ def completely_sorted(x):
     then the argument is lexicographically sorted on all levels,
     starting from the bottom.
     """
-    if isinstance(x, list):
-        return sorted(completely_sorted(e) for e in x)
-    else:
-        return x
+    return sorted(completely_sorted(e) for e in x) if isinstance(x, list) else x
 
 
 def unordered_compare(a, b):

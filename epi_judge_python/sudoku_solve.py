@@ -48,7 +48,7 @@ def solve_sudoku_wrapper(executor, partial_assignment):
         if len(br) != len(sr):
             raise TestFailure('Initial cell assignment has been changed')
         for (bcell, scell) in zip(br, sr):
-            if bcell != 0 and bcell != scell:
+            if bcell not in [0, scell]:
                 raise TestFailure('Initial cell assignment has been changed')
 
     block_size = int(math.sqrt(len(solved)))

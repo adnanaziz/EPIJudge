@@ -5964,8 +5964,8 @@ PRECOMPUTED_REVERSE = [
 
 
 def reverse_bits(x: int) -> int:
-    
-    
+
+
     mask_size = 16
     bit_mask = 0xFFFF
     return (PRECOMPUTED_REVERSE[x & bit_mask] << (3 * mask_size)

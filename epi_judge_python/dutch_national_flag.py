@@ -34,7 +34,7 @@ def dutch_flag_partition_wrapper(executor, A, pivot_idx):
         i += 1
 
     if i != len(A):
-        raise TestFailure('Not partitioned after {}th element'.format(i))
+        raise TestFailure(f'Not partitioned after {i}th element')
     elif any(count):
         raise TestFailure('Some elements are missing from original array')
 

@@ -38,10 +38,9 @@ def check_graph(node, graph):
     if node is None:
         raise TestFailure('Graph was not copied')
 
-    vertex_set = set()
     q = collections.deque()
     q.append(node)
-    vertex_set.add(node)
+    vertex_set = {node}
     while q:
         vertex = q.popleft()
         if vertex.label >= len(graph):
