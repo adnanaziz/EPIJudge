@@ -62,8 +62,6 @@ def find_smallest_sequentially_covering_subset_wrapper(executor, paragraph,
     while kw_idx < len(keywords):
         if para_idx >= len(paragraph):
             raise TestFailure('Not all keywords are in the generated subarray')
-        if para_idx >= len(paragraph):
-            raise TestFailure('Subarray end index exceeds array size')
         if paragraph[para_idx] == keywords[kw_idx]:
             kw_idx += 1
         para_idx += 1

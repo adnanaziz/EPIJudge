@@ -31,8 +31,6 @@ def client_credits_info_tester(ops):
         op = x[0]
         s_arg = x[1]
         i_arg = x[2]
-        if op == 'ClientsCreditsInfo':
-            pass
         if op == 'max':
             result = cr.max()
             if result != s_arg:

@@ -12,7 +12,7 @@ def calculate_largest_rectangle(heights: List[int]) -> int:
     for i, h in enumerate(heights + [0]):
         while pillar_indices and heights[pillar_indices[-1]] >= h:
             height = heights[pillar_indices.pop()]
-            width = i if not pillar_indices else i - pillar_indices[-1] - 1
+            width = i - pillar_indices[-1] - 1 if pillar_indices else i
             max_rectangle_area = max(max_rectangle_area, height * width)
         pillar_indices.append(i)
     return max_rectangle_area

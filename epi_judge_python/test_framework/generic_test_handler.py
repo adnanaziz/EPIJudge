@@ -78,8 +78,9 @@ class GenericTestHandler:
             self._param_traits) + (0 if self.expected_is_void() else 1)
         if len(test_args) != expected_param_count:
             raise RuntimeError(
-                'Invalid argument count: expected {}, actual {}'.format(
-                    expected_param_count, len(test_args)))
+                f'Invalid argument count: expected {expected_param_count}, actual {len(test_args)}'
+            )
+
 
         parsed = [
             param_trait.parse(json.loads(test_arg))

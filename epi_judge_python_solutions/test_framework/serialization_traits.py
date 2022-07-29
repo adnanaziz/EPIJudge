@@ -48,7 +48,7 @@ class StringTrait(SerializationTrait):
         return str(json_object)
 
     def get_metric_names(self, arg_name):
-        return ['size({})'.format(arg_name)]
+        return [f'size({arg_name})']
 
     def get_metrics(self, x):
         return [len(x)]
@@ -102,13 +102,13 @@ class ListTrait(SerializationTrait):
         self._inner_type_trait = inner_type_trait
 
     def name(self):
-        return 'array({})'.format(self._inner_type_trait.name())
+        return f'array({self._inner_type_trait.name()})'
 
     def parse(self, json_object):
         return [self._inner_type_trait.parse(inner) for inner in json_object]
 
     def get_metric_names(self, arg_name):
-        return ['size({})'.format(arg_name)]
+        return [f'size({arg_name})']
 
     def get_metrics(self, x):
         if isinstance(x, list):
@@ -126,7 +126,7 @@ class BinaryTreeTrait(SerializationTrait):
         self._inner_type_trait = inner_type_trait
 
     def name(self):
-        return 'binary_tree({})'.format(self._inner_type_trait.name())
+        return f'binary_tree({self._inner_type_trait.name()})'
 
     def parse(self, json_object):
         def build_binary_tree(data):
@@ -157,7 +157,7 @@ class BinaryTreeTrait(SerializationTrait):
         return build_binary_tree(json_object)
 
     def get_metric_names(self, arg_name):
-        return ['size({})'.format(arg_name), 'height({})'.format(arg_name)]
+        return [f'size({arg_name})', f'height({arg_name})']
 
     def get_metrics(self, x):
         return [binary_tree_size(x), binary_tree_height(x)]
@@ -169,8 +169,7 @@ class LinkedListTrait(SerializationTrait):
         self._list_trait = ListTrait(inner_type_trait)
 
     def name(self):
-        return 'linked_list({})'.format(
-            self._list_trait.get_inner_trait().name())
+        return f'linked_list({self._list_trait.get_inner_trait().name()})'
 
     def parse(self, json_object):
         parsed = self._list_trait.parse(json_object)
@@ -180,7 +179,7 @@ class LinkedListTrait(SerializationTrait):
         return head
 
     def get_metric_names(self, arg_name):
-        return ['size({})'.format(arg_name)]
+        return [f'size({arg_name})']
 
     def get_metrics(self, x):
         if x is None:
@@ -196,13 +195,13 @@ class SetTrait(SerializationTrait):
         self._list_trait = ListTrait(inner_type_trait)
 
     def name(self):
-        return 'set({})'.format(self._list_trait.get_inner_trait().name())
+        return f'set({self._list_trait.get_inner_trait().name()})'
 
     def parse(self, json_object):
         return set(self._list_trait.parse(json_object))
 
     def get_metric_names(self, arg_name):
-        return ['size({})'.format(arg_name)]
+        return [f'size({arg_name})']
 
     def get_metrics(self, x):
         if isinstance(x, set):
@@ -227,8 +226,9 @@ class TupleTrait(SerializationTrait):
     def parse(self, json_object):
         if len(json_object) != len(self._inner_type_traits):
             raise RuntimeError(
-                'Tuple parser: expected {} values, provide {}'.format(
-                    len(self._inner_type_traits), len(json_object)))
+                f'Tuple parser: expected {len(self._inner_type_traits)} values, provide {len(json_object)}'
+            )
+
         return tuple(
             inner_type_trait.parse(p) for inner_type_trait, p in zip(
                 self._inner_type_traits, json_object))
@@ -258,26 +258,26 @@ def get_trait(typename):
     list_regex = re.compile(r'^array\((.*)\)$')
     m = list_regex.match(typename)
     if m and len(m.groups()) == 1:
-        return ListTrait(get_trait(m.group(1)))
+        return ListTrait(get_trait(m[1]))
 
     binary_tree_regex = re.compile(r'^binary_tree\((.*)\)$')
     m = binary_tree_regex.match(typename)
     if m and len(m.groups()) == 1:
-        return BinaryTreeTrait(BinaryTreeNode, get_trait(m.group(1)))
+        return BinaryTreeTrait(BinaryTreeNode, get_trait(m[1]))
 
     linked_list_regex = re.compile(r'^linked_list\((.*)\)$')
     m = linked_list_regex.match(typename)
     if m and len(m.groups()) == 1:
-        return LinkedListTrait(get_trait(m.group(1)))
+        return LinkedListTrait(get_trait(m[1]))
 
     set_regex = re.compile(r'^set\((.*)\)$')
     m = set_regex.match(typename)
     if m and len(m.groups()) == 1:
-        return SetTrait(get_trait(m.group(1)))
+        return SetTrait(get_trait(m[1]))
 
     tuple_regex = re.compile(r'^tuple\((.*)\)$')
     m = tuple_regex.match(typename)
     if m and len(m.groups()) == 1:
-        return TupleTrait([get_trait(x) for x in m.group(1).split(',')])
+        return TupleTrait([get_trait(x) for x in m[1].split(',')])
 
-    raise NotImplementedError("Unsupported type " + typename)
+    raise NotImplementedError(f"Unsupported type {typename}")

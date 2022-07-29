@@ -54,6 +54,7 @@ def print_std_out_colored(color, value):
         sys.stdout.flush()
         platform.set_console_text_attribute(old_text_attr)
     else:
-        print('{}{}{}'.format(get_color_code_unix(color), value,
-                              get_color_code_unix(ConsoleColor.FG_DEFAULT)),
-              end='')
+        print(
+            f'{get_color_code_unix(color)}{value}{get_color_code_unix(ConsoleColor.FG_DEFAULT)}',
+            end='',
+        )

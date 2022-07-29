@@ -13,7 +13,7 @@ def find_missing_element_wrapper(stream):
     try:
         res = find_missing_element(iter(stream))
         if res in stream:
-            raise TestFailure('{} appears in stream'.format(res))
+            raise TestFailure(f'{res} appears in stream')
     except ValueError:
         raise TestFailure('Unexpected no missing element exception')
 

@@ -19,7 +19,7 @@ class Name:
                 self.last_name < other.last_name)
 
     def __repr__(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        return f'{self.first_name} {self.last_name}'
 
 
 def eliminate_duplicate(A: List[Name]) -> None:
@@ -52,9 +52,9 @@ def eliminate_duplicate_wrapper(executor, names):
 
 
 def comp(expected, result):
-    return all([
+    return all(
         e == r.first_name for (e, r) in zip(sorted(expected), sorted(result))
-    ])
+    )
 
 
 if __name__ == '__main__':

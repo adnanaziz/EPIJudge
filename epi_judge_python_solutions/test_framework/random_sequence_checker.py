@@ -15,11 +15,14 @@ def compute_deviation_multiplier(allowed_false_negative, num_rvs=1):
         1 - 0.999999999997440
     ]
 
-    for i, bound in enumerate(ERROR_BOUNDS):
-        if bound <= individual_rv_error:
-            return i + 1
-
-    return len(ERROR_BOUNDS) + 1
+    return next(
+        (
+            i + 1
+            for i, bound in enumerate(ERROR_BOUNDS)
+            if bound <= individual_rv_error
+        ),
+        len(ERROR_BOUNDS) + 1,
+    )
 
 
 def check_frequencies(seq, n, false_negative_tolerance):
@@ -41,13 +44,12 @@ def check_frequencies(seq, n, false_negative_tolerance):
 
 
 def check_pairs_frequencies(seq, n, false_negative_tolerance):
-    seq_pairs = [(x, next_x) for x, next_x in zip(seq, seq[1:])]
+    seq_pairs = list(zip(seq, seq[1:]))
     return check_frequencies(seq_pairs, n * n, false_negative_tolerance)
 
 
 def check_triples_frequencies(seq, n, false_negative_tolerance):
-    seq_triples = [(x, next_x, next_next_x)
-                   for x, next_x, next_next_x in zip(seq, seq[1:], seq[2:])]
+    seq_triples = list(zip(seq, seq[1:], seq[2:]))
     return check_frequencies(seq_triples, n * n * n, false_negative_tolerance)
 
 
@@ -106,12 +108,16 @@ def run_func_with_retries(func):
 
 if __name__ == '__main__':
     assert check_sequence_is_uniformly_random(
-        [random.randint(1, 10) for i in range(1000000)],
+        [random.randint(1, 10) for _ in range(1000000)],
         10,
-        false_negative_tolerance=0.01)
+        false_negative_tolerance=0.01,
+    )
+
     assert not check_sequence_is_uniformly_random(
-        [random.randint(1, 11) for i in range(1000000)],
+        [random.randint(1, 11) for _ in range(1000000)],
         10,
-        false_negative_tolerance=0.01)
+        false_negative_tolerance=0.01,
+    )
+
     assert not check_sequence_is_uniformly_random(
         [i % 10 for i in range(1000000)], 10, false_negative_tolerance=0.01)

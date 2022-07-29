@@ -22,8 +22,10 @@ def compute_tower_hanoi_wrapper(executor, num_rings):
 
     for from_peg, to_peg in result:
         if pegs[to_peg] and pegs[from_peg][-1] >= pegs[to_peg][-1]:
-            raise TestFailure('Illegal move from {} to {}'.format(
-                pegs[from_peg][-1], pegs[to_peg][-1]))
+            raise TestFailure(
+                f'Illegal move from {pegs[from_peg][-1]} to {pegs[to_peg][-1]}'
+            )
+
         pegs[to_peg].append(pegs[from_peg].pop())
     expected_pegs1 = [[], [], list(reversed(range(1, num_rings + 1)))]
     expected_pegs2 = [[], list(reversed(range(1, num_rings + 1))), []]

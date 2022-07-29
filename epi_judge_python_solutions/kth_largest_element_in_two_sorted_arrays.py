@@ -27,7 +27,7 @@ def find_kth_in_two_sorted_arrays(A: List[int], B: List[int], k: int) -> int:
             return typing.cast(int, max(A_x_1, B_k_x_1))
 
     A_b_1 = float('-inf') if b <= 0 else A[b - 1]
-    B_k_b_1 = float('-inf') if k - b - 1 < 0 else B[k - b - 1]
+    B_k_b_1 = float('-inf') if k - b < 1 else B[k - b - 1]
     return typing.cast(int, max(A_b_1, B_k_b_1))
 
 

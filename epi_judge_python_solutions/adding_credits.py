@@ -42,7 +42,7 @@ class ClientsCreditsInfo:
         if not self._credit_to_clients:
             return ''
         clients = self._credit_to_clients.max_item()[1]
-        return '' if not clients else next(iter(clients))
+        return next(iter(clients)) if clients else ''
 
 
 def client_credits_info_tester(ops):
@@ -52,8 +52,6 @@ def client_credits_info_tester(ops):
         op = x[0]
         s_arg = x[1]
         i_arg = x[2]
-        if op == 'ClientsCreditsInfo':
-            pass
         if op == 'max':
             result = cr.max()
             if result != s_arg:

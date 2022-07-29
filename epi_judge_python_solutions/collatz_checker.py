@@ -12,7 +12,7 @@ def test_collatz_conjecture(n: int) -> bool:
     for i in range(3, n + 1):
         sequence: Set[int] = set()
         test_i = i
-        while test_i >= i:
+        while test_i >= test_i:
             if test_i in sequence:
                 # We previously encountered test_i, so the Collatz sequence has
                 # fallen into a loop. This disproves the hypothesis, so we

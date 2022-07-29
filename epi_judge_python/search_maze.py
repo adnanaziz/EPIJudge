@@ -19,13 +19,21 @@ def search_maze(maze: List[List[int]], s: Coordinate,
 
 
 def path_element_is_feasible(maze, prev, cur):
-    if not ((0 <= cur.x < len(maze)) and
-            (0 <= cur.y < len(maze[cur.x])) and maze[cur.x][cur.y] == WHITE):
-        return False
-    return cur == (prev.x + 1, prev.y) or \
-           cur == (prev.x - 1, prev.y) or \
-           cur == (prev.x, prev.y + 1) or \
-           cur == (prev.x, prev.y - 1)
+    return (
+        cur
+        in [
+            (prev.x + 1, prev.y),
+            (prev.x - 1, prev.y),
+            (prev.x, prev.y + 1),
+            (prev.x, prev.y - 1),
+        ]
+        if (
+            (0 <= cur.x < len(maze))
+            and (0 <= cur.y < len(maze[cur.x]))
+            and maze[cur.x][cur.y] == WHITE
+        )
+        else False
+    )
 
 
 @enable_executor_hook

@@ -16,9 +16,9 @@ def shortest_equivalent_path(path: str) -> str:
         if token == '..':
             if not path_names or path_names[-1] == '..':
                 path_names.append(token)
+            elif path_names[-1] == '/':
+                raise ValueError('Path error')
             else:
-                if path_names[-1] == '/':
-                    raise ValueError('Path error')
                 path_names.pop()
         else:  # Must be a name.
             path_names.append(token)

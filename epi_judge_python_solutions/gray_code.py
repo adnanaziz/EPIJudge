@@ -30,7 +30,7 @@ def gray_code(num_bits: int) -> List[int]:
         return False
 
     result = [0]
-    directed_gray_code(set([0]))
+    directed_gray_code({0})
     return result
 
 
@@ -49,8 +49,11 @@ def gray_code_wrapper(executor, num_bits):
 
     expected_size = (1 << num_bits)
     if len(result) != expected_size:
-        raise TestFailure('Length mismatch: expected ' + str(expected_size) +
-                          ', got ' + str(len(result)))
+        raise TestFailure(
+            (f'Length mismatch: expected {str(expected_size)}' + ', got ')
+            + str(len(result))
+        )
+
     for i in range(1, len(result)):
         if not differ_by_1_bit(result[i - 1], result[i]):
             if result[i - 1] == result[i]:

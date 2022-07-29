@@ -21,25 +21,22 @@ def rearrange_wrapper(executor, A):
                         PropertyName.RESULT, A).with_mismatch_info(
                             i, 'A[{}] <= A[{}]'.format(i - 1, i),
                             '{} > {}'.format(A[i - 1], A[i]))
-                if i + 1 < len(A):
-                    if A[i] < A[i + 1]:
-                        raise TestFailure().with_property(
-                            PropertyName.RESULT, A).with_mismatch_info(
-                                i, 'A[{}] >= A[{}]'.format(i, i + 1),
-                                '{} < {}'.format(A[i], A[i + 1]))
+                if i + 1 < len(A) and A[i] < A[i + 1]:
+                    raise TestFailure().with_property(
+                        PropertyName.RESULT, A).with_mismatch_info(
+                            i, 'A[{}] >= A[{}]'.format(i, i + 1),
+                            '{} < {}'.format(A[i], A[i + 1]))
             else:
-                if i > 0:
-                    if A[i - 1] < A[i]:
-                        raise TestFailure().with_property(
-                            PropertyName.RESULT, A).with_mismatch_info(
-                                i, 'A[{}] >= A[{}]'.format(i - 1, i),
-                                '{} < {}'.format(A[i - 1], A[i]))
-                if i + 1 < len(A):
-                    if A[i + 1] < A[i]:
-                        raise TestFailure().with_property(
-                            PropertyName.RESULT, A).with_mismatch_info(
-                                i, 'A[{}] <= A[{}]'.format(i, i + 1),
-                                '{} > {}'.format(A[i], A[i + 1]))
+                if i > 0 and A[i - 1] < A[i]:
+                    raise TestFailure().with_property(
+                        PropertyName.RESULT, A).with_mismatch_info(
+                            i, 'A[{}] >= A[{}]'.format(i - 1, i),
+                            '{} < {}'.format(A[i - 1], A[i]))
+                if i + 1 < len(A) and A[i + 1] < A[i]:
+                    raise TestFailure().with_property(
+                        PropertyName.RESULT, A).with_mismatch_info(
+                            i, 'A[{}] <= A[{}]'.format(i, i + 1),
+                            '{} > {}'.format(A[i], A[i + 1]))
 
     executor.run(functools.partial(rearrange, A))
     check_answer(A)
