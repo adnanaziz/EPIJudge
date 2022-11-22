@@ -29,12 +29,12 @@ public class IsTreeBalanced {
     }
 
     BalanceStatusWithHeight leftResult = checkBalanced(tree.left);
-    if (!leftResult.balanced) {
-      return leftResult;
+   // if (!leftResult.balanced) { // not used condition , state unreachable ,always true
+     // return leftResult;
     }
     BalanceStatusWithHeight rightResult = checkBalanced(tree.right);
-    if (!rightResult.balanced) {
-      return rightResult;
+    //if (!rightResult.balanced) { // not used condition , state unreachable ,always true
+      //return rightResult;
     }
 
     boolean isBalanced = Math.abs(leftResult.height - rightResult.height) <= 1;
