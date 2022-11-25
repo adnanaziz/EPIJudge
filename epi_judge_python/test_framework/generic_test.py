@@ -1,3 +1,4 @@
+import io
 import json
 import os
 import sys
@@ -82,8 +83,9 @@ def run_tests(handler, config, res_printer):
         test_failure = TestFailure()
 
         try:
+            test_stdout = io.StringIO()
             test_output = handler.run_test(config.timeout_seconds,
-                                           config.metrics_override, test_case)
+                                           config.metrics_override, test_case, test_stdout)
             result = TestResult.PASSED
             tests_passed += 1
             metrics.append(test_output.metrics)
@@ -107,6 +109,7 @@ def run_tests(handler, config, res_printer):
                         test_failure.get_description(), test_output.timer)
 
         if result != TestResult.PASSED:
+            print(test_stdout.getvalue())
             if not handler.expected_is_void():
                 test_case.pop()
             if test_explanation not in ('', 'TODO'):
