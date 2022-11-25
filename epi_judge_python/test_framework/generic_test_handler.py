@@ -2,6 +2,7 @@ import inspect
 import json
 import math
 
+from contextlib import redirect_stdout
 from test_framework import test_utils
 from test_framework.binary_tree_utils import (assert_equal_binary_trees,
                                               is_object_tree_type)
@@ -63,7 +64,7 @@ class GenericTestHandler:
 
         self._ret_value_trait = get_trait(signature[-1])
 
-    def run_test(self, timeout_seconds, metrics_override, test_args):
+    def run_test(self, timeout_seconds, metrics_override, test_args, stdout_capturer):
         """
         This method is invoked for each row in a test data file (except the header).
         It deserializes the list of arguments and calls the user function with them.
@@ -71,35 +72,37 @@ class GenericTestHandler:
         :param timeout_seconds: number of seconds to timeout
         :param metrics_override: metrics transformation for customizing metrics calculation
         :param test_args: serialized arguments
+        :param stdout_capturer: Captures stdout such that a test case's stdout is only printed if it fails.
         :return: list, that contains [result of comparison of expected and result, expected, result].
                  Two last entries are omitted in case of the void return type
         """
-        expected_param_count = len(
-            self._param_traits) + (0 if self.expected_is_void() else 1)
-        if len(test_args) != expected_param_count:
-            raise RuntimeError(
-                'Invalid argument count: expected {}, actual {}'.format(
-                    expected_param_count, len(test_args)))
+        with redirect_stdout(stdout_capturer):
+            expected_param_count = len(
+                self._param_traits) + (0 if self.expected_is_void() else 1)
+            if len(test_args) != expected_param_count:
+                raise RuntimeError(
+                    'Invalid argument count: expected {}, actual {}'.format(
+                        expected_param_count, len(test_args)))
 
-        parsed = [
-            param_trait.parse(json.loads(test_arg))
-            for param_trait, test_arg in zip(self._param_traits, test_args)
-        ]
+            parsed = [
+                param_trait.parse(json.loads(test_arg))
+                for param_trait, test_arg in zip(self._param_traits, test_args)
+            ]
 
-        metrics = self.calculate_metrics(parsed)
-        metrics = metrics_override(metrics, *parsed)
+            metrics = self.calculate_metrics(parsed)
+            metrics = metrics_override(metrics, *parsed)
 
-        executor = TimedExecutor(timeout_seconds)
-        if self._has_executor_hook:
-            result = self._func(executor, *parsed)
-        else:
-            result = executor.run(lambda: self._func(*parsed))
+            executor = TimedExecutor(timeout_seconds)
+            if self._has_executor_hook:
+                result = self._func(executor, *parsed)
+            else:
+                result = executor.run(lambda: self._func(*parsed))
 
-        if not self.expected_is_void():
-            expected = self._ret_value_trait.parse(json.loads(test_args[-1]))
-            self._assert_results_equal(expected, result)
+            if not self.expected_is_void():
+                expected = self._ret_value_trait.parse(json.loads(test_args[-1]))
+                self._assert_results_equal(expected, result)
 
-        return TestOutput(executor.get_timer(), metrics)
+            return TestOutput(executor.get_timer(), metrics)
 
     def _assert_results_equal(self, expected, result):
         if self._comp is not None:
