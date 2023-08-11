@@ -5,9 +5,19 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::vector;
+using std::swap;
 
 void EvenOdd(vector<int>* A_ptr) {
   // TODO - you fill in here.
+  vector<int>& arr = *A_ptr;
+  int nextEven = 0, nextOdd = arr.size() - 1;
+  while(nextEven < nextOdd) {
+      if(arr[nextEven] % 2 == 0) {
+          nextEven++;
+      } else {
+          swap(arr[nextEven], arr[nextOdd--]);
+      }
+  }
   return;
 }
 void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
