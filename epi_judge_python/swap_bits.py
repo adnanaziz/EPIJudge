@@ -2,8 +2,18 @@ from test_framework import generic_test
 
 
 def swap_bits(x, i, j):
-    # TODO - you fill in here.
-    return 0
+    m_i = 1 << i
+    m_j = 1 << j
+    v_i = x & m_i
+    v_j = x & m_j
+
+    if v_i and v_j == 0:
+        x = x ^ m_i
+        x |= m_j
+    elif not v_i and v_j:
+        x |= m_i
+        x ^= m_j
+    return x
 
 
 if __name__ == '__main__':
