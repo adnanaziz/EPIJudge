@@ -3,6 +3,7 @@ import functools
 from typing import List
 
 from test_framework import generic_test
+from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 Subarray = collections.namedtuple('Subarray', ('start', 'end'))
