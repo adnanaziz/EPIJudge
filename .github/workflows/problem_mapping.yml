@@ -1,0 +1,26 @@
+name: Copy problem_mapping file to github page
+
+on:
+  push:
+    paths:
+      - 'problem_mapping.js'
+  workflow_dispatch:
+
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Repository
+      uses: actions/checkout@v2
+
+    - name: Copy File to Target Repository
+      run: |
+        git clone https://github.com/simbadzina/simbadzina.github.io.git
+        cp problem_mapping.js simbadzina.github.io/
+        cd simbadzina.github.io
+        git config user.name "Simbarashe Dzinamarira"
+        git config user.email "simbadzina@gmail.com"
+        git add .
+        git commit -m "Update problem_mapping file"
+        git push https://${{ secrets.TARGET_REPO_TOKEN }}@github.com/simbadzina/simbadzina.github.io.git
