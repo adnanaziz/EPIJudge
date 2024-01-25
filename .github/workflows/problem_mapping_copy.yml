@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'problem_mapping.js'
+  workflow_dispatch:
 
 jobs:
   copy-file:
