@@ -1,4 +1,4 @@
-name: Copy File to Another Repo
+name: Copy problem_mapping file to github page
 
 on:
   push:
