@@ -1,0 +1,28 @@
+name: Copy File to Another Repo
+
+on:
+  push:
+    paths:
+      - 'problem_mapping.js'
+
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Source Repository
+      uses: actions/checkout@v2
+
+    - name: Copy File to Target Repository
+      run: |
+        git clone https://github.com/simbadzina/simbadzina.github.io.git
+        cp problem_mapping.js simbadzina.github.io/
+        cd simbadzina.github.io
+        git config user.name "Simbarashe Dzinamarira"
+        git config user.email "simbadzina@gmail.com"
+        git add .
+        git commit -m "Update problem_mapping.file"
+        git push
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
