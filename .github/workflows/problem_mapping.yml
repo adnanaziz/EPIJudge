@@ -22,5 +22,5 @@ jobs:
         git config user.name "Simbarashe Dzinamarira"
         git config user.email "simbadzina@gmail.com"
         git add .
-        git commit -m "Update problem_mapping file"
+        git commit -m "AUTO: Update problem_mapping file with copy from EPI repo."
         git push https://${{ secrets.TARGET_REPO_TOKEN }}@github.com/simbadzina/simbadzina.github.io.git
