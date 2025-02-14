@@ -16,7 +16,7 @@ def sort_approximately_sorted_array(sequence: Iterator[int],
 
     result = []
     # For every new element, add it to min_heap and extract the smallest.
-    for x in sequence:
+    for x in sequence[k:]:
         smallest = heapq.heappushpop(min_heap, x)
         result.append(smallest)
 
