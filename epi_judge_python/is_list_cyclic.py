@@ -42,6 +42,10 @@ def has_cycle_wrapper(executor, head, cycle_idx):
         if result is None:
             raise TestFailure('Existing cycle was not found')
         cursor = result
+        if result.data != cycle_idx:
+            raise TestFailure(
+                f"Returned node {result.data} is not the start of the cycle {cycle_idx}"
+            )
         while True:
             cursor = cursor.next
             cycle_length -= 1
