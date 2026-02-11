@@ -8,7 +8,53 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def has_cycle(head: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
+    """Return None if there is no cycle, or the node at the start
+    of the cycle if there is a cycle."""
+    
+    # If list has only 1 element, no cycle.
+    if not head:
+        return None
+    if not head.next:
+        return None
+    
+    # Slow and fast node.
+    slow, fast = head, head
+    i = 0
+    while fast.next and fast.next.next:
+        # Move fast up every round.
+        fast = fast.next
+        # Move slow up every other round.
+        if i % 2:
+            slow = slow.next
+        
+        # Detect cycle
+        if fast is slow or fast.next is slow:
+            # We have a cycle!
+            # We can count the length of the cycle in O(n) time by
+            # freezing slow and moving fast until it hits slow again.
+            fast = slow.next
+            cycle_length = 1
+            while fast is not slow:
+                fast = fast.next
+                cycle_length += 1
+            print(cycle_length)
+            
+            # Now that we have cycle length, we just start fast and slow at head.
+            # increment slow after incrementing fast cycle_length times. once 
+            # fast is slow, slow is the start of the cycle.
+            fast, slow = head, head
+            for _ in range(cycle_length):
+                fast = fast.next
+                
+            while fast is not slow:
+                fast = fast.next
+                slow = slow.next
+            
+            return slow
+        
+        i += 1
+    
+    # If we reach the end (fast.next is None).
     return None
 
 
@@ -42,6 +88,10 @@ def has_cycle_wrapper(executor, head, cycle_idx):
         if result is None:
             raise TestFailure('Existing cycle was not found')
         cursor = result
+        if result.data != cycle_idx:
+            raise TestFailure(
+                f"Returned node {result.data} is not the start of the cycle {cycle_idx}"
+            )
         while True:
             cursor = cursor.next
             cycle_length -= 1
